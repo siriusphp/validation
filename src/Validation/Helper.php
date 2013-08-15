@@ -3,42 +3,21 @@
 namespace Sirius\Validation;
 
 class Helper  {
-		protected static $_rules = array();
+	protected static $methods = array();
 	
-	static function addRule($ruleName, $callback) {
+	static function addMethod($ruleName, $callback) {
 		if (is_callable($callback)) {
-			self::$_rules[$ruleName] = $callback;
+			self::$methods[$ruleName] = $callback;
 			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * Added for compatibility with Sothis_Validation_Helper
-	 * 
-	 * @param 	string $ruleName
-	 * @param 	callback $callback
-	 * @return	bool
-	 */
-	static function addMethod($ruleName, $callback) {
-		return self::addRule($ruleName, $callback);
-	}
-	
-	static function validate() {
-		$args = func_get_args();
-		// we need at least 2 arguments (the method used for validation and the value to be validated)
-		if (count($args) < 2) {
-			return true;
+	static function __callStatic($name, $arguments) {
+		if (array_key_exists($name, self::$methods)) {
+			return call_user_func_array(self::$methods[$name], $arguments);
 		}
-		$ruleName = array_shift($args);
-		if (is_callable(self::$_rules[$ruleName])) {
-			$callback = self::$_rules[$ruleName];
-		} elseif (is_callable(__CLASS__  . '::' . $ruleName)) {
-			$callback = __CLASS__ . '::' . $ruleName;
-		} else {
-			return true; // for non existent rules we assume the value validates
-		}
-		return call_user_func_array($callback, $args);
+		throw new \InvalidArgumentException(sprintf('Validation method "%s" does not exist'));
 	}
 	
 	static function required($value) {

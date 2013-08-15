@@ -10,6 +10,9 @@ Why (just) arrays?
 3. Arrays can be converted from/into JSONs making it easy to move data from server-side to client-side
 4. Domain models can be converted into arrays and validate the array copy
 
+If a library tries to do too much it will most likely be very hard to use and you easily implement ways to exchange data from and into arrays.
+If you want more "muscle" ZF2's validation chains are a better choice, although you may pull your hair using them.
+
 Goal
 ============
 I started this library having in mind a form representing an invoice, which seems one of the most difficult forms to validate
@@ -44,7 +47,7 @@ $validator->add('shipping_address[line_1]', 'required', null, 'Must provide the 
 $validator->add('shipping_address[country]', 'required', null, 'Must select the country for the shipping address', 'shipping_address_is_different_than_billing_address');
 // continu for the shipping address
 
-$validator->add('lines', 'arrayMinLength', 1, 'The invoice must have at least one line.')
+$validator->add('lines', 'minSize', 1, 'The invoice must have at least one line.')
 $validator->add('lines[*][name]', 'required');
 // alternative way to write more validation rules in one line
 $validator->add('lines[*][quantity]', 'required::Quantity not provided | number::Quantity must be a number | greaterThan:0:Quantity must be greater than zero');
