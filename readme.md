@@ -40,17 +40,20 @@ $validator->add('billing_address[country]', 'countryCode', null, 'Country is not
 // continue for the billing address
 
 // add a named condition that will be used to determine if validation should take place 
-$validator->condition(shipping_address_is_different_than_billing_address, function($data) {
+$validator->condition('shipping_is_different', function($data) {
 	return !$data['shipping_same_as_billing'];
 });
-$validator->add('shipping_address[line_1]', 'required', null, 'Must provide the shipping address', 'shipping_address_is_different_than_billing_address');
-$validator->add('shipping_address[country]', 'required', null, 'Must select the country for the shipping address', 'shipping_address_is_different_than_billing_address');
+$validator->add('shipping_address[line_1]', 'required', null, 'Must provide the shipping address', 'shipping_is_different');
+$validator->add('shipping_address[country]', 'required', null, 'Must select the country for the shipping address', 'shipping_is_different');
 // continu for the shipping address
 
-$validator->add('lines', 'minSize', 1, 'The invoice must have at least one line.')
+$validator->add('lines', 'minSize', 1, 'The invoice must have at least one line.');
+// no need to provide the validation message, there are defaults for that
 $validator->add('lines[*][name]', 'required');
 // alternative way to write more validation rules in one line
-$validator->add('lines[*][quantity]', 'required::Quantity not provided | number::Quantity must be a number | greaterThan:0:Quantity must be greater than zero');
+$validator->add('lines[*][quantity]', 'required[]Quantity not provided | number[]Quantity must be a number | greaterThan[0]Quantity must be greater than zero');
+// if you need to apply a condition you can do it like this
+$validator->add('lines[*][quantity]', 'if(condition)greaterThan[0]')
 // add multiple validation rules
 $validator->add('lines[*][price]', array(
 	array('required', null, 'Price not provided',
