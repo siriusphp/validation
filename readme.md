@@ -67,12 +67,14 @@ $validator->getMessage('recipients[2]');
 ```
 
 Why am doing it this way? 
+
 1. Because I want to be able to do the following in my views
 ```html
 <div class="error">
 <?php echo $messages['lines[0][price]']; ?>
 </div>
 ```
+
 2. Because, If I am to do server side validation I can receive a JSON
 ```javascript
 {
@@ -82,6 +84,7 @@ Why am doing it this way?
 	}
 }
 ```
+
 3. If I am to do client-side validation I want to do the following
 ```html
 <script>
