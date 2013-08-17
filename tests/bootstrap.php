@@ -1,3 +1,3 @@
 <?php
 
-require_once('../src/Phormal.php');
+require_once('../src/autoloader.php');

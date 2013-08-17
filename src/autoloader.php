@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirius\Validation;
+namespace Sirius;
 
 spl_autoload_register(function(
 	$class
@@ -8,6 +8,6 @@ spl_autoload_register(function(
 	if (strpos($class, __NAMESPACE__ . '\\') !== 0) {
 		return false;
 	}
-	return include(__DIR__ . substr($class, strlen(__NAMESPACE__)));
+	return include (__DIR__ . substr($class, strlen(__NAMESPACE__)) .  '.php');
 } );
 

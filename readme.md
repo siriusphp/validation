@@ -52,7 +52,7 @@ $validator->add('lines', 'minSize', 1, 'The invoice must have at least one line.
 $validator->add('lines[*][name]', 'required');
 // alternative way to write more validation rules in one line
 $validator->add('lines[*][quantity]', 'required[]Quantity not provided | number[]Quantity must be a number | greaterThan[0]Quantity must be greater than zero');
-// if you need to apply a condition you can do it like this
+// if you need to apply a condition you can do it <li></li>ike this
 $validator->add('lines[*][quantity]', 'if(condition)greaterThan[0]')
 // add multiple validation rules
 $validator->add('lines[*][price]', array(

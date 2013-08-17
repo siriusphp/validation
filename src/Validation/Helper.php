@@ -17,9 +17,20 @@ class Helper  {
 		if (array_key_exists($name, self::$methods)) {
 			return call_user_func_array(self::$methods[$name], $arguments);
 		}
-		throw new \InvalidArgumentException(sprintf('Validation method "%s" does not exist'));
+		throw new \InvalidArgumentException(sprintf('Validation method "%s" does not exist', $name));
 	}
 	
+	static protected function arrayGetByPath($array, $path) {
+		$firstOpen = strpos($path, '[');
+		if ($firstOpen === false) {
+			return array_key_exists($path, $array) ? $array[$path] : null;
+		}
+		$prefix = substr($path, 0, $firstOpen);
+		$firstClose = strpos($path, ']');
+		$newPath = substr($path, $firstOpen + 1, $firstClose - $firstOpen - 1) . substr($path, $firstClose + 1);
+		return array_key_exists($prefix, $array) ? self::arrayGetByPath($array[$prefix], $newPath) : null;
+	}
+
 	static function required($value) {
 		return $value !== null and trim($value) !== '' and $value !== false and $value !== 0;
 	}
@@ -111,14 +122,7 @@ class Helper  {
 		return !self::regex($value, $pattern);
 	}
 	static function equalTo($value, $otherElement, $context) {
-		if (strpos($otherElement, '[') !== false) {
-			$otherElement = str_replace(array(']', '['), array('', '.'), $otherElement);
-			$otherElement = preg_replace('/[^a-zA-Z0-9\._-]/', '', $otherElement);
-		}
-		if (strpos($otherElement, '.') !== false) {
-			return $value == Phormal_Array::getByPath($context, $otherElement);
-		}
-		return $value == $context[$otherElement];
+		return $value == self::arrayGetByPath($context, $otherElement);
 	}
 	
 	static function getTimestampFromFormatedString($string, $format) {
