@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation\Test;
 
-use Sirius\Validation\Helper as ValidationHelper;
+use Sirius\Validation\Helper;
 
 class HelperTest extends \PHPUnit_Framework_TestCase  {
 
@@ -13,9 +13,9 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			0 => false,
 		);
 		foreach ($pool as $key => $value) {
-			$this->assertSame(ValidationHelper::required($key), $value);
+			$this->assertSame(Helper::required($key), $value);
 		}
-		$this->assertSame(ValidationHelper::required(null), false);
+		$this->assertSame(Helper::required(null), false);
 	}
 
 	function testOfTruthy() {
@@ -26,7 +26,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			'' => false,
 		);
 		foreach ($pool as $key => $value) {
-			$this->assertSame(ValidationHelper::truthy($key), $value);
+			$this->assertSame(Helper::truthy($key), $value);
 		}
 	}
 	
@@ -38,7 +38,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			'' => true,
 		);
 		foreach ($pool as $key => $value) {
-			$this->assertSame(ValidationHelper::falsy($key), $value);
+			$this->assertSame(Helper::falsy($key), $value);
 		}
 	}
 	function testOfEmail() {
@@ -46,7 +46,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			'-fa/lse@gmail.com' => false,
 			'12345@hotmail.com' => true,
 			'xxx.yyyy-zzz@domain.com.noc' => true,
-			'weird.name-99-@yahoo.com' => true
+			'weird.name-99-@yahoo.com' => true,
+			'shit' => false
 		);
 		foreach ($pool as $key => $value) {
 			if ($value) {
@@ -54,7 +55,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $key . ' is NOT a valid email';
 			}
-			$this->assertSame(ValidationHelper::email($key), $value, $message);
+			$this->assertSame(Helper::email($key), $value, $message);
 		}
 	}
 	
@@ -71,7 +72,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $key . ' is NOT a valid number';
 			}
-			$this->assertSame(ValidationHelper::number($key), $value, $message);
+			$this->assertSame(Helper::number($key), $value, $message);
 		}
 	}
 
@@ -88,7 +89,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $key . ' is NOT a valid integer';
 			}
-			$this->assertSame(ValidationHelper::integer($key), $value, $message);
+			$this->assertSame(Helper::integer($key), $value, $message);
 		}	
 	}
 	function testOfLessThan() {
@@ -102,7 +103,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $sample[0] . ' is NOT less than ' . $sample[1];
 			}
-			$this->assertSame(ValidationHelper::lessThan($sample[0], $sample[1]), $sample[2], $message);
+			$this->assertSame(Helper::lessThan($sample[0], $sample[1]), $sample[2], $message);
 		}
 	}
 	function testOfGreaterThan() {
@@ -116,7 +117,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $sample[0] . ' is NOT less than ' . $sample[1];
 			}
-			$this->assertSame(ValidationHelper::greaterThan($sample[0], $sample[1]), $sample[2], $message);
+			$this->assertSame(Helper::greaterThan($sample[0], $sample[1]), $sample[2], $message);
 		}
 	}
 	function testOfBetween() {
@@ -130,7 +131,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $sample[0] . ' is NOT between ' . $sample[1] . ' and ' . $sample[2];
 			}
-			$this->assertSame(ValidationHelper::between($sample[0], $sample[1], $sample[2]), $sample[3], $message);
+			$this->assertSame(Helper::between($sample[0], $sample[1], $sample[2]), $sample[3], $message);
 		}
 	}
 	function testOfExactly() {
@@ -146,7 +147,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $sample[0] . ' is NOT exactly ' . $sample[1];
 			}
-			$this->assertSame(ValidationHelper::exactly($sample[0], $sample[1]), $sample[2], $message);
+			$this->assertSame(Helper::exactly($sample[0], $sample[1]), $sample[2], $message);
 		}
 	}
 	function testOfNot() {
@@ -162,7 +163,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $sample[0] . ' is ' . $sample[1];
 			}
-			$this->assertSame(ValidationHelper::not($sample[0], $sample[1]), $sample[2], $message);
+			$this->assertSame(Helper::not($sample[0], $sample[1]), $sample[2], $message);
 		}
 	}
 	function testOfAlpha() {
@@ -177,7 +178,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $key . ' is NOT a alphabetic';
 			}
-			$this->assertSame(ValidationHelper::alpha($key), $value, $message);
+			$this->assertSame(Helper::alpha($key), $value, $message);
 		}
 	}
 	function testOfAlphanumeric() {
@@ -192,7 +193,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $key . ' is NOT a alphanumeric';
 			}
-			$this->assertSame(ValidationHelper::alphanumeric($key), $value, $message);
+			$this->assertSame(Helper::alphanumeric($key), $value, $message);
 		}
 	}
 	function testOfAlphanumhyphen() {
@@ -208,7 +209,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $key . ' is NOT a alphanumhyphen';
 			}
-			$this->assertSame(ValidationHelper::alphanumhyphen($key), $value, $message);
+			$this->assertSame(Helper::alphanumhyphen($key), $value, $message);
 		}
 	}
 	function testOfMinLength() {
@@ -222,7 +223,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $sample[0] . ' does NOT have more than ' . $sample[1] . ' characters';
 			}
-			$this->assertSame(ValidationHelper::minLength($sample[0], $sample[1]), $sample[2], $message);
+			$this->assertSame(Helper::minLength($sample[0], $sample[1]), $sample[2], $message);
 		}
 	}
 	function testOfMaxLength() {
@@ -236,7 +237,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			} else {
 				$message = $sample[0] . ' does NOT have less than ' . $sample[1] . ' characters';
 			}
-			$this->assertSame(ValidationHelper::maxLength($sample[0], $sample[1]), $sample[2], $message);
+			$this->assertSame(Helper::maxLength($sample[0], $sample[1]), $sample[2], $message);
 		}
 	}
 	function testOfIn() {
@@ -245,7 +246,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			array('5', array('5', '8'), true),
 		);
 		foreach ($pool as $sample) {
-			$this->assertSame(ValidationHelper::in($sample[0], $sample[1]), $sample[2]);
+			$this->assertSame(Helper::in($sample[0], $sample[1]), $sample[2]);
 		}
 	}
 	function testOfNotIn() {
@@ -254,7 +255,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			array('6', array('5', '8'), true),
 		);
 		foreach ($pool as $sample) {
-			$this->assertSame(ValidationHelper::notIn($sample[0], $sample[1]), $sample[2]);
+			$this->assertSame(Helper::notIn($sample[0], $sample[1]), $sample[2]);
 		}
 	}
 	function testOfRegex() {
@@ -263,7 +264,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			array('123', '/[0-9]+/', true),
 		);
 		foreach ($pool as $sample) {
-			$this->assertSame(ValidationHelper::regex($sample[0], $sample[1]), $sample[2]);
+			$this->assertSame(Helper::regex($sample[0], $sample[1]), $sample[2]);
 		}
 	}
 	function testOfNotRegex() {
@@ -272,7 +273,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			array('123', '/[0-9]+/', false),
 		);
 		foreach ($pool as $sample) {
-			$this->assertSame(ValidationHelper::notRegex($sample[0], $sample[1]), $sample[2]);
+			$this->assertSame(Helper::notRegex($sample[0], $sample[1]), $sample[2]);
 		}
 	}
 	function testOfEqualTo() {
@@ -291,7 +292,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			)
 		);
 		foreach ($pool as $sample) {
-			$this->assertSame(ValidationHelper::equalTo($sample[0], $sample[1], $context), $sample[2], sprintf("%s %s", $sample[0], $sample[1]));
+			$this->assertSame(Helper::equalTo($sample[0], $sample[1], $context), $sample[2], sprintf("%s %s", $sample[0], $sample[1]));
 		}
 	}
 
@@ -302,7 +303,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			array('123', false),
 		);
 		foreach ($pool as $sample) {
-			$this->assertSame(ValidationHelper::website($sample[0]), $sample[1]);
+			$this->assertSame(Helper::website($sample[0]), $sample[1]);
 		}
 	}
 
@@ -313,7 +314,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			array('123', false),
 		);
 		foreach ($pool as $sample) {
-			$this->assertSame(ValidationHelper::url($sample[0]), $sample[1]);
+			$this->assertSame(Helper::url($sample[0]), $sample[1]);
 		}
 	}
 
@@ -324,7 +325,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			array('2001:db8:85a3:8d3:1319:8a2e:370:7348', true), //IPv6
 		);
 		foreach ($pool as $sample) {
-			$this->assertSame(ValidationHelper::ip($sample[0]), $sample[1]);
+			$this->assertSame(Helper::ip($sample[0]), $sample[1]);
 		}
 	}
 
@@ -341,7 +342,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			array('2', false),
 		);
 		foreach ($pool as $sample) {
-			$this->assertSame(ValidationHelper::setMaxSize($set, $sample[0]), $sample[1]);
+			$this->assertSame(Helper::setMaxSize($set, $sample[0]), $sample[1]);
 		}
 	}
 
@@ -358,7 +359,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			array('2', true),
 		);
 		foreach ($pool as $sample) {
-			$this->assertSame(ValidationHelper::setMinSize($set, $sample[0]), $sample[1]);
+			$this->assertSame(Helper::setMinSize($set, $sample[0]), $sample[1]);
 		}
 	}
 
@@ -375,7 +376,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 			array(6, 8, false),
 		);
 		foreach ($pool as $sample) {
-			$this->assertSame(ValidationHelper::setSize($set, $sample[0], $sample[1]), $sample[2]);
+			$this->assertSame(Helper::setSize($set, $sample[0], $sample[1]), $sample[2]);
 		}
 	}
 
@@ -384,29 +385,48 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 	}
 
 	function testOfValidAddMethodCalls() {
-		ValidationHelper::addMethod('myValidation', array($this, 'validationCallback'));
-		$this->assertTrue(ValidationHelper::myValidation(5, 3));
-		$this->assertFalse(ValidationHelper::myValidation(5, 3, 3));
+		Helper::addMethod('myValidation', array($this, 'validationCallback'));
+		$this->assertTrue(Helper::myValidation(5, 3));
+		$this->assertFalse(Helper::myValidation(5, 3, 3));
 	}
 
 	function testOfInvalidAddMethodCalls() {
 		$this->setExpectedException('InvalidArgumentException');
-		ValidationHelper::addMethod('mySecondValidation', 'nonexistantcallback');
-		$this->assertTrue(ValidationHelper::mySecondValidation(5));
+		Helper::addMethod('mySecondValidation', 'nonexistantcallback');
+		$this->assertTrue(Helper::mySecondValidation(5));
 	}
 
-/*	function testOfDate() {
-		
+	function testOfFullName() {
+		$this->assertTrue(Helper::fullName('First Last'));
+		$this->assertFalse(Helper::fullName('F Last'));
+		$this->assertFalse(Helper::fullName('First L'));
+		$this->assertFalse(Helper::fullName('Fi La'));
 	}
+
+	function testOfEmailDomain() {
+		$this->assertTrue(Helper::emailDomain('me@hotmail.com'));
+		$this->assertFalse(Helper::emailDomain('me@hotmail.com.not.valid'));
+	}
+
+	function testOfDate() {
+		$this->assertTrue(Helper::date('2012-07-13', 'Y-m-d'));		
+		$this->assertFalse(Helper::date('2012-07-13', 'Y/m/d'));		
+	}
+
 	function testOfDateTime() {
-		
+		$this->assertTrue(Helper::dateTime('2012-07-13 20:00:15', 'Y-m-d H:i:s'));
+		$this->assertFalse(Helper::dateTime('2012-07-13'));		
 	}
+
 	function testOfTime() {
-		
+		$this->assertTrue(Helper::time('20:00:15', 'H:i:s'));
+		$this->assertFalse(Helper::time('20:00:99'));		
 	}
-	function testOfCreditCard() {
-		
+
+	function testOfDateWithContext() {
+		$this->assertTrue(Helper::date('2012-07-13', array('context' => 'data')));		
+		$this->assertTrue(Helper::dateTime('2012-07-13 20:00:15', array('context' => 'data')));		
+		$this->assertTrue(Helper::time('20:00:15', array('context' => 'data')));		
 	}
-*/
 
 }

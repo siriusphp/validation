@@ -2,6 +2,8 @@
 
 namespace Sirius\Validation;
 
+use Sirius\Validation\Utils;
+
 class Helper  {
 	protected static $methods = array();
 	
@@ -13,6 +15,10 @@ class Helper  {
 		return false;
 	}
 
+	static function methodExists($name) {
+		return is_callable(array(__CLASS__, $name)) or array_key_exists($name, self::$methods);
+	}
+
 	static function __callStatic($name, $arguments) {
 		if (array_key_exists($name, self::$methods)) {
 			return call_user_func_array(self::$methods[$name], $arguments);
@@ -20,17 +26,6 @@ class Helper  {
 		throw new \InvalidArgumentException(sprintf('Validation method "%s" does not exist', $name));
 	}
 	
-	static protected function arrayGetByPath($array, $path) {
-		$firstOpen = strpos($path, '[');
-		if ($firstOpen === false) {
-			return array_key_exists($path, $array) ? $array[$path] : null;
-		}
-		$prefix = substr($path, 0, $firstOpen);
-		$firstClose = strpos($path, ']');
-		$newPath = substr($path, $firstOpen + 1, $firstClose - $firstOpen - 1) . substr($path, $firstClose + 1);
-		return array_key_exists($prefix, $array) ? self::arrayGetByPath($array[$prefix], $newPath) : null;
-	}
-
 	static function required($value) {
 		return $value !== null and trim($value) !== '' and $value !== false and $value !== 0;
 	}
@@ -61,21 +56,12 @@ class Helper  {
 	static function not($value, $otherValue) {
 		return !self::exactly($value, $otherValue);
 	}
-	static function utf8alpha($value) {
-		return (bool)preg_match('/^\pL++$/uD', (string)$value);
-	}
 	static function alpha($value) {
 		return ctype_alpha((string)str_replace(' ', '', $value));
-	}
-	static function utf8alphanumeric($value) {
-		return (bool)preg_match('/^[\pL\pN]++$/uD', (string)$value);
 	}
 	static function alphanumeric($value) {
 		return ctype_alnum((string)str_replace(' ', '', $value));
 		
-	}
-	static function utf8alphanumhyphen($value) {
-		return (bool)preg_match('/^[-\pL\pN_]++$/uD', (string)$value);
 	}
 	static function alphanumhyphen($value) {
 		return ctype_alnum((string)str_replace(array(' ', '_', '-'), '', $value));		
@@ -122,21 +108,21 @@ class Helper  {
 		return !self::regex($value, $pattern);
 	}
 	static function equalTo($value, $otherElement, $context) {
-		return $value == self::arrayGetByPath($context, $otherElement);
+		return $value == Utils::arrayGetByPath($context, $otherElement);
 	}
 	
 	static function getTimestampFromFormatedString($string, $format) {
 		$result = date_parse_from_format($format, $string);
 		return mktime((int)$result['hour']
 			, (int)$result['minute']
-			, (int)$result['fraction']
+			, (int)$result['second']
 			, (int)$result['month']
 			, (int)$result['day']
 			, (int)$result['year']);
 	}
 	
 	static function date($value, $format = 'Y-m-d') {
-		// if $format is array it is the context
+		// if $format is array, it is the context
 		if (is_array($format)) {
 			$format = 'Y-m-d';
 		}
@@ -144,7 +130,7 @@ class Helper  {
 	}
 	
 	static function dateTime($value, $format = 'Y-m-d H:i:s') {
-		// if $format is array it is the context
+		// if $format is array, it is the context
 		if (is_array($format)) {
 			$format = 'Y-m-d H:i:s';
 		}
@@ -183,7 +169,7 @@ class Helper  {
 	}
 
 	static function email($value) {
-		return (bool)self::regex((string)$value, '/^[-_a-z0-9\'+*$^&%=~!?{}]++(?:\.[-_a-z0-9\'+*$^&%=~!?{}]+)*+@(?:(?![-.])[-a-z0-9.]+(?<![-.])\.[a-z]{2,6}|\d{1,3}(?:\.\d{1,3}){3})(?::\d++)?$/iD');
+		return self::regex((string)$value, '/^[-_a-z0-9\'+*$^&%=~!?{}]++(?:\.[-_a-z0-9\'+*$^&%=~!?{}]+)*+@(?:(?![-.])[-a-z0-9.]+(?<![-.])\.[a-z]{2,6}|\d{1,3}(?:\.\d{1,3}){3})(?::\d++)?$/iD');
 	}
 
 	/**
