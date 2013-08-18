@@ -1,0 +1,44 @@
+Validation\Helper
+=======
+
+This is a container class for your validation methods (static functions). It comes with a set of pre-set validation methods
+
+- truthy($value)
+- falsy($value)
+- email($value)
+- integer($value)
+- number($value) - integers and floats
+- lessThan($value, $max) - $value is less than or equal to $max
+- greaterThan($value, $min) - $value is greater or equal than $min
+- between($value, $min, $max)
+- exactly($value, $requirement)
+- not($value, $requirement) - inverse of exactly()
+- alpha($value) - string must contain only alphabetic characters
+- alphanumeric($value) - letters and digits
+- alphanumhyphen($value) - letters, digits, hyphen and underscore
+- minLength($value, $min) - $value should be a string with at least $min characters
+- maxLength($value, $max)
+- length($value)
+- setMinSize($value, $min) - $value should be an array with at least $min elements
+- setMaxSize($value, $max)
+- setSize($value, $min, $max)
+- in($value, $listOfAllowedValues)
+- notIn($value, $listOfDisallowedValues)
+- equalTo($value, $element, $context) - $value should be equal to $context[$element]. Element can be something like addresses[0][state] though
+- website($value) - $value should be a http(s) address
+- url($value) - $value should be an URL (including FTP)
+- ip($value)
+- fullName($value) - $value should be a name (at least characters, first word not a letter, last word not a letter)
+- date($value, $format) - $value should be a valid date provided in the $format format
+- dateTime($value, $format)
+- time($value, $time)
+
+You can add your own validation methods
+
+```php
+Helper::addMethod('username', 'UserLibrary::validateUsername')
+// and call it latter
+Helper::username('minime2013');
+```
+
+The Helper class is used by the Validator class to check the values.
