@@ -26,7 +26,16 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
 		$messages = Validator::getGlobalDefaultMessages();
 		$this->assertEquals('Field not valid', $messages['_default']);
 		$this->assertEquals('Field is required', $messages['required']);
+	}
 
+	function testDefaultMessage() {
+		// add validation method that always returns false so we check 
+		// the validation message
+		Helper::addMethod('fake_method', function() { return false; });
+		$this->validator->add('item', 'fake_method');
+		$this->validator->validate(array('item' => 'does not matter'));
+		$messages = Validator::getGlobalDefaultMessages();
+		$this->assertEquals(array($messages['_default']), $this->validator->getMessages('item'));
 	}
 
 	function testIfRulesAreSetViaTheContructor() {
@@ -55,13 +64,13 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
 		$this->assertEquals(0, count($this->validator->getMessages()));
 	}
 
-	function testIfSetDataThrowsException() {
+	function testIfSetDataThrowsExceptionWhenTheDataIsNotAnArray() {
 		$this->setExpectedException('InvalidArgumentException');
 		$this->validator->setData('string');
 		$this->validator->setData(false);
 	}
 
-	function testIfAddConditionThrowsException() {
+	function testIfAddConditionThrowsExceptionWhenTheConditionIsNotACallback() {
 		$this->setExpectedException('InvalidArgumentException');
 		$this->validator->addCondition('condition_name', 'string_which_is_not_a_function');		
 	}
@@ -119,6 +128,25 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
 		// other reason is not checked
 		$this->validator->setData(array());
 		$this->assertTrue($this->validator->validate(), 'Validator did not validate when the condition was not met');
+	}
+
+	function testGeneratingTheRuleIdAllowsMultipleRegexRules() {
+		$this->validator->add('item', 'regex', array('/abc/'), 'Value does not match first condition');
+		$this->validator->add('item', 'regex', array('/bcd/'), 'Value does not match second condition');
+		$this->validator->validate(array('item' => '123'));
+		$this->assertEquals(array(
+			'Value does not match first condition',
+			'Value does not match second condition'
+		), $this->validator->getMessages('item'));
+
+	}
+
+	function testRemovingValidationConditions() {
+		$this->validator->add('item', 'required');
+		$this->assertFalse($this->validator->validate(array()));
+
+		$this->validator->remove('item', 'required');
+		$this->assertTrue($this->validator->validate(array()));
 	}
 
 }

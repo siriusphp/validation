@@ -150,6 +150,20 @@ class Validator {
 	 * @return self
 	 */
 	function remove($selector, $rule = true, $params = null) {
+		if (!array_key_exists($selector, $this->rules)) {
+			return $this;
+		}
+		if ($rule === true) {
+			unset($this->rules[$selector]);
+		} else {
+			$ruleId = $this->getRuleId(array(
+				'name' => $rule,
+				'params' => $params ? $params : array()
+			));
+			if (array_key_exists($ruleId, $this->rules[$selector])) {
+				unset($this->rules[$selector][$ruleId]);
+			}
+		}
 		return $this;
 	}
 
@@ -240,13 +254,13 @@ class Validator {
 					return Helper::$method($value, $this->data);
 				break;
 				case 1;
-					return Helper::$method($value, $rules['params'][0], $this->data);
+					return Helper::$method($value, $rule['params'][0], $this->data);
 				break;
 				case 2;
-					return Helper::$method($value, $rules['params'][0], $rules['params'][1], $this->data);
+					return Helper::$method($value, $rule['params'][0], $rules['params'][1], $this->data);
 				break;
 				case 3;
-					return Helper::$method($value, $rules['params'][0], $rules['params'][1], $rules['params'][2], $this->data);
+					return Helper::$method($value, $rule['params'][0], $rules['params'][1], $rules['params'][2], $this->data);
 				break;
 				default;
 					$params = $rule['params'];
