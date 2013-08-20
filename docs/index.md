@@ -86,7 +86,6 @@ This may seem counter-productive but remember that you input forms look like thi
 }
 ```
 This way I can find the corresponding HTML inputs and show the error
-
 ```javascript
 $.each(errors, function(message, field) {
 	$('[name="' + field = '"]')
