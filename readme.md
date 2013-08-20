@@ -26,7 +26,7 @@ I started this library having in mind a form representing an invoice, which seem
 
 The same example may be applied to an API that receives data which must be validated against these rules
 
-[go to the documentation](blob/master/docs/index.md)
+[go to the documentation](docs/index.md)
 
 
 The code
