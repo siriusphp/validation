@@ -36,7 +36,7 @@ This is a container class for your validation methods (static functions). It com
 You can add your own validation methods
 
 ```php
-Helper::addMethod('username', 'UserLibrary::validateUsername')
+Helper::addMethod('username', 'UserLibrary::validateUsername');
 // and call it latter
 Helper::username('minime2013');
 ```
