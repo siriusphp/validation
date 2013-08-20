@@ -11,7 +11,7 @@ Classes
 ======
 
 1. [Validation\Helper](helper.md) - helper class also useful for simple validation tasks
-2. [Validation\Validator](helper.md) - main class used for validation
+2. [Validation\Validator](validator.md) - main class used for validation
 
 
 Example
@@ -66,7 +66,7 @@ Why am doing it this way?
 =====
 
 1. Because I want to be able to do the following in my views
-```html
+```php
 <div class="error">
 <?php echo $messages['lines[0][price]']; ?>
 </div>
@@ -86,6 +86,15 @@ This may seem counter-productive but remember that you input forms look like thi
 }
 ```
 This way I can find the corresponding HTML inputs and show the error
+
+```javascript
+$.each(errors, function(message, field) {
+	$('[name="' + field = '"]')
+		.parents('div.control')
+		.addClass('error')
+		.append('<div class="error">'+message+'</div>');	
+});
+```
 
 3. If I am to do client-side validation I want to do the following
 ```html
