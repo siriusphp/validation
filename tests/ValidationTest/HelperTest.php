@@ -429,4 +429,10 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
 		$this->assertTrue(Helper::time('20:00:15', array('context' => 'data')));		
 	}
 
+	function testOfInvalidCallback() {
+		$this->setExpectedException('\InvalidArgumentException');
+
+		Helper::callback(true, 'callback');
+	}
+
 }

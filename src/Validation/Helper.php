@@ -16,7 +16,7 @@ class Helper  {
 	}
 
 	static function methodExists($name) {
-		return is_callable(array(__CLASS__, $name)) or array_key_exists($name, self::$methods);
+		return method_exists(__CLASS__, $name) or array_key_exists($name, self::$methods);
 	}
 
 	static function __callStatic($name, $arguments) {
@@ -26,6 +26,14 @@ class Helper  {
 		throw new \InvalidArgumentException(sprintf('Validation method "%s" does not exist', $name));
 	}
 	
+	static function callback($value, $callback, $context = null) {
+		if (is_callable($callback)) {
+			return call_user_func($callback, $value, $context);
+		} else {
+			throw new \InvalidArgumentException('Invalid callback for validation');
+		}
+	}
+
 	static function required($value) {
 		return $value !== null and trim($value) !== '' and $value !== false and $value !== 0;
 	}

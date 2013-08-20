@@ -17,7 +17,7 @@ class Utils  {
 
 	static function arrayGetByPath($array, $path) {
 		list($container, $subselector) = self::getSelectorParts($path);
-		if (!$subselector) {
+		if ($subselector === '') {
 			return array_key_exists($container, $array) ? $array[$container] : null;
 		}
 		return array_key_exists($container, $array) ? self::arrayGetByPath($array[$container], $subselector) : null;

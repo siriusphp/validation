@@ -72,15 +72,22 @@ class Validator {
 				$ruleId .= $rule['params'][0];
 			break;
 			case 'callback':
-				// the callback is a string like 'functionName' or 'Class::method'
-				if (count($rule['params']) === 1) {
-					$ruleId .= $rule['params'][0];
-				// the callback is an array like array('ClassName', 'staticMethod')
-				} elseif (count($rule['params']) === 2 and is_string($rule['params'][0])) {
-					$ruleId .= $rule['params'][0] . ':' . $rule['params'][1];
-				// the callback is an array like array($object, 'method')	
-				} elseif (count($rule['params']) === 2 and is_object($rule['params'][0])) {
-					$ruleId .= get_class($rule['params'][0]) . '->' . $rule['params'][1];
+				if (!is_array($rule['params'][0])) {
+					// the callback is a string like 'functionName' or 'Class::method'
+					if (is_string($rule['params'][0])) {
+						$ruleId .= $rule['params'][0];
+					// the callback is an anonymous fucntion which PHP sees it as an object
+					} elseif (is_object($rule['params'][0])) {
+						$ruleId .= spl_object_hash($rule['params'][0]);
+					}
+				} else {
+					// the callback is an array like array('ClassName', 'staticMethod')
+					if (is_string($rule['params'][0][0])) {
+						$ruleId .= $rule['params'][0][0] . '::' . $rule['params'][0][1];
+					// the callback is an array like array($object, 'method')	
+					} elseif (is_object($rule['params'][0][0])) {
+						$ruleId .= spl_object_hash($rule['params'][0][0]) . '->' . $rule['params'][0][1];
+					}
 				}
 			break;
 		}
@@ -110,6 +117,8 @@ class Validator {
 	function add($selector, $rule, $params = null, $message = null, $condition = null) {
 		if (is_array($rule)) {
 			foreach ($rule as $singleRule) {
+				// make sure the rule is an array (the parameters of subsequent calls);
+				$singleRule = is_array($singleRule) ? $singleRule : array($singleRule);
 				array_unshift($singleRule, $selector);
 				call_user_func_array(array($this, 'add'), $singleRule);
 			}
@@ -165,6 +174,31 @@ class Validator {
 			}
 		}
 		return $this;
+	}
+
+	protected function parseRule($ruleAsString) {
+		$ruleAsString = trim($ruleAsString);
+		$condition 	= '';
+		$rule 		= '';
+		$params 	= array();
+		$message 	= '';
+		if (strpos($ruleAsString, 'if(') === 0) {
+			$firstClosedParanthesis = strpos($ruleAsString, ')');
+			$condition = substr($ruleAsString, 3, $firstClosedParanthesis - 3);
+			$ruleAsString = substr($ruleAsString, $firstClosedParanthesis + 1);
+		}
+		$openBracket = strpos($ruleAsString, '[');
+		$closeBracket = strrpos($ruleAsString, ']');
+		if (!$openBracket) {
+			$rule = $ruleAsString;
+		} else {
+			$rule = substr($ruleAsString, 0, $openBracket);
+			$params = explode(',', substr($ruleAsString, $openBracket + 1, $closeBracket - $openBracket));
+			$message = substr($ruleAsString, $closeBracket + 1);
+		}
+
+		//echo $rule, var_dump($params, true), $message, $condition;
+		return array($rule, $params, $message, $condition);
 	}
 
 	function setData($data) {
@@ -257,10 +291,10 @@ class Validator {
 					return Helper::$method($value, $rule['params'][0], $this->data);
 				break;
 				case 2;
-					return Helper::$method($value, $rule['params'][0], $rules['params'][1], $this->data);
+					return Helper::$method($value, $rule['params'][0], $rule['params'][1], $this->data);
 				break;
 				case 3;
-					return Helper::$method($value, $rule['params'][0], $rules['params'][1], $rules['params'][2], $this->data);
+					return Helper::$method($value, $rule['params'][0], $rule['params'][1], $rule['params'][2], $this->data);
 				break;
 				default;
 					$params = $rule['params'];
@@ -270,14 +304,15 @@ class Validator {
 				break;
 			}
 		} else {
-			throw new \InvalidArgumentException($method);
+			throw new \InvalidArgumentException(sprintf('%s is not a valid method for validation', $method));
 		}
 		return true;
 	}
 
 	protected function itemMatchesSelector($item, $selector) {
 		if (strpos($selector, '*')) {
-			$regex = '/' . str_replace('*', '[^\]]', $selector) . '/';
+			$regex = '/' . str_replace('*', '[^\]]+', str_replace(array('[', ']'), array('\[', '\]'), $selector)) . '/';
+			#echo ($item . '|' . $regex . "\n");
 			return preg_match($regex, $item);
 		} else {
 			return $item == $selector;
