@@ -70,9 +70,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
 
     function testMessageCompilation() {
         $this->validator
-            ->add('item', 'required', null, array('%s is required', 'Item'));
-        $this->validator->validate(array());
-        $this->assertEquals(array('Item is required'), $this->validator->getMessages('item'));
+            ->add('item', 'minLength', array(2), array('%s should have at least {0} characters', 'Item'));
+        $this->validator->validate(array('item' => 'b'));
+        $this->assertEquals(array('Item should have at least 2 characters'), $this->validator->getMessages('item'));
     }
 
     function testIfSetDataThrowsExceptionWhenTheDataIsNotAnArray() {

@@ -76,10 +76,17 @@ class Validator {
         return self::$globalDefaultMessages['_default'];
     }
 
-    protected function compileMessage($message) {
+    protected function compileMessage($message, $params = array()) {
         if (is_array($message)) {
-            return call_user_func_array('sprintf', $message);
+            $message = call_user_func_array('sprintf', $message);
         }
+        if (is_array($params) and count($params) > 0) {
+	        foreach ($params as $key => $value) {
+	        	if (strpos($message, "{{$key}}") !== false) {
+		        	$message = str_replace("{{$key}}", (string)$value, $message);
+		        }
+	        }
+	    }
         return $message;
     }
 
@@ -158,9 +165,9 @@ class Validator {
             $message = $this->getDefaultErrorMessage($rule);
         }
         $rule = array(
-            'name'        => $rule,
+            'name'      => $rule,
             'params'    => $params,
-            'message'    => $this->compileMessage($message),
+            'message'   => $this->compileMessage($message, $params),
             'condition' => $condition
         );
         $ruleId = $this->getRuleId($rule);
