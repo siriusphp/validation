@@ -36,9 +36,10 @@ This is a container class for your validation methods (static functions). It com
 You can add your own validation methods
 
 ```php
-Helper::addMethod('username', 'UserLibrary::validateUsername');
+use Sirius\ValidationHelper as ValidationHelper;
+ValidationHelper::addMethod('username', 'UserLibrary::validateUsername');
 // and call it latter
-Helper::username('minime2013');
+ValidationHelper::username('minime2013');
 ```
 
 The Helper class is used by the Validator class to check the values.
