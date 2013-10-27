@@ -58,6 +58,7 @@ $validator->add('lines[*][quantity]', 'required', null, null, function($item, $d
 	$index = substr($item, 6, strrpos($item, '][quantity]'));
 	return $data['lines'][$index]['product'];
 });
+```
 
 which will require to fill the quantity only if the product was provided.
 
