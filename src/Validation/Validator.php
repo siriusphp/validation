@@ -38,8 +38,6 @@ class Validator {
 
     protected $wasValidated = false;
 
-    protected $conditions;
-
     protected $rules = array();
 
     protected $messages = array();
@@ -121,26 +119,6 @@ class Validator {
         return $ruleId;
     }
 
-    function addCondition($name, $function) {
-        if (!is_array($this->conditions)) {
-            $this->conditions = array();
-        }
-        if (is_callable($function)) {
-            $this->conditions[$name] = $function;
-        } else {
-            throw new \InvalidArgumentException(sprintf('The condition named "%s" is not callable', $name));
-        }
-        return $this;
-    }
-
-    function removeCondition($name) {
-        if (is_array($this->conditions)
-            and array_key_exists($name, $this->conditions)) {
-            unset($this->conditions[$name]);
-        }
-        return $this;
-    }
-
     function add($selector, $rule, $params = null, $message = null, $condition = null) {
         if (is_array($rule)) {
             foreach ($rule as $singleRule) {
@@ -152,7 +130,7 @@ class Validator {
             return $this;
         }
         if (is_string($rule)) {
-            // rule was supplied like this 'required | email'
+            // rule was supplied like 'required' or 'required | email'
             if (strpos($rule, ' | ') !== false) {
                 return $this->add($selector, explode(' | ', $rule));
             }
@@ -163,6 +141,9 @@ class Validator {
         }
         if (!$message) {
             $message = $this->getDefaultErrorMessage($rule);
+        }
+        if ($condition && !is_callable($condition)) {
+        	throw new \InvalidArgumentException('The precondition must be callable');
         }
         $rule = array(
             'name'      => $rule,
@@ -211,7 +192,7 @@ class Validator {
         $message     = '';
         if (strpos($ruleAsString, 'if(') === 0) {
             $firstClosedParanthesis = strpos($ruleAsString, ')');
-            $condition = substr($ruleAsString, 3, $firstClosedParanthesis - 3);
+            $condition = create_function('$item,$data', 'return ' . substr($ruleAsString, 3, $firstClosedParanthesis - 3) . ';');
             $ruleAsString = substr($ruleAsString, $firstClosedParanthesis + 1);
         }
         $openBracket = strpos($ruleAsString, '[');
@@ -224,7 +205,6 @@ class Validator {
             $message = substr($ruleAsString, $closeBracket + 1);
         }
 
-        //echo $rule, var_dump($params, true), $message, $condition;
         return array($rule, $params, $message, $condition);
     }
 
@@ -262,6 +242,13 @@ class Validator {
         return $this->wasValidated and count($this->messages) === 0;
     }
 
+    
+    /**
+     * Perform the validation on a single item (
+     * Does not return anything
+     * 
+     * @param string $item Data selector
+     */
     function validateItem($item) {
         $value = Utils::arrayGetByPath($this->data, $item);
         if (is_array($value)) {
@@ -272,7 +259,7 @@ class Validator {
             foreach ($this->rules as $selector => $selectorRules) {
                 if ($this->itemMatchesSelector($item, $selector)) {
                     foreach ($selectorRules as $ruleId => $rule) {
-                        if (!$this->valueSatisfiesRule($value, $rule)) {
+                        if (!$this->valueSatisfiesRule($value, $item, $rule)) {
                             $this->addMessage($item, $rule['message']);
                         }
                         // if field is required and we have an error, 
@@ -296,10 +283,10 @@ class Validator {
         }
     }
 
-    protected function valueSatisfiesRule($value, $rule) {
+    protected function valueSatisfiesRule($value, $item, $rule) {
         // check if we have a pre-condition to be satisfied
-        if ($rule['condition'] and array_key_exists($rule['condition'], $this->conditions)) {
-            $conditionIsMet = call_user_func($this->conditions[$rule['condition']], $this->data);
+        if ($rule['condition']) {
+            $conditionIsMet = call_user_func($rule['condition'], $item, $this->data);
             // do not proceed if the condition is not met
             if (!$conditionIsMet) {
                 return true;
@@ -390,6 +377,10 @@ class Validator {
             return array_key_exists($item, $this->messages) ? $this->messages[$item] : array();
         }
         return $this->messages;
+    }
+    
+    function getRules() {
+    	return $this->rules;
     }
 
 }

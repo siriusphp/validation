@@ -81,26 +81,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
         $this->validator->setData(false);
     }
 
-    function testIfAddConditionThrowsExceptionWhenTheConditionIsNotACallback() {
-        $this->setExpectedException('InvalidArgumentException');
-        $this->validator->addCondition('condition_name', 'string_which_is_not_a_function');        
-    }
-
-    function testRemovingConditions() {
-
-        $this->validator
-            ->addCondition('precondition_does_not_verify', function($data) {
-                return false;
-            })
-            ->add('item', 'required', null, 'Field should be an email because of the precondition', 'precondition_does_not_verify');
-
-        $this->assertTrue($this->validator->validate(array()));
-
-        $this->validator->removeCondition('precondition_does_not_verify');
-
-        $this->assertFalse($this->validator->validate(array()));
-    }
-
     function testIfValidateExecutes() {
         $this->validator
             ->add('field_1', 'required', null)
@@ -129,11 +109,10 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
     }
 
     function testAddingValidationRulesViaStrings() {
-        $this->validator->addCondition('condition', function() { return true; });
         $this->validator
             ->add('item', 'email[]Item should be an email | minLength[3]Item should have at least 3 characters')
-            ->add('itemb', 'if(condition)required[]Item B is required')
-            ->add('itemc', 'if(condition)email');
+            ->add('itemb', 'if(1===1)required[]Item B is required')
+            ->add('itemc', 'if(1===1)email');
         $this->validator->validate(array('item' => 'ab', 'itemc' => 'abc'));
         $this->assertEquals(array(
             'Item should be an email',
@@ -143,12 +122,16 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
         $this->assertEquals(array('Value is not a valid email address'), $this->validator->getMessages('itemc'));
     }
 
+    function testExceptionThrownForInvalidCondition() {
+    	$this->setExpectedException('\InvalidArgumentException');
+    	$this->validator->add('field', 'required', null, null, 'invalid_callback');
+    }
+    
     function testIfConditionIsCheckedBeforeValidating() {
         // one field
         $this->validator
-            ->add('special_reason', 'required', null, 'Please enter the special reason you chose us.', 'other_reason_is_checked')
-            ->addCondition('other_reason_is_checked', function($data) {
-                return array_key_exists('other_reason', $data) and $data['other_reason'];
+            ->add('special_reason', 'required', null, 'Please enter the special reason you chose us.', function($item, $data) {
+                return array_key_exists('other_reason', $data) && $data['other_reason'];
             });
         $this->validator->setData(array(
             'special_reason' => null,
@@ -160,6 +143,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
 
         // other reason is not checked
         $this->validator->setData(array());
+        $this->validator->validate(array());
         $this->assertTrue($this->validator->validate(), 'Validator did not validate when the condition was not met');
     }
 
@@ -207,6 +191,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
         $this->assertFalse($this->validator->validate(array()));
 
         $this->validator->remove('item', true);
+        $this->assertEquals($this->validator->getRules(), array());
         $this->assertTrue($this->validator->validate(array()));
     }
 
@@ -219,7 +204,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
                 array('key' => 'sss')
             )
         ));
-        #var_dump($this->validator->getMessages());
         $this->assertEquals(array('Key must be an email'), $this->validator->getMessages('items[0][key]'));
         $this->assertEquals(array('Key must be an email'), $this->validator->getMessages('items[1][key]'));
     }

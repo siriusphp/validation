@@ -37,14 +37,29 @@ The <code>$condition</code> is the name of the condition that must be met before
 Validation conditions
 =====
 Sometimes you need to perform the validation only if a certain condition is met. 
-For example if the user selected "other" from a list of unsubscription reasons you may want to force him to fill out the "details" field.
+For example if the user selected "other" from a list of unsubscription reasons you may want to require him to fill out the "details" field.
 
 ```php
-$validator->addCondition('other_reason_is_checked', function($formData){
-    return $formData['reasons']['other'] === 'checked';
+$validator->add('reason_details', 'required', array(), 'Please tell use more about why you want to unsubscribe', function($item, $data){
+    return $data['reasons']['other'] === 'checked';
 });
-$validator->add('reason_details', 'required', array(), 'Please tell use more about why you want to unsubscribe', 'other_reason_is_checked');
 ```
+
+Condition functions/callbacks receive 2 arguments
+
+1. The item that is being validated (eg: 'reason_details', 'address[city]');
+2. The array that is being validated
+
+For example if you have a list of invoice lines (product, quantity, price) you can have a validation rule like this
+
+```php
+$validator->add('lines[*][quantity]', 'required', null, null, function($item, $data) {
+	// $item is of form lines[5][quantity]
+	$index = substr($item, 6, strrpos($item, '][quantity]'));
+	return $data['lines'][$index]['product'];
+});
+
+which will require to fill the quantity only if the product was provided.
 
 Custom messages
 =====
