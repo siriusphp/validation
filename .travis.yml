@@ -9,7 +9,7 @@ before_script:
  
 script:
   - mkdir -p build/logs
-  - phpunit
+  - phpunit ./tests/
 
 after_script:
   - php vendor/bin/coveralls -v
