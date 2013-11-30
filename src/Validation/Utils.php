@@ -21,6 +21,7 @@ class Utils  {
      * 		key
      * 		key[subkey]
      * 		key[0][subkey]
+     * 
      * @param  array $array
      * @param  string $path
      * @return mixed
@@ -35,10 +36,12 @@ class Utils  {
 
     /**
      * Set values in the array by selector
+     * 
      * @example
      * Utils::arraySetBySelector(array(), 'email', 'my@domain.com');
      * Utils::arraySetBySelector(array(), 'addresses[0][line]', null);
      * Utils::arraySetBySelector(array(), 'addresses[*][line]', null);
+     * 
      * @param  array $array
      * @param  string $selector
      * @param  mixed $value

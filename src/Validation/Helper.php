@@ -35,7 +35,7 @@ class Helper  {
     }
 
     static function required($value) {
-        return $value !== null and trim($value) !== '' and $value !== false and $value !== 0;
+        return $value !== null and trim($value) !== '';
     }
     static function truthy($value) {
         return $value == true;
@@ -50,10 +50,12 @@ class Helper  {
         return $value == '0' or (int)$value == $value;
     }
     static function lessThan($value, $max) {
-        return ($max != null and $value <= $max);        
+        $validator = new Validator\LessThan(array('max' => $max));
+        return $validator->validate($value);
     }
     static function greaterThan($value, $min) {
-        return ($min != null and $value >= $min);        
+        $validator = new Validator\GreaterThan(array('min' => $min));
+        return $validator->validate($value);
     }
     static function between($value, $min, $max) {
         return self::lessThan($value, $max) and self::greaterThan($value, $min);
@@ -104,16 +106,20 @@ class Helper  {
     }
 
     static function in($value, $values) {
-        return in_array($value, $values);        
+        $validator = new Validator\InList(array('list' => $values));
+        return $validator->validate($value);       
     }
     static function notIn($value, $values) {
-        return !self::in($value, $values);
+        $validator = new Validator\NotInList(array('list' => $values));
+        return $validator->validate($value);       
     }
     static function regex($value, $pattern) {
-        return (bool)preg_match($pattern, $value);
+        $validator = new Validator\Regex(array('pattern' => $pattern));
+        return $validator->validate($value);       
     }
     static function notRegex($value, $pattern) {
-        return !self::regex($value, $pattern);
+        $validator = new Validator\NotRegex(array('pattern' => $pattern));
+        return $validator->validate($value);       
     }
     static function equalTo($value, $otherElement, $context) {
         return $value == Utils::arrayGetByPath($context, $otherElement);
@@ -154,54 +160,53 @@ class Helper  {
     }
 
     static function website($value) {
-        return self::regex($value, '@^(http|https)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~!])*$@');
+        $validator = new Validator\Website();
+        return $validator->validate($value);
     }
 
-    static function url($str) {
-        return (bool)filter_var($str, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED);
+    static function url($value) {
+        $validator = new Validator\Url();
+        return $validator->validate($value);
     }
 
     /**
      * Test if a variable is a valid IP address
      *
-     * @param     string $str
+     * @param     string $value
      * @return    bool
      */
-    static function ip($ip) {
-        // Do not allow private and reserved range IPs
-        $flags = FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE;
-        if (strpos($ip, ':') !== false) {
-            return (bool)filter_var($ip, FILTER_VALIDATE_IP, $flags | FILTER_FLAG_IPV6);
-        }
-        return (bool)filter_var($ip, FILTER_VALIDATE_IP, $flags | FILTER_FLAG_IPV4);
+    static function ip($value) {
+        $validator = new Validator\IpAddress();
+        return $validator->validate($value);
     }
 
     static function email($value) {
-        return self::regex((string)$value, '/^[-_a-z0-9\'+*$^&%=~!?{}]++(?:\.[-_a-z0-9\'+*$^&%=~!?{}]+)*+@(?:(?![-.])[-a-z0-9.]+(?<![-.])\.[a-z]{2,6}|\d{1,3}(?:\.\d{1,3}){3})(?::\d++)?$/iD');
+        $validator = new Validator\Email();
+        return $validator->validate($value);
     }
 
     /**
      * Test if a variable is a full name
      * Criterias: at least 6 characters, 2 words
      * 
-     * @param     mixed $str
+     * @param     mixed $value
      * @return     bool
      */
-    static function fullName($str) {
-        // the space shouldn't be the second letter (ex: F Name) nor the second last (ex: First N)
-        return (strlen($str) >= 6 and strpos($str, ' ') !== false and strpos($str, ' ') != 1 and strrpos($str, ' ') != strlen($str) - 2);
+    static function fullName($value) {
+        $validator = new Validator\FullName();
+        return $validator->validate($value);
     }
 
     /**
      * Test if the domain of an email address is available
      *
-     * @param     string $email
+     * @param     string $value
      * @return    bool
      */
 
-    public static function emailDomain($email) {
-        // Check if the email domain has a valid MX record
-        return (bool)checkdnsrr(preg_replace('/^[^@]+@/', '', $email), 'MX');
+    public static function emailDomain($value) {
+        $validator = new Validator\EmailDomain();
+        return $validator->validate($value);
     }
 
 }

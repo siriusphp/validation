@@ -10,7 +10,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
         $pool = array(
             'abc' => true,
             1.2 => true,
-            0 => false,
+            '' => false,
         );
         foreach ($pool as $key => $value) {
             $this->assertSame(Helper::required($key), $value);
