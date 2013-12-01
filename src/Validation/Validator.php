@@ -1,215 +1,263 @@
 <?php
-
 namespace Sirius\Validation;
 
 use Sirius\Validation\Utils;
 use Sirius\Validation\Helper;
 
-class Validator {
-    CONST ALL_RULES = '__all__';
+class Validator
+{
 
-    static protected $globalDefaultMessages = array(
-        '_default'         => 'Value does not match validation criteria',
-        'required'         => 'This input is required',
-        'email'            => 'Value is not a valid email address',
-        'minLength'        => 'Value should have at least {0} characters',
-        'maxLength'        => 'Value should not have more than {0} characters',
-        'length'           => 'Value should have between {0} and {1} characters',
-        'lessThan'         => 'Value should be greater or equal to {0}',
-        'greaterThan'      => 'Value should be equal or less than {0}',
-        'between'          => 'Value should be between {0} and {1}',
-        'exactly'          => 'Value should be exactly {0}',
-        'not'              => 'Value should not be {0}',
-        'alpha'            => 'Value should contain only letters',
-        'alphanumeric'     => 'Value should contain only letters and numbers',
-        'alphanumhyphen'   => 'Value should contain only letters, numbers, hyphens (-) and dashes (_)',
-        'setMinSize'       => 'You should select at least {0} items',
-        'setMaxSize'       => 'You should select less than {0} items',
-        'setSize'          => 'You should select between {0} and {1} items',
-        'in'               => 'Value is not in the list of accepted values',
-        'notIn'            => 'Value is in the list of forbidden values',
-        'regex'            => 'Value does not match the expression {0}',
-        'notRegex'         => 'Value matches the expression {0}',
-        'equalTo'          => 'Values do not match',
-        'date'             => 'Value does not match the date format {0}',
-        'dateTime'         => 'Value does not match the date-time format {0}',
-        'time'             => 'Value does not match the time format {0}',
+    /**
+     * Validator map allows for flexibility when creating a validation rule
+     * You can use 'required' instead of 'required' for the name of the rule
+     * or 'minLength'/'minlength' instead of 'MinLength'
+     *
+     * @var array
+     */
+    protected $validatorsMap = array(
+        'required' => 'Required',
+        'email' => 'Email',
+        'emaildomain' => 'EmailDomanin',
+        'arraylength' => 'ArrayLength',
+        'arraymaxlength' => 'ArrayMaxLength',
+        'arrayminlength' => 'ArrayMinLengh',
+        'between' => 'Between',
+        'min' => 'Min',
+        'max' => 'Max',
+        'callback' => 'Callback',
+        'fullname' => 'FullName',
+        'inlist' => 'InList',
+        'notinlist' => 'NotInList',
+        'regex' => 'Regex',
+        'notregex' => 'NotRegex',
+        'url' => 'Url',
+        'website' => 'Website'
     );
 
+    /**
+     * This is set after the validation is performed so, in case data
+     * does not change, the validation is not executed again
+     *
+     * @var boolean
+     */
     protected $wasValidated = false;
 
+    /**
+     * The validation rules
+     *
+     * @var array
+     */
     protected $rules = array();
 
+    /**
+     * The error messages generated after validation or set manually
+     *
+     * @var array
+     */
     protected $messages = array();
 
-    static function getGlobalDefaultMessages() {
-        return self::$globalDefaultMessages;
-    }
-
-    static function setGlobalDefaultMessages($rule, $message = null) {
-        if (is_array($rule)) {
-            foreach ($rule as $k => $v) {
-                self::setGlobalDefaultMessages($k, $v);
-            }
-            return;
-        }
-        if ($message) {
-            self::$globalDefaultMessages[$rule] = $message;
-        }
-    }
-
-    function __construct($rules = null) {
-        if (is_array($rules) or
-            $rules instanceOf Traversable) {
+    function __construct($rules = null)
+    {
+        if (is_array($rules) or $rules instanceof Traversable) {
             foreach ($rules as $rule) {
-                call_user_func_array(array($this, 'add'), $rule);
+                call_user_func_array(array(
+                    $this,
+                    'add'
+                ), $rule);
             }
         }
     }
 
-    protected function getDefaultErrorMessage($rule) {
-        if (array_key_exists($rule, self::$globalDefaultMessages)) {
-            return self::$globalDefaultMessages[$rule];
-        }
-        return self::$globalDefaultMessages['_default'];
-    }
-
-    protected function compileMessage($message, $params = array()) {
-        if (is_array($message)) {
-            $message = call_user_func_array('sprintf', $message);
-        }
-        if (is_array($params) and count($params) > 0) {
-	        foreach ($params as $key => $value) {
-	        	if (strpos($message, "{{$key}}") !== false) {
-		        	$message = str_replace("{{$key}}", (string)$value, $message);
-		        }
-	        }
-	    }
-        return $message;
-    }
-
-    protected function getRuleId($rule) {
-        $ruleId = $rule['name'];
-        // certain rules can be applied multiple times with different parameters
-        switch ($rule['name']) {
-            case 'regex':
-            case 'notRegex':
-                $ruleId .= $rule['params'][0];
-            break;
-            case 'callback':
-                if (!is_array($rule['params'][0])) {
-                    // the callback is a string like 'functionName' or 'Class::method'
-                    if (is_string($rule['params'][0])) {
-                        $ruleId .= $rule['params'][0];
-                    // the callback is an anonymous fucntion which PHP sees it as an object
-                    } elseif (is_object($rule['params'][0])) {
-                        $ruleId .= spl_object_hash($rule['params'][0]);
-                    }
-                } else {
-                    // the callback is an array like array('ClassName', 'staticMethod')
-                    if (is_string($rule['params'][0][0])) {
-                        $ruleId .= $rule['params'][0][0] . '::' . $rule['params'][0][1];
-                    // the callback is an array like array($object, 'method')    
-                    } elseif (is_object($rule['params'][0][0])) {
-                        $ruleId .= spl_object_hash($rule['params'][0][0]) . '->' . $rule['params'][0][1];
-                    }
-                }
-            break;
-        }
-        return $ruleId;
-    }
-
-    function add($selector, $rule, $params = null, $message = null, $condition = null) {
-        if (is_array($rule)) {
-            foreach ($rule as $singleRule) {
+    function add($selector, $name, $options = null, $messageTemplate = null, $label = null)
+    {
+        if (is_array($name) && ! is_callable($name)) {
+            foreach ($name as $singleRule) {
                 // make sure the rule is an array (the parameters of subsequent calls);
-                $singleRule = is_array($singleRule) ? $singleRule : array($singleRule);
+                $singleRule = is_array($singleRule) ? $singleRule : array(
+                    $singleRule
+                );
                 array_unshift($singleRule, $selector);
-                call_user_func_array(array($this, 'add'), $singleRule);
+                call_user_func_array(array(
+                    $this,
+                    'add'
+                ), $singleRule);
             }
             return $this;
         }
-        if (is_string($rule)) {
+        if (is_string($name)) {
             // rule was supplied like 'required' or 'required | email'
-            if (strpos($rule, ' | ') !== false) {
-                return $this->add($selector, explode(' | ', $rule));
+            if (strpos($name, ' | ') !== false) {
+                return $this->add($selector, explode(' | ', $name));
             }
-            // rule was supplied like this 'if(condition)length[2,10]error'
-            if (strpos($rule, '[') !== false or strpos($rule, '(') !== false) {
-                list($rule, $params, $message, $condition) = $this->parseRule($rule);
+            // rule was supplied like this 'length(2,10)(error message template)(label)'
+            if (strpos($name, '(') !== false) {
+                list ($name, $options, $messageTemplate, $label) = $this->parseRule($name);
             }
         }
-        if (!$message) {
-            $message = $this->getDefaultErrorMessage($rule);
-        }
-        if ($condition && !is_callable($condition)) {
-        	throw new \InvalidArgumentException('The precondition must be callable');
-        }
-        $rule = array(
-            'name'      => $rule,
-            'params'    => $params,
-            'message'   => $this->compileMessage($message, $params),
-            'condition' => $condition
-        );
-        $ruleId = $this->getRuleId($rule);
-        if (!array_key_exists($selector, $this->rules)) {
+        $validator = $this->createValidator($name, $options, $messageTemplate, $label);
+        if (! array_key_exists($selector, $this->rules)) {
             $this->rules[$selector] = array();
         }
-        $this->rules[$selector][$ruleId] = $rule;
+        if (! $this->hasValidator($selector, $validator)) {
+            $this->rules[$selector][] = $validator;
+        }
         return $this;
     }
 
     /**
      * Remove validation rule
-     * @param  string      $selector data selector
-     * @param  mixed     $rule     rule name or true if all rules should be deleted for that selector
-     * @param  mixed      $params   rule parameters, necessary for rules that depend on params for their ID
+     *
+     * @param string $selector
+     *            data selector
+     * @param mixed $name
+     *            rule name or true if all rules should be deleted for that selector
+     * @param mixed $options
+     *            rule options, necessary for rules that depend on params for their ID
      * @return self
      */
-    function remove($selector, $rule = true, $params = null) {
-        if (!array_key_exists($selector, $this->rules)) {
+    function remove($selector, $name = true, $options = null)
+    {
+        if (! array_key_exists($selector, $this->rules)) {
             return $this;
         }
-        if ($rule === true) {
+        if ($name === true) {
             unset($this->rules[$selector]);
         } else {
-            $ruleId = $this->getRuleId(array(
-                'name' => $rule,
-                'params' => $params ? $params : array()
-            ));
-            if (array_key_exists($ruleId, $this->rules[$selector])) {
-                unset($this->rules[$selector][$ruleId]);
+            $validator = $this->createValidator($name, $options);
+            foreach ($this->rules[$selector] as $k => $v) {
+                if ($v->getUniqueId() == $validator->getUniqueId()) {
+                    unset($this->rules[$selector][$k]);
+                    break;
+                }
             }
         }
         return $this;
     }
 
-    protected function parseRule($ruleAsString) {
-        $ruleAsString = trim($ruleAsString);
-        $condition     = '';
-        $rule         = '';
-        $params     = array();
-        $message     = '';
-        if (strpos($ruleAsString, 'if(') === 0) {
-            $firstClosedParanthesis = strpos($ruleAsString, ')');
-            $condition = create_function('$item,$data', 'return ' . substr($ruleAsString, 3, $firstClosedParanthesis - 3) . ';');
-            $ruleAsString = substr($ruleAsString, $firstClosedParanthesis + 1);
+    /**
+     * Verify if a specific selector has a validator associated with it
+     *
+     * @param string $selector            
+     * @param \Sirius\Validation\Validator\AbstractValidator $validator            
+     * @return boolean
+     */
+    function hasValidator($selector,\Sirius\Validation\Validator\AbstractValidator $validator)
+    {
+        if (! array_key_exists($selector, $this->rules) || ! $this->rules[$selector]) {
+            return false;
         }
-        $openBracket = strpos($ruleAsString, '[');
-        $closeBracket = strrpos($ruleAsString, ']');
-        if (!$openBracket) {
-            $rule = $ruleAsString;
-        } else {
-            $rule = substr($ruleAsString, 0, $openBracket);
-            $params = explode(',', substr($ruleAsString, $openBracket + 1, $closeBracket - $openBracket));
-            $message = substr($ruleAsString, $closeBracket + 1);
+        foreach ($this->rules[$selector] as $k => $v) {
+            if ($v->getUniqueId() == $validator->getUniqueId()) {
+                return true;
+            }
         }
-
-        return array($rule, $params, $message, $condition);
+        return false;
     }
 
-    function setData($data) {
-        if (!is_array($data)) {
+    /**
+     * Factory method to construct a validator based on options that are used most of the times
+     *
+     * @param string $name
+     *            name of a validator class or a callable object/function
+     * @param array $options
+     *            validator options
+     * @param string $messageTemplate
+     *            error message template
+     * @param string $label
+     *            label of the form input field or model attribute
+     * @return \Sirius\Validation\Validator\AbstractValidator
+     */
+    protected function createValidator($name, $options = array(), $messageTemplate = null, $label = null)
+    {
+        if (is_callable($name)) {
+            $validator = new \Sirius\Validation\Validator\Callback(array(
+                'callback' => $name,
+                'arguments' => $options
+            ));
+        } else {
+            // use the validator map
+            if (isset($this->validatorsMap[strtolower($name)])) {
+                $name = $this->validatorsMap[strtolower($name)];
+            }
+            if (class_exists('\Sirius\Validation\Validator\\' . $name)) {
+                $name = '\Sirius\Validation\Validator\\' . $name;
+            }
+            if (class_exists($name) && is_subclass_of($name, '\Sirius\Validation\Validator\AbstractValidator')) {
+                $validator = new $name($options);
+            }
+        }
+        if (! isset($validator)) {
+            throw new \InvalidArgumentException(sprintf('Impossible to determine the validator based on the name %s', (string) $name));
+        }
+        
+        if ($messageTemplate) {
+            $validator->setMessageTemplate($messageTemplate);
+        }
+        if ($label) {
+            $validator->setOption('label', $label);
+        }
+        return $validator;
+    }
+
+    /**
+     * Converts a rule that was supplied as string into a set of options that define the rule
+     * 
+     * @example 'minLength({"min":2})({label} must have at least {min} characters)(Street)'
+     *         
+     *          will be converted into
+     *         
+     *          array(
+     *              'minLength', // validator name
+     *              array('min' => 2'), // validator options
+     *              '{label} must have at least {min} characters',
+     *              'Street' // label
+     *          )
+     * @param string $ruleAsString            
+     * @return array
+     */
+    protected function parseRule($ruleAsString)
+    {
+        $ruleAsString = trim($ruleAsString);
+        $name = '';
+        $options = array();
+        $messageTemplate = null;
+        $label = null;
+        
+        $name = substr($ruleAsString, 0, strpos($ruleAsString, '('));
+        $ruleAsString = substr($ruleAsString, strpos($ruleAsString, '('));
+        $matches = array();
+        preg_match_all('/\(([^\)]*)\)/', $ruleAsString, $matches);
+        
+        if (isset($matches[1])) {
+            if (isset($matches[1][0]) && $matches[1][0]) {
+                $options = json_decode($matches[1][0], true);
+            }
+            if (isset($matches[1][1]) && $matches[1][1]) {
+                $messageTemplate = $matches[1][1];
+            }
+            if (isset($matches[1][2]) && $matches[1][2]) {
+                $label = $matches[1][2];
+            }
+        }
+        
+        return array(
+            $name,
+            $options,
+            $messageTemplate,
+            $label
+        );
+    }
+
+    function setData($data)
+    {
+        if (is_object($data)) {
+            if ($data instanceof \ArrayObject) {
+                $data = $data->getArrayCopy();
+            } elseif (method_exists($data, 'toArray')) {
+                $data = $data->toArray();
+            }
+        }
+        if (! is_array($data)) {
             throw new \InvalidArgumentException('Data passed to validator is not an array');
         }
         $this->data = $data;
@@ -221,10 +269,13 @@ class Validator {
 
     /**
      * Performs the validation
-     * @param  array|false $data array to be validated
+     *
+     * @param array|false $data
+     *            array to be validated
      * @return boolean
      */
-    function validate($data = null) {
+    function validate($data = null)
+    {
         if ($data !== null) {
             $this->setData($data);
         }
@@ -242,91 +293,78 @@ class Validator {
         return $this->wasValidated and count($this->messages) === 0;
     }
 
-    
     /**
-     * Perform the validation on a single item (
-     * Does not return anything
-     * 
-     * @param string $item Data selector
+     * Returns the value of an item from the data set
+     *
+     * @param string $item            
+     * @return mixed
      */
-    function validateItem($item) {
-        $value = Utils::arrayGetByPath($this->data, $item);
-        if (is_array($value)) {
-            foreach (array_keys($value) as $key) {
-                $this->validateItem("{$item}[{$key}]");
-            }
-        } else {
-            foreach ($this->rules as $selector => $selectorRules) {
-                if ($this->itemMatchesSelector($item, $selector)) {
-                    foreach ($selectorRules as $ruleId => $rule) {
-                        if (!$this->valueSatisfiesRule($value, $item, $rule)) {
-                            $this->addMessage($item, $rule['message']);
-                        }
-                        // if field is required and we have an error, 
-                        // do not continue with the rest of rules
-                        if ($ruleId === 'required'
-                            and array_key_exists($item, $this->messages)
-                            and count($this->messages[$item])) {
-                            break;
-                        }
+    protected function getItemValue($item)
+    {
+        return Utils::arrayGetByPath($this->data, $item);
+    }
+
+    /**
+     * Perform the validation on a single item
+     * Does not return anything
+     *
+     * @param string $item
+     *            Data selector
+     * @return bool
+     */
+    function validateItem($item)
+    {
+        $value = $this->getItemValue($item);
+        $requiredValidator = new \Sirius\Validation\Validator\Required();
+        foreach ($this->rules as $selector => $selectorRules) {
+            if ($this->itemMatchesSelector($item, $selector)) {
+                foreach ($selectorRules as $ruleId => $rule) {
+                    if (! $this->valueSatisfiesRule($value, $item, $rule)) {
+                        $this->addMessage($item, $rule->getMessage());
+                    }
+                    // if field is required and we have an error,
+                    // do not continue with the rest of rules
+                    if ($this->hasValidator($selector, $requiredValidator) && array_key_exists($item, $this->messages) && count($this->messages[$item])) {
+                        break;
                     }
                 }
             }
         }
+        // proceed with the validation one level deep
+        if (is_array($value)) {
+            foreach (array_keys($value) as $key) {
+                $this->validateItem("{$item}[{$key}]");
+            }
+        }
+        return count($this->getMessages($item)) == 0;
     }
 
-    protected function ensureRequiredItems() {
+    protected function ensureRequiredItems()
+    {
+        $requiredValidator = new \Sirius\Validation\Validator\Required();
         foreach ($this->rules as $selector => $selectorRules) {
-            if (array_key_exists('required', $selectorRules)) {
+            if ($this->hasValidator($selector, $requiredValidator)) {
                 $this->data = Utils::arraySetBySelector($this->data, $selector, null, false);
             }
         }
     }
 
-    protected function valueSatisfiesRule($value, $item, $rule) {
-        // check if we have a pre-condition to be satisfied
-        if ($rule['condition']) {
-            $conditionIsMet = call_user_func($rule['condition'], $item, $this->data);
-            // do not proceed if the condition is not met
-            if (!$conditionIsMet) {
-                return true;
-            }
-        }
-        if ($rule['name'] === 'required') {
-            return (bool)$value;
-        }
-        $method = $rule['name'];
-        if (Helper::methodExists($method)) {
-            switch (count($rule['params'])) {
-                case 0;
-                    return Helper::$method($value, $this->data);
-                break;
-                case 1;
-                    return Helper::$method($value, $rule['params'][0], $this->data);
-                break;
-                case 2;
-                    return Helper::$method($value, $rule['params'][0], $rule['params'][1], $this->data);
-                break;
-                case 3;
-                    return Helper::$method($value, $rule['params'][0], $rule['params'][1], $rule['params'][2], $this->data);
-                break;
-                default;
-                    $params = $rule['params'];
-                    array_unshift($params, $value);
-                    array_push($params, $this->data);
-                    return call_user_func_array(array('Sirius\Validation\Helper', $method), $params);
-                break;
-            }
-        } else {
-            throw new \InvalidArgumentException(sprintf('%s is not a valid method for validation', $method));
-        }
-        return true;
+    protected function valueSatisfiesRule($value, $item, $rule)
+    {
+        return $rule->validate($value, $item);
     }
 
-    protected function itemMatchesSelector($item, $selector) {
+    protected function itemMatchesSelector($item, $selector)
+    {
         if (strpos($selector, '*')) {
-            $regex = '/' . str_replace('*', '[^\]]+', str_replace(array('[', ']'), array('\[', '\]'), $selector)) . '/';
-            #echo ($item . '|' . $regex . "\n");
+            $regex = '/' . str_replace('*', '[^\]]+', str_replace(array(
+                '[',
+                ']'
+            ), array(
+                '\[',
+                '\]'
+            ), $selector)) . '/';
+            // cho ($item . '|' . $regex . "\n");
             return preg_match($regex, $item);
         } else {
             return $item == $selector;
@@ -335,28 +373,33 @@ class Validator {
 
     /**
      * Adds a messages to the list of error messages
-     * @param string $item    data identifier (eg: 'email', 'addresses[0][state]')
-     * @param string $message
+     *
+     * @param string $item
+     *            data identifier (eg: 'email', 'addresses[0][state]')
+     * @param string $message            
      * @return self
      */
-    function addMessage($item, $message = null) {
-        if (!$message) {
+    function addMessage($item, $message = null)
+    {
+        if (! $message) {
             return;
         }
-        if (!array_key_exists($item, $this->messages)) {
+        if (! array_key_exists($item, $this->messages)) {
             $this->messages[$item] = array();
         }
         $this->messages[$item][] = $message;
-
+        
         return $this;
     }
 
     /**
      * Clears the messages of an item
-     * @param  string $item
+     *
+     * @param string $item            
      * @return self
      */
-    function clearMessages($item = null) {
+    function clearMessages($item = null)
+    {
         if (is_string($item)) {
             if (array_key_exists($item, $this->messages)) {
                 unset($this->messages[$item]);
@@ -369,18 +412,21 @@ class Validator {
 
     /**
      * Returns all validation messages
-     * @param  string $item key of the messages array (eg: 'password', 'addresses[0][line_1]')
+     *
+     * @param string $item
+     *            key of the messages array (eg: 'password', 'addresses[0][line_1]')
      * @return array
      */
-    function getMessages($item = null) {
+    function getMessages($item = null)
+    {
         if (is_string($item)) {
             return array_key_exists($item, $this->messages) ? $this->messages[$item] : array();
         }
         return $this->messages;
     }
-    
-    function getRules() {
-    	return $this->rules;
-    }
 
+    function getRules()
+    {
+        return $this->rules;
+    }
 }

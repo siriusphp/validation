@@ -4,6 +4,9 @@ namespace Sirius\Validation\Validator;
 class GreaterThan extends AbstractValidator
 {
 
+    const OPTION_MIN = 'min';
+    const OPTION_INCLUSIVE = 'inclusive';
+    
     protected static $defaultMessageTemplate = 'This input must be greater than {min}';
 
     protected $options = array(

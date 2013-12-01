@@ -9,43 +9,22 @@ function fakeValidationFunction() {
     return false;
 }
 
+class FakeObject {
+    function toArray() {
+        return get_object_vars($this);
+    }
+}
+
 class ValidatorTest extends \PHPUnit_Framework_TestCase  {
 
     function setUp() {
         $this->validator = new Validator();
     }
 
-    function testGlobalMessages() {
-        $messages = Validator::getGlobalDefaultMessages();
-        $this->assertEquals('Value does not match validation criteria', $messages['_default']);
-
-        Validator::setGlobalDefaultMessages('_default', 'Field is not valid');
-        $messages = Validator::getGlobalDefaultMessages();
-        $this->assertEquals('Field is not valid', $messages['_default']);
-
-        Validator::setGlobalDefaultMessages(array(
-            '_default' => 'Field not valid',
-            'required' => 'Field is required'
-        ));
-        $messages = Validator::getGlobalDefaultMessages();
-        $this->assertEquals('Field not valid', $messages['_default']);
-        $this->assertEquals('Field is required', $messages['required']);
-    }
-
-    function testDefaultMessage() {
-        // add validation method that always returns false so we check 
-        // the validation message
-        Helper::addMethod('fake_method', function() { return false; });
-        $this->validator->add('item', 'fake_method');
-        $this->validator->validate(array('item' => 'does not matter'));
-        $messages = Validator::getGlobalDefaultMessages();
-        $this->assertEquals(array($messages['_default']), $this->validator->getMessages('item'));
-    }
-
     function testIfRulesAreSetViaTheContructor() {
         $this->validator = new Validator(array(
-            array('item_1', 'required'),
-            array('item_2', 'required'),
+            array('item_1', 'Required'),
+            array('item_2', 'Required'),
         ));
         $this->assertFalse($this->validator->validate(array()));
         $this->assertEquals(2, count($this->validator->getMessages()));
@@ -68,13 +47,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
         $this->assertEquals(0, count($this->validator->getMessages()));
     }
 
-    function testMessageCompilation() {
-        $this->validator
-            ->add('item', 'minLength', array(2), array('%s should have at least {0} characters', 'Item'));
-        $this->validator->validate(array('item' => 'b'));
-        $this->assertEquals(array('Item should have at least 2 characters'), $this->validator->getMessages('item'));
-    }
-
     function testIfSetDataThrowsExceptionWhenTheDataIsNotAnArray() {
         $this->setExpectedException('InvalidArgumentException');
         $this->validator->setData('string');
@@ -83,8 +55,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
 
     function testIfValidateExecutes() {
         $this->validator
-            ->add('field_1', 'required', null)
-            ->add('field_2', 'email', null, 'This field should be an email');
+            ->add('field_1', 'Required', null)
+            ->add('field_2', 'Email', null, 'This field should be an email');
 
         $this->assertFalse($this->validator->validate(array(
             'field_1' => 'exists',
@@ -95,6 +67,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
             'field_1' => 'exists',
             'field_2' => 'me@domain.com'
         ));
+        
+        // execute the validation again without data
+        $this->validator->validate();
         $this->assertEquals(0, count($this->validator->getMessages()));
 
     }
@@ -107,75 +82,59 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
         $this->assertEquals($this->validator->getMessages('item'), array('This field is required'));
         $this->assertEquals($this->validator->getMessages('items[subitem]'), array('This field is required'));
     }
+    
+    function testDifferentDataFormats() {
+        $this->validator->add('email', 'email');
+        
+        // test array objects
+        $data = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+        $data->email = 'not_an_email';
+        
+        $this->validator->validate($data);
+        $this->assertEquals(1, count($this->validator->getMessages('email')));
+        
+        // test objects with a 'toArray' method
+        $data = new FakeObject();
+        $data->email = 'not_an_email';
+        $this->validator->validate($data);
+        $this->assertEquals(1, count($this->validator->getMessages('email')));
+    }
 
     function testAddingValidationRulesViaStrings() {
         $this->validator
-            ->add('item', 'email[]Item should be an email | minLength[3]Item should have at least 3 characters')
-            ->add('itemb', 'if(1===1)required[]Item B is required')
-            ->add('itemc', 'if(1===1)email');
+            ->add('item', 'required | minLength({"min":4})({label} should have at least {min} characters)(Item)')
+            ->add('itemb', 'required()(Item B is required)')
+            ->add('itemc', 'email');
         $this->validator->validate(array('item' => 'ab', 'itemc' => 'abc'));
         $this->assertEquals(array(
-            'Item should be an email',
-            'Item should have at least 3 characters',
+            'Item should have at least 4 characters',
         ), $this->validator->getMessages('item'));
         $this->assertEquals(array('Item B is required'), $this->validator->getMessages('itemb'));
-        $this->assertEquals(array('Value is not a valid email address'), $this->validator->getMessages('itemc'));
+        $this->assertEquals(array('This input must be a valid email address'), $this->validator->getMessages('itemc'));
     }
 
-    function testExceptionThrownForInvalidCondition() {
-    	$this->setExpectedException('\InvalidArgumentException');
-    	$this->validator->add('field', 'required', null, null, 'invalid_callback');
+    function fakeValidationMethod($value) {
+        return false;
+    }
+
+    static function fakeStaticValidationMethod($value, $return = false) {
+        return $return;
+    }
+
+    
+    function testCallbackValidators() {
+        $this->validator->add('function', __NAMESPACE__.'\fakeValidationFunction');
+        $this->validator->add('method', array($this, 'fakeValidationMethod'));
+        $this->validator->add('staticMethod', array(__CLASS__, 'fakeStaticValidationMethod'), array(true)); // this will return true
+        
+        $this->validator->validate(array(
+        	'function' => true,
+            'method' => true,
+            'staticMethod' => true,
+        ));
+        $this->assertEquals(2, count($this->validator->getMessages()));
     }
     
-    function testIfConditionIsCheckedBeforeValidating() {
-        // one field
-        $this->validator
-            ->add('special_reason', 'required', null, 'Please enter the special reason you chose us.', function($item, $data) {
-                return array_key_exists('other_reason', $data) && $data['other_reason'];
-            });
-        $this->validator->setData(array(
-            'special_reason' => null,
-            'other_reason' => true,
-        ));
-        $this->validator->validate();
-        $this->assertFalse($this->validator->validate(), 'Validator checked if condition was met');
-        $this->assertEquals($this->validator->getMessages('special_reason'), array('Please enter the special reason you chose us.'));
-
-        // other reason is not checked
-        $this->validator->setData(array());
-        $this->validator->validate(array());
-        $this->assertTrue($this->validator->validate(), 'Validator did not validate when the condition was not met');
-    }
-
-    function fakeValidationMethod() {
-        return false;
-    }
-
-    static function fakeStaticValidationMethod() {
-        return false;
-    }
-
-    function testGeneratingTheRuleIdAllowsMultipleRegexRules() {
-        // regexes
-        $this->validator->add('item', 'regex', array('/abc/'), 'Value does not match 1st rule');
-        $this->validator->add('item', 'regex', array('/bcd/'), 'Value does not match 2nd rule');
-        // callbacks
-        $this->validator->add('item', 'callback', array(array($this, 'fakeValidationMethod')), 'Value does not match 3rd rule'); 
-        $this->validator->add('item', 'callback', array(array(__CLASS__, 'fakeStaticValidationMethod')), 'Value does not match 4th rule'); 
-        $this->validator->add('item', 'callback', array(function() { return false; }), 'Value does not match 5th rule'); 
-        $this->validator->add('item', 'callback', array(__NAMESPACE__.'\fakeValidationFunction'), 'Value does not match 6th rule'); 
-        $this->validator->validate(array('item' => '123'));
-        $this->assertEquals(array(
-            'Value does not match 1st rule',
-            'Value does not match 2nd rule',
-            'Value does not match 3rd rule',
-            'Value does not match 4th rule',
-            'Value does not match 5th rule',
-            'Value does not match 6th rule',
-        ), $this->validator->getMessages('item'));
-
-    }
-
     function testRemovingValidationRules() {
         $this->validator->add('item', 'required');
         $this->assertFalse($this->validator->validate(array()));
@@ -186,8 +145,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
 
     function testRemovingAllValidationRules() {
         $this->validator->remove('item', true);
-        $this->validator->add('item', 'required');
-        $this->validator->add('item', 'email');
+        $this->validator->add('item', 'Required');
+        $this->validator->add('item', 'Email');
         $this->assertFalse($this->validator->validate(array()));
 
         $this->validator->remove('item', true);

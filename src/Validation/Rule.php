@@ -3,11 +3,16 @@
 namespace Sirius\Validation;
 
 class Rule {
-    protected $messagePrototype;
     
-    protected $method;
+    protected $selector;
     
-    protected $params = array();
+    protected $validator;
     
-    
+    function __construct($selector, $validator, $options = array()) {
+
+    }
+
+    function getUniqueId() {
+        
+    }
 }

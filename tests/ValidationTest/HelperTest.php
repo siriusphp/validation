@@ -1,16 +1,22 @@
 <?php
-
 namespace Sirius\Validation\Test;
 
 use Sirius\Validation\Helper;
 
-class HelperTest extends \PHPUnit_Framework_TestCase  {
+class HelperTest extends \PHPUnit_Framework_TestCase
+{
 
-    function testOfRequired(){
+    function testOfMethodExists() {
+        $this->assertTrue(Helper::methodExists('email'));
+        $this->assertFalse(Helper::methodExists('nonExistingMethod'));
+    }
+    
+    function testOfRequired()
+    {
         $pool = array(
             'abc' => true,
             1.2 => true,
-            '' => false,
+            '' => false
         );
         foreach ($pool as $key => $value) {
             $this->assertSame(Helper::required($key), $value);
@@ -18,30 +24,38 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
         $this->assertSame(Helper::required(null), false);
     }
 
-    function testOfTruthy() {
+    function testOfTruthy()
+    {
         $pool = array(
             'abc' => true,
             1.2 => true,
             0 => false,
-            '' => false,
+            '' => false
         );
         foreach ($pool as $key => $value) {
             $this->assertSame(Helper::truthy($key), $value);
         }
     }
-    
-    function testOfFalsy() {
+
+    function testOfFalsy()
+    {
         $pool = array(
             'abc' => false,
             1.2 => false,
             0 => true,
-            '' => true,
+            '' => true
         );
         foreach ($pool as $key => $value) {
             $this->assertSame(Helper::falsy($key), $value);
         }
     }
-    function testOfEmail() {
+    
+    function testOfCallback() {
+        $this->assertTrue(Helper::callback(3, function($value) { return $value === 3; }));
+    }
+
+    function testOfEmail()
+    {
         $pool = array(
             '-fa/lse@gmail.com' => false,
             '12345@hotmail.com' => true,
@@ -58,8 +72,9 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
             $this->assertSame(Helper::email($key), $value, $message);
         }
     }
-    
-    function testOfNumber() {
+
+    function testOfNumber()
+    {
         $pool = array(
             '1' => true,
             '1,5' => false,
@@ -76,7 +91,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
         }
     }
 
-    function testOfInteger() {
+    function testOfInteger()
+    {
         $pool = array(
             '1' => true,
             '12345' => true,
@@ -90,12 +106,22 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
                 $message = $key . ' is NOT a valid integer';
             }
             $this->assertSame(Helper::integer($key), $value, $message);
-        }    
+        }
     }
-    function testOfLessThan() {
+
+    function testOfLessThan()
+    {
         $pool = array(
-            array(1, 0.5, false),
-            array(1, 1.2, true),
+            array(
+                1,
+                0.5,
+                false
+            ),
+            array(
+                1,
+                1.2,
+                true
+            )
         );
         foreach ($pool as $sample) {
             if ($sample[2]) {
@@ -106,10 +132,20 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
             $this->assertSame(Helper::lessThan($sample[0], $sample[1]), $sample[2], $message);
         }
     }
-    function testOfGreaterThan() {
+
+    function testOfGreaterThan()
+    {
         $pool = array(
-            array(1, 0.5, true),
-            array(1, 1.2, false),
+            array(
+                1,
+                0.5,
+                true
+            ),
+            array(
+                1,
+                1.2,
+                false
+            )
         );
         foreach ($pool as $sample) {
             if ($sample[2]) {
@@ -120,10 +156,22 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
             $this->assertSame(Helper::greaterThan($sample[0], $sample[1]), $sample[2], $message);
         }
     }
-    function testOfBetween() {
+
+    function testOfBetween()
+    {
         $pool = array(
-            array(1, 0.5, 0.8, false),
-            array(1, 0.9, 1.2, true),
+            array(
+                1,
+                0.5,
+                0.8,
+                false
+            ),
+            array(
+                1,
+                0.9,
+                1.2,
+                true
+            )
         );
         foreach ($pool as $sample) {
             if ($sample[2]) {
@@ -134,12 +182,30 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
             $this->assertSame(Helper::between($sample[0], $sample[1], $sample[2]), $sample[3], $message);
         }
     }
-    function testOfExactly() {
+
+    function testOfExactly()
+    {
         $pool = array(
-            array(1, '1', true),
-            array(1, 1.0, true),
-            array(1, 01, true),
-            array(1, 'a', false),
+            array(
+                1,
+                '1',
+                true
+            ),
+            array(
+                1,
+                1.0,
+                true
+            ),
+            array(
+                1,
+                01,
+                true
+            ),
+            array(
+                1,
+                'a',
+                false
+            )
         );
         foreach ($pool as $sample) {
             if ($sample[2]) {
@@ -150,12 +216,30 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
             $this->assertSame(Helper::exactly($sample[0], $sample[1]), $sample[2], $message);
         }
     }
-    function testOfNot() {
+
+    function testOfNot()
+    {
         $pool = array(
-            array(1, '1', false),
-            array(1, 1.0, false),
-            array(1, 01, false),
-            array(1, 'a', true),
+            array(
+                1,
+                '1',
+                false
+            ),
+            array(
+                1,
+                1.0,
+                false
+            ),
+            array(
+                1,
+                01,
+                false
+            ),
+            array(
+                1,
+                'a',
+                true
+            )
         );
         foreach ($pool as $sample) {
             if ($sample[2]) {
@@ -166,7 +250,9 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
             $this->assertSame(Helper::not($sample[0], $sample[1]), $sample[2], $message);
         }
     }
-    function testOfAlpha() {
+
+    function testOfAlpha()
+    {
         $pool = array(
             'Some Random String ' => true,
             '123' => false,
@@ -181,7 +267,9 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
             $this->assertSame(Helper::alpha($key), $value, $message);
         }
     }
-    function testOfAlphanumeric() {
+
+    function testOfAlphanumeric()
+    {
         $pool = array(
             'Some Random String ' => true,
             'Letters and 123' => true,
@@ -196,7 +284,9 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
             $this->assertSame(Helper::alphanumeric($key), $value, $message);
         }
     }
-    function testOfAlphanumhyphen() {
+
+    function testOfAlphanumhyphen()
+    {
         $pool = array(
             'Some Random String ' => true,
             'Letters and 123' => true,
@@ -212,10 +302,25 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
             $this->assertSame(Helper::alphanumhyphen($key), $value, $message);
         }
     }
-    function testOfMinLength() {
+
+    function testOfLength()
+    {
+        $this->assertTrue(Helper::length('abc', 1, 5));
+    }
+
+    function testOfMinLength()
+    {
         $pool = array(
-            array('abcde', 7, false),
-            array('abcde', 4, true),
+            array(
+                'abcde',
+                7,
+                false
+            ),
+            array(
+                'abcde',
+                4,
+                true
+            )
         );
         foreach ($pool as $sample) {
             if ($sample[2]) {
@@ -226,10 +331,20 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
             $this->assertSame(Helper::minLength($sample[0], $sample[1]), $sample[2], $message);
         }
     }
-    function testOfMaxLength() {
+
+    function testOfMaxLength()
+    {
         $pool = array(
-            array('abcde', 4, false),
-            array('abcde', 6, true),
+            array(
+                'abcde',
+                4,
+                false
+            ),
+            array(
+                'abcde',
+                6,
+                true
+            )
         );
         foreach ($pool as $sample) {
             if ($sample[2]) {
@@ -240,52 +355,118 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
             $this->assertSame(Helper::maxLength($sample[0], $sample[1]), $sample[2], $message);
         }
     }
-    function testOfIn() {
+
+    function testOfIn()
+    {
         $pool = array(
-            array('6', array('5', '8'), false),
-            array('5', array('5', '8'), true),
+            array(
+                '6',
+                array(
+                    '5',
+                    '8'
+                ),
+                false
+            ),
+            array(
+                '5',
+                array(
+                    '5',
+                    '8'
+                ),
+                true
+            )
         );
         foreach ($pool as $sample) {
             $this->assertSame(Helper::in($sample[0], $sample[1]), $sample[2]);
         }
     }
-    function testOfNotIn() {
+
+    function testOfNotIn()
+    {
         $pool = array(
-            array('5', array('5', '8'), false),
-            array('6', array('5', '8'), true),
+            array(
+                '5',
+                array(
+                    '5',
+                    '8'
+                ),
+                false
+            ),
+            array(
+                '6',
+                array(
+                    '5',
+                    '8'
+                ),
+                true
+            )
         );
         foreach ($pool as $sample) {
             $this->assertSame(Helper::notIn($sample[0], $sample[1]), $sample[2]);
         }
     }
-    function testOfRegex() {
+
+    function testOfRegex()
+    {
         $pool = array(
-            array('abc', '/[0-9]+/', false),
-            array('123', '/[0-9]+/', true),
+            array(
+                'abc',
+                '/[0-9]+/',
+                false
+            ),
+            array(
+                '123',
+                '/[0-9]+/',
+                true
+            )
         );
         foreach ($pool as $sample) {
             $this->assertSame(Helper::regex($sample[0], $sample[1]), $sample[2]);
         }
     }
-    function testOfNotRegex() {
+
+    function testOfNotRegex()
+    {
         $pool = array(
-            array('abc', '/[0-9]+/', true),
-            array('123', '/[0-9]+/', false),
+            array(
+                'abc',
+                '/[0-9]+/',
+                true
+            ),
+            array(
+                '123',
+                '/[0-9]+/',
+                false
+            )
         );
         foreach ($pool as $sample) {
             $this->assertSame(Helper::notRegex($sample[0], $sample[1]), $sample[2]);
         }
     }
-    function testOfEqualTo() {
+
+    function testOfEqualTo()
+    {
         $pool = array(
-            array('value', 'element_1', true),
-            array('value', 'element_2', false),
-            array('new value', 'element_3[sub_element_1][sub_element_2]', true),
+            array(
+                'value',
+                'element_1',
+                true
+            ),
+            array(
+                'value',
+                'element_2',
+                false
+            ),
+            array(
+                'new value',
+                'element_3[sub_element_1][sub_element_2]',
+                true
+            )
         );
         $context = array(
             'element_1' => 'value',
             'element_2' => 'another_value',
-            'element_3' => array (
+            'element_3' => array(
                 'sub_element_1' => array(
                     'sub_element_2' => 'new value'
                 )
@@ -296,143 +477,208 @@ class HelperTest extends \PHPUnit_Framework_TestCase  {
         }
     }
 
-    function testOfWebsite() {
+    function testOfWebsite()
+    {
         $pool = array(
-            array('https://www.domain.co.uk/', true),
-            array('https://www.domain.co.uk/folder/page.html?var=value#!fragment', true),
-            array('123', false),
+            array(
+                'https://www.domain.co.uk/',
+                true
+            ),
+            array(
+                'https://www.domain.co.uk/folder/page.html?var=value#!fragment',
+                true
+            ),
+            array(
+                '123',
+                false
+            )
         );
         foreach ($pool as $sample) {
             $this->assertSame(Helper::website($sample[0]), $sample[1]);
         }
     }
 
-    function testOfUrl() {
+    function testOfUrl()
+    {
         $pool = array(
-            array('ftp://ftp.domain.co.uk/', true),
-            array('ftp://username:password@domain.co.uk/folder/', true),
-            array('123', false),
+            array(
+                'ftp://ftp.domain.co.uk/',
+                true
+            ),
+            array(
+                'ftp://username:password@domain.co.uk/folder/',
+                true
+            ),
+            array(
+                '123',
+                false
+            )
         );
         foreach ($pool as $sample) {
             $this->assertSame(Helper::url($sample[0]), $sample[1]);
         }
     }
 
-    function testOfIp() {
+    function testOfIp()
+    {
         $pool = array(
-            array('196.168.100.1', true),
-            array('256.5765.53.21', false),
-            array('2001:db8:85a3:8d3:1319:8a2e:370:7348', true), //IPv6
+            array(
+                '196.168.100.1',
+                true
+            ),
+            array(
+                '256.5765.53.21',
+                false
+            ),
+            array(
+                '2001:db8:85a3:8d3:1319:8a2e:370:7348',
+                true
+            ) //IPv6
         );
+
         foreach ($pool as $sample) {
             $this->assertSame(Helper::ip($sample[0]), $sample[1]);
         }
     }
 
-    function testOfSetMaxSize() {
+    function testOfSetMaxSize()
+    {
         $set = array(
             'element_1' => 'value',
             'element_2' => 'another_value',
-            'element_3' => array (
+            'element_3' => array(
                 'sub_element_1' => 'new value'
             )
         );
         $pool = array(
-            array('4', true),
-            array('2', false),
+            array(
+                '4',
+                true
+            ),
+            array(
+                '2',
+                false
+            )
         );
         foreach ($pool as $sample) {
             $this->assertSame(Helper::setMaxSize($set, $sample[0]), $sample[1]);
         }
     }
 
-    function testOfSetMinSize() {
+    function testOfSetMinSize()
+    {
         $set = array(
             'element_1' => 'value',
             'element_2' => 'another_value',
-            'element_3' => array (
+            'element_3' => array(
                 'sub_element_1' => 'new value'
             )
         );
         $pool = array(
-            array('4', false),
-            array('2', true),
+            array(
+                '4',
+                false
+            ),
+            array(
+                '2',
+                true
+            )
         );
         foreach ($pool as $sample) {
             $this->assertSame(Helper::setMinSize($set, $sample[0]), $sample[1]);
         }
     }
 
-    function testOfSetSize() {
+    function testOfSetSize()
+    {
         $set = array(
             'element_1' => 'value',
             'element_2' => 'another_value',
-            'element_3' => array (
+            'element_3' => array(
                 'sub_element_1' => 'new value'
             )
         );
         $pool = array(
-            array(2, 5, true),
-            array(6, 8, false),
+            array(
+                2,
+                5,
+                true
+            ),
+            array(
+                6,
+                8,
+                false
+            )
         );
         foreach ($pool as $sample) {
             $this->assertSame(Helper::setSize($set, $sample[0], $sample[1]), $sample[2]);
         }
     }
 
-    function validationCallback($value, $options = false, $context = null) {
+    function validationCallback($value, $options = false, $context = null)
+    {
         return ($value == 5 and $options = 3 and $context == null);
     }
 
-    function testOfValidAddMethodCalls() {
-        Helper::addMethod('myValidation', array($this, 'validationCallback'));
+    function testOfValidAddMethodCalls()
+    {
+        Helper::addMethod('myValidation', array(
+            $this,
+            'validationCallback'
+        ));
         $this->assertTrue(Helper::myValidation(5, 3));
         $this->assertFalse(Helper::myValidation(5, 3, 3));
     }
 
-    function testOfInvalidAddMethodCalls() {
+    function testOfInvalidAddMethodCalls()
+    {
         $this->setExpectedException('InvalidArgumentException');
         Helper::addMethod('mySecondValidation', 'nonexistantcallback');
         $this->assertTrue(Helper::mySecondValidation(5));
     }
 
-    function testOfFullName() {
+    function testOfFullName()
+    {
         $this->assertTrue(Helper::fullName('First Last'));
         $this->assertFalse(Helper::fullName('F Last'));
         $this->assertFalse(Helper::fullName('First L'));
         $this->assertFalse(Helper::fullName('Fi La'));
     }
 
-    function testOfEmailDomain() {
+    function testOfEmailDomain()
+    {
         $this->assertTrue(Helper::emailDomain('me@hotmail.com'));
         $this->assertFalse(Helper::emailDomain('me@hotmail.com.not.valid'));
     }
 
-    function testOfDate() {
-        $this->assertTrue(Helper::date('2012-07-13', 'Y-m-d'));        
-        $this->assertFalse(Helper::date('2012-07-13', 'Y/m/d'));        
+    function testOfDate()
+    {
+        $this->assertTrue(Helper::date('2012-07-13', 'Y-m-d'));
+        $this->assertFalse(Helper::date('2012-07-13', 'Y/m/d'));
     }
 
-    function testOfDateTime() {
+    function testOfDateTime()
+    {
         $this->assertTrue(Helper::dateTime('2012-07-13 20:00:15', 'Y-m-d H:i:s'));
-        $this->assertFalse(Helper::dateTime('2012-07-13'));        
+        $this->assertFalse(Helper::dateTime('2012-07-13'));
     }
 
-    function testOfTime() {
+    function testOfTime()
+    {
         $this->assertTrue(Helper::time('20:00:15', 'H:i:s'));
-        $this->assertFalse(Helper::time('20:00:99'));        
+        $this->assertFalse(Helper::time('20:00:99'));
     }
 
-    function testOfDateWithContext() {
-        $this->assertTrue(Helper::date('2012-07-13', array('context' => 'data')));        
-        $this->assertTrue(Helper::dateTime('2012-07-13 20:00:15', array('context' => 'data')));        
-        $this->assertTrue(Helper::time('20:00:15', array('context' => 'data')));        
+    function testOfDateWithContext()
+    {
+        $this->assertTrue(Helper::date('2012-07-13', array(
+            'context' => 'data'
+        )));
+        $this->assertTrue(Helper::dateTime('2012-07-13 20:00:15', array(
+            'context' => 'data'
+        )));
+        $this->assertTrue(Helper::time('20:00:15', array(
+            'context' => 'data'
+        )));
     }
-
-    function testOfInvalidCallback() {
-        $this->setExpectedException('\InvalidArgumentException');
-
-        Helper::callback(true, 'callback');
-    }
-
 }

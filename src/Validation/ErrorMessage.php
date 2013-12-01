@@ -24,6 +24,10 @@ class ErrorMessage {
     }
     
     function __toString() {
-         
+         $result = $this->template;
+         foreach ($this->variables as $k => $v) {
+             $result = str_replace("{{$k}}", $v, $result);
+         }
+         return $result;
     }
 }
