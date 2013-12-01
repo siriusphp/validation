@@ -1,5 +1,4 @@
-Validation\Validator
-=======
+#Validation\Validator
 
 This is the class that will be instanciated to perform validation
 
@@ -8,106 +7,69 @@ use Sirius\Validation\Validator;
 $validator = new Validator($arrayContainingTheRules);
 ```
 
-Adding validation rules
-=====
+## Adding validation rules
+
 ```php
 // syntax
-$validator->add($selector, $rule, $params = null, $message = null, $condition = null);
+$validator->add($selector, $name, $options = array(), $messageTemplate = null, $label = null);
 
 // examples
 $validator->add('username', 'required');
 $validator->add('email', 'email', array(), 'Email address is not valid');
-$validator->add('password', 'minLength', array(6), 'Passwork must have at least 6 characters');
+$validator->add('password', 'minLength', array('min' => 6), '{label} must have at least {min} characters', 'Password');
 ```
 
-The <code>$rule</code> must be a valid validation method registered within the Validation\Helper.
-If it's not registered as a validation method you can use the <code>callback</code> method
+The <code>$name</code> must either
+1. match an [individual validator class](validators.md). In this case the name can be the
+	- the name of `Sirius\Validation\Validator` class (eg: `Email', 'MinLength')
+	- the `strotolower` equivalent (eg: 'email', 'minlength')
+	- a custom validator class that extends `Sirius\Vaidation\Validator\AbstractValidator` (eg: 'MyApp\Validation\Validator\Username')
+2. or be a callable entity (function, object method or static method).
 
 ```php
-$validator->add('username', 'callback', array('MyClass::validateUsername'), 'Username is already taken');
+$validator->add('username', 'MyClass::validateUsername', array(), 'Username is already taken');
 ```
 
-The <code>$params</code> variable represents the variables for the validation method and they must be an array.
+The <code>$options</code> variable represents the configuration options for the validators or additional parameters for the callback.
 
-The <code>$message</code> is the message that will be associated with an item when the validation fails. 
-If you don't provide it, there are some global defaults that you can use
+The <code>$messageTemplate</code> is the message that will be associated with an item when the validation fails. 
+If you don't provide it, each validator has it's own default error message.
 
-The <code>$condition</code> is the name of the condition that must be met before proceeding with the validation
+The <code>$label</code> is the label associated with the field. 
+From my experience, the most usefull error messages are those that contain the name of the field so I decided to make this option easily accessible.
 
-Validation conditions
-=====
-Sometimes you need to perform the validation only if a certain condition is met. 
-For example if the user selected "other" from a list of unsubscription reasons you may want to require him to fill out the "details" field.
 
+### Shortcuts for adding rules
+
+1. Add multiple rules at once by using just a string
 ```php
-$validator->add('reason_details', 'required', array(), 'Please tell use more about why you want to unsubscribe', function($item, $data){
-    return $data['reasons']['other'] === 'checked';
-});
+// separate rules using ' | ' (space/pipe/space)
+$validator->add('email', 'required | email');
 ```
 
-Condition functions/callbacks receive 2 arguments
-
-1. The item that is being validated (eg: 'reason_details', 'address[city]');
-2. The array that is being validated
-
-For example if you have a list of invoice lines (product, quantity, price) you can have a validation rule like this
-
+2. Add rule with parameters and custom messages using only a string
 ```php
-$validator->add('lines[*][quantity]', 'required', null, null, function($item, $data) {
-	// $item is of form lines[5][quantity]
-	$index = substr($item, 6, strrpos($item, '][quantity]'));
-	return $data['lines'][$index]['product'];
-});
+$validator->add('name', 'minlength({"min":2})({label} must have at least {min} characters)(Name)');
+// is similar to
+$validator->add('name', 'minlength', array('min' => 2), '{label} must have at least {min} characters', 'Name');
 ```
 
-which will require to fill the quantity only if the product was provided.
-
-Custom messages
-=====
-There's a list of default validation messages associated with the class. You can use the `setGlobalDefaultMessages()` static method to set up globally available messages
-
+3. Mix and match 1 and 2
 ```php
-Validator::setGlobalDefaultMessages(array(
-    'required' => 'This field is required',
-    'email' => 'This field is not a valid email address',
-    'custom_validation_method' => 'This field should meet our validation criteria'
+$validator->add('name', 'required | minlength({"min":2})({label} must have at least {min} characters)(Name)');
+```
+
+4. Add multiple rules at once
+```php
+$validator->add(array(
+	'email' => 'required | email',
+	'name' => 'required | minlength({"min":2})({label} must have at least {min} characters)(Name)'
 ));
 
-// or you can set them individually
-Validator::setGlobalDefaultMessages('required', 'You must provide something here');
-```
+## Validating data
 
-In your validator instance you can set up validation messages with each rule. The error messages are passed through the `compileMessage` function which allows you some flexibility
-
-1. Reusable messages using an array
 ```php
-$validator->add('username', 'required', null, array('%s is required', 'Username'));
-```
-The code above will compile the message into 'Username is required'.
-
-2. Customizable messages based on rule parameters
-```php
-$validator->add('username', 'minLength', array(5), array('%s should have at least {0} characters', 'Username'));
-```
-The code above will generate an error message that is 'Username should have at least 2 characters'. The sequences `{x}` are replaced with the values from the parameters array.
-
-3. Translatable messages
-The library doesn't offer support for translation but you can implement your own custom `compileMessage` method to allow for translation. Assuming your translation callback is `__translate` you can have something like
-```php
-protected function compileMessage($message, $params) {
-    if (is_array($message)) {
-        // this will translate all items in $message
-        array_walk($message, '__translate');
-        $message = call_user_func_array('sprintf', $message);
-    }
-    // this will replace the {x} sequences with their corresponding values from the parameter
-    if (is_array($params) and count($params) > 0) {
-        foreach ($params as $key => $value) {
-            if (strpos($message, "{{$key}}") !== false) {
-                $message = str_replace("{{$key}}", (string)$value, $message);
-            }
-        }
-    }
-    return $message;
-}
+$validationResult = $validator->validate($_POST); // TRUE or FALSE
+$messages = $validator->getMessages(); // array with all error messages
+$emailErrorMessages = $validator->getMessages('email'); // error messages for the email address
 ```

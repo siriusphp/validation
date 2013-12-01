@@ -1,10 +1,20 @@
-Validation\Helper
-=======
+#Validation\Helper
 
-This is a container class for your validation methods (static functions). It comes with a set of pre-set validation methods
+This is a container class for your validation methods (static functions). 
+Is is designed to help you with basic validation operations, when you need to validate a single value or a small number of values
 
-- truthy($value)
-- falsy($value)
+The Helper class uses the [Validators classes](validators.md) for the validation.
+
+```
+use Sirius\Validation\Helper;
+
+if (Helper::email('email@domain.com) && Helper::fullName('My Name')) {
+	// proceed with your application logic here
+}
+```
+
+It comes with a set of pre-set validation methods:
+
 - email($value)
 - integer($value)
 - number($value) - integers and floats
@@ -41,5 +51,3 @@ ValidationHelper::addMethod('username', 'UserLibrary::validateUsername');
 // and call it latter
 ValidationHelper::username('minime2013');
 ```
-
-The Helper class is used by the Validator class to check the values.
