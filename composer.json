@@ -1,0 +1,29 @@
+{
+    "name": "adrianmiu/SiriusValidation",
+    "description": "Data validation library",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "form",
+        "validation"
+    ],
+    "authors": [
+        {
+            "name": "Adrian Miu",
+            "email": "adrian@adrianmiu.ro"
+        }
+    ],
+    "version": "dev-master",
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "satooshi/php-coveralls": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Sirius": "src/"
+        }
+    }
+}
