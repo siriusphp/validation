@@ -66,8 +66,10 @@ abstract class AbstractValidator
 
     function __construct($options = array())
     {
-        foreach ($options as $k => $v) {
-            $this->setOption($k, $v);
+        if (is_array($options) && !empty($options)) {
+            foreach ($options as $k => $v) {
+                $this->setOption($k, $v);
+            }
         }
     }
 

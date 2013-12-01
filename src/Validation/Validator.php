@@ -68,7 +68,25 @@ class Validator
         }
     }
 
-    function add($selector, $name, $options = null, $messageTemplate = null, $label = null)
+    /**
+     * Add 1 or more validation rules to a selector
+     *
+     * @example // add multiple rules using arrays
+     *          $validator->add('field', array('required', 'email');
+     *          // add multiple rules using a string
+     *          $validator->add('field', 'required | email');
+     *          // add validator with options
+     *          $validator->add('field', 'MinLength', array('min' => 2), '{label} should have at least {min} characters', 'Field');
+     *          // add validator with string
+     *          $validator->add('field', 'MinLength({"min": 2})({label} should have at least {min} characters)(Field)');
+     * @param string $selector            
+     * @param string|callback $name            
+     * @param array $options            
+     * @param string $messageTemplate            
+     * @param string $label            
+     * @return \Sirius\Validation\Validator
+     */
+    function add($selector, $name, $options = array(), $messageTemplate = null, $label = null)
     {
         if (is_array($name) && ! is_callable($name)) {
             foreach ($name as $singleRule) {
@@ -141,7 +159,7 @@ class Validator
      * @param \Sirius\Validation\Validator\AbstractValidator $validator            
      * @return boolean
      */
-    function hasValidator($selector,\Sirius\Validation\Validator\AbstractValidator $validator)
+    function hasValidator($selector, \Sirius\Validation\Validator\AbstractValidator $validator)
     {
         if (! array_key_exists($selector, $this->rules) || ! $this->rules[$selector]) {
             return false;
@@ -201,16 +219,16 @@ class Validator
 
     /**
      * Converts a rule that was supplied as string into a set of options that define the rule
-     * 
+     *
      * @example 'minLength({"min":2})({label} must have at least {min} characters)(Street)'
      *         
      *          will be converted into
      *         
      *          array(
-     *              'minLength', // validator name
-     *              array('min' => 2'), // validator options
-     *              '{label} must have at least {min} characters',
-     *              'Street' // label
+     *          'minLength', // validator name
+     *          array('min' => 2'), // validator options
+     *          '{label} must have at least {min} characters',
+     *          'Street' // label
      *          )
      * @param string $ruleAsString            
      * @return array
