@@ -1,6 +1,9 @@
 Sirius Validation
 ===============
 
+[![Build Status](https://travis-ci.org/adrianmiu/SiriusValidation.png?branch=master)](https://travis-ci.org/adrianmiu/SiriusValidation)
+[![Coverage Status](https://coveralls.io/repos/adrianmiu/SiriusValidation/badge.png?branch=master)](https://coveralls.io/r/adrianmiu/SiriusValidation?branch=master)
+
 Sirius Validation is a library for validating arrays.
 
 Why (just) arrays?
