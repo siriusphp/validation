@@ -3,16 +3,19 @@
 namespace Sirius\Validation;
 
 class ErrorMessage {
-    protected $template;
+    protected $template = 'Invalid';
     protected $variables = array();
     
-    function __construct($template, $variables = array()) {
+    function __construct($template = '', $variables = array()) {
         $this->setTemplate($template)
             ->setVariables($variables);
     }
     
     function setTemplate($template) {
-        $this->template = (string) $template;
+        $template = trim((string)$template);
+        if ($template) {
+            $this->template = (string) $template;
+        }
         return $this;
     }
     
