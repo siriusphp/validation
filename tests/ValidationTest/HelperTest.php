@@ -669,16 +669,4 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(Helper::time('20:00:99'));
     }
 
-    function testOfDateWithContext()
-    {
-        $this->assertTrue(Helper::date('2012-07-13', array(
-            'context' => 'data'
-        )));
-        $this->assertTrue(Helper::dateTime('2012-07-13 20:00:15', array(
-            'context' => 'data'
-        )));
-        $this->assertTrue(Helper::time('20:00:15', array(
-            'context' => 'data'
-        )));
-    }
 }

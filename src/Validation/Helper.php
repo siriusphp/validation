@@ -203,37 +203,28 @@ class Helper
         return $value == Utils::arrayGetByPath($context, $otherElement);
     }
 
-    static function getTimestampFromFormatedString($string, $format)
-    {
-        $result = date_parse_from_format($format, $string);
-        return mktime((int) $result['hour'], (int) $result['minute'], (int) $result['second'], (int) $result['month'], (int) $result['day'], (int) $result['year']);
-    }
-
     static function date($value, $format = 'Y-m-d')
     {
-        // if $format is array, it is the context
-        if (is_array($format)) {
-            $format = 'Y-m-d';
-        }
-        return $value == date($format, self::getTimestampFromFormatedString($value, $format));
+        $validator = new Validator\Date(array(
+        	'format' => $format
+        ));
+        return $validator->validate($value);
     }
 
     static function dateTime($value, $format = 'Y-m-d H:i:s')
     {
-        // if $format is array, it is the context
-        if (is_array($format)) {
-            $format = 'Y-m-d H:i:s';
-        }
-        return self::date($value, $format);
+        $validator = new Validator\DateTime(array(
+        	'format' => $format
+        ));
+        return $validator->validate($value);
     }
 
     static function time($value, $format = 'H:i:s')
     {
-        // if $format is array it is the context
-        if (is_array($format)) {
-            $format = 'H:i:s';
-        }
-        return self::date($value, $format);
+        $validator = new Validator\Time(array(
+        	'format' => $format
+        ));
+        return $validator->validate($value);
     }
 
     static function website($value)
