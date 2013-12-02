@@ -64,3 +64,6 @@ $potentialMessage = $validator>getPotentialMessage(); // 'Full name must be betw
 20. Url: value must be a valid URL address (http, https, ftp etc)
 21. Website: value must be a valid website address (http or https)
 22. Callback: checks if a value is valid using a custom callback (a function, an object's method, a class' static method).  Validator options: `callback` and `arguments` (additional paramters for the callback)
+23. Date: checks if a value in a date. Validator options: `format` (a PHP date format like `Y-m-d`).
+24. DateTime: extends Date but the default format is `Y-m-d H:i:s`
+25. Time: extends Date but the default format is `H:i:s`
