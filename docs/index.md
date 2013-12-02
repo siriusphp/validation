@@ -26,17 +26,16 @@ $validator->add('billing_address[country]', 'required', null, 'Must provide the 
 $validator->add('billing_address[country]', 'countryCode', null, 'Country is not valid');
 // continue for the billing address
 
-$validator->add('shipping_address[line_1]', 'required', null, 'Must provide the shipping address', 'shipping_is_different');
-$validator->add('shipping_address[country]', 'required', null, 'Must select the country for the shipping address', 'shipping_is_different');
-// continu for the shipping address
+$validator->add('shipping_address[line_1]', '\MyApp\Validators\RequiredIfShippingIsDifferent', null, 'Must provide the shipping address');
+$validator->add('shipping_address[country]', '\MyApp\Validators\RequiredIfShippingIsDifferent', null, 'Must select the country for the shipping address');
+// \MyApp\Validators\RequiredIfShippingIsDifferent is a custom validator which 
+// will ask for the shipping address only if the checkbox 'same as billing address' was not checked
 
 $validator->add('lines', 'minSize', 1, 'The invoice must have at least one line.');
 // no need to provide the validation message, there are defaults for that
 $validator->add('lines[*][name]', 'required');
 // alternative way to write more validation rules in one line
-$validator->add('lines[*][quantity]', 'required[]Quantity not provided | number[]Quantity must be a number | greaterThan[0]Quantity must be greater than zero');
-// if you need to apply a condition you can do it <li></li>ike this
-$validator->add('lines[*][quantity]', 'if(condition)greaterThan[0]')
+$validator->add('lines[*][quantity]', 'required()(Quantity not provided) | number()(Quantity must be a number) | greaterThan(min=0&inclusive=0)(Quantity must be greater than zero)');
 // add multiple validation rules
 $validator->add('lines[*][price]', array(
 	array('required', null, 'Price not provided',
@@ -44,7 +43,7 @@ $validator->add('lines[*][price]', array(
 ));
 
 
-$validator->add('recipients[*]', 'email', false, 'This field must be a valid email');
+$validator->add('recipients[*]', 'email', null, 'This field must be a valid email');
 
 // this is how you execute the validation
 $validator->validate($data);
