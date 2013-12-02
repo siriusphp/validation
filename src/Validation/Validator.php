@@ -81,12 +81,12 @@ class Validator
      *          $validator->add('field', 'MinLength({"min": 2})({label} should have at least {min} characters)(Field)');
      * @param string $selector            
      * @param string|callback $name            
-     * @param array $options            
+     * @param string|array $options            
      * @param string $messageTemplate            
      * @param string $label            
      * @return \Sirius\Validation\Validator
      */
-    function add($selector, $name, $options = array(), $messageTemplate = null, $label = null)
+    function add($selector, $name, $options = null, $messageTemplate = null, $label = null)
     {
         if (is_array($name) && ! is_callable($name)) {
             foreach ($name as $singleRule) {
@@ -177,17 +177,33 @@ class Validator
      *
      * @param string $name
      *            name of a validator class or a callable object/function
-     * @param array $options
-     *            validator options
+     * @param string|array $options
+     *            validator options (an array, JSON string or QUERY string)
      * @param string $messageTemplate
      *            error message template
      * @param string $label
      *            label of the form input field or model attribute
      * @return \Sirius\Validation\Validator\AbstractValidator
      */
-    protected function createValidator($name, $options = array(), $messageTemplate = null, $label = null)
+    protected function createValidator($name, $options = null, $messageTemplate = null, $label = null)
     {
-        if (is_callable($name)) {
+        if ($options && is_string($options)) {
+        	$startChar = substr($options, 0, 1);
+        	if ($startChar == '{' || $startChar == '[') {
+        		$options = json_decode($options, true);
+        	} else {
+        		parse_str($options, $output);
+        		$options = $output;
+        	}
+        } elseif (!$options) {
+        	$options = array();
+        }
+        
+        if (!is_array($options)) {
+        	throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
+        }
+        
+    	if (is_callable($name)) {
             $validator = new \Sirius\Validation\Validator\Callback(array(
                 'callback' => $name,
                 'arguments' => $options
@@ -248,7 +264,7 @@ class Validator
         
         if (isset($matches[1])) {
             if (isset($matches[1][0]) && $matches[1][0]) {
-                $options = json_decode($matches[1][0], true);
+                $options = $matches[1][0];
             }
             if (isset($matches[1][1]) && $matches[1][1]) {
                 $messageTemplate = $matches[1][1];
