@@ -25,7 +25,11 @@ class Callback extends AbstractValidator
                     if (is_object($this->options['callback'][0])) {
                         $uniqueId .= '|' . spl_object_hash($this->options['callback'][0]) . '->' . $this->options['callback'][1];
                     }
-            }
+            } else 
+                if (is_object($this->options['callback']) && $this->options['callback'] instanceof \Closure) {
+                    $uniqueId .= '|' . spl_object_hash($this->options['callback']);
+                }
+                
         if (isset($this->options['arguments'])) {
             $uniqueId .= '|' . json_encode(ksort($this->options['arguments']));
         }
@@ -38,7 +42,7 @@ class Callback extends AbstractValidator
         if (! isset($this->options['callback']) || ! is_callable($this->options['callback'])) {
             $this->success = true;
         } else {
-            $args = (isset($this->options['arguments'])) ? (array)$this->options['arguments'] : array();
+            $args = (isset($this->options['arguments'])) ? (array) $this->options['arguments'] : array();
             array_unshift($args, $value);
             array_push($args, $valueIdentifier, $this->context);
             $this->success = (bool) call_user_func_array($this->options['callback'], $args);
