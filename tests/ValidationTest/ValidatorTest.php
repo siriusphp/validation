@@ -99,6 +99,26 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
         $this->validator->validate($data);
         $this->assertEquals(1, count($this->validator->getMessages('email')));
     }
+    
+    function testIfExceptionIsThrownOnInvalidRules() {
+        $this->setExpectedException('\InvalidArgumentException');
+        $this->validator->add('random_string');
+    }
+    
+    function testAddingMultipleRulesAtOnce() {
+        $this->validator->add(array(
+        	'item' => array('required', array('minlength', 'min=4', '{label} should have at least {min} characters', 'Item')),
+            'itema' => array('required', 'minLength(min=8)'),
+            'itemb' => 'required'
+        ));
+        $this->validator->validate(array(
+        	'item' => 'ab',
+            'itema' => 'abc'
+        ));
+        $this->assertEquals(array('Item should have at least 4 characters'), $this->validator->getMessages('item'));
+        $this->assertEquals(array('This input should have at least 8 characters'), $this->validator->getMessages('itema'));
+        $this->assertEquals(array('This field is required'), $this->validator->getMessages('itemb'));
+    }
 
     function testAddingValidationRulesViaStrings() {
         $this->validator
@@ -111,9 +131,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
         // validator with defaults
             ->add('itemc', 'email');
         $this->validator->validate(array('item' => 'ab', 'itema' => 'abc', 'itemc' => 'abc'));
-        $this->assertEquals(array(
-            'Item should have at least 4 characters',
-        ), $this->validator->getMessages('item'));
+        $this->assertEquals(array('Item should have at least 4 characters'), $this->validator->getMessages('item'));
         $this->assertEquals(array('Item should have at least 8 characters'), $this->validator->getMessages('itema'));
         $this->assertEquals(array('Item B is required'), $this->validator->getMessages('itemb'));
         $this->assertEquals(array('This input must be a valid email address'), $this->validator->getMessages('itemc'));

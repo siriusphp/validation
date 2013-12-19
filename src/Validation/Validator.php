@@ -71,14 +71,21 @@ class Validator
     /**
      * Add 1 or more validation rules to a selector
      *
-     * @example // add multiple rules using arrays
-     *          $validator->add('field', array('required', 'email');
+     * @example // add multiple rules at once
+     *          $validator->add(array(
+     *              'field_a' => 'required',
+     *              'field_b' => array('required', array('email', null, '{label} must be an email', 'Field B')),
+     *          ));
+     *          // add multiple rules using arrays
+     *          $validator->add('field', array('required', 'email'));
      *          // add multiple rules using a string
      *          $validator->add('field', 'required | email');
      *          // add validator with options
-     *          $validator->add('field', 'MinLength', array('min' => 2), '{label} should have at least {min} characters', 'Field');
-     *          // add validator with string
-     *          $validator->add('field', 'MinLength({"min": 2})({label} should have at least {min} characters)(Field)');
+     *          $validator->add('field', 'minlength', array('min' => 2), '{label} should have at least {min} characters', 'Field');
+     *          // add validator with string and parameters as JSON string
+     *          $validator->add('field', 'minlength({"min": 2})({label} should have at least {min} characters)(Field)');
+     *          // add validator with string and parameters as query string
+     *          $validator->add('field', 'minlength(min=2)({label} should have at least {min} characters)(Field)');
      * @param string $selector            
      * @param string|callback $name            
      * @param string|array $options            
@@ -86,8 +93,34 @@ class Validator
      * @param string $label            
      * @return \Sirius\Validation\Validator
      */
-    function add($selector, $name, $options = null, $messageTemplate = null, $label = null)
+    function add($selector, $name = null, $options = null, $messageTemplate = null, $label = null)
     {
+        // the $selector is an associative array with $selector => $rules
+        if (func_num_args() == 1) {
+            if (!is_array($selector)) {
+                throw new \InvalidArgumentException('If $selector is the only argument it must be an array');
+            }
+            
+            foreach ($selector as $valueSelector => $rules) {
+                // multiple rules were passed for the same $valueSelector
+                if (is_array($rules)) {
+                    foreach ($rules as $rule) {
+                        // the rule is an array, this means it contains $name, $options, $messageTemplate, $label
+                        if (is_array($rule)) {
+                            array_unshift($rule, $valueSelector);
+                            call_user_func_array(array($this, 'add'), $rule);
+                        // the rule is only the name of the validator
+                        } else {
+                            $this->add($valueSelector, $rule);
+                        }
+                    }
+                // a single rule was passed for the $valueSelector
+                } else {
+                    $this->add($valueSelector, $rules);
+                }
+            }
+            return $this;
+        }
         if (is_array($name) && ! is_callable($name)) {
             foreach ($name as $singleRule) {
                 // make sure the rule is an array (the parameters of subsequent calls);

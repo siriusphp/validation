@@ -50,14 +50,17 @@ From my experience, the most usefull error messages are those that contain the n
 
 #### 1. Add multiple rules at once by using just a string
 ```php
-// separate rules using ' | ' (space/pipe/space)
+// separate rules using ' | ' (space, pipe, space)
 $validator->add('email', 'required | email');
 ```
 
 #### 2. Add rule with parameters and custom messages using only a string
 ```php
+// parameters set as JSON string
 $validator->add('name', 'minlength({"min":2})({label} must have at least {min} characters)(Name)');
-// is similar to
+// or parameters set as query string
+$validator->add('name', 'minlength(min=2)({label} must have at least {min} characters)(Name)');
+// are similar to
 $validator->add('name', 'minlength', array('min' => 2), '{label} must have at least {min} characters', 'Name');
 ```
 
@@ -66,11 +69,27 @@ $validator->add('name', 'minlength', array('min' => 2), '{label} must have at le
 $validator->add('name', 'required | minlength({"min":2})({label} must have at least {min} characters)(Name)');
 ```
 
-#### 4. Add multiple rules at once
+#### 4. Add multiple rules per value
+```php
+$validator->add('email', array(
+    // only through the name of the validation rule
+    'email',
+    // or with all parameters
+    array('minlength', 'min=2', '{label} must have at least {min} characters', 'Email'),
+    // or as a shortcurt
+    'minlength(min=2)({label} must have at least {min} characters)(Email)'
+));
+```
+
+#### 5. Add multiple rules on multiple values
+Mix and match everthing from above
 ```php
 $validator->add(array(
-	'email' => 'required | email',
-	'name' => 'required | minlength({"min":2})({label} must have at least {min} characters)(Name)'
+    'email' => 'required | email',
+    'name' => array(
+         'required',
+         array('minlength', 'min=2', '{label} must have at least {min} characters', 'Email'),
+    )
 ));
 ```
 
@@ -80,4 +99,23 @@ $validator->add(array(
 $validationResult = $validator->validate($_POST); // TRUE or FALSE
 $messages = $validator->getMessages(); // array with all error messages
 $emailErrorMessages = $validator->getMessages('email'); // error messages for the email address
+```
+
+If for whatever reason you need, you can manually add error messages like so
+```php
+$validator->addMessage('email', 'This value should be an email address');
+```
+and clear them
+```php
+$validator->clearMessages();
+```
+
+Anytime you execute `$validator->validate($values)` the validation messages are cleared (even those set manually).
+
+### Validate single item
+
+If you only need to validate a single item (eg: validate the email address for a new user account using AJAX) from a set you can do
+```php
+$validator->setData($_POST);
+$validator->validateItem('email');
 ```
