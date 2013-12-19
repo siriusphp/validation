@@ -1,7 +1,7 @@
 #Sirius Validation
 
-[![Build Status](https://travis-ci.org/adrianmiu/SiriusValidation.png?branch=master)](https://travis-ci.org/adrianmiu/SiriusValidation)
-[![Coverage Status](https://coveralls.io/repos/adrianmiu/SiriusValidation/badge.png?branch=master)](https://coveralls.io/r/adrianmiu/SiriusValidation?branch=master)
+[![Build Status](https://travis-ci.org/adrianmiu/sirius-validation.png?branch=master)](https://travis-ci.org/adrianmiu/sirius-validation)
+[![Coverage Status](https://coveralls.io/repos/adrianmiu/sirius-validation/badge.png)](https://coveralls.io/r/adrianmiu/sirius-validation)
 
 Sirius Validation is a library for validating arrays.
 
