@@ -1,2 +1,5 @@
 tests/report/
 build/
+/.settings
+/.buildpath
+/.project
