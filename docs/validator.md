@@ -1,4 +1,4 @@
-#Validation\Validator
+# Using the Validator object
 
 This is the class that will be instanciated to perform validation
 
@@ -11,31 +11,36 @@ $validator = new Validator($arrayContainingTheRules);
 
 ```php
 // syntax
-$validator->add($selector, $name, $options = array(), $messageTemplate = null, $label = null);
+$validator->add($selector, $name = null, $options = null, $messageTemplate = null, $label = null);
 
 // examples
 $validator->add('username', 'required');
-$validator->add('email', 'email', array(), 'Email address is not valid');
 $validator->add('password', 'minLength', array('min' => 6), '{label} must have at least {min} characters', 'Password');
+$validator->add('additional_emails[*]', 'email', array(), 'Email address is not valid');
 ```
 
-### Validation options
+### Parameters:
 
 #### $name
 The <code>$name</code> must either:
 
 1. match an [individual validator class](validators.md). In this case the name can be the
     - the name of `Sirius\Validation\Validator` class (eg: `Email', 'MinLength')
-	- the `strotolower` equivalent (eg: 'email', 'minlength')
 	- a custom validator class that extends `Sirius\Vaidation\Validator\AbstractValidator` (eg: 'MyApp\Validation\Validator\Username')
+    - a name of a registered validator using `$validator->registerValidatorClass('email', 'MyApp\Validators\MorePowerfullEmailValidator')`;
 2. or be a callable entity (function, object method or static method).
 
 ```php
-$validator->add('username', 'MyClass::validateUsername', array(), 'Username is already taken');
+$validator->add('username', 'MyClass::validateUsername', null, 'Username is already taken');
 ```
 
 #### $options
-The <code>$options</code> variable represents the configuration options for the validators or additional parameters for the callback.
+The <code>$options</code> variable represents the configuration options for the validators or additional parameters for the callback. It can be:
+
+1. an array
+2. a JSON string: `{"min": 100}`
+3. a URL query string: `min=100`
+
 
 #### $messageTemplate
 The <code>$messageTemplate</code> is the message that will be associated with an item when the validation fails. 
@@ -46,7 +51,7 @@ The <code>$label</code> is the label associated with the field.
 From my experience, the most usefull error messages are those that contain the name of the field so I decided to make this option easily accessible.
 
 
-### Shortcuts for adding rules
+### Syntactic sugar
 
 #### 1. Add multiple rules at once by using just a string
 ```php
@@ -60,7 +65,7 @@ $validator->add('email', 'required | email');
 $validator->add('name', 'minlength({"min":2})({label} must have at least {min} characters)(Name)');
 // or parameters set as query string
 $validator->add('name', 'minlength(min=2)({label} must have at least {min} characters)(Name)');
-// are similar to
+// the above examples are similar to
 $validator->add('name', 'minlength', array('min' => 2), '{label} must have at least {min} characters', 'Name');
 ```
 
