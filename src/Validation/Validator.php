@@ -55,6 +55,13 @@ class Validator
      * @var array
      */
     protected $messages = array();
+    
+    /**
+     * The prototype that will be used to generate the error message
+     *
+     * @var \Sirius\Validation\ErrorMessage
+     */
+    protected $errorMessagePrototype;
 
     function __construct($rules = null)
     {
@@ -68,6 +75,28 @@ class Validator
         }
     }
 
+    /**
+     * Sets the error message prototype that will be used when returning the error message
+     * when validation fails.
+     * This option can be used when you need translation
+     *
+     * @param \Sirius\Validation\ErrorMessage $errorMessagePrototype
+     * @throws \InvalidArgumentException
+     * @return \Sirius\Validation\Validator\AbstractValidator
+     */
+    function setErrorMessagePrototype(\Sirius\Validation\ErrorMessage $errorMessagePrototype)
+    {
+        $this->errorMessagePrototype = $errorMessagePrototype;
+        return $this;
+    }
+    
+    function getErroMessagePrototype() {
+        if (!$this->errorMessagePrototype) {
+            $this->errorMessagePrototype = new ErrorMessage();
+        }
+        return $this->errorMessagePrototype;
+    }
+    
     /**
      * Add 1 or more validation rules to a selector
      *
@@ -263,6 +292,7 @@ class Validator
         if ($label) {
             $validator->setOption('label', $label);
         }
+        $validator->setErrorMessagePrototype($this->getErroMessagePrototype());
         return $validator;
     }
 
