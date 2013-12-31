@@ -20,7 +20,7 @@ class Validator
         'emaildomain' => 'EmailDomanin',
         'arraylength' => 'ArrayLength',
         'arraymaxlength' => 'ArrayMaxLength',
-        'arrayminlength' => 'ArrayMinLengh',
+        'arrayminlength' => 'ArrayMinLength',
         'between' => 'Between',
         'min' => 'Min',
         'max' => 'Max',
