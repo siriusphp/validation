@@ -6,6 +6,46 @@ use Sirius\Validation\Helper;
 
 class Validator
 {
+    const RULE_REQUIRED = 'required';
+
+    // string rules
+    const RULE_ALPHA = 'alpha';
+    const RULE_ALPHANUMERIC = 'alphanumeric';
+    const RULE_ALPHANUMHYPHEN = 'alphanumhyphen';
+    const RULE_LENGTH = 'length';
+    const RULE_MAX_LENGTH = 'maxlength';
+    const RULE_MIN_LENGTH = 'minlength';
+    const RULE_FULLNAME = 'fullname';
+    
+    // array rules
+    const RULE_ARRAY_LENGTH = 'arraylength';
+    const RULE_ARRAY_MIN_LENGTH = 'arrayminlength';
+    const RULE_ARRAY_MAX_LENGTH = 'arraymaxlength';
+    const RULE_IN_LIST = 'inlist';
+    const RULE_NOT_IN_LIST = 'notinlist';
+    
+    // date rules
+    const RULE_DATE = 'date';
+    const RULE_DATETIME = 'datetime';
+    const RULE_TIME = 'time';
+    
+    // number rules
+    const RULE_BETWEEN = 'between';
+    const RULE_GREATER_THAN = 'greaterthan';
+    const RULE_LESS_THAN = 'lessthan';
+    const RULE_NUMBER = 'number';
+    const RULE_INTEGER = 'integer';
+    // regular expression rules
+    const RULE_REGEX = 'regex';
+    const RULE_NOT_REGEX = 'notregex';
+    // other rules
+    const RULE_EMAIL = 'email';
+    const RULE_EMAIL_DOMAIN = 'emaildomain';
+    const RULE_URL = 'url';
+    const RULE_WEBSITE = 'website';
+    const RULE_IP = 'ipaddress';
+    
+    const RULE_CALLBACK = 'callback';
 
     /**
      * Validator map allows for flexibility when creating a validation rule
@@ -15,23 +55,43 @@ class Validator
      * @var array
      */
     protected $validatorsMap = array(
-        'required' => 'Required',
-        'email' => 'Email',
-        'emaildomain' => 'EmailDomanin',
-        'arraylength' => 'ArrayLength',
-        'arraymaxlength' => 'ArrayMaxLength',
-        'arrayminlength' => 'ArrayMinLengh',
-        'between' => 'Between',
-        'min' => 'Min',
-        'max' => 'Max',
-        'callback' => 'Callback',
-        'fullname' => 'FullName',
-        'inlist' => 'InList',
-        'notinlist' => 'NotInList',
-        'regex' => 'Regex',
-        'notregex' => 'NotRegex',
-        'url' => 'Url',
-        'website' => 'Website'
+        self::RULE_REQUIRED => 'Required',
+        // string rules
+        self::RULE_ALPHA => 'Alpha',
+        self::RULE_ALPHANUMERIC => 'AlphaNumeric',
+        self::RULE_ALPHANUMHYPHEN => 'AlphaNumHyphen',
+        self::RULE_LENGTH => 'Length',
+        self::RULE_MAX_LENGTH => 'MaxLength',
+        self::RULE_MIN_LENGTH => 'MinLength',
+        self::RULE_FULLNAME => 'FullName',
+        // array rules
+        self::RULE_ARRAY_LENGTH => 'ArrayLength',
+        self::RULE_ARRAY_MAX_LENGTH => 'ArrayMaxLength',
+        self::RULE_ARRAY_MIN_LENGTH => 'ArrayMinLengh',
+        self::RULE_IN_LIST => 'InList',
+        self::RULE_NOT_IN_LIST => 'NotInList',
+        // date rules
+        self::RULE_DATE => 'Date',
+        self::RULE_DATETIME => 'DateTime',
+        self::RULE_TIME => 'Time',
+        // number rules
+        self::RULE_BETWEEN => 'Between',
+        self::RULE_GREATER_THAN => 'GreaterThan',
+        self::RULE_LESS_THAN => 'LessThan',
+        self::RULE_NUMBER => 'Number',
+        self::RULE_INTEGER => 'Integer',
+        // regular expression rules
+        self::RULE_REGEX => 'Regex',
+        self::RULE_NOT_REGEX => 'NotRegex',
+        // other rules
+        self::RULE_EMAIL => 'Email',
+        self::RULE_EMAIL_DOMAIN => 'EmailDomanin',
+        self::RULE_URL => 'Url',
+        self::RULE_WEBSITE => 'Website',
+        self::RULE_IP => 'IpAddress',
+        'ipaddress' => 'IpAddress',
+        
+        self::RULE_CALLBACK => 'Callback',
     );
 
     /**
