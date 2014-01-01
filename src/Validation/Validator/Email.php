@@ -11,7 +11,7 @@ class Email extends AbstractValidator
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        $this->success = (bool) preg_match(static::EMAIL_REGEX, $value);
+        $this->success = (filter_var((string)$value, FILTER_VALIDATE_EMAIL) != false);
         return $this->success;
     }
 }

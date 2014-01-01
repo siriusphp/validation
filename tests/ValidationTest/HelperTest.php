@@ -57,7 +57,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     function testOfEmail()
     {
         $pool = array(
-            '-fa/lse@gmail.com' => false,
+            '-fa /lse@gmail.com' => false,
             '12345@hotmail.com' => true,
             'xxx.yyyy-zzz@domain.com.noc' => true,
             'weird.name-99-@yahoo.com' => true,
