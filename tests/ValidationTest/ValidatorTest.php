@@ -174,9 +174,10 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
 
     function testRemovingAllValidationRules() {
         $this->validator->remove('item', true);
-        $this->validator->add('item', 'Required');
-        $this->validator->add('item', 'Email');
-        $this->assertFalse($this->validator->validate(array()));
+        $this->validator->add('item', 'required');
+        $this->validator->add('item', 'email');
+        $this->validator->setData(array());
+        $this->assertFalse($this->validator->validate());
 
         $this->validator->remove('item', true);
         $this->assertEquals($this->validator->getRules(), array());

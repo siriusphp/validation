@@ -6,45 +6,77 @@ use Sirius\Validation\Helper;
 
 class Validator
 {
+
     const RULE_REQUIRED = 'required';
 
+    const RULE_REQUIRED_WITH = 'requiredwith';
+
+    const RULE_REQUIRED_WITHOUT = 'requiredwithout';
+
+    const RULE_REQUIRED_WHEN = 'requiredwhen';
+    
     // string rules
     const RULE_ALPHA = 'alpha';
+
     const RULE_ALPHANUMERIC = 'alphanumeric';
+
     const RULE_ALPHANUMHYPHEN = 'alphanumhyphen';
+
     const RULE_LENGTH = 'length';
+
     const RULE_MAX_LENGTH = 'maxlength';
+
     const RULE_MIN_LENGTH = 'minlength';
+
     const RULE_FULLNAME = 'fullname';
     
     // array rules
     const RULE_ARRAY_LENGTH = 'arraylength';
+
     const RULE_ARRAY_MIN_LENGTH = 'arrayminlength';
+
     const RULE_ARRAY_MAX_LENGTH = 'arraymaxlength';
+
     const RULE_IN_LIST = 'inlist';
+
     const RULE_NOT_IN_LIST = 'notinlist';
     
     // date rules
     const RULE_DATE = 'date';
+
     const RULE_DATETIME = 'datetime';
+
     const RULE_TIME = 'time';
     
     // number rules
     const RULE_BETWEEN = 'between';
+
     const RULE_GREATER_THAN = 'greaterthan';
+
     const RULE_LESS_THAN = 'lessthan';
+
     const RULE_NUMBER = 'number';
+
     const RULE_INTEGER = 'integer';
     // regular expression rules
     const RULE_REGEX = 'regex';
+
     const RULE_NOT_REGEX = 'notregex';
     // other rules
     const RULE_EMAIL = 'email';
+
     const RULE_EMAIL_DOMAIN = 'emaildomain';
+
     const RULE_URL = 'url';
+
     const RULE_WEBSITE = 'website';
+
     const RULE_IP = 'ipaddress';
-    
+
+    const RULE_MATCH = 'match';
+
+    const RULE_EQUAL = 'equal';
+
     const RULE_CALLBACK = 'callback';
 
     /**
@@ -56,6 +88,9 @@ class Validator
      */
     protected $validatorsMap = array(
         self::RULE_REQUIRED => 'Required',
+        self::RULE_REQUIRED_WITH => 'RequiredWith',
+        self::RULE_REQUIRED_WITHOUT => 'RequiredWithout',
+        self::RULE_REQUIRED_WHEN => 'RequiredWhen',
         // string rules
         self::RULE_ALPHA => 'Alpha',
         self::RULE_ALPHANUMERIC => 'AlphaNumeric',
@@ -90,8 +125,10 @@ class Validator
         self::RULE_WEBSITE => 'Website',
         self::RULE_IP => 'IpAddress',
         'ipaddress' => 'IpAddress',
+        self::RULE_MATCH => 'Match',
+        self::RULE_EQUAL => 'Equal',
         
-        self::RULE_CALLBACK => 'Callback',
+        self::RULE_CALLBACK => 'Callback'
     );
 
     /**
@@ -115,13 +152,20 @@ class Validator
      * @var array
      */
     protected $messages = array();
-    
+
     /**
      * The prototype that will be used to generate the error message
      *
      * @var \Sirius\Validation\ErrorMessage
      */
     protected $errorMessagePrototype;
+
+    /**
+     * The object that will contain the data
+     *
+     * @var \Sirius\Validation\DataWrapper\WrapperInterface
+     */
+    protected $dataWrapper;
 
     function __construct($rules = null)
     {
@@ -140,7 +184,7 @@ class Validator
      * when validation fails.
      * This option can be used when you need translation
      *
-     * @param \Sirius\Validation\ErrorMessage $errorMessagePrototype
+     * @param \Sirius\Validation\ErrorMessage $errorMessagePrototype            
      * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Validator\AbstractValidator
      */
@@ -149,21 +193,22 @@ class Validator
         $this->errorMessagePrototype = $errorMessagePrototype;
         return $this;
     }
-    
-    function getErroMessagePrototype() {
-        if (!$this->errorMessagePrototype) {
+
+    function getErroMessagePrototype()
+    {
+        if (! $this->errorMessagePrototype) {
             $this->errorMessagePrototype = new ErrorMessage();
         }
         return $this->errorMessagePrototype;
     }
-    
+
     /**
      * Add 1 or more validation rules to a selector
      *
      * @example // add multiple rules at once
      *          $validator->add(array(
-     *              'field_a' => 'required',
-     *              'field_b' => array('required', array('email', null, '{label} must be an email', 'Field B')),
+     *          'field_a' => 'required',
+     *          'field_b' => array('required', array('email', null, '{label} must be an email', 'Field B')),
      *          ));
      *          // add multiple rules using arrays
      *          $validator->add('field', array('required', 'email'));
@@ -186,7 +231,7 @@ class Validator
     {
         // the $selector is an associative array with $selector => $rules
         if (func_num_args() == 1) {
-            if (!is_array($selector)) {
+            if (! is_array($selector)) {
                 throw new \InvalidArgumentException('If $selector is the only argument it must be an array');
             }
             
@@ -197,13 +242,16 @@ class Validator
                         // the rule is an array, this means it contains $name, $options, $messageTemplate, $label
                         if (is_array($rule)) {
                             array_unshift($rule, $valueSelector);
-                            call_user_func_array(array($this, 'add'), $rule);
-                        // the rule is only the name of the validator
+                            call_user_func_array(array(
+                                $this,
+                                'add'
+                            ), $rule);
+                            // the rule is only the name of the validator
                         } else {
                             $this->add($valueSelector, $rule);
                         }
                     }
-                // a single rule was passed for the $valueSelector
+                    // a single rule was passed for the $valueSelector
                 } else {
                     $this->add($valueSelector, $rules);
                 }
@@ -281,7 +329,7 @@ class Validator
      * @param \Sirius\Validation\Validator\AbstractValidator $validator            
      * @return boolean
      */
-    function hasValidator($selector, \Sirius\Validation\Validator\AbstractValidator $validator)
+    function hasValidator($selector,\Sirius\Validation\Validator\AbstractValidator $validator)
     {
         if (! array_key_exists($selector, $this->rules) || ! $this->rules[$selector]) {
             return false;
@@ -310,22 +358,22 @@ class Validator
     protected function createValidator($name, $options = null, $messageTemplate = null, $label = null)
     {
         if ($options && is_string($options)) {
-        	$startChar = substr($options, 0, 1);
-        	if ($startChar == '{' || $startChar == '[') {
-        		$options = json_decode($options, true);
-        	} else {
-        		parse_str($options, $output);
-        		$options = $output;
-        	}
-        } elseif (!$options) {
-        	$options = array();
+            $startChar = substr($options, 0, 1);
+            if ($startChar == '{' || $startChar == '[') {
+                $options = json_decode($options, true);
+            } else {
+                parse_str($options, $output);
+                $options = $output;
+            }
+        } elseif (! $options) {
+            $options = array();
         }
         
-        if (!is_array($options)) {
-        	throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
+        if (! is_array($options)) {
+            throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
         }
         
-    	if (is_callable($name)) {
+        if (is_callable($name)) {
             $validator = new \Sirius\Validation\Validator\Callback(array(
                 'callback' => $name,
                 'arguments' => $options
@@ -405,19 +453,34 @@ class Validator
         );
     }
 
+    /**
+     * The data wrapper will be used to wrap around the data passed to the validator
+     * This way you can validate anything, not just arrays (which is the default)
+     *
+     * @return \Sirius\Validation\DataWrapper\WrapperInterface
+     */
+    function getDataWrapper()
+    {
+        if (! $this->dataWrapper) {
+            $this->dataWrapper = new DataWrapper\ArrayWrapper();
+        }
+        return $this->dataWrapper;
+    }
+
+    /**
+     *
+     * @param Sirius\Validation\DataWrapper\WrapperInterface $wrapper            
+     * @return \Sirius\Validation\Validator
+     */
+    function setDataWrapper(Sirius\Validation\DataWrapper\WrapperInterface $wrapper)
+    {
+        $this->dataWrapper = $wrapper;
+        return $this;
+    }
+
     function setData($data)
     {
-        if (is_object($data)) {
-            if ($data instanceof \ArrayObject) {
-                $data = $data->getArrayCopy();
-            } elseif (method_exists($data, 'toArray')) {
-                $data = $data->toArray();
-            }
-        }
-        if (! is_array($data)) {
-            throw new \InvalidArgumentException('Data passed to validator is not an array');
-        }
-        $this->data = $data;
+        $this->getDataWrapper()->setData($data);
         $this->wasValidated = false;
         // reset messages
         $this->messages = array();
@@ -427,7 +490,7 @@ class Validator
     /**
      * Performs the validation
      *
-     * @param array|false $data
+     * @param mixed $data
      *            array to be validated
      * @return boolean
      */
@@ -443,22 +506,11 @@ class Validator
         // since we validate the data that it is found below
         // we need to ensure the required items are there
         $this->ensureRequiredItems();
-        foreach ($this->data as $item => $value) {
+        foreach ($this->getDataWrapper()->getData() as $item => $value) {
             $this->validateItem($item);
         }
         $this->wasValidated = true;
         return $this->wasValidated and count($this->messages) === 0;
-    }
-
-    /**
-     * Returns the value of an item from the data set
-     *
-     * @param string $item            
-     * @return mixed
-     */
-    protected function getItemValue($item)
-    {
-        return Utils::arrayGetByPath($this->data, $item);
     }
 
     /**
@@ -471,7 +523,7 @@ class Validator
      */
     function validateItem($item)
     {
-        $value = $this->getItemValue($item);
+        $value = $this->getDataWrapper()->getItemValue($item);
         $requiredValidator = new \Sirius\Validation\Validator\Required();
         foreach ($this->rules as $selector => $selectorRules) {
             if ($this->itemMatchesSelector($item, $selector)) {
@@ -500,14 +552,15 @@ class Validator
     {
         $requiredValidator = new \Sirius\Validation\Validator\Required();
         foreach ($this->rules as $selector => $selectorRules) {
-            if ($this->hasValidator($selector, $requiredValidator)) {
-                $this->data = Utils::arraySetBySelector($this->data, $selector, null, false);
+            if ($this->hasValidator($selector, $requiredValidator) && $this->getDataWrapper()->getItemValue($selector) === null) {
+                $this->getDataWrapper()->setItemValue($selector, null);
             }
         }
     }
 
     protected function valueSatisfiesRule($value, $item, $rule)
     {
+        $rule->setContext($this->getDataWrapper());
         return $rule->validate($value, $item);
     }
 
