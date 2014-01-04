@@ -1,6 +1,9 @@
 <?php
 namespace Sirius\Validation\Validator;
 
+use Sirius\Validation\DataWrapper\WrapperInterface;
+use Sirius\Validation\DataWrapper\ArrayWrapper;
+
 abstract class AbstractValidator
 {
 
@@ -13,7 +16,7 @@ abstract class AbstractValidator
 
     /**
      *
-     * @var mixed
+     * @var \Sirius\Validation\DataWrapper\WrapperInterface
      */
     protected $context;
 
@@ -111,6 +114,12 @@ abstract class AbstractValidator
      */
     function setContext($context)
     {
+        if (is_array($context)) {
+            $context = new ArrayWrapper($context);
+        }
+        if (!is_object($context) || !$context instanceof WrapperInterface) {
+            throw new \InvalidArgumentException('Validator context must be either an array or an instance of Sirius\Validator\DataWrapper\WrapperInterface');
+        }
         $this->context = $context;
         return $this;
     }

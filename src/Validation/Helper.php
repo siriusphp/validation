@@ -30,7 +30,7 @@ class Helper
         throw new \InvalidArgumentException(sprintf('Validation method "%s" does not exist', $name));
     }
 
-    static function callback($value, $callback, $context = null)
+    static function callback($value, $callback, $context = array())
     {
         $validator = new Validator\Callback();
         $validator->setOption('callback', $callback);
@@ -198,9 +198,12 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function equalTo($value, $otherElement, $context)
+    static function equalTo($value, $otherElementOrValue, $context = null)
     {
-        return $value == Utils::arrayGetByPath($context, $otherElement);
+        if (func_num_args() == 2) {
+            return $value == $otherElementOrValue;
+        }
+        return $value == Utils::arrayGetByPath($context, $otherElementOrValue);
     }
 
     static function date($value, $format = 'Y-m-d')

@@ -444,7 +444,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    function testOfEqualTo()
+    function testOfEqualToWithContext()
     {
         $pool = array(
             array(
@@ -477,6 +477,12 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    function testOfEqualToWithoutContext()
+    {
+        $this->assertTrue(Helper::equalTo(5, '5'));
+        $this->assertFalse(Helper::equalTo(5, 'a'));
+    }
+    
     function testOfWebsite()
     {
         $pool = array(

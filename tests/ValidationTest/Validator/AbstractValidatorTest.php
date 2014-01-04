@@ -6,7 +6,7 @@ class FakeValidator extends \Sirius\Validation\Validator\AbstractValidator {
     
     function validate($value, $valueIdentifier = null) {
         $this->value = $value;
-        $this->success = (bool)$value && isset($this->context) && isset($this->context['key']);
+        $this->success = (bool)$value && isset($this->context) && $this->context->getItemValue('key');
         return $this->success;
     }
 }
@@ -55,4 +55,8 @@ class AbstractValidatorTest extends \PHPUnit_Framework_TestCase  {
         $this->assertEquals('Custom message', (string)$this->validator->getPotentialMessage());
     }
     
+    function testErrorThrownOnInvalidContext() {
+        $this->setExpectedException('\InvalidArgumentException');
+        $this->validator->setContext(new \stdClass());
+    }
 }
