@@ -3,3 +3,4 @@ build/
 /.settings
 /.buildpath
 /.project
+/vendor
