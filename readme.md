@@ -18,7 +18,7 @@ $validator = new \Sirius\Validation\Validator;
 $validator->add('title', 'required');
 
 // add a rule that has a list of options
-$validator->add('title', 'maxlength', array('max' => 100);
+$validator->add('title', 'maxlength', array('max' => 100));
 // or use JSON
 $validator->add('title', 'maxlength', '{"max": 100}');
 // or a URL query string
