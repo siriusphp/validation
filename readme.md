@@ -9,6 +9,9 @@ Sirius Validation is a library for data validation. It offers:
 2. a [validation helper](docs/helper.md) to validate single values 
 3. a set of [build-in value validators](docs/validators.md) to perform the actual data validation. The value validators are used by the helper and validation objects.
 
+Out-of-the-box, the library can handle `array`s, `ArrayObject`s and objects that have implemented the `toArray` method. 
+In order to validate other data containers you must create a [`DataWrapper`](https://github.com/adrianmiu/sirius-validation/blob/master/src/Validation/DataWrapper/WrapperInterface.php) so that the validator be able to extract data from your object.
+
 ##Elevator pitch
 
 ```php
@@ -31,10 +34,10 @@ $validator->add('title', 'maxlength', 'max=100', 'Article title must have less t
 $validator->add('title', 'maxlength', 'max=100', '{label} must have less than {max} characters', 'Title');
 
 // add all of rule's configuration in a string (you'll see later why it's handy')
-$validator->add('title', 'maxlength(max=10)({label} must have less than {max} characters)(Title)');
+$validator->add('title', 'maxlength(max=255)({label} must have less than {max} characters)(Title)');
 
 // add multiple rules at once (separate using [space][pipe][space])
-$validator->add('title', 'required | maxlength(max=10)({label} must have less than {max} characters)(Title)');
+$validator->add('title', 'required | maxlength(max=255) | minlength(min=10)');
 
 // add all your rules at once
 $validator->add(array(
@@ -61,16 +64,5 @@ I started this library having in mind a form representing an invoice, which seem
 - it can have a list of recipients that will get the invoice by email if the user chooses to fill them out.
 
 The same example may be applied if data is received through, for example, a REST service.
-
-##Why (just) arrays?
-
-1. Arrays are the most common data containers. 
-2. Forms are populated via arrays and send data to the server via arrays
-3. Arrays can be converted from/into JSONs making it easy to move data from server-side to client-side
-4. Domain models can be converted into arrays and validate that array copy
-
-So, while the original goals was to make it easy to validate forms it was easy to make it work with objects. 
-Out-of-the-box, the library can handle `ArrayObject`s and objects that have the `toArray` method. The `Validator` class can be easily extended to handle different data containers.
-
 
 [go to the documentation](docs/index.md)

@@ -117,10 +117,3 @@ $validator->clearMessages();
 
 Anytime you execute `$validator->validate($values)` the validation messages are cleared (even those set manually).
 
-### Validate single item
-
-If you only need to validate a single item (eg: validate the email address for a new user account using AJAX) from a set you can do
-```php
-$validator->setData($_POST);
-$validator->validateItem('email');
-```
