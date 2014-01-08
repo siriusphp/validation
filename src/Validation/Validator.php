@@ -80,58 +80,6 @@ class Validator
     const RULE_CALLBACK = 'callback';
 
     /**
-     * Validator map allows for flexibility when creating a validation rule
-     * You can use 'required' instead of 'required' for the name of the rule
-     * or 'minLength'/'minlength' instead of 'MinLength'
-     *
-     * @var array
-     */
-    protected $validatorsMap = array(
-        self::RULE_REQUIRED => 'Required',
-        self::RULE_REQUIRED_WITH => 'RequiredWith',
-        self::RULE_REQUIRED_WITHOUT => 'RequiredWithout',
-        self::RULE_REQUIRED_WHEN => 'RequiredWhen',
-        // string rules
-        self::RULE_ALPHA => 'Alpha',
-        self::RULE_ALPHANUMERIC => 'AlphaNumeric',
-        self::RULE_ALPHANUMHYPHEN => 'AlphaNumHyphen',
-        self::RULE_LENGTH => 'Length',
-        self::RULE_MAX_LENGTH => 'MaxLength',
-        self::RULE_MIN_LENGTH => 'MinLength',
-        self::RULE_FULLNAME => 'FullName',
-        // array rules
-        self::RULE_ARRAY_LENGTH => 'ArrayLength',
-        self::RULE_ARRAY_MAX_LENGTH => 'ArrayMaxLength',
-        self::RULE_ARRAY_MIN_LENGTH => 'ArrayMinLengh',
-        self::RULE_IN_LIST => 'InList',
-        self::RULE_NOT_IN_LIST => 'NotInList',
-        // date rules
-        self::RULE_DATE => 'Date',
-        self::RULE_DATETIME => 'DateTime',
-        self::RULE_TIME => 'Time',
-        // number rules
-        self::RULE_BETWEEN => 'Between',
-        self::RULE_GREATER_THAN => 'GreaterThan',
-        self::RULE_LESS_THAN => 'LessThan',
-        self::RULE_NUMBER => 'Number',
-        self::RULE_INTEGER => 'Integer',
-        // regular expression rules
-        self::RULE_REGEX => 'Regex',
-        self::RULE_NOT_REGEX => 'NotRegex',
-        // other rules
-        self::RULE_EMAIL => 'Email',
-        self::RULE_EMAIL_DOMAIN => 'EmailDomanin',
-        self::RULE_URL => 'Url',
-        self::RULE_WEBSITE => 'Website',
-        self::RULE_IP => 'IpAddress',
-        'ipaddress' => 'IpAddress',
-        self::RULE_MATCH => 'Match',
-        self::RULE_EQUAL => 'Equal',
-        
-        self::RULE_CALLBACK => 'Callback'
-    );
-
-    /**
      * This is set after the validation is performed so, in case data
      * does not change, the validation is not executed again
      *
@@ -166,9 +114,18 @@ class Validator
      * @var \Sirius\Validation\DataWrapper\WrapperInterface
      */
     protected $dataWrapper;
+    
+    
+    /**
+     * @var \Sirius\Validation\ValidatorFactory
+     */
+    protected $validatorFactory;
 
-    function __construct($rules = null)
+    function __construct($rules = null, ValidatorFactory $validatorFactory = null)
     {
+        if ($validatorFactory) {
+            $this->validatorFactory = $validatorFactory;
+        }
         if (is_array($rules) or $rules instanceof Traversable) {
             foreach ($rules as $rule) {
                 call_user_func_array(array(
@@ -177,6 +134,18 @@ class Validator
                 ), $rule);
             }
         }
+    }
+    
+    /**
+     * Retrieve the validator factory
+     * 
+     * @return \Sirius\Validation\ValidatorFactory
+     */
+    function getValidatorFactory() {
+        if (!$this->validatorFactory) {
+            $this->validatorFactory = new ValidatorFactory();
+        }
+        return $this->validatorFactory;
     }
 
     /**
@@ -194,6 +163,11 @@ class Validator
         return $this;
     }
 
+    /**
+     * Retrieve the error message prototype
+     * 
+     * @return \Sirius\Validation\ErrorMessage
+     */
     function getErroMessagePrototype()
     {
         if (! $this->errorMessagePrototype) {
@@ -282,8 +256,9 @@ class Validator
                 list ($name, $options, $messageTemplate, $label) = $this->parseRule($name);
             }
         }
-        $validator = $this->createValidator($name, $options, $messageTemplate, $label);
-
+        $validator = $this->getValidatorFactory()->createValidator($name, $options, $messageTemplate, $label);
+        $validator->setErrorMessagePrototype($this->getErroMessagePrototype());
+        
         if (! array_key_exists($selector, $this->rules)) {
             $this->rules[$selector] = array();
         }
@@ -312,7 +287,8 @@ class Validator
         if ($name === true) {
             unset($this->rules[$selector]);
         } else {
-            $validator = $this->createValidator($name, $options);
+            $validator = $this->getValidatorFactory()->createValidator($name, $options);
+            $validator->setErrorMessagePrototype($this->getErroMessagePrototype());
             foreach ($this->rules[$selector] as $k => $v) {
                 if ($v->getUniqueId() == $validator->getUniqueId()) {
                     unset($this->rules[$selector][$k]);
@@ -341,69 +317,6 @@ class Validator
             }
         }
         return false;
-    }
-
-    /**
-     * Factory method to construct a validator based on options that are used most of the times
-     *
-     * @param string $name
-     *            name of a validator class or a callable object/function
-     * @param string|array $options
-     *            validator options (an array, JSON string or QUERY string)
-     * @param string $messageTemplate
-     *            error message template
-     * @param string $label
-     *            label of the form input field or model attribute
-     * @return \Sirius\Validation\Validator\AbstractValidator
-     */
-    protected function createValidator($name, $options = null, $messageTemplate = null, $label = null)
-    {
-        if ($options && is_string($options)) {
-            $startChar = substr($options, 0, 1);
-            if ($startChar == '{' || $startChar == '[') {
-                $options = json_decode($options, true);
-            } else {
-                parse_str($options, $output);
-                $options = $output;
-            }
-        } elseif (! $options) {
-            $options = array();
-        }
-        
-        if (! is_array($options)) {
-            throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
-        }
-        
-        if (is_callable($name)) {
-            $validator = new \Sirius\Validation\Validator\Callback(array(
-                'callback' => $name,
-                'arguments' => $options
-            ));
-        } else {
-            $name = trim($name);
-            // use the validator map
-            if (isset($this->validatorsMap[strtolower($name)])) {
-                $name = $this->validatorsMap[strtolower($name)];
-            }
-            if (class_exists('\Sirius\Validation\Validator\\' . $name)) {
-                $name = '\Sirius\Validation\Validator\\' . $name;
-            }
-            if (class_exists($name) && is_subclass_of($name, '\Sirius\Validation\Validator\AbstractValidator')) {
-                $validator = new $name($options);
-            }
-        }
-        if (! isset($validator)) {
-            throw new \InvalidArgumentException(sprintf('Impossible to determine the validator based on the name %s', (string) $name));
-        }
-        
-        if ($messageTemplate) {
-            $validator->setMessageTemplate($messageTemplate);
-        }
-        if ($label) {
-            $validator->setOption('label', $label);
-        }
-        $validator->setErrorMessagePrototype($this->getErroMessagePrototype());
-        return $validator;
     }
 
     /**
