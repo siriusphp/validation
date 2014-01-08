@@ -60,7 +60,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
 
         $this->assertFalse($this->validator->validate(array(
             'field_1' => 'exists',
-            'field_2' => 'shit'
+            'field_2' => 'not'
         )));
 
         $this->validator->validate(array(
@@ -108,7 +108,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
     function testAddingMultipleRulesAtOnce() {
         $this->validator->add(array(
         	'item' => array('required', array('minlength', 'min=4', '{label} should have at least {min} characters', 'Item')),
-            'itema' => array('required', 'minLength(min=8)'),
+            'itema' => array('required', 'minLength(min=8)', 'required'),
             'itemb' => 'required'
         ));
         $this->validator->validate(array(

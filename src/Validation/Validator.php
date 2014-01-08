@@ -283,6 +283,7 @@ class Validator
             }
         }
         $validator = $this->createValidator($name, $options, $messageTemplate, $label);
+
         if (! array_key_exists($selector, $this->rules)) {
             $this->rules[$selector] = array();
         }
@@ -379,6 +380,7 @@ class Validator
                 'arguments' => $options
             ));
         } else {
+            $name = trim($name);
             // use the validator map
             if (isset($this->validatorsMap[strtolower($name)])) {
                 $name = $this->validatorsMap[strtolower($name)];
@@ -503,57 +505,31 @@ class Validator
         if ($this->wasValidated === true) {
             return $this->wasValidated and count($this->messages) === 0;
         }
-        // since we validate the data that it is found below
-        // we need to ensure the required items are there
-        $this->ensureRequiredItems();
-        foreach ($this->getDataWrapper()->getData() as $item => $value) {
-            $this->validateItem($item);
+        foreach ($this->rules as $selector => $selectorRules) {
+            foreach ($this->getDataWrapper()->getItemsBySelector($selector) as $item => $value) {
+                $this->validateSingle($item, $value, $selectorRules);
+            }
         }
         $this->wasValidated = true;
         return $this->wasValidated and count($this->messages) === 0;
     }
-
-    /**
-     * Perform the validation on a single item
-     * Does not return anything
-     *
-     * @param string $item
-     *            Data selector
-     * @return bool
-     */
-    function validateItem($item)
-    {
-        $value = $this->getDataWrapper()->getItemValue($item);
-        $requiredValidator = new \Sirius\Validation\Validator\Required();
-        foreach ($this->rules as $selector => $selectorRules) {
-            if ($this->itemMatchesSelector($item, $selector)) {
-                foreach ($selectorRules as $ruleId => $rule) {
-                    if (! $this->valueSatisfiesRule($value, $item, $rule)) {
-                        $this->addMessage($item, $rule->getMessage());
-                    }
-                    // if field is required and we have an error,
-                    // do not continue with the rest of rules
-                    if ($this->hasValidator($selector, $requiredValidator) && array_key_exists($item, $this->messages) && count($this->messages[$item])) {
-                        break;
-                    }
-                }
+    
+    protected function validateSingle($item, $value, $rules) {
+        $isRequired = false;
+        foreach ($rules as $rule) {
+            if ($rule instanceof Validator\Required) {
+                $isRequired = true;
+                break;
             }
         }
-        // proceed with the validation one level deep
-        if (is_array($value)) {
-            foreach (array_keys($value) as $key) {
-                $this->validateItem("{$item}[{$key}]");
+        foreach ($rules as $ruleId => $rule) {
+            if (! $this->valueSatisfiesRule($value, $item, $rule)) {
+                $this->addMessage($item, $rule->getMessage());
             }
-        }
-        return count($this->getMessages($item)) == 0;
-    }
-
-    protected function ensureRequiredItems()
-    {
-        $requiredValidator = new \Sirius\Validation\Validator\Required();
-        foreach ($this->rules as $selector => $selectorRules) {
-            if ($this->hasValidator($selector, $requiredValidator) && $this->getDataWrapper()->getItemValue($selector) === null) {
-                $this->getDataWrapper()->setItemValue($selector, null);
+            // if field is required and we have an error,
+            // do not continue with the rest of rules
+            if ($isRequired && array_key_exists($item, $this->messages) && count($this->messages[$item])) {
+                break;
             }
         }
     }
@@ -562,23 +538,6 @@ class Validator
     {
         $rule->setContext($this->getDataWrapper());
         return $rule->validate($value, $item);
-    }
-
-    protected function itemMatchesSelector($item, $selector)
-    {
-        if (strpos($selector, '*')) {
-            $regex = '/' . str_replace('*', '[^\]]+', str_replace(array(
-                '[',
-                ']'
-            ), array(
-                '\[',
-                '\]'
-            ), $selector)) . '/';
-            // cho ($item . '|' . $regex . "\n");
-            return preg_match($regex, $item);
-        } else {
-            return $item == $selector;
-        }
     }
 
     /**

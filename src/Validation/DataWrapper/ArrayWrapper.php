@@ -34,6 +34,10 @@ class ArrayWrapper implements WrapperInterface {
         return Utils::arrayGetByPath($this->data, $item);
     }
     
+    function getItemsBySelector($selector) {
+        return Utils::arrayGetBySelector($this->data, $selector);
+    }
+    
     function setItemValue($item, $value = null) {
         $this->data = Utils::arraySetBySelector($this->data, $item, $value, true);
         return $this;
