@@ -15,7 +15,7 @@ $validator->add('title', 'maxlength', 'max=100', translate('{label} must have le
 
 or
 ```php
-echo translateErrorMessageObjects($validator->getMessage('title');
+echo translateErrorMessageObjects($validator->getMessage('title'));
 ```
 
 The `ErrorMessage` class implements the `__toString` method so you can echo them out of the box.
@@ -25,5 +25,5 @@ The error message has
 1. a `template`
 2. a set of `variables` which consists of the validator's arguments (eg: 'min' => 10) and anything else you want
 
-The variables are 'injected' into the resulting string through searching and replacing the variables name inside brackets with their values (eg: `{min}` is replaced by `10`);
+The variables are 'injected' into the resulting string through `str_replace`-ing the variables name inside brackets with their values (eg: `{min}` is replaced by `10`);
 

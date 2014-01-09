@@ -10,5 +10,7 @@ interface WrapperInterface {
     
     public function getItemValue($item);
     
+    public function getItemsBySelector($selector);
+    
     public function setItemValue($item, $value = null);
 }

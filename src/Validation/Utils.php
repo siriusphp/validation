@@ -27,6 +27,15 @@ class Utils  {
      * @return mixed
      */
     static function arrayGetByPath($array, $path) {
+        $path = trim($path);
+        if (!$path) {
+            return $array;
+        }
+        // fix the path in case it was provided as `[item][subitem]`
+        if (strpos($path, '[') === 0) {
+            $path = preg_replace('/]/', '', ltrim($path, '['), 1);
+        }
+        
         list($container, $subpath) = self::getSelectorParts($path);
         if ($subpath === '') {
             return array_key_exists($container, $array) ? $array[$container] : null;
@@ -80,5 +89,34 @@ class Utils  {
         }
 
         return $array;
+    }
+    
+    static function arrayGetBySelector($array, $selector) {
+        if (strpos($selector, '[*]') === false) {
+            return array(
+            	$selector => self::arrayGetByPath($array, $selector)
+            );
+        }
+        $result = array();
+        list($preffix, $suffix) = explode('[*]', $selector, 2);
+
+        $base = self::arrayGetByPath($array, $preffix);
+        if (!is_array($base)) {
+            $base = array();
+        }
+        // we don't have a suffix, the selector was something like path[subpath][*]
+        if (!$suffix) {
+            foreach ($base as $k => $v) {
+                $result["{$preffix}[{$k}]"] = $v;
+            }
+        // we have a suffix, the selector was something like path[*][item]
+        } else {
+            foreach ($base as $itemKey => $itemValue) {
+                if (is_array($itemValue)) {
+                    $result["{$preffix}[{$itemKey}]{$suffix}"] = self::arrayGetByPath($itemValue, $suffix);
+                }
+            }
+        }
+        return $result;
     }
 }

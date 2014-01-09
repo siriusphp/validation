@@ -55,7 +55,7 @@ $potentialMessage = $validator>getPotentialMessage(); // 'Full name must be betw
 4. `Length`: value, which should be a string, must a length which is between specified limits. Validator options: `min` and `max`
 5. `MinLength`: string's length should be greater than a specified value. Validator options: `min`
 6. `MaxLength`: string's length should be shorter than a specified value. Validator options: `max`
-7. `FullName`: a string should represent a full name (at least 6 words, at least 2 word, each word at least 2 characters long)
+7. `FullName`: a string should represent a full name (at least 6 characters, at least 2 word, each word at least 2 characters long)
 
 ### Array validators
 1. `ArrayLength`: values which are arrays must contain a specific number of items. Validator options: `min` and `max`

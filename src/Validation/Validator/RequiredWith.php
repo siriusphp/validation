@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Validator;
 
-class RequiredWith extends AbstractValidator
+class RequiredWith extends Required
 {
     const OPTION_ITEM = 'item';
     
@@ -10,10 +10,10 @@ class RequiredWith extends AbstractValidator
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (isset($this->options[self::OPTION_ITEM]) && $this->context->getItemValue($this->options[self::OPTION_ITEM]) === null) {
-            $this->success = true;
-        } else {
+        if (isset($this->options[self::OPTION_ITEM]) && $this->context->getItemValue($this->options[self::OPTION_ITEM]) !== null) {
             $this->success = ($value !== null || trim($value) !== '');
+        } else {
+            $this->success = true;
         }
         return $this->success;
     }

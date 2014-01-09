@@ -48,4 +48,64 @@ class UtilsTest extends \PHPUnit_Framework_TestCase  {
         $this->data = Utils::arraySetBySelector('string', 'name', 'Jane Fonda');
         $this->assertEquals(Utils::arrayGetByPath($this->data, 'name'), 'Jane Fonda');
     }
+    
+    function testOfArrayGetBySelectorDeepSearch() {
+        $arr = array(
+            'people' => array(
+                array(
+                    'name' => 'John',
+                    'address' => array(
+                    	'city' => 'New York'
+                    )
+                ),
+                array(
+                    'name' => 'Marry',
+                    'address' => array(
+                        'state' => 'California'
+                    )
+                ),
+            )
+        );
+        $this->assertEquals(array(
+            'people[0][address][city]' => 'New York',
+            'people[1][address][city]' => null
+        ), Utils::arrayGetBySelector($arr, 'people[*][address][city]'));
+    }
+    
+    function testOfArrayGetBySelectorUsingPath() {
+        $arr = array(
+            'recipients' => array(
+                array('name' => 'John'),
+                array('name' => 'Marry', 'email' => 'marry@gmail.com')
+            )
+        );
+        $this->assertEquals(array(
+            'recipients[0][email]' => null
+        ), Utils::arrayGetBySelector($arr, 'recipients[0][email]'));
+        $this->assertEquals(array(
+            'recipients[1][email]' => 'marry@gmail.com'
+        ), Utils::arrayGetBySelector($arr, 'recipients[1][email]'));
+    }
+    
+    function testOfArrayGetBySelectorWithEndingSelector() {
+        $arr = array(
+            'lines' => array(
+                'quantities' => array(1, 2, 3)
+            )
+        );
+        $this->assertEquals(array(
+        	'lines[quantities][0]' => 1,
+            'lines[quantities][1]' => 2,
+            'lines[quantities][2]' => 3
+        ), Utils::arrayGetBySelector($arr, 'lines[quantities][*]'));
+    }
+
+    function testOfArrayGetBySelectorWithWrongSelector() {
+        $arr = array(
+            'lines' => array(
+                'quantities' => array(1, 2, 3)
+            )
+        );
+        $this->assertEquals(array(), Utils::arrayGetBySelector($arr, 'recipients[*]'));
+    }
 }

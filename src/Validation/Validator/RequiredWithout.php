@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Validator;
 
-class RequiredWithout extends AbstractValidator
+class RequiredWithout extends Required
 {
     const OPTION_ITEM = 'item';
     
