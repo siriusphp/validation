@@ -4,7 +4,7 @@ namespace Sirius\Validation;
 use Sirius\Validation\Utils;
 use Sirius\Validation\Helper;
 
-class Validator
+class Validator implements ValidatorInterface
 {
 
     const RULE_REQUIRED = 'required';
@@ -114,9 +114,9 @@ class Validator
      * @var \Sirius\Validation\DataWrapper\WrapperInterface
      */
     protected $dataWrapper;
-    
-    
+
     /**
+     *
      * @var \Sirius\Validation\ValidatorFactory
      */
     protected $validatorFactory;
@@ -135,14 +135,15 @@ class Validator
             }
         }
     }
-    
+
     /**
      * Retrieve the validator factory
-     * 
+     *
      * @return \Sirius\Validation\ValidatorFactory
      */
-    function getValidatorFactory() {
-        if (!$this->validatorFactory) {
+    function getValidatorFactory()
+    {
+        if (! $this->validatorFactory) {
             $this->validatorFactory = new ValidatorFactory();
         }
         return $this->validatorFactory;
@@ -165,7 +166,7 @@ class Validator
 
     /**
      * Retrieve the error message prototype
-     * 
+     *
      * @return \Sirius\Validation\ErrorMessage
      */
     function getErroMessagePrototype()
@@ -263,7 +264,12 @@ class Validator
             $this->rules[$selector] = array();
         }
         if (! $this->hasValidator($selector, $validator)) {
-            $this->rules[$selector][] = $validator;
+            // required validators should come first
+            if ($validator instanceof Validator\Required) {
+                array_unshift($this->rules[$selector], $validator);
+            } else {
+                $this->rules[$selector][] = $validator;
+            }
         }
         return $this;
     }
@@ -306,7 +312,7 @@ class Validator
      * @param \Sirius\Validation\Validator\AbstractValidator $validator            
      * @return boolean
      */
-    function hasValidator($selector,\Sirius\Validation\Validator\AbstractValidator $validator)
+    function hasValidator($selector, \Sirius\Validation\Validator\AbstractValidator $validator)
     {
         if (! array_key_exists($selector, $this->rules) || ! $this->rules[$selector]) {
             return false;
@@ -426,8 +432,9 @@ class Validator
         $this->wasValidated = true;
         return $this->wasValidated and count($this->messages) === 0;
     }
-    
-    protected function validateSingle($item, $value, $rules) {
+
+    protected function validateSingle($item, $value, $rules)
+    {
         $isRequired = false;
         foreach ($rules as $rule) {
             if ($rule instanceof Validator\Required) {
