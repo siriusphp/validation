@@ -21,15 +21,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase  {
         $this->validator = new Validator();
     }
 
-    function testIfRulesAreSetViaTheContructor() {
-        $this->validator = new Validator(array(
-            array('item_1', 'Required'),
-            array('item_2', 'Required'),
-        ));
-        $this->assertFalse($this->validator->validate(array()));
-        $this->assertEquals(2, count($this->validator->getMessages()));
-    }
-
     function testIfMessagesCanBeSetAndCleared() {
         $this->assertEquals(0, count($this->validator->getMessages()));
 

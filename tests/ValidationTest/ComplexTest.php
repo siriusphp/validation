@@ -41,7 +41,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase  {
         );
         $this->validator->validate($data);
         $messages = $this->validator->getMessages();
-        print_r($this->validator->getMessages());
+        //print_r($this->validator->getMessages());
 
         #$this->assertEquals('This field is required', (string)$messages['email'][0]);
         #$this->assertEquals('This input must match password', (string)$messages['email'][0]);

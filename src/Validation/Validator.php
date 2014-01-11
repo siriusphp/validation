@@ -121,18 +121,10 @@ class Validator implements ValidatorInterface
      */
     protected $validatorFactory;
 
-    function __construct($rules = null, ValidatorFactory $validatorFactory = null)
+    function __construct(ValidatorFactory $validatorFactory = null)
     {
         if ($validatorFactory) {
             $this->validatorFactory = $validatorFactory;
-        }
-        if (is_array($rules) or $rules instanceof Traversable) {
-            foreach ($rules as $rule) {
-                call_user_func_array(array(
-                    $this,
-                    'add'
-                ), $rule);
-            }
         }
     }
 
