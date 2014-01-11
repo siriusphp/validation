@@ -21,8 +21,8 @@ class ImageRatio extends AbstractValidator {
         if (is_numeric($ratio) || $ratio == filter_var($ratio, FILTER_SANITIZE_NUMBER_FLOAT)) {
             return floatval($ratio);
         }
-        if (($pos = strpos($ratio, ':')) !== false) {
-            list($width, $height) = explode(':', $pos);
+        if (strpos($ratio, ':') !== false) {
+            list($width, $height) = explode(':', $ratio);
             return $width / $height;
         }
         return 0;
