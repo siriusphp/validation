@@ -20,14 +20,10 @@ class ArrayWrapper implements WrapperInterface {
             }
         }
         if (! is_array($data)) {
-            throw new \InvalidArgumentException('Data passed to validator is not an array');
+            throw new \InvalidArgumentException('Data passed to validator is not an array or an ArrayObject');
         }
         $this->data = $data;
         return;
-    }
-    
-    function getData() {
-        return $this->data;
     }
     
     function getItemValue($item) {
@@ -38,8 +34,4 @@ class ArrayWrapper implements WrapperInterface {
         return Utils::arrayGetBySelector($this->data, $selector);
     }
     
-    function setItemValue($item, $value = null) {
-        $this->data = Utils::arraySetBySelector($this->data, $item, $value, true);
-        return $this;
-    }
 }

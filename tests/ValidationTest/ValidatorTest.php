@@ -1,9 +1,10 @@
 <?php
 
-namespace Sirius\Validation\Test;
+namespace Sirius\Validation;
 
 use Sirius\Validation\Helper;
 use Sirius\Validation\Validator;
+use Sirius\Validation\ErrorMessage;
 
 function fakeValidationFunction() {
     return false;
@@ -18,7 +19,7 @@ class FakeObject {
 class ValidatorTest extends \PHPUnit_Framework_TestCase  {
 
     function setUp() {
-        $this->validator = new Validator();
+        $this->validator = new Validator(new ValidatorFactory, new ErrorMessage);
     }
 
     function testIfMessagesCanBeSetAndCleared() {
