@@ -86,3 +86,12 @@ $potentialMessage = $validator>getPotentialMessage(); // 'Full name must be betw
 3. `Callback`: checks if a value is valid using a custom callback (a function, an object's method, a class' static method).  Validator options: `callback` and `arguments` (additional paramters for the callback)
 4. `Match`: the value must match the value of another item in the context. Validator options: `item` (eg: if `auth[password_confirm]` must match `auth[password]` the `item` is `auth[password]`
 5. `Equal`: the value must be the same as predefined value. Validator options: `value`
+
+### File validators
+File validators work only with local files and they fail if the file does not exist
+1. `File\Extension`. Checks if a files has a certain extension. Validator options: `allowed` which can be an array or a comma separated string.
+2. `File\Image`. Checks if the file is an image of a certain type. Validator options: `allowed` which can be an array or a comma separated string (default: `jpg,png,gif`)
+3. `File\ImageRatio`. Checks if the image has a certain ratio. Validator options: `ratio` which can be a number or a string like `4:3`, `error_margin` - how much the file's ratio can deviate from the target (default: 0)
+4. `File\ImageWidth`. Checks if the image's width is between certain limits. Validator options: `min` (default: 0) and `max` (default: 1 million)
+5. `File\ImageHeight`. Checks if the image's height is between certain limits. Validator options: `min` (default: 0) and `max` (default: 1 million)
+6. `File\Size`. Checks if the file' size is bellow a certain limit. Validator options: `size` which can be a number or a string like '10K', '0.5M' or '1.3G` (default: 2M)
