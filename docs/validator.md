@@ -4,8 +4,14 @@ This is the class that will be instanciated to perform validation
 
 ```php
 use Sirius\Validation\Validator;
-$validator = new Validator($arrayContainingTheRules);
+
+$validatorFactory = new ValidatorFactory;
+$errorMessagePrototype = new ErrorMessage;
+$validator = new Validator($validatorFactory, $errorMessagePrototype);
 ```
+
+`$validatorFactory` and `$errorMessagePrototype` are optional dependencies (ie: they have a default value)
+See [ValidatorFactory](validator_factory.md) and [ErrorMessage](error_message.md) for details
 
 ## Adding validation rules
 
@@ -19,6 +25,8 @@ $validator->add('password', 'minLength', array('min' => 6), '{label} must have a
 $validator->add('additional_emails[*]', 'email', array(), 'Email address is not valid');
 ```
 
+Validation rules are created by the [ValidatorFactory](validator_factory.md)
+
 ### Parameters:
 
 #### $name
@@ -27,7 +35,7 @@ The <code>$name</code> must either:
 1. match an [individual validator class](validators.md). In this case the name can be the
     - the name of `Sirius\Validation\Validator` class (eg: `Email', 'MinLength')
 	- a custom validator class that extends `Sirius\Vaidation\Validator\AbstractValidator` (eg: 'MyApp\Validation\Validator\Username')
-    - a name of a registered validator using `$validator->registerValidatorClass('email', 'MyApp\Validators\MorePowerfullEmailValidator')`;
+    - a name of a registered validator using `$validator->getValidatorFactory()->register('email', 'MyApp\Validators\MorePowerfullEmailValidator')`;
 2. or be a callable entity (function, object method or static method).
 
 ```php

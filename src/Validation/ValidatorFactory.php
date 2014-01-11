@@ -59,6 +59,20 @@ class ValidatorFactory {
     
     
     /**
+     * Register a class to be used when creating validation rules
+     * 
+     * @param string $name
+     * @param string $class
+     * @return \Sirius\Validation\ValidatorFactory
+     */
+    function register($name, $class) {
+        if (in_array('\Sirius\Validation\Validator\AbstractValidator', class_parents($class))) {
+            $this->validatorsMap[$name] = $class;
+        }
+        return $this;
+    }
+    
+    /**
      * Factory method to construct a validator based on options that are used most of the times
      *
      * @param string $name
