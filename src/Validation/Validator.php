@@ -102,6 +102,13 @@ class Validator implements ValidatorInterface
     protected $messages = array();
 
     /**
+     * Will be used to construct the rules
+     * 
+     * @var \Sirius\Validation\ValidatorFactory
+     */
+    protected $validatorFactory;
+
+    /**
      * The prototype that will be used to generate the error message
      *
      * @var \Sirius\Validation\ErrorMessage
@@ -115,16 +122,13 @@ class Validator implements ValidatorInterface
      */
     protected $dataWrapper;
 
-    /**
-     *
-     * @var \Sirius\Validation\ValidatorFactory
-     */
-    protected $validatorFactory;
-
-    function __construct(ValidatorFactory $validatorFactory = null)
+    function __construct(ValidatorFactory $validatorFactory = null, ErrorMessage $errorMessagePrototype = null)
     {
         if ($validatorFactory) {
             $this->validatorFactory = $validatorFactory;
+        }
+        if ($errorMessagePrototype) {
+            $this->errorMessagePrototype = $errorMessagePrototype;
         }
     }
 
@@ -253,16 +257,10 @@ class Validator implements ValidatorInterface
         $validator->setErrorMessagePrototype($this->getErroMessagePrototype());
         
         if (! array_key_exists($selector, $this->rules)) {
-            $this->rules[$selector] = array();
+            $this->rules[$selector] = new RuleCollection();
         }
-        if (! $this->hasValidator($selector, $validator)) {
-            // required validators should come first
-            if ($validator instanceof Validator\Required) {
-                array_unshift($this->rules[$selector], $validator);
-            } else {
-                $this->rules[$selector][] = $validator;
-            }
-        }
+        $ruleCollection = $this->rules[$selector];
+        $ruleCollection->add($validator);
         return $this;
     }
 
@@ -286,35 +284,9 @@ class Validator implements ValidatorInterface
             unset($this->rules[$selector]);
         } else {
             $validator = $this->getValidatorFactory()->createValidator($name, $options);
-            $validator->setErrorMessagePrototype($this->getErroMessagePrototype());
-            foreach ($this->rules[$selector] as $k => $v) {
-                if ($v->getUniqueId() == $validator->getUniqueId()) {
-                    unset($this->rules[$selector][$k]);
-                    break;
-                }
-            }
+            $this->rules[$selector]->remove($validator); 
         }
         return $this;
-    }
-
-    /**
-     * Verify if a specific selector has a validator associated with it
-     *
-     * @param string $selector            
-     * @param \Sirius\Validation\Validator\AbstractValidator $validator            
-     * @return boolean
-     */
-    function hasValidator($selector, \Sirius\Validation\Validator\AbstractValidator $validator)
-    {
-        if (! array_key_exists($selector, $this->rules) || ! $this->rules[$selector]) {
-            return false;
-        }
-        foreach ($this->rules[$selector] as $k => $v) {
-            if ($v->getUniqueId() == $validator->getUniqueId()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /**
@@ -380,17 +352,6 @@ class Validator implements ValidatorInterface
         return $this->dataWrapper;
     }
 
-    /**
-     *
-     * @param Sirius\Validation\DataWrapper\WrapperInterface $wrapper            
-     * @return \Sirius\Validation\Validator
-     */
-    function setDataWrapper(Sirius\Validation\DataWrapper\WrapperInterface $wrapper)
-    {
-        $this->dataWrapper = $wrapper;
-        return $this;
-    }
-
     function setData($data)
     {
         $this->getDataWrapper()->setData($data);
@@ -416,40 +377,17 @@ class Validator implements ValidatorInterface
         if ($this->wasValidated === true) {
             return $this->wasValidated and count($this->messages) === 0;
         }
-        foreach ($this->rules as $selector => $selectorRules) {
-            foreach ($this->getDataWrapper()->getItemsBySelector($selector) as $item => $value) {
-                $this->validateSingle($item, $value, $selectorRules);
+        foreach ($this->rules as $selector => $rulesCollection) {
+            foreach ($this->getDataWrapper()->getItemsBySelector($selector) as $valueIdentifier => $value) {
+                if (!$rulesCollection->validate($value, $valueIdentifier, $this->getDataWrapper())) {
+                    foreach ($rulesCollection->getMessages() as $message) {
+                        $this->addMessage($valueIdentifier, $message);
+                    }
+                }
             }
         }
         $this->wasValidated = true;
         return $this->wasValidated and count($this->messages) === 0;
-    }
-
-    protected function validateSingle($item, $value, $rules)
-    {
-        $isRequired = false;
-        foreach ($rules as $rule) {
-            if ($rule instanceof Validator\Required) {
-                $isRequired = true;
-                break;
-            }
-        }
-        foreach ($rules as $ruleId => $rule) {
-            if (! $this->valueSatisfiesRule($value, $item, $rule)) {
-                $this->addMessage($item, $rule->getMessage());
-            }
-            // if field is required and we have an error,
-            // do not continue with the rest of rules
-            if ($isRequired && array_key_exists($item, $this->messages) && count($this->messages[$item])) {
-                break;
-            }
-        }
-    }
-
-    protected function valueSatisfiesRule($value, $item, $rule)
-    {
-        $rule->setContext($this->getDataWrapper());
-        return $rule->validate($value, $item);
     }
 
     /**

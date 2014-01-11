@@ -112,8 +112,11 @@ abstract class AbstractValidator
      * @param array|object $context            
      * @return \Sirius\Validation\Validator\AbstractValidator
      */
-    function setContext($context)
+    function setContext($context = null)
     {
+        if ($context === null) {
+            return $this;
+        }
         if (is_array($context)) {
             $context = new ArrayWrapper($context);
         }
