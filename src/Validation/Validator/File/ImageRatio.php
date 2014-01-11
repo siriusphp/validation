@@ -22,7 +22,7 @@ class ImageRatio extends AbstractValidator {
             return floatval($ratio);
         }
         if (($pos = strpos($ratio, ':')) !== false) {
-            list($width, $height) = explode(':', $strpos);
+            list($width, $height) = explode(':', $pos);
             return $width / $height;
         }
         return 0;
