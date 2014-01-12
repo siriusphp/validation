@@ -15,23 +15,22 @@ class Callback extends AbstractValidator
         $uniqueId = get_called_class();
         // the callback is a function name (eg: is_int) or a static class method (eg: MyClass::method)
         if (is_string($this->options['callback'])) {
-            $uniqueId .= $this->options['callback'];
-        } else 
-            if (is_array($this->options['callback'])) {
-                // the callback is an array that points to a static class method (eg: array('MyClass', 'method'))
-                if (is_string($this->options['callback'][0])) {
-                    $uniqueId .= '|' . implode('::', $this->options['callback']);
-                } else 
-                    if (is_object($this->options['callback'][0])) {
-                        $uniqueId .= '|' . spl_object_hash($this->options['callback'][0]) . '->' . $this->options['callback'][1];
-                    }
-            } else 
-                if (is_object($this->options['callback']) && $this->options['callback'] instanceof \Closure) {
-                    $uniqueId .= '|' . spl_object_hash($this->options['callback']);
-                }
-                
+            $uniqueId .= '|' . $this->options['callback'];
+        } elseif (is_array($this->options['callback'])) {
+            // the callback is an array that points to a static class method (eg: array('MyClass', 'method'))
+            if (is_string($this->options['callback'][0])) {
+                $uniqueId .= '|' . implode('::', $this->options['callback']);
+            } elseif (is_object($this->options['callback'][0])) {
+                $uniqueId .= '|' . spl_object_hash($this->options['callback'][0]) . '->' . $this->options['callback'][1];
+            }
+        } elseif (is_object($this->options['callback']) && $this->options['callback'] instanceof \Closure) {
+            $uniqueId .= '|' . spl_object_hash($this->options['callback']);
+        }
+        
         if (isset($this->options['arguments'])) {
-            $uniqueId .= '|' . json_encode(ksort($this->options['arguments']));
+            $args = $this->options['arguments'];
+            ksort($args);
+            $uniqueId .= '|' . json_encode($args);
         }
         return $uniqueId;
     }

@@ -66,7 +66,7 @@ class ValidatorFactory {
      * @return \Sirius\Validation\ValidatorFactory
      */
     function register($name, $class) {
-        if (in_array('\Sirius\Validation\Validator\AbstractValidator', class_parents($class))) {
+        if (in_array('Sirius\Validation\Validator\AbstractValidator', class_parents($class))) {
             $this->validatorsMap[$name] = $class;
         }
         return $this;

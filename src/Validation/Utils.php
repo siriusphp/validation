@@ -3,6 +3,8 @@
 namespace Sirius\Validation;
 
 class Utils  {
+    
+    const PATH_ROOT = '/';
 
     protected static function getSelectorParts($selector) {
         $firstOpen = strpos($selector, '[');
@@ -26,9 +28,9 @@ class Utils  {
      * @param  string $path
      * @return mixed
      */
-    static function arrayGetByPath($array, $path) {
+    static function arrayGetByPath($array, $path = self::PATH_ROOT) {
         $path = trim($path);
-        if (!$path) {
+        if (!$path || $path == self::PATH_ROOT) {
             return $array;
         }
         // fix the path in case it was provided as `[item][subitem]`

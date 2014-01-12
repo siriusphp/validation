@@ -27,6 +27,10 @@ class UtilsTest extends \PHPUnit_Framework_TestCase  {
         $this->assertEquals(Utils::arrayGetByPath($this->data, 'email'), null);
         $this->assertEquals(Utils::arrayGetByPath($this->data, 'address[shipping][street]'), null);
     }
+    
+    function testOfArrayGetByPathRoot() {
+        $this->assertEquals($this->data, Utils::arrayGetByPath($this->data));
+    }
 
     function testOfArraySetByPath() {
         $this->data = Utils::arraySetBySelector($this->data, 'email', 'my@domain.com');
