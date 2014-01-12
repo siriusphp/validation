@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirius\Validation\Validator\Test;
+namespace Sirius\Validation\Validator;
 
 class FakeValidator extends \Sirius\Validation\Validator\AbstractValidator {
     

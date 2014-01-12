@@ -6,7 +6,7 @@
     </logging>
     <testsuites>
         <testsuite name="Sirius Validation Test Suite">
-            <directory>./ValidationTest/</directory>
+            <directory>./src/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

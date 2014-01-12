@@ -9,15 +9,15 @@ class ImageWidthTest extends \PHPUnit_Framework_TestCase  {
     }
     
     function testMissingFiles() {
-        $file = realpath(__DIR__ . '/../../fixitures/') . DIRECTORY_SEPARATOR . 'file_that_does_not_exist.jpg';
+        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'file_that_does_not_exist.jpg';
         $this->assertFalse($this->validator->validate($file));
     }
     
     function testFile() {
-        $file = realpath(__DIR__ . '/../../fixitures/') . DIRECTORY_SEPARATOR . 'real_jpeg_file.jpg';
+        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'real_jpeg_file.jpg';
         $this->assertTrue($this->validator->validate($file));
 
-        $file = realpath(__DIR__ . '/../../fixitures/') . DIRECTORY_SEPARATOR . 'square_image.gif';
+        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'square_image.gif';
         $this->assertFalse($this->validator->validate($file));
         
         // change minimum

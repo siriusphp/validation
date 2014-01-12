@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirius\Validation\Test;
+namespace Sirius\Validation;
 
 use Sirius\Validation\Utils;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirius\Validation\Validator\Test;
+namespace Sirius\Validation\Validator;
 
 use Sirius\Validation\Validator\ArrayMaxLength as Validator;
 

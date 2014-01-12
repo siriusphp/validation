@@ -23,8 +23,8 @@
         "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
-        "psr-0": {
-            "Sirius\\Validation\\": "src/Validation"
-        }
+        "files": [
+            "autoload.php"
+        ]
     }
 }
