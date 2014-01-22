@@ -1,11 +1,14 @@
 {
     "name": "siriusphp/validation",
-    "description": "Data validation library",
+    "description": "Data validation library. Validate arrays, array objects, domain models etc using a simple API. Easily add your own validators on top of the already dozens built-in validation rules",
     "type": "library",
     "license": "MIT",
     "keywords": [
         "form",
-        "validation"
+s        "validation",
+        "sanitization",
+        "security",
+        "modeling"
     ],
     "authors": [
         {
