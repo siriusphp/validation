@@ -1,5 +1,5 @@
 {
-    "name": "adrianmiu/sirius-validation",
+    "name": "siriusphp/validation",
     "description": "Data validation library",
     "type": "library",
     "license": "MIT",
