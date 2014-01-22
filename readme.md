@@ -1,7 +1,7 @@
 #Sirius Validation
 
-[![Build Status](https://travis-ci.org/adrianmiu/sirius-validation.png?branch=master)](https://travis-ci.org/adrianmiu/sirius-validation)
-[![Coverage Status](https://coveralls.io/repos/adrianmiu/sirius-validation/badge.png)](https://coveralls.io/r/adrianmiu/sirius-validation)
+[![Build Status](https://travis-ci.org/siriusphp/validation.png?branch=master)](https://travis-ci.org/siriusphp/validation)
+[![Coverage Status](https://coveralls.io/repos/siriusphp/validation/badge.png)](https://coveralls.io/r/siriusphp/validation)
 
 Sirius Validation is a library for data validation. It offers:
 
@@ -10,7 +10,7 @@ Sirius Validation is a library for data validation. It offers:
 3. a set of [build-in value validators](docs/validators.md) to perform the actual data validation. The value validators are used by the helper and validation objects.
 
 Out-of-the-box, the library can handle `array`s, `ArrayObject`s and objects that have implemented the `toArray` method. 
-In order to validate other data containers you must create a [`DataWrapper`](https://github.com/adrianmiu/sirius-validation/blob/master/src/Validation/DataWrapper/WrapperInterface.php) so that the validator be able to extract data from your object.
+In order to validate other data containers you must create a [`DataWrapper`](https://github.com/siriusphp/validation/blob/master/src/Validation/DataWrapper/WrapperInterface.php) so that the validator be able to extract data from your object.
 
 ##Elevator pitch
 
