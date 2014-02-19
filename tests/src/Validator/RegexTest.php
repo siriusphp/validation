@@ -11,7 +11,7 @@ class RegexTest extends \PHPUnit_Framework_TestCase  {
     }
     
     function testValidationWithoutARegexPattern() {
-        // pattern was not set;
+        // pattern was not set, everything is valid
         $this->assertTrue($this->validator->validate('abc'));
     }
 }
