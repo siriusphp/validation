@@ -79,6 +79,14 @@ class Validator implements ValidatorInterface
 
     const RULE_CALLBACK = 'callback';
 
+    // files rules
+    const RULE_FILE_EXTENSION = 'fileextension';
+    const RULE_FILE_SIZE = 'filesize';
+    const RULE_IMAGE = 'image';
+    const RULE_IMAGE_HEIGHT = 'imageheight';
+    const RULE_IMAGE_WIDTH = 'imagewidth';
+    const RULE_IMAGE_RATION = 'imageratio';
+
     /**
      * This is set after the validation is performed so, in case data
      * does not change, the validation is not executed again

@@ -53,7 +53,14 @@ class ValidatorFactory {
         'ipaddress' => 'IpAddress',
         Validator::RULE_MATCH => 'Match',
         Validator::RULE_EQUAL => 'Equal',
-        
+        // file rules
+        Validator::RULE_FILE_EXTENSION => 'File\Extension',
+        Validator::RULE_FILE_SIZE => 'File\Size',
+        Validator::RULE_IMAGE => 'File\Image',
+        Validator::RULE_IMAGE_WIDTH => 'File\ImageWidth',
+        Validator::RULE_IMAGE_HEIGHT => 'File\ImageHeight',
+        Validator::RULE_IMAGE_RATION => 'File\ImageRatio',
+
         Validator::RULE_CALLBACK => 'Callback'
         );
     
