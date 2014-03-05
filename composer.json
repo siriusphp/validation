@@ -16,7 +16,7 @@
             "email": "adrian@adrianmiu.ro"
         }
     ],
-    "version": "1.0.0",
+    "version": "dev-master",
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.4"
