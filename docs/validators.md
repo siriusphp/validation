@@ -89,9 +89,20 @@ $potentialMessage = $validator>getPotentialMessage(); // 'Full name must be betw
 
 ### File validators
 File validators work only with local files and they fail if the file does not exist
-1. `File\Extension`. Checks if a files has a certain extension. Validator options: `allowed` which can be an array or a comma separated string.
+1. `File\Extension`. Checks if the file has a certain extension. Validator options: `allowed` which can be an array or a comma separated string.
 2. `File\Image`. Checks if the file is an image of a certain type. Validator options: `allowed` which can be an array or a comma separated string (default: `jpg,png,gif`)
 3. `File\ImageRatio`. Checks if the image has a certain ratio. Validator options: `ratio` which can be a number or a string like `4:3`, `error_margin` - how much the file's ratio can deviate from the target (default: 0)
 4. `File\ImageWidth`. Checks if the image's width is between certain limits. Validator options: `min` (default: 0) and `max` (default: 1 million)
 5. `File\ImageHeight`. Checks if the image's height is between certain limits. Validator options: `min` (default: 0) and `max` (default: 1 million)
 6. `File\Size`. Checks if the file' size is bellow a certain limit. Validator options: `size` which can be a number or a string like '10K', '0.5M' or '1.3G` (default: 2M)
+
+### Upload validators
+Upload validators work only uploaded files (each file is an upload-like array) and they fail if the temporary file does not exist.
+1. `Upload\Extension`. Checks if the uploaded file has a certain extension. Validator options: `allowed` which can be an array or a comma separated string.
+2. `Upload\Image`. Checks if the uploaded file is an image of a certain type. Validator options: `allowed` which can be an array or a comma separated string (default: `jpg,png,gif`)
+3. `Upload\ImageRatio`. Checks if the uploaded image has a certain ratio. Validator options: `ratio` which can be a number or a string like `4:3`, `error_margin` - how much the file's ratio can deviate from the target (default: 0)
+4. `Upload\ImageWidth`. Checks if the uploaded image's width is between certain limits. Validator options: `min` (default: 0) and `max` (default: 1 million)
+5. `Upload\ImageHeight`. Checks if the uploaded image's height is between certain limits. Validator options: `min` (default: 0) and `max` (default: 1 million)
+6. `Upload\Size`. Checks if the uploaded file' size is bellow a certain limit. Validator options: `size` which can be a number or a string like '10K', '0.5M' or '1.3G` (default: 2M)
+
+*Note!* The upload validators use only the `tmp_name` and `name` values to perform the validation

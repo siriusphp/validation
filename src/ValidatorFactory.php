@@ -60,9 +60,16 @@ class ValidatorFactory {
         Validator::RULE_IMAGE_WIDTH => 'File\ImageWidth',
         Validator::RULE_IMAGE_HEIGHT => 'File\ImageHeight',
         Validator::RULE_IMAGE_RATION => 'File\ImageRatio',
+        // upload rules
+        Validator::RULE_UPLOAD_EXTENSION => 'Upload\Extension',
+        Validator::RULE_UPLOAD_SIZE => 'Upload\Size',
+        Validator::RULE_UPLOAD_IMAGE => 'Upload\Image',
+        Validator::RULE_UPLOAD_IMAGE_WIDTH => 'Upload\ImageWidth',
+        Validator::RULE_UPLOAD_IMAGE_HEIGHT => 'Upload\ImageHeight',
+        Validator::RULE_UPLOAD_IMAGE_RATION => 'Upload\ImageRatio',
 
         Validator::RULE_CALLBACK => 'Callback'
-        );
+    );
     
     
     /**
