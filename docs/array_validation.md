@@ -3,11 +3,11 @@
 This is the class that will be instanciated to perform validation
 
 ```php
-use Sirius\Validation\Validator;
+use Sirius\Validation\ArrayValidation;
 
 $validatorFactory = new ValidatorFactory;
 $errorMessagePrototype = new ErrorMessage;
-$validator = new Validator($validatorFactory, $errorMessagePrototype);
+$validator = new ArrayValidation($validatorFactory, $errorMessagePrototype);
 ```
 
 `$validatorFactory` and `$errorMessagePrototype` are optional dependencies (ie: they have a default value)

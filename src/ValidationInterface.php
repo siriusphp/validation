@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation;
 
-interface ValidatorInterface {
+interface ValidationInterface {
     
     function add($selector, $name = null, $options = null, $messageTemplate = null, $label = null);
     

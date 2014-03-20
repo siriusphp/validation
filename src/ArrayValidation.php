@@ -3,8 +3,9 @@ namespace Sirius\Validation;
 
 use Sirius\Validation\Utils;
 use Sirius\Validation\Helper;
+use Sirius\Validation\ValidationInterface;
 
-class Validator implements ValidatorInterface
+class ArrayValidation implements ValidationInterface
 {
 
     const RULE_REQUIRED = 'required';
@@ -139,11 +140,12 @@ class Validator implements ValidatorInterface
 
     function __construct(ValidatorFactory $validatorFactory = null, ErrorMessage $errorMessagePrototype = null)
     {
-        if ($validatorFactory) {
-            $this->validatorFactory = $validatorFactory;
+            if (!$validatorFactory) {
+            $validatorFactory = new ValidatorFactory();
         }
-        if ($errorMessagePrototype) {
-            $this->errorMessagePrototype = $errorMessagePrototype;
+        $this->validatorFactory = $validatorFactory;
+        if (!$errorMessagePrototype) {
+            $errorMessagePrototype = new ErrorMessage();        
         }
     }
 
@@ -154,9 +156,6 @@ class Validator implements ValidatorInterface
      */
     function getValidatorFactory()
     {
-        if (! $this->validatorFactory) {
-            $this->validatorFactory = new ValidatorFactory();
-        }
         return $this->validatorFactory;
     }
 
@@ -182,9 +181,6 @@ class Validator implements ValidatorInterface
      */
     function getErroMessagePrototype()
     {
-        if (! $this->errorMessagePrototype) {
-            $this->errorMessagePrototype = new ErrorMessage();
-        }
         return $this->errorMessagePrototype;
     }
 
@@ -244,38 +240,12 @@ class Validator implements ValidatorInterface
             }
             return $this;
         }
-        if (is_array($name) && ! is_callable($name)) {
-            foreach ($name as $singleRule) {
-                // make sure the rule is an array (the parameters of subsequent calls);
-                $singleRule = is_array($singleRule) ? $singleRule : array(
-                    $singleRule
-                );
-                array_unshift($singleRule, $selector);
-                call_user_func_array(array(
-                    $this,
-                    'add'
-                ), $singleRule);
-            }
-            return $this;
+        if (!isset($this->rules[$selector])) {
+            $this->rules[$selector] = new ValueValidation($this->getValidatorFactory(), $this->getErroMessagePrototype());
         }
-        if (is_string($name)) {
-            // rule was supplied like 'required' or 'required | email'
-            if (strpos($name, ' | ') !== false) {
-                return $this->add($selector, explode(' | ', $name));
-            }
-            // rule was supplied like this 'length(2,10)(error message template)(label)'
-            if (strpos($name, '(') !== false) {
-                list ($name, $options, $messageTemplate, $label) = $this->parseRule($name);
-            }
-        }
-        $validator = $this->getValidatorFactory()->createValidator($name, $options, $messageTemplate, $label);
-        $validator->setErrorMessagePrototype($this->getErroMessagePrototype());
-        
-        if (! array_key_exists($selector, $this->rules)) {
-            $this->rules[$selector] = new RuleCollection();
-        }
-        $ruleCollection = $this->rules[$selector];
-        $ruleCollection->add($validator);
+        $args = func_get_args();
+        array_shift($args);
+        call_user_func_array(array($this->rules[$selector], 'add'), $args);
         return $this;
     }
 
@@ -295,62 +265,8 @@ class Validator implements ValidatorInterface
         if (! array_key_exists($selector, $this->rules)) {
             return $this;
         }
-        if ($name === true) {
-            unset($this->rules[$selector]);
-        } else {
-            $validator = $this->getValidatorFactory()->createValidator($name, $options);
-            $this->rules[$selector]->remove($validator); 
-        }
+        $this->rules[$selector]->remove($name, $options);
         return $this;
-    }
-
-    /**
-     * Converts a rule that was supplied as string into a set of options that define the rule
-     *
-     * @example 'minLength({"min":2})({label} must have at least {min} characters)(Street)'
-     *         
-     *          will be converted into
-     *         
-     *          array(
-     *          'minLength', // validator name
-     *          array('min' => 2'), // validator options
-     *          '{label} must have at least {min} characters',
-     *          'Street' // label
-     *          )
-     * @param string $ruleAsString            
-     * @return array
-     */
-    protected function parseRule($ruleAsString)
-    {
-        $ruleAsString = trim($ruleAsString);
-        $name = '';
-        $options = array();
-        $messageTemplate = null;
-        $label = null;
-        
-        $name = substr($ruleAsString, 0, strpos($ruleAsString, '('));
-        $ruleAsString = substr($ruleAsString, strpos($ruleAsString, '('));
-        $matches = array();
-        preg_match_all('/\(([^\)]*)\)/', $ruleAsString, $matches);
-        
-        if (isset($matches[1])) {
-            if (isset($matches[1][0]) && $matches[1][0]) {
-                $options = $matches[1][0];
-            }
-            if (isset($matches[1][1]) && $matches[1][1]) {
-                $messageTemplate = $matches[1][1];
-            }
-            if (isset($matches[1][2]) && $matches[1][2]) {
-                $label = $matches[1][2];
-            }
-        }
-        
-        return array(
-            $name,
-            $options,
-            $messageTemplate,
-            $label
-        );
     }
 
     /**
@@ -392,10 +308,10 @@ class Validator implements ValidatorInterface
         if ($this->wasValidated === true) {
             return $this->wasValidated and count($this->messages) === 0;
         }
-        foreach ($this->rules as $selector => $rulesCollection) {
+        foreach ($this->rules as $selector => $valueValidator) {
             foreach ($this->getDataWrapper()->getItemsBySelector($selector) as $valueIdentifier => $value) {
-                if (!$rulesCollection->validate($value, $valueIdentifier, $this->getDataWrapper())) {
-                    foreach ($rulesCollection->getMessages() as $message) {
+                if (!$valueValidator->validate($value, $valueIdentifier, $this->getDataWrapper())) {
+                    foreach ($valueValidator->getMessages() as $message) {
                         $this->addMessage($valueIdentifier, $message);
                     }
                 }

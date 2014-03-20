@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation;
 
-use Sirius\Validation\Validator;
+use Sirius\Validation\ArrayValidation as Validator ;
 
 class ValidatorFactory {
     /**
@@ -136,7 +136,7 @@ class ValidatorFactory {
             }
         }
         if (! isset($validator)) {
-            throw new \InvalidArgumentException(sprintf('Impossible to determine the validator based on the name %s', (string) $name));
+            throw new \InvalidArgumentException(sprintf('Impossible to determine the validator based on the name: %s', (string) $name));
         }
         
         if ($messageTemplate) {

@@ -15,13 +15,6 @@ class RuleCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(0, count($this->collection));
     }
 
-    function testValidate() {
-        $this->collection->add(new Validator\Email);
-        $this->collection->validate('not_email');
-        $this->assertEquals(1, count($this->collection->getMessages()));
-    }
-
-    
     function testIterator() {
         $this->collection->add(new Validator\Email);
         $this->collection->add(new Validator\Required);
