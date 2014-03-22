@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation;
 
-use Sirius\Validation\Validator\AbstractValidator;
+use Sirius\Validation\Rule\AbstractValidator;
 
 class RuleCollection implements \Iterator, \Countable {
     /**
@@ -21,7 +21,7 @@ class RuleCollection implements \Iterator, \Countable {
         if ($this->has($rule)) {
             return $this;
         }
-        if ($rule instanceof Validator\Required) {
+        if ($rule instanceof Rule\Required) {
             array_unshift($this->rules, $rule);
         } else {
             array_push($this->rules, $rule);
@@ -32,7 +32,7 @@ class RuleCollection implements \Iterator, \Countable {
     /**
      * Verify if a specific selector has a validator associated with it
      *
-     * @param \Sirius\Validation\Validator\AbstractValidator $rule            
+     * @param \Sirius\Validation\Rule\AbstractValidator $rule            
      * @return boolean
      */
     public function has(AbstractValidator $rule) {

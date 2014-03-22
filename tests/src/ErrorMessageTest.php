@@ -17,7 +17,7 @@ class CustomErrorMessage extends ErrorMessage {
 class ErrorMessageTest extends \PHPUnit_Framework_TestCase  {
 
     function setUp() {
-        $this->validator = new ArrayValidation();
+        $this->validator = new Validator();
         $this->validator->setErrorMessagePrototype(new CustomErrorMessage());
     }
 

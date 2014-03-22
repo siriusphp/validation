@@ -9,7 +9,7 @@ use Sirius\Validation\Validator;
 class ComplexTest extends \PHPUnit_Framework_TestCase  {
 
     function setUp() {
-        $this->validator = new ArrayValidation();
+        $this->validator = new Validator();
         $this->validator
             ->add('email', 'email | required') // does the order matter?
             ->add('email_confirm', 'required |  email | match(item=email)')

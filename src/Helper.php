@@ -32,7 +32,7 @@ class Helper
 
     static function callback($value, $callback, $context = array())
     {
-        $validator = new Validator\Callback();
+        $validator = new Rule\Callback();
         $validator->setOption('callback', $callback);
         $validator->setContext($context);
         return $validator->validate($value);
@@ -65,7 +65,7 @@ class Helper
 
     static function lessThan($value, $max)
     {
-        $validator = new Validator\LessThan(array(
+        $validator = new Rule\LessThan(array(
             'max' => $max
         ));
         return $validator->validate($value);
@@ -73,7 +73,7 @@ class Helper
 
     static function greaterThan($value, $min)
     {
-        $validator = new Validator\GreaterThan(array(
+        $validator = new Rule\GreaterThan(array(
             'min' => $min
         ));
         return $validator->validate($value);
@@ -81,7 +81,7 @@ class Helper
 
     static function between($value, $min, $max)
     {
-        $validator = new Validator\Between(array(
+        $validator = new Rule\Between(array(
             'min' => $min,
             'max' => $max
         ));
@@ -100,25 +100,25 @@ class Helper
 
     static function alpha($value)
     {
-        $validator = new Validator\Alpha();
+        $validator = new Rule\Alpha();
         return $validator->validate($value);
     }
 
     static function alphanumeric($value)
     {
-        $validator = new Validator\AlphaNumeric();
+        $validator = new Rule\AlphaNumeric();
         return $validator->validate($value);
     }
 
     static function alphanumhyphen($value)
     {
-        $validator = new Validator\AlphaNumHyphen();
+        $validator = new Rule\AlphaNumHyphen();
         return $validator->validate($value);
     }
 
     static function minLength($value, $min)
     {
-        $validator = new Validator\MinLength(array(
+        $validator = new Rule\MinLength(array(
             'min' => $min
         ));
         return $validator->validate($value);
@@ -126,7 +126,7 @@ class Helper
 
     static function maxLength($value, $max)
     {
-        $validator = new Validator\MaxLength(array(
+        $validator = new Rule\MaxLength(array(
             'max' => $max
         ));
         return $validator->validate($value);
@@ -134,7 +134,7 @@ class Helper
 
     static function length($value, $min, $max)
     {
-        $validator = new Validator\Length(array(
+        $validator = new Rule\Length(array(
             'min' => $min,
             'max' => $max
         ));
@@ -143,7 +143,7 @@ class Helper
 
     static function setMinSize($value, $min)
     {
-        $validator = new Validator\ArrayMinLength(array(
+        $validator = new Rule\ArrayMinLength(array(
             'min' => $min
         ));
         return $validator->validate($value);
@@ -151,7 +151,7 @@ class Helper
 
     static function setMaxSize($value, $max)
     {
-        $validator = new Validator\ArrayMaxLength(array(
+        $validator = new Rule\ArrayMaxLength(array(
             'max' => $max
         ));
         return $validator->validate($value);
@@ -159,7 +159,7 @@ class Helper
 
     static function setSize($value, $min, $max)
     {
-        $validator = new Validator\ArrayLength(array(
+        $validator = new Rule\ArrayLength(array(
             'min' => $min,
             'max' => $max
         ));
@@ -168,7 +168,7 @@ class Helper
 
     static function in($value, $values)
     {
-        $validator = new Validator\InList(array(
+        $validator = new Rule\InList(array(
             'list' => $values
         ));
         return $validator->validate($value);
@@ -176,7 +176,7 @@ class Helper
 
     static function notIn($value, $values)
     {
-        $validator = new Validator\NotInList(array(
+        $validator = new Rule\NotInList(array(
             'list' => $values
         ));
         return $validator->validate($value);
@@ -184,7 +184,7 @@ class Helper
 
     static function regex($value, $pattern)
     {
-        $validator = new Validator\Regex(array(
+        $validator = new Rule\Regex(array(
             'pattern' => $pattern
         ));
         return $validator->validate($value);
@@ -192,7 +192,7 @@ class Helper
 
     static function notRegex($value, $pattern)
     {
-        $validator = new Validator\NotRegex(array(
+        $validator = new Rule\NotRegex(array(
             'pattern' => $pattern
         ));
         return $validator->validate($value);
@@ -208,7 +208,7 @@ class Helper
 
     static function date($value, $format = 'Y-m-d')
     {
-        $validator = new Validator\Date(array(
+        $validator = new Rule\Date(array(
         	'format' => $format
         ));
         return $validator->validate($value);
@@ -216,7 +216,7 @@ class Helper
 
     static function dateTime($value, $format = 'Y-m-d H:i:s')
     {
-        $validator = new Validator\DateTime(array(
+        $validator = new Rule\DateTime(array(
         	'format' => $format
         ));
         return $validator->validate($value);
@@ -224,7 +224,7 @@ class Helper
 
     static function time($value, $format = 'H:i:s')
     {
-        $validator = new Validator\Time(array(
+        $validator = new Rule\Time(array(
         	'format' => $format
         ));
         return $validator->validate($value);
@@ -232,13 +232,13 @@ class Helper
 
     static function website($value)
     {
-        $validator = new Validator\Website();
+        $validator = new Rule\Website();
         return $validator->validate($value);
     }
 
     static function url($value)
     {
-        $validator = new Validator\Url();
+        $validator = new Rule\Url();
         return $validator->validate($value);
     }
 
@@ -250,13 +250,13 @@ class Helper
      */
     static function ip($value)
     {
-        $validator = new Validator\IpAddress();
+        $validator = new Rule\IpAddress();
         return $validator->validate($value);
     }
 
     static function email($value)
     {
-        $validator = new Validator\Email();
+        $validator = new Rule\Email();
         return $validator->validate($value);
     }
 
@@ -269,7 +269,7 @@ class Helper
      */
     static function fullName($value)
     {
-        $validator = new Validator\FullName();
+        $validator = new Rule\FullName();
         return $validator->validate($value);
     }
 
@@ -281,7 +281,7 @@ class Helper
      */
     public static function emailDomain($value)
     {
-        $validator = new Validator\EmailDomain();
+        $validator = new Rule\EmailDomain();
         return $validator->validate($value);
     }
 }

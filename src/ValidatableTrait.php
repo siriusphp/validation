@@ -4,7 +4,7 @@ namespace Sirius\Validation;
 
 use Sirius\Validation\Validator;
 
-trait ValidatableTrait {
+trait ValidatableTrait implements ValidatableInterface{
     protected $validator;
 
     function setValidator($validator) {
