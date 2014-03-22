@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/siriusphp/validation.png?branch=master)](https://travis-ci.org/siriusphp/validation)
 [![Coverage Status](https://coveralls.io/repos/siriusphp/validation/badge.png)](https://coveralls.io/r/siriusphp/validation)
+[![Latest Stable Version](https://poser.pugx.org/siriusphp/validation/v/stable.png)](https://packagist.org/packages/siriusphp/validation)
+[![License](https://poser.pugx.org/siriusphp/validation/license.png)](https://packagist.org/packages/siriusphp/validation)
 
 Sirius Validation is a library for data validation. It offers:
 
@@ -42,7 +44,7 @@ $validator->add('title', 'required | maxlength(max=255) | minlength(min=10)');
 
 // add all your rules at once
 $validator->add(array(
-	'title' => 'required | maxlength(max=10)({label} must have less than {max} characters)(Title)',
+    'title' => 'required | maxlength(max=10)({label} must have less than {max} characters)(Title)',
 	'content' => 'required',
 	'source' => 'website'
 ));
@@ -53,17 +55,14 @@ $validator->add('shipping_address[city]', 'MyApp\Validator\City'); // uses a cus
 
 ```
 
-##Goal
-
-I started this library having in mind a form representing an invoice, which seems one of the most difficult forms to validate
-- it has a date which can be localized
-- it has a billing address section that contains various fields, each with its own validation rules
-- it has a shipping address section whos fields must be provided and validated only if the "same as billing address" checkbox is unchecked
-- it has at least on line (of product/service) with name, quantity and price
-- it has a payment method
-- it has payment details which must be validated against the rules required by the payment method
-- it can have a list of recipients that will get the invoice by email if the user chooses to fill them out.
-
-The same example may be applied if data is received through, for example, a REST service.
+##Documentation
 
 [go to the documentation](docs/index.md)
+
+## Release notes
+
+#### 1.1
+
+- Added HHVM to Travis CI
+- Renamed Validator\* classes into Rule\* classes (breaking change if you used custom rule classes)
+- Renamed ValidatorFactory to RuleFactory (breaking change)
