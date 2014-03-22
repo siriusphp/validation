@@ -5,10 +5,10 @@
 
 Sirius Validation is a library for data validation. It offers:
 
-1. [array validation object](docs/array_validation.md) to validate arrays, `ArrayObjects` or objects that have a `toArray` method. It can be extended easily to validate other types.
-2. [value valition object](docs/value_validation.md) to validate single values
+1. [validator object](docs/validator.md) to validate arrays, `ArrayObjects` or objects that have a `toArray` method. It can be extended easily to validate other types.
+2. [value validator object](docs/value_validator.md) to validate single values
 2. [validation helper](docs/helper.md) to simplify single value validation (does not generate error messages, only returns TRUE/FALSE)
-3. [build-in validators](docs/validators.md) to perform the actual data validation. The validators are used by the helper and validation objects.
+3. [build-in validation rules](docs/rules.md) to perform the actual data validation. The validation rules are used by the helper and validator objects.
 
 Out-of-the-box, the library can handle `array`s, `ArrayObject`s and objects that have implemented the `toArray` method. 
 In order to validate other data containers you must create a [`DataWrapper`](https://github.com/siriusphp/validation/blob/master/src/Validation/DataWrapper/WrapperInterface.php) so that the validator be able to extract data from your object.
@@ -16,7 +16,7 @@ In order to validate other data containers you must create a [`DataWrapper`](htt
 ##Elevator pitch
 
 ```php
-$validation = new \Sirius\Validation\ArrayValidation;
+$validation = new \Sirius\Validation\Validator;
 
 // add a validation rule
 $validator->add('title', 'required');
