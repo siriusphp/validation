@@ -2,25 +2,26 @@
 
 namespace Sirius\Validation;
 
-use Sirius\Validation\Validator\AbstractValidator as ValidatorRule;
-use Sirius\Validation\Validator\Required as RequiredRule;
-use Sirius\Validation\Validator\AbstractValidator;
+use Sirius\Validation\Rule\AbstractValidator;
 
 class RuleCollection implements \Iterator, \Countable {
-    const MODE_APPEND = 'append';
-    const MODE_PREPEND = 'prepend';
-    
-    protected $messages = array();
-    
+    /**
+     * Validation rules
+     * @var array
+     */
     protected $rules = array();
     
+    /**
+     * Iterator pointer
+     * @var int
+     */
     protected $current = 0;
 
-    public function add(ValidatorRule $rule) {
+    public function add(AbstractValidator $rule) {
         if ($this->has($rule)) {
             return $this;
         }
-        if ($rule instanceof RequiredRule) {
+        if ($rule instanceof Rule\Required) {
             array_unshift($this->rules, $rule);
         } else {
             array_push($this->rules, $rule);
@@ -31,7 +32,7 @@ class RuleCollection implements \Iterator, \Countable {
     /**
      * Verify if a specific selector has a validator associated with it
      *
-     * @param \Sirius\Validation\Validator\AbstractValidator $rule            
+     * @param \Sirius\Validation\Rule\AbstractValidator $rule            
      * @return boolean
      */
     public function has(AbstractValidator $rule) {
@@ -55,38 +56,6 @@ class RuleCollection implements \Iterator, \Countable {
                 unset($this->rules[$k]);
             }
         }
-        return $this;
-    }
-    
-    public function validate($value, $valueIdentifier = null, DataWrapper\WrapperInterface $context = null) {
-        $this->messages = array();
-        $isRequired = false;
-        foreach ($this->rules as $rule) {
-            if ($rule instanceof RequiredRule) {
-                $isRequired = true;
-                break;
-            }
-        }
-        foreach ($this->rules as $rule) {
-            $rule->setContext($context);
-            if (! $rule->validate($value, $valueIdentifier)) {
-                $this->addMessage($rule->getMessage());
-            }
-            // if field is required and we have an error,
-            // do not continue with the rest of rules
-            if ($isRequired && count($this->messages)) {
-                break;
-            }
-        }
-        return count($this->messages) === 0;
-    }
-    
-    public function getMessages() {
-        return $this->messages;
-    }
-
-    public function addMessage($message) {
-        array_push($this->messages, $message);
         return $this;
     }
     

@@ -4,9 +4,9 @@ The [validator object](validator.md) does not return the validation errors as st
 
 The reasons for this are:
 
-1. most validators have paramters that influence the error message (eg: a validator that requires the value to be a string longer than 10 characters)
-2. some times you need to translate the error messages and each app may have their own way of translating strings.
-3. we don't know if the translation is done when the validator is constructed or wait until it is echoed
+1. most validators have parameters that influence the error message (eg: a validator that requires the value to be a string longer than 10 characters)
+2. some times you need to translate the error messages and each app may have its own way of translating strings.
+3. we don't know if the translation is done when the validator is constructed or wait until it is displayed to the user
 
 The `ErrorMessage` class implements the `__toString` method so you can echo them out of the box.
 

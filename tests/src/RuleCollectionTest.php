@@ -8,29 +8,22 @@ class RuleCollectionTest extends \PHPUnit_Framework_TestCase {
     }
     
     function testAddAndRemove() {
-        $this->collection->add(new Validator\Required);
+        $this->collection->add(new Rule\Required);
         $this->assertEquals(1, count($this->collection));
 
-        $this->collection->remove(new Validator\Required);
+        $this->collection->remove(new Rule\Required);
         $this->assertEquals(0, count($this->collection));
     }
 
-    function testValidate() {
-        $this->collection->add(new Validator\Email);
-        $this->collection->validate('not_email');
-        $this->assertEquals(1, count($this->collection->getMessages()));
-    }
-
-    
     function testIterator() {
-        $this->collection->add(new Validator\Email);
-        $this->collection->add(new Validator\Required);
+        $this->collection->add(new Rule\Email);
+        $this->collection->add(new Rule\Required);
         
         $rules = array();
         foreach ($this->collection as $k => $rule) {
             $rules[] = $rule;
         }
-        $this->assertTrue($rules[0] instanceof Validator\Required);
-        $this->assertTrue($rules[1] instanceof Validator\Email);
+        $this->assertTrue($rules[0] instanceof Rule\Required);
+        $this->assertTrue($rules[1] instanceof Rule\Email);
     }
 }

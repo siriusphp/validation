@@ -2,12 +2,15 @@
 
 [![Build Status](https://travis-ci.org/siriusphp/validation.png?branch=master)](https://travis-ci.org/siriusphp/validation)
 [![Coverage Status](https://coveralls.io/repos/siriusphp/validation/badge.png)](https://coveralls.io/r/siriusphp/validation)
+[![Latest Stable Version](https://poser.pugx.org/siriusphp/validation/v/stable.png)](https://packagist.org/packages/siriusphp/validation)
+[![License](https://poser.pugx.org/siriusphp/validation/license.png)](https://packagist.org/packages/siriusphp/validation)
 
 Sirius Validation is a library for data validation. It offers:
 
-1. a [validator object](docs/validator.md) to validate arrays, `ArrayObjects` or objects that have a `toArray` method. Of course you can extend it to validate your own type of objects.
-2. a [validation helper](docs/helper.md) to validate single values 
-3. a set of [build-in value validators](docs/validators.md) to perform the actual data validation. The value validators are used by the helper and validation objects.
+1. [validator object](docs/validator.md) to validate arrays, `ArrayObjects` or objects that have a `toArray` method. It can be extended easily to validate other types.
+2. [value validator object](docs/value_validator.md) to validate single values
+2. [validation helper](docs/helper.md) to simplify single value validation (does not generate error messages, only returns TRUE/FALSE)
+3. [build-in validation rules](docs/rules.md) to perform the actual data validation. The validation rules are used by the helper and validator objects.
 
 Out-of-the-box, the library can handle `array`s, `ArrayObject`s and objects that have implemented the `toArray` method. 
 In order to validate other data containers you must create a [`DataWrapper`](https://github.com/siriusphp/validation/blob/master/src/Validation/DataWrapper/WrapperInterface.php) so that the validator be able to extract data from your object.
@@ -15,7 +18,7 @@ In order to validate other data containers you must create a [`DataWrapper`](htt
 ##Elevator pitch
 
 ```php
-$validator = new \Sirius\Validation\Validator;
+$validation = new \Sirius\Validation\Validator;
 
 // add a validation rule
 $validator->add('title', 'required');
@@ -41,7 +44,7 @@ $validator->add('title', 'required | maxlength(max=255) | minlength(min=10)');
 
 // add all your rules at once
 $validator->add(array(
-	'title' => 'required | maxlength(max=10)({label} must have less than {max} characters)(Title)',
+    'title' => 'required | maxlength(max=10)({label} must have less than {max} characters)(Title)',
 	'content' => 'required',
 	'source' => 'website'
 ));
@@ -52,17 +55,14 @@ $validator->add('shipping_address[city]', 'MyApp\Validator\City'); // uses a cus
 
 ```
 
-##Goal
-
-I started this library having in mind a form representing an invoice, which seems one of the most difficult forms to validate
-- it has a date which can be localized
-- it has a billing address section that contains various fields, each with its own validation rules
-- it has a shipping address section whos fields must be provided and validated only if the "same as billing address" checkbox is unchecked
-- it has at least on line (of product/service) with name, quantity and price
-- it has a payment method
-- it has payment details which must be validated against the rules required by the payment method
-- it can have a list of recipients that will get the invoice by email if the user chooses to fill them out.
-
-The same example may be applied if data is received through, for example, a REST service.
+##Documentation
 
 [go to the documentation](docs/index.md)
+
+## Release notes
+
+#### 1.1
+
+- Added HHVM to Travis CI
+- Renamed Validator\* classes into Rule\* classes (breaking change if you used custom rule classes)
+- Renamed ValidatorFactory to RuleFactory (breaking change)
