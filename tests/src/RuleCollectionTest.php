@@ -8,21 +8,23 @@ class RuleCollectionTest extends \PHPUnit_Framework_TestCase {
     }
     
     function testAddAndRemove() {
-        $this->collection->add(new Rule\Required);
+        $this->collection->attach(new Rule\Required);
         $this->assertEquals(1, count($this->collection));
 
-        $this->collection->remove(new Rule\Required);
+        $this->collection->detach(new Rule\Required);
         $this->assertEquals(0, count($this->collection));
     }
 
     function testIterator() {
-        $this->collection->add(new Rule\Email);
-        $this->collection->add(new Rule\Required);
+        $this->collection->attach(new Rule\Email);
+        $this->collection->attach(new Rule\Required);
         
         $rules = array();
         foreach ($this->collection as $k => $rule) {
             $rules[] = $rule;
         }
+
+        // the required rule should be first
         $this->assertTrue($rules[0] instanceof Rule\Required);
         $this->assertTrue($rules[1] instanceof Rule\Email);
     }

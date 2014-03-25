@@ -96,7 +96,7 @@ class ValueValidator {
         $validator = $this->ruleFactory->createValidator($name, $options, $messageTemplate, $label);
         $validator->setErrorMessagePrototype($this->errorMessagePrototype);
         
-        $this->rules->add($validator);
+        $this->rules->attach($validator);
         return $this;
     }
 
@@ -118,7 +118,7 @@ class ValueValidator {
             return $this;
         }
         $validator = $this->ruleFactory->createValidator($name, $options);
-        $this->rules->remove($validator); 
+        $this->rules->detach($validator); 
         return $this;
     }
 
