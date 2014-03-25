@@ -16,13 +16,11 @@
             "email": "adrian@adrianmiu.ro"
         }
     ],
-    "version": "1.1.0",
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.4"
     },
     "require-dev": {
-    	"phpunit/phpunit": "dev-master",
+    	"phpunit/phpunit": "3.7",
         "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
