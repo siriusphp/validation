@@ -7,7 +7,7 @@ use Sirius\Validation\Rule\AbstractValidator;
 class RuleCollection extends \SplObjectStorage {
     
     
-    function attach($rule) {
+    function attach($rule, $data = null) {
         if ($this->contains($rule)) {
             return;
         }
