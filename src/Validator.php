@@ -86,14 +86,14 @@ class Validator implements ValidatorInterface
     const RULE_IMAGE = 'image';
     const RULE_IMAGE_HEIGHT = 'imageheight';
     const RULE_IMAGE_WIDTH = 'imagewidth';
-    const RULE_IMAGE_RATION = 'imageratio';
+    const RULE_IMAGE_RATIO = 'imageratio';
     // upload rules
     const RULE_UPLOAD_EXTENSION = 'uploadextension';
     const RULE_UPLOAD_SIZE = 'uploadsize';
     const RULE_UPLOAD_IMAGE = 'uploadimage';
     const RULE_UPLOAD_IMAGE_HEIGHT = 'uploadimageheight';
     const RULE_UPLOAD_IMAGE_WIDTH = 'uploadimagewidth';
-    const RULE_UPLOAD_IMAGE_RATION = 'uploadimageratio';
+    const RULE_UPLOAD_IMAGE_RATIO = 'uploadimageratio';
 
     /**
      * This is set after the validation is performed so, in case data
