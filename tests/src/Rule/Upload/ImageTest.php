@@ -2,13 +2,16 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-class ImageTest extends \PHPUnit_Framework_TestCase  {
-    
-    function setUp() {
+class ImageTest extends \PHPUnit_Framework_TestCase
+{
+
+    function setUp()
+    {
         $this->validator = new Image();
     }
-    
-    function testMissingFiles() {
+
+    function testMissingFiles()
+    {
         $fileName = 'file_that_does_not_exist.jpg';
         $file = array(
             'name' => $fileName,
@@ -19,8 +22,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase  {
         );
         $this->assertFalse($this->validator->validate($file));
     }
-    
-    function testRealImage() {
+
+    function testRealImage()
+    {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg'));
         $fileName = 'real_jpeg_file.jpg';
         $file = array(
@@ -32,8 +36,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase  {
         );
         $this->assertTrue($this->validator->validate($file));
     }
-    
-    function testFakeImage() {
+
+    function testFakeImage()
+    {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg'));
         $fileName = 'fake_jpeg_file.jpg';
         $file = array(
@@ -45,8 +50,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase  {
         );
         $this->assertFalse($this->validator->validate($file));
     }
-    
-    function testExtensionsAsString() {
+
+    function testExtensionsAsString()
+    {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, 'GIF, jpg');
         $fileName = 'real_jpeg_file.jpg';
         $file = array(
@@ -58,9 +64,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase  {
         );
         $this->assertTrue($this->validator->validate($file));
     }
-    
-    function testPotentialMessage() {
+
+    function testPotentialMessage()
+    {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg', 'png'));
-        $this->assertEquals('File is not a valid image (only JPG, PNG are allowed)', (string)$this->validator->getPotentialMessage());
+        $this->assertEquals(
+            'File is not a valid image (only JPG, PNG are allowed)',
+            (string)$this->validator->getPotentialMessage()
+        );
     }
 }

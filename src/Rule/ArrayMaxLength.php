@@ -13,7 +13,7 @@ class ArrayMaxLength extends AbstractValidator
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (! isset($this->options['max'])) {
+        if (!isset($this->options['max'])) {
             $this->success = true;
         } else {
             $this->success = is_array($value) && count($value) <= $this->options['max'];

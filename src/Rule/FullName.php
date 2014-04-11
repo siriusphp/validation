@@ -17,9 +17,9 @@ class FullName extends AbstractValidator
 
         // Each name must be at least 2 characters long.
         foreach ($names as $name) {
-        	if (mb_strlen($name) < 2) {
-        		return $this->success = false;
-        	}
+            if (mb_strlen($name) < 2) {
+                return $this->success = false;
+            }
         }
 
         // Name cannot be longer shorter than 6 characters.

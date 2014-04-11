@@ -13,7 +13,7 @@ class MinLength extends AbstractValidator
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (! isset($this->options['min'])) {
+        if (!isset($this->options['min'])) {
             $this->success = true;
         } else {
             $this->success = strlen($value) >= $this->options['min'];

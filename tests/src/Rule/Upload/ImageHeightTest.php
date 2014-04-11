@@ -2,13 +2,16 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-class ImageHeightTest extends \PHPUnit_Framework_TestCase  {
-    
-    function setUp() {
+class ImageHeightTest extends \PHPUnit_Framework_TestCase
+{
+
+    function setUp()
+    {
         $this->validator = new ImageHeight(array('min' => 400));
     }
-    
-    function testMissingFiles() {
+
+    function testMissingFiles()
+    {
         $fileName = 'file_that_does_not_exist.jpg';
         $file = array(
             'name' => $fileName,
@@ -19,8 +22,9 @@ class ImageHeightTest extends \PHPUnit_Framework_TestCase  {
         );
         $this->assertFalse($this->validator->validate($file));
     }
-    
-    function testFile() {
+
+    function testFile()
+    {
         $fileName = 'real_jpeg_file.jpg';
         $file = array(
             'name' => $fileName,
@@ -40,10 +44,10 @@ class ImageHeightTest extends \PHPUnit_Framework_TestCase  {
             'error' => UPLOAD_ERR_OK
         );
         $this->assertFalse($this->validator->validate($file));
-        
+
         // change minimum
         $this->validator->setOption(ImageHeight::OPTION_MIN, 200);
         $this->assertTrue($this->validator->validate($file));
     }
-    
+
 }

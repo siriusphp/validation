@@ -2,10 +2,10 @@
 
 namespace Sirius\Validation;
 
-use Sirius\Validation\Validator ;
 use Sirius\Validation\Rule\Callback as CallbackRule;
 
-class RuleFactory {
+class RuleFactory
+{
     /**
      * Validator map allows for flexibility when creating a validation rule
      * You can use 'required' instead of 'required' for the name of the rule
@@ -68,25 +68,25 @@ class RuleFactory {
         Validator::RULE_UPLOAD_IMAGE_WIDTH => 'Upload\ImageWidth',
         Validator::RULE_UPLOAD_IMAGE_HEIGHT => 'Upload\ImageHeight',
         Validator::RULE_UPLOAD_IMAGE_RATIO => 'Upload\ImageRatio',
-
         Validator::RULE_CALLBACK => 'Callback'
     );
-    
-    
+
+
     /**
      * Register a class to be used when creating validation rules
-     * 
+     *
      * @param string $name
      * @param string $class
-     * @return \Sirius\Validation\ValidatorFactory
+     * @return \Sirius\Validation\RuleFactory
      */
-    function register($name, $class) {
+    function register($name, $class)
+    {
         if (in_array('Sirius\Validation\Rule\AbstractValidator', class_parents($class))) {
             $this->validatorsMap[$name] = $class;
         }
         return $this;
     }
-    
+
     /**
      * Factory method to construct a validator based on options that are used most of the times
      *
@@ -98,6 +98,7 @@ class RuleFactory {
      *            error message template
      * @param string $label
      *            label of the form input field or model attribute
+     * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
     function createValidator($name, $options = null, $messageTemplate = null, $label = null)
@@ -110,19 +111,21 @@ class RuleFactory {
                 parse_str($options, $output);
                 $options = $output;
             }
-        } elseif (! $options) {
+        } elseif (!$options) {
             $options = array();
         }
-        
-        if (! is_array($options)) {
+
+        if (!is_array($options)) {
             throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
         }
-        
+
         if (is_callable($name)) {
-            $validator = new CallbackRule(array(
-                'callback' => $name,
-                'arguments' => $options
-            ));
+            $validator = new CallbackRule(
+                array(
+                    'callback' => $name,
+                    'arguments' => $options
+                )
+            );
         } else {
             $name = trim($name);
             // use the validator map
@@ -136,10 +139,12 @@ class RuleFactory {
                 $validator = new $name($options);
             }
         }
-        if (! isset($validator)) {
-            throw new \InvalidArgumentException(sprintf('Impossible to determine the validator based on the name: %s', (string) $name));
+        if (!isset($validator)) {
+            throw new \InvalidArgumentException(
+                sprintf('Impossible to determine the validator based on the name: %s', (string)$name)
+            );
         }
-        
+
         if ($messageTemplate) {
             $validator->setMessageTemplate($messageTemplate);
         }

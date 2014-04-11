@@ -3,17 +3,18 @@ namespace Sirius\Validation\Rule\File;
 
 use Sirius\Validation\Rule\AbstractValidator;
 
-class Size extends AbstractValidator {
-	const OPTION_SIZE = 'size';
+class Size extends AbstractValidator
+{
+    const OPTION_SIZE = 'size';
 
     protected static $defaultMessageTemplate = 'File should not exceed {size}';
 
     protected $options = array(
-    	self::OPTION_SIZE => '2M'
+        self::OPTION_SIZE => '2M'
     );
-    
-    protected function normalizeSize($size) {
-        $normalizedSize = 0;
+
+    protected function normalizeSize($size)
+    {
         $units = array('B' => 0, 'K' => 1, 'M' => 2, 'G' => 3);
         $unit = strtoupper(substr($size, strlen($size) - 1, 1));
         if (!isset($units[$unit])) {
@@ -29,12 +30,12 @@ class Size extends AbstractValidator {
     {
         $this->value = $value;
         if (!file_exists($value)) {
-	        $this->success = false;
-	    } else {
-	    	$fileSize = @filesize($value);
-	    	$limit = $this->normalizeSize($this->options[self::OPTION_SIZE]);
-	    	$this->success = $fileSize && $fileSize <= $limit;
-	    }
+            $this->success = false;
+        } else {
+            $fileSize = @filesize($value);
+            $limit = $this->normalizeSize($this->options[self::OPTION_SIZE]);
+            $this->success = $fileSize && $fileSize <= $limit;
+        }
         return $this->success;
     }
 }

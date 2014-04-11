@@ -6,11 +6,10 @@ class Length extends AbstractValidator
 
     const OPTION_MIN = 'min';
     const OPTION_MAX = 'max';
-    
+
     protected static $defaultMessageTemplate = 'This input must be between {min} and {max} characters long';
 
-    protected $options = array(
-    );
+    protected $options = array();
 
     function validate($value, $valueIdentifier = null)
     {
@@ -23,7 +22,10 @@ class Length extends AbstractValidator
         if (isset($this->options['min'])) {
             $minValidator->setOption('min', $this->options['min']);
         }
-        $this->success = $minValidator->validate($value, $valueIdentifier) && $maxValidator->validate($value, $valueIdentifier);
+        $this->success = $minValidator->validate($value, $valueIdentifier) && $maxValidator->validate(
+                $value,
+                $valueIdentifier
+            );
         return $this->success;
     }
 }

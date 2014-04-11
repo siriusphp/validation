@@ -9,11 +9,17 @@ class AlphaNumHyphen extends AbstractValidator
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        $this->success = (bool) ctype_alnum((string) str_replace(array(
-            ' ',
-            '_',
-            '-'
-        ), '', $value));
+        $this->success = (bool)ctype_alnum(
+            (string)str_replace(
+                array(
+                    ' ',
+                    '_',
+                    '-'
+                ),
+                '',
+                $value
+            )
+        );
         return $this->success;
     }
 }

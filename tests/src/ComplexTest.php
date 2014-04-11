@@ -2,13 +2,12 @@
 
 namespace Sirius\Validation;
 
-use Sirius\Validation\Helper;
-use Sirius\Validation\Validator;
 
+class ComplexTest extends \PHPUnit_Framework_TestCase
+{
 
-class ComplexTest extends \PHPUnit_Framework_TestCase  {
-
-    function setUp() {
+    function setUp()
+    {
         $this->validator = new Validator();
         $this->validator
             ->add('email', 'email | required') // does the order matter?
@@ -19,7 +18,8 @@ class ComplexTest extends \PHPUnit_Framework_TestCase  {
             ->add('birthday', 'requiredwhen', array('item' => 'email_confirm', 'rule' => 'Email'));
     }
 
-    function notestWithCorrectData() {
+    function notestWithCorrectData()
+    {
         $data = array(
             'email' => 'me@domain.com',
             'email_confirm' => 'me@domain.com',
@@ -32,7 +32,8 @@ class ComplexTest extends \PHPUnit_Framework_TestCase  {
         $this->assertTrue($this->validator->validate($data));
     }
 
-    function testWithInvalidData() {
+    function testWithInvalidData()
+    {
         $data = array(
             'email_confirm' => 'me@domain.com',
             'password' => '1234',

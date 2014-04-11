@@ -13,7 +13,7 @@ class ArrayMinLength extends AbstractValidator
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (! isset($this->options['min'])) {
+        if (!isset($this->options['min'])) {
             $this->success = true;
         } else {
             $this->success = is_array($value) && count($value) >= $this->options['min'];

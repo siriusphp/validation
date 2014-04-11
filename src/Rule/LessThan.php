@@ -6,7 +6,7 @@ class LessThan extends AbstractValidator
 
     const OPTION_MAX = 'max';
     const OPTION_INCLUSIVE = 'inclusive';
-    
+
     protected static $defaultMessageTemplate = 'This input must be less than {max}';
 
     protected $options = array(
@@ -16,7 +16,7 @@ class LessThan extends AbstractValidator
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (! isset($this->options['max'])) {
+        if (!isset($this->options['max'])) {
             $this->success = true;
         } else {
             if ($this->options['inclusive']) {

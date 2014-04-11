@@ -5,7 +5,7 @@ class Equal extends AbstractValidator
 {
 
     const OPTION_VALUE = 'value';
-    
+
     protected static $defaultMessageTemplate = 'This input is not equal to {value}';
 
     function validate($value, $valueIdentifier = null)

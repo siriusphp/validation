@@ -9,7 +9,7 @@ class Integer extends AbstractValidator
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        $this->success = (bool) filter_var($value, FILTER_VALIDATE_INT);
+        $this->success = (bool)filter_var($value, FILTER_VALIDATE_INT);
         return $this->success;
     }
 }

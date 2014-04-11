@@ -1,13 +1,16 @@
 <?php
 namespace Sirius\Validation;
 
-class RuleCollectionTest extends \PHPUnit_Framework_TestCase {
-    
-    function setUp() {
+class RuleCollectionTest extends \PHPUnit_Framework_TestCase
+{
+
+    function setUp()
+    {
         $this->collection = new RuleCollection();
     }
-    
-    function testAddAndRemove() {
+
+    function testAddAndRemove()
+    {
         $this->collection->attach(new Rule\Required);
         $this->assertEquals(1, count($this->collection));
 
@@ -15,10 +18,11 @@ class RuleCollectionTest extends \PHPUnit_Framework_TestCase {
         $this->assertEquals(0, count($this->collection));
     }
 
-    function testIterator() {
+    function testIterator()
+    {
         $this->collection->attach(new Rule\Email);
         $this->collection->attach(new Rule\Required);
-        
+
         $rules = array();
         foreach ($this->collection as $k => $rule) {
             $rules[] = $rule;

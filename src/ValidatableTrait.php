@@ -2,12 +2,12 @@
 
 namespace Sirius\Validation;
 
-use Sirius\Validation\Validator;
-
-trait ValidatableTrait implements ValidatableInterface{
+trait ValidatableTrait
+{
     protected $validator;
 
-    function setValidator($validator) {
+    function setValidator($validator)
+    {
         if (!$validator instanceof Validator) {
             throw new \InvalidArgumentException('The $validator argument is not a proper Validator object');
         }
@@ -15,14 +15,16 @@ trait ValidatableTrait implements ValidatableInterface{
         return $this;
     }
 
-    function getValidator($validator) {
+    function getValidator()
+    {
         if (!$this->validator) {
             $this->validator = new Validator();
         }
         return $this->validator;
     }
 
-    function isValid() {
+    function isValid()
+    {
         if (!method_exists($this, 'toArray')) {
             throw new \BadMethodCallException('Object must have the "toArray" method to be able call "isValid"');
         }

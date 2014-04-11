@@ -1,9 +1,6 @@
 <?php
 namespace Sirius\Validation;
 
-use Sirius\Validation\Utils;
-use Sirius\Validation\Helper;
-use Sirius\Validation\ValidationInterface;
 
 class Validator implements ValidatorInterface
 {
@@ -15,7 +12,7 @@ class Validator implements ValidatorInterface
     const RULE_REQUIRED_WITHOUT = 'requiredwithout';
 
     const RULE_REQUIRED_WHEN = 'requiredwhen';
-    
+
     // string rules
     const RULE_ALPHA = 'alpha';
 
@@ -30,7 +27,7 @@ class Validator implements ValidatorInterface
     const RULE_MIN_LENGTH = 'minlength';
 
     const RULE_FULLNAME = 'fullname';
-    
+
     // array rules
     const RULE_ARRAY_LENGTH = 'arraylength';
 
@@ -41,14 +38,14 @@ class Validator implements ValidatorInterface
     const RULE_IN_LIST = 'inlist';
 
     const RULE_NOT_IN_LIST = 'notinlist';
-    
+
     // date rules
     const RULE_DATE = 'date';
 
     const RULE_DATETIME = 'datetime';
 
     const RULE_TIME = 'time';
-    
+
     // number rules
     const RULE_BETWEEN = 'between';
 
@@ -119,7 +116,7 @@ class Validator implements ValidatorInterface
 
     /**
      * Will be used to construct the rules
-     * 
+     *
      * @var \Sirius\Validation\RuleFactory
      */
     protected $ruleFactory;
@@ -127,7 +124,7 @@ class Validator implements ValidatorInterface
     /**
      * The prototype that will be used to generate the error message
      *
-     * @var \Sirius\Validation\ErrorMessage
+     * @var ErrorMessage
      */
     protected $errorMessagePrototype;
 
@@ -145,8 +142,9 @@ class Validator implements ValidatorInterface
         }
         $this->ruleFactory = $ruleFactory;
         if (!$errorMessagePrototype) {
-            $errorMessagePrototype = new ErrorMessage();        
+            $errorMessagePrototype = new ErrorMessage();
         }
+        $this->errorMessagePrototype = $errorMessagePrototype;
     }
 
     /**
@@ -164,11 +162,11 @@ class Validator implements ValidatorInterface
      * when validation fails.
      * This option can be used when you need translation
      *
-     * @param \Sirius\Validation\ErrorMessage $errorMessagePrototype            
+     * @param ErrorMessage $errorMessagePrototype
      * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
-    function setErrorMessagePrototype(\Sirius\Validation\ErrorMessage $errorMessagePrototype)
+    function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
     {
         $this->errorMessagePrototype = $errorMessagePrototype;
         return $this;
@@ -177,7 +175,7 @@ class Validator implements ValidatorInterface
     /**
      * Retrieve the error message prototype
      *
-     * @return \Sirius\Validation\ErrorMessage
+     * @return ErrorMessage
      */
     function getErroMessagePrototype()
     {
@@ -202,21 +200,22 @@ class Validator implements ValidatorInterface
      *          $validator->add('field', 'minlength({"min": 2})({label} should have at least {min} characters)(Field)');
      *          // add validator with string and parameters as query string
      *          $validator->add('field', 'minlength(min=2)({label} should have at least {min} characters)(Field)');
-     * @param string $selector            
-     * @param string|callback $name            
-     * @param string|array $options            
-     * @param string $messageTemplate            
-     * @param string $label            
+     * @param string $selector
+     * @param string|callback $name
+     * @param string|array $options
+     * @param string $messageTemplate
+     * @param string $label
+     * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Validator
      */
     function add($selector, $name = null, $options = null, $messageTemplate = null, $label = null)
     {
         // the $selector is an associative array with $selector => $rules
         if (func_num_args() == 1) {
-            if (! is_array($selector)) {
+            if (!is_array($selector)) {
                 throw new \InvalidArgumentException('If $selector is the only argument it must be an array');
             }
-            
+
             foreach ($selector as $valueSelector => $rules) {
                 // multiple rules were passed for the same $valueSelector
                 if (is_array($rules)) {
@@ -224,10 +223,13 @@ class Validator implements ValidatorInterface
                         // the rule is an array, this means it contains $name, $options, $messageTemplate, $label
                         if (is_array($rule)) {
                             array_unshift($rule, $valueSelector);
-                            call_user_func_array(array(
-                                $this,
-                                'add'
-                            ), $rule);
+                            call_user_func_array(
+                                array(
+                                    $this,
+                                    'add'
+                                ),
+                                $rule
+                            );
                             // the rule is only the name of the validator
                         } else {
                             $this->add($valueSelector, $rule);
@@ -262,10 +264,12 @@ class Validator implements ValidatorInterface
      */
     function remove($selector, $name = true, $options = null)
     {
-        if (! array_key_exists($selector, $this->rules)) {
+        if (!array_key_exists($selector, $this->rules)) {
             return $this;
         }
-        $this->rules[$selector]->remove($name, $options);
+        /* @var $collection \Sirius\Validation\ValueValidator */
+        $collection = $this->rules[$selector];
+        $collection->remove($name, $options);
         return $this;
     }
 
@@ -277,7 +281,7 @@ class Validator implements ValidatorInterface
      */
     function getDataWrapper()
     {
-        if (! $this->dataWrapper) {
+        if (!$this->dataWrapper) {
             $this->dataWrapper = new DataWrapper\ArrayWrapper();
         }
         return $this->dataWrapper;
@@ -310,6 +314,7 @@ class Validator implements ValidatorInterface
         }
         foreach ($this->rules as $selector => $valueValidator) {
             foreach ($this->getDataWrapper()->getItemsBySelector($selector) as $valueIdentifier => $value) {
+                /* @var $valueValidator \Sirius\Validation\ValueValidator */
                 if (!$valueValidator->validate($value, $valueIdentifier, $this->getDataWrapper())) {
                     foreach ($valueValidator->getMessages() as $message) {
                         $this->addMessage($valueIdentifier, $message);
@@ -326,26 +331,26 @@ class Validator implements ValidatorInterface
      *
      * @param string $item
      *            data identifier (eg: 'email', 'addresses[0][state]')
-     * @param string $message            
+     * @param string $message
      * @return self
      */
     function addMessage($item, $message = null)
     {
-        if (! $message) {
+        if (!$message) {
             return;
         }
-        if (! array_key_exists($item, $this->messages)) {
+        if (!array_key_exists($item, $this->messages)) {
             $this->messages[$item] = array();
         }
         $this->messages[$item][] = $message;
-        
+
         return $this;
     }
 
     /**
      * Clears the messages of an item
      *
-     * @param string $item            
+     * @param string $item
      * @return self
      */
     function clearMessages($item = null)

@@ -1,15 +1,16 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-use Sirius\Validation\DataWrapper\WrapperInterface;
 use Sirius\Validation\DataWrapper\ArrayWrapper;
+use Sirius\Validation\DataWrapper\WrapperInterface;
+use Sirius\Validation\ErrorMessage;
 
 abstract class AbstractValidator
 {
 
     /**
      * Default error message template
-     * 
+     *
      * @var string
      */
     protected static $defaultMessageTemplate = 'Value is not valid';
@@ -23,21 +24,21 @@ abstract class AbstractValidator
     /**
      * Options for the validator.
      * Also passed to the error message for customization.
-     * 
+     *
      * @var array
      */
     protected $options = array();
 
     /**
      * Custom error message template for the validator instance
-     * 
+     *
      * @var string
      */
     protected $messageTemplate;
 
     /**
      * Result of the last validation
-     * 
+     *
      * @var boolean
      */
     protected $success = false;
@@ -53,18 +54,18 @@ abstract class AbstractValidator
     /**
      * The prototype that will be used to generate the error message
      *
-     * @var \Sirius\Validation\ErrorMessage
+     * @var ErrorMessage
      */
     protected $errorMessagePrototype;
 
     /**
      * Set the global default message to be used by the validator
      *
-     * @param string $message            
+     * @param string $message
      */
     static function setDefaultMessageTemplate($message)
     {
-        self::$defaultMessageTemplate = (string) $message;
+        self::$defaultMessageTemplate = (string)$message;
     }
 
     function __construct($options = array())
@@ -93,8 +94,8 @@ abstract class AbstractValidator
      *
      * The options are also be passed to the error message.
      *
-     * @param string $name            
-     * @param mixed $value            
+     * @param string $name
+     * @param mixed $value
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
     function setOption($name, $value)
@@ -109,7 +110,8 @@ abstract class AbstractValidator
      * For example, when you need to validate an email field matches another email field,
      * to confirm the email address
      *
-     * @param array|object $context            
+     * @param array|object $context
+     * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
     function setContext($context = null)
@@ -121,7 +123,9 @@ abstract class AbstractValidator
             $context = new ArrayWrapper($context);
         }
         if (!is_object($context) || !$context instanceof WrapperInterface) {
-            throw new \InvalidArgumentException('Validator context must be either an array or an instance of Sirius\Validator\DataWrapper\WrapperInterface');
+            throw new \InvalidArgumentException(
+                'Validator context must be either an array or an instance of Sirius\Validator\DataWrapper\WrapperInterface'
+            );
         }
         $this->context = $context;
         return $this;
@@ -130,7 +134,7 @@ abstract class AbstractValidator
     /**
      * Custom message for this validator to used instead of the the default one
      *
-     * @param string $messageTemplate            
+     * @param string $messageTemplate
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
     function setMessageTemplate($messageTemplate)
@@ -146,7 +150,7 @@ abstract class AbstractValidator
      */
     function getMessageTemplate()
     {
-        if (! $this->messageTemplate) {
+        if (!$this->messageTemplate) {
             return static::$defaultMessageTemplate;
         }
         return $this->messageTemplate;
@@ -159,11 +163,11 @@ abstract class AbstractValidator
      * when validation fails.
      * This option can be used when you need translation
      *
-     * @param \Sirius\Validation\ErrorMessage $errorMessagePrototype            
+     * @param ErrorMessage $errorMessagePrototype
      * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
-    function setErrorMessagePrototype(\Sirius\Validation\ErrorMessage $errorMessagePrototype)
+    function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
     {
         $this->errorMessagePrototype = $errorMessagePrototype;
         return $this;
@@ -173,12 +177,12 @@ abstract class AbstractValidator
      * Returns the error message prototype.
      * It constructs one if there isn't one.
      *
-     * @return \Sirius\Validation\ErrorMessage
+     * @return ErrorMessage
      */
     function getErrorMessagePrototype()
     {
-        if (! $this->errorMessagePrototype) {
-            $this->errorMessagePrototype = new \Sirius\Validation\ErrorMessage();
+        if (!$this->errorMessagePrototype) {
+            $this->errorMessagePrototype = new ErrorMessage();
         }
         return $this->errorMessagePrototype;
     }
@@ -186,7 +190,7 @@ abstract class AbstractValidator
     /**
      * Retrieve the error message if validation failed
      *
-     * @return NULL \Sirius\Validation\ErrorMessage
+     * @return NULL|\Sirius\Validation\ErrorMessage
      */
     function getMessage()
     {
@@ -194,9 +198,11 @@ abstract class AbstractValidator
             return null;
         }
         $message = $this->getPotentialMessage();
-        $message->setVariables(array(
-            'value' => $this->value
-        ));
+        $message->setVariables(
+            array(
+                'value' => $this->value
+            )
+        );
         return $message;
     }
 
@@ -204,7 +210,7 @@ abstract class AbstractValidator
      * Retrieve the potential error message.
      * Example: when you do client-side validation you need to access the "potential error message" to be displayed
      *
-     * @return \Sirius\Validation\ErrorMessage
+     * @return ErrorMessage
      */
     function getPotentialMessage()
     {

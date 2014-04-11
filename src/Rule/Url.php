@@ -9,7 +9,7 @@ class Url extends AbstractValidator
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        $this->success = (bool) filter_var($value, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED);
+        $this->success = (bool)filter_var($value, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED);
         return $this->success;
     }
 }

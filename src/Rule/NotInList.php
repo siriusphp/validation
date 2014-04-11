@@ -9,12 +9,13 @@ class NotInList extends InList
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (! isset($this->options['list'])) {
+        if (!isset($this->options['list'])) {
             $this->success = true;
-        } else 
+        } else {
             if (is_array($this->options['list'])) {
                 $this->success = !in_array($value, $this->options['list']);
             }
+        }
         return $this->success;
     }
 }

@@ -2,7 +2,8 @@
 
 namespace Sirius\Validation;
 
-interface ValidatableInterface {
+interface ValidatableInterface
+{
 
     function setValidator($validator);
 

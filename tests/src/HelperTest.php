@@ -1,16 +1,15 @@
 <?php
 namespace Sirius\Validation;
 
-use Sirius\Validation\Helper;
-
 class HelperTest extends \PHPUnit_Framework_TestCase
 {
 
-    function testOfMethodExists() {
+    function testOfMethodExists()
+    {
         $this->assertTrue(Helper::methodExists('email'));
         $this->assertFalse(Helper::methodExists('nonExistingMethod'));
     }
-    
+
     function testOfRequired()
     {
         $pool = array(
@@ -49,9 +48,17 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             $this->assertSame(Helper::falsy($key), $value);
         }
     }
-    
-    function testOfCallback() {
-        $this->assertTrue(Helper::callback(3, function($value) { return $value === 3; }));
+
+    function testOfCallback()
+    {
+        $this->assertTrue(
+            Helper::callback(
+                3,
+                function ($value) {
+                    return $value === 3;
+                }
+            )
+        );
     }
 
     function testOfEmail()
@@ -473,7 +480,11 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             )
         );
         foreach ($pool as $sample) {
-            $this->assertSame(Helper::equalTo($sample[0], $sample[1], $context), $sample[2], sprintf("%s %s", $sample[0], $sample[1]));
+            $this->assertSame(
+                Helper::equalTo($sample[0], $sample[1], $context),
+                $sample[2],
+                sprintf("%s %s", $sample[0], $sample[1])
+            );
         }
     }
 
@@ -482,7 +493,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(Helper::equalTo(5, '5'));
         $this->assertFalse(Helper::equalTo(5, 'a'));
     }
-    
+
     function testOfWebsite()
     {
         $pool = array(
@@ -628,10 +639,13 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     function testOfValidAddMethodCalls()
     {
-        Helper::addMethod('myValidation', array(
-            $this,
-            'validationCallback'
-        ));
+        Helper::addMethod(
+            'myValidation',
+            array(
+                $this,
+                'validationCallback'
+            )
+        );
         $this->assertTrue(Helper::myValidation(5, 3));
         $this->assertFalse(Helper::myValidation(5, 3, 3));
     }

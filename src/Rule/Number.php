@@ -9,7 +9,7 @@ class Number extends AbstractValidator
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        $this->success = (bool) filter_var($value, FILTER_VALIDATE_FLOAT);
+        $this->success = (bool)filter_var($value, FILTER_VALIDATE_FLOAT);
         return $this->success;
     }
 }

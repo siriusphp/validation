@@ -2,13 +2,16 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-class ExtensionTest extends \PHPUnit_Framework_TestCase  {
-    
-    function setUp() {
+class ExtensionTest extends \PHPUnit_Framework_TestCase
+{
+
+    function setUp()
+    {
         $this->validator = new Extension();
     }
-    
-    function testExistingFiles() {
+
+    function testExistingFiles()
+    {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg'));
         $fileName = 'real_jpeg_file.jpg';
         $file = array(
@@ -20,8 +23,9 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase  {
         );
         $this->assertTrue($this->validator->validate($file));
     }
-    
-    function testMissingFiles() {
+
+    function testMissingFiles()
+    {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg'));
         $fileName = 'file_that_does_not_exist.jpg';
         $file = array(
@@ -33,8 +37,9 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase  {
         );
         $this->assertFalse($this->validator->validate($file));
     }
-    
-    function testSetOptionAsString() {
+
+    function testSetOptionAsString()
+    {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, 'jpg, GIF');
         $fileName = 'real_jpeg_file.jpg';
         $file = array(
@@ -46,9 +51,13 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase  {
         );
         $this->assertTrue($this->validator->validate($file));
     }
-    
-    function testPotentialMessage() {
+
+    function testPotentialMessage()
+    {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg', 'png'));
-        $this->assertEquals('File does not have an acceptable extension (JPG, PNG)', (string)$this->validator->getPotentialMessage());
+        $this->assertEquals(
+            'File does not have an acceptable extension (JPG, PNG)',
+            (string)$this->validator->getPotentialMessage()
+        );
     }
 }

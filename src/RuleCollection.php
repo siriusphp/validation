@@ -2,18 +2,18 @@
 
 namespace Sirius\Validation;
 
-use Sirius\Validation\Rule\AbstractValidator;
+class RuleCollection extends \SplObjectStorage
+{
 
-class RuleCollection extends \SplObjectStorage {
-    
-    
-    function attach($rule, $data = null) {
+
+    function attach($rule, $data = null)
+    {
         if ($this->contains($rule)) {
             return;
         }
         if ($rule instanceof Rule\Required) {
             $rules = array();
-            foreach ($this as $k => $r) {
+            foreach ($this as $r) {
                 $rules[] = $r;
                 $this->detach($r);
             }
@@ -25,8 +25,9 @@ class RuleCollection extends \SplObjectStorage {
         }
         return parent::attach($rule);
     }
-    
-    function getHash($rule) {
+
+    function getHash(Rule\AbstractValidator $rule)
+    {
         return $rule->getUniqueId();
     }
 

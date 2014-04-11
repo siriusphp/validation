@@ -1,8 +1,6 @@
 <?php
 namespace Sirius\Validation;
 
-use Sirius\Validation\Utils;
-
 class Helper
 {
 
@@ -60,31 +58,37 @@ class Helper
 
     static function integer($value)
     {
-        return $value == '0' or (int) $value == $value;
+        return $value == '0' or (int)$value == $value;
     }
 
     static function lessThan($value, $max)
     {
-        $validator = new Rule\LessThan(array(
-            'max' => $max
-        ));
+        $validator = new Rule\LessThan(
+            array(
+                'max' => $max
+            )
+        );
         return $validator->validate($value);
     }
 
     static function greaterThan($value, $min)
     {
-        $validator = new Rule\GreaterThan(array(
-            'min' => $min
-        ));
+        $validator = new Rule\GreaterThan(
+            array(
+                'min' => $min
+            )
+        );
         return $validator->validate($value);
     }
 
     static function between($value, $min, $max)
     {
-        $validator = new Rule\Between(array(
-            'min' => $min,
-            'max' => $max
-        ));
+        $validator = new Rule\Between(
+            array(
+                'min' => $min,
+                'max' => $max
+            )
+        );
         return $validator->validate($value);
     }
 
@@ -95,7 +99,7 @@ class Helper
 
     static function not($value, $otherValue)
     {
-        return ! self::exactly($value, $otherValue);
+        return !self::exactly($value, $otherValue);
     }
 
     static function alpha($value)
@@ -118,83 +122,103 @@ class Helper
 
     static function minLength($value, $min)
     {
-        $validator = new Rule\MinLength(array(
-            'min' => $min
-        ));
+        $validator = new Rule\MinLength(
+            array(
+                'min' => $min
+            )
+        );
         return $validator->validate($value);
     }
 
     static function maxLength($value, $max)
     {
-        $validator = new Rule\MaxLength(array(
-            'max' => $max
-        ));
+        $validator = new Rule\MaxLength(
+            array(
+                'max' => $max
+            )
+        );
         return $validator->validate($value);
     }
 
     static function length($value, $min, $max)
     {
-        $validator = new Rule\Length(array(
-            'min' => $min,
-            'max' => $max
-        ));
+        $validator = new Rule\Length(
+            array(
+                'min' => $min,
+                'max' => $max
+            )
+        );
         return $validator->validate($value);
     }
 
     static function setMinSize($value, $min)
     {
-        $validator = new Rule\ArrayMinLength(array(
-            'min' => $min
-        ));
+        $validator = new Rule\ArrayMinLength(
+            array(
+                'min' => $min
+            )
+        );
         return $validator->validate($value);
     }
 
     static function setMaxSize($value, $max)
     {
-        $validator = new Rule\ArrayMaxLength(array(
-            'max' => $max
-        ));
+        $validator = new Rule\ArrayMaxLength(
+            array(
+                'max' => $max
+            )
+        );
         return $validator->validate($value);
     }
 
     static function setSize($value, $min, $max)
     {
-        $validator = new Rule\ArrayLength(array(
-            'min' => $min,
-            'max' => $max
-        ));
+        $validator = new Rule\ArrayLength(
+            array(
+                'min' => $min,
+                'max' => $max
+            )
+        );
         return $validator->validate($value);
     }
 
     static function in($value, $values)
     {
-        $validator = new Rule\InList(array(
-            'list' => $values
-        ));
+        $validator = new Rule\InList(
+            array(
+                'list' => $values
+            )
+        );
         return $validator->validate($value);
     }
 
     static function notIn($value, $values)
     {
-        $validator = new Rule\NotInList(array(
-            'list' => $values
-        ));
+        $validator = new Rule\NotInList(
+            array(
+                'list' => $values
+            )
+        );
         return $validator->validate($value);
     }
 
     static function regex($value, $pattern)
     {
-        $validator = new Rule\Regex(array(
-            'pattern' => $pattern
-        ));
+        $validator = new Rule\Regex(
+            array(
+                'pattern' => $pattern
+            )
+        );
         return $validator->validate($value);
     }
 
     static function notRegex($value, $pattern)
     {
-        $validator = new Rule\NotRegex(array(
-            'pattern' => $pattern
-        ));
+        $validator = new Rule\NotRegex(
+            array(
+                'pattern' => $pattern
+            )
+        );
         return $validator->validate($value);
     }
 
@@ -208,25 +232,31 @@ class Helper
 
     static function date($value, $format = 'Y-m-d')
     {
-        $validator = new Rule\Date(array(
-        	'format' => $format
-        ));
+        $validator = new Rule\Date(
+            array(
+                'format' => $format
+            )
+        );
         return $validator->validate($value);
     }
 
     static function dateTime($value, $format = 'Y-m-d H:i:s')
     {
-        $validator = new Rule\DateTime(array(
-        	'format' => $format
-        ));
+        $validator = new Rule\DateTime(
+            array(
+                'format' => $format
+            )
+        );
         return $validator->validate($value);
     }
 
     static function time($value, $format = 'H:i:s')
     {
-        $validator = new Rule\Time(array(
-        	'format' => $format
-        ));
+        $validator = new Rule\Time(
+            array(
+                'format' => $format
+            )
+        );
         return $validator->validate($value);
     }
 
@@ -245,7 +275,7 @@ class Helper
     /**
      * Test if a variable is a valid IP address
      *
-     * @param string $value            
+     * @param string $value
      * @return bool
      */
     static function ip($value)
@@ -264,7 +294,7 @@ class Helper
      * Test if a variable is a full name
      * Criterias: at least 6 characters, 2 words
      *
-     * @param mixed $value            
+     * @param mixed $value
      * @return bool
      */
     static function fullName($value)
@@ -276,7 +306,7 @@ class Helper
     /**
      * Test if the domain of an email address is available
      *
-     * @param string $value            
+     * @param string $value
      * @return bool
      */
     public static function emailDomain($value)

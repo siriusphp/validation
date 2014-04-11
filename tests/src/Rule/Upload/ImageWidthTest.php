@@ -2,13 +2,16 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-class ImageWidthTest extends \PHPUnit_Framework_TestCase  {
-    
-    function setUp() {
+class ImageWidthTest extends \PHPUnit_Framework_TestCase
+{
+
+    function setUp()
+    {
         $this->validator = new ImageWidth(array('min' => 500));
     }
-    
-    function testMissingFiles() {
+
+    function testMissingFiles()
+    {
         $fileName = 'file_that_does_not_exist.jpg';
         $file = array(
             'name' => $fileName,
@@ -19,8 +22,9 @@ class ImageWidthTest extends \PHPUnit_Framework_TestCase  {
         );
         $this->assertFalse($this->validator->validate($file));
     }
-    
-    function testFile() {
+
+    function testFile()
+    {
         $fileName = 'real_jpeg_file.jpg';
         $file = array(
             'name' => $fileName,
@@ -40,10 +44,10 @@ class ImageWidthTest extends \PHPUnit_Framework_TestCase  {
             'error' => UPLOAD_ERR_OK
         );
         $this->assertFalse($this->validator->validate($file));
-        
+
         // change minimum
         $this->validator->setOption(ImageWidth::OPTION_MIN, 200);
         $this->assertTrue($this->validator->validate($file));
     }
-    
+
 }
