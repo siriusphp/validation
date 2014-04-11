@@ -26,8 +26,9 @@ class RuleCollection extends \SplObjectStorage
         return parent::attach($rule);
     }
 
-    function getHash(Rule\AbstractValidator $rule)
+    function getHash($rule)
     {
+        /* @var $rule Rule\AbstractValidator */
         return $rule->getUniqueId();
     }
 
