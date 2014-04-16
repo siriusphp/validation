@@ -5,3 +5,4 @@ build/
 /.project
 /vendor
 /composer.lock
+.idea/
