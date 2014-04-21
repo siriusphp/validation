@@ -8,6 +8,7 @@ class EmailDomain extends AbstractValidator
 
     function validate($value, $valueIdentifier = null)
     {
+        $value = (string) $value;
         $this->value = $value;
         // Check if the email domain has a valid MX record
         $this->success = (bool)checkdnsrr(preg_replace('/^[^@]+@/', '', $value), 'MX');

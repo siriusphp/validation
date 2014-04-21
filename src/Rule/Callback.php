@@ -30,7 +30,7 @@ class Callback extends AbstractValidator
         }
 
         if (isset($this->options['arguments'])) {
-            $args = $this->options['arguments'];
+            $args = (array) $this->options['arguments'];
             ksort($args);
             $uniqueId .= '|' . json_encode($args);
         }

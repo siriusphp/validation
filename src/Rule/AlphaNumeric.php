@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 class AlphaNumeric extends AbstractValidator
 {
 
-    protected static $defaultMessageTemplate = 'This input can contain only letters';
+    protected static $defaultMessageTemplate = 'This input can contain only letters and digits';
 
     function validate($value, $valueIdentifier = null)
     {

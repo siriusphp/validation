@@ -156,6 +156,13 @@ abstract class AbstractValidator
         return $this->messageTemplate;
     }
 
+    /**
+     * Validates a value
+     *
+     * @param mixed $value
+     * @param null|mixed $valueIdentifier
+     * @return mixed
+     */
     abstract function validate($value, $valueIdentifier = null);
 
     /**
