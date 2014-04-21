@@ -1,8 +1,8 @@
 <?php
 
-namespace Sirius\Validation;
+namespace Sirius\Validation\Util;
 
-class UtilsTest extends \PHPUnit_Framework_TestCase
+class ArrTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
@@ -23,42 +23,42 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
 
     function testOfArrayGetByPath()
     {
-        $this->assertEquals(Utils::arrayGetByPath($this->data, 'name'), $this->data['name']);
+        $this->assertEquals(Arr::getByPath($this->data, 'name'), $this->data['name']);
         $this->assertEquals(
-            Utils::arrayGetByPath($this->data, 'addresses[shipping][street]'),
+            Arr::getByPath($this->data, 'addresses[shipping][street]'),
             $this->data['addresses']['shipping']['street']
         );
-        $this->assertEquals(Utils::arrayGetByPath($this->data, 'email'), null);
-        $this->assertEquals(Utils::arrayGetByPath($this->data, 'address[shipping][street]'), null);
+        $this->assertEquals(Arr::getByPath($this->data, 'email'), null);
+        $this->assertEquals(Arr::getByPath($this->data, 'address[shipping][street]'), null);
     }
 
     function testOfArrayGetByPathRoot()
     {
-        $this->assertEquals($this->data, Utils::arrayGetByPath($this->data));
+        $this->assertEquals($this->data, Arr::getByPath($this->data));
     }
 
     function testOfArraySetByPath()
     {
-        $this->data = Utils::arraySetBySelector($this->data, 'email', 'my@domain.com');
-        $this->assertEquals(Utils::arrayGetByPath($this->data, 'email'), 'my@domain.com');
+        $this->data = Arr::setBySelector($this->data, 'email', 'my@domain.com');
+        $this->assertEquals(Arr::getByPath($this->data, 'email'), 'my@domain.com');
 
-        $this->data = Utils::arraySetBySelector($this->data, 'newsletters[offers]', true);
-        $this->assertEquals(Utils::arrayGetByPath($this->data, 'newsletters'), array('offers' => true));
-        $this->data = Utils::arraySetBySelector($this->data, 'addresses[*][state]', 'California');
-        $this->assertEquals(Utils::arrayGetByPath($this->data, 'addresses[shipping][state]'), 'California');
-        $this->assertEquals(Utils::arrayGetByPath($this->data, 'addresses[billing][state]'), 'California');
+        $this->data = Arr::setBySelector($this->data, 'newsletters[offers]', true);
+        $this->assertEquals(Arr::getByPath($this->data, 'newsletters'), array('offers' => true));
+        $this->data = Arr::setBySelector($this->data, 'addresses[*][state]', 'California');
+        $this->assertEquals(Arr::getByPath($this->data, 'addresses[shipping][state]'), 'California');
+        $this->assertEquals(Arr::getByPath($this->data, 'addresses[billing][state]'), 'California');
     }
 
     function testOfArraySetBySelectorDoesNotOverwriteTheExistingValues()
     {
-        $this->data = Utils::arraySetBySelector($this->data, 'name', 'Jane Fonda');
-        $this->assertEquals(Utils::arrayGetByPath($this->data, 'name'), 'John Doe');
+        $this->data = Arr::setBySelector($this->data, 'name', 'Jane Fonda');
+        $this->assertEquals(Arr::getByPath($this->data, 'name'), 'John Doe');
     }
 
     function testOfArraySetBySelectorEnsuresDataIsArray()
     {
-        $this->data = Utils::arraySetBySelector('string', 'name', 'Jane Fonda');
-        $this->assertEquals(Utils::arrayGetByPath($this->data, 'name'), 'Jane Fonda');
+        $this->data = Arr::setBySelector('string', 'name', 'Jane Fonda');
+        $this->assertEquals(Arr::getByPath($this->data, 'name'), 'Jane Fonda');
     }
 
     function testOfArrayGetBySelectorDeepSearch()
@@ -84,7 +84,7 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
                 'people[0][address][city]' => 'New York',
                 'people[1][address][city]' => null
             ),
-            Utils::arrayGetBySelector($arr, 'people[*][address][city]')
+            Arr::getBySelector($arr, 'people[*][address][city]')
         );
     }
 
@@ -100,13 +100,13 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
             array(
                 'recipients[0][email]' => null
             ),
-            Utils::arrayGetBySelector($arr, 'recipients[0][email]')
+            Arr::getBySelector($arr, 'recipients[0][email]')
         );
         $this->assertEquals(
             array(
                 'recipients[1][email]' => 'marry@gmail.com'
             ),
-            Utils::arrayGetBySelector($arr, 'recipients[1][email]')
+            Arr::getBySelector($arr, 'recipients[1][email]')
         );
     }
 
@@ -123,7 +123,7 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
                 'lines[quantities][1]' => 2,
                 'lines[quantities][2]' => 3
             ),
-            Utils::arrayGetBySelector($arr, 'lines[quantities][*]')
+            Arr::getBySelector($arr, 'lines[quantities][*]')
         );
     }
 
@@ -134,6 +134,6 @@ class UtilsTest extends \PHPUnit_Framework_TestCase
                 'quantities' => array(1, 2, 3)
             )
         );
-        $this->assertEquals(array(), Utils::arrayGetBySelector($arr, 'recipients[*]'));
+        $this->assertEquals(array(), Arr::getBySelector($arr, 'recipients[*]'));
     }
 }

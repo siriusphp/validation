@@ -1,12 +1,19 @@
 <?php
 
-namespace Sirius\Validation;
+namespace Sirius\Validation\Util;
 
-class Utils
+class Arr
 {
 
+    /**
+     * Constant that represents the root of an array
+     */
     const PATH_ROOT = '/';
 
+    /**
+     * @param $selector
+     * @return array
+     */
     protected static function getSelectorParts($selector)
     {
         $firstOpen = strpos($selector, '[');
@@ -33,7 +40,7 @@ class Utils
      * @param  string $path
      * @return mixed
      */
-    static function arrayGetByPath($array, $path = self::PATH_ROOT)
+    static function getByPath($array, $path = self::PATH_ROOT)
     {
         $path = trim($path);
         if (!$path || $path == self::PATH_ROOT) {
@@ -48,16 +55,16 @@ class Utils
         if ($subpath === '') {
             return array_key_exists($container, $array) ? $array[$container] : null;
         }
-        return array_key_exists($container, $array) ? self::arrayGetByPath($array[$container], $subpath) : null;
+        return array_key_exists($container, $array) ? self::getByPath($array[$container], $subpath) : null;
     }
 
     /**
      * Set values in the array by selector
      *
      * @example
-     * Utils::arraySetBySelector(array(), 'email', 'my@domain.com');
-     * Utils::arraySetBySelector(array(), 'addresses[0][line]', null);
-     * Utils::arraySetBySelector(array(), 'addresses[*][line]', null);
+     * Arr::setBySelector($data, 'email', 'my@domain.com');
+     * Arr::setBySelector($data, 'addresses[0][line]', null);
+     * Arr::setBySelector($data, 'addresses[*][line]', null);
      *
      * @param  array $array
      * @param  string $selector
@@ -65,7 +72,7 @@ class Utils
      * @param  bool $overwrite true if the $value should overwrite the existing value
      * @return array
      */
-    static function arraySetBySelector($array, $selector, $value, $overwrite = false)
+    static function setBySelector($array, $selector, $value, $overwrite = false)
     {
         // make sure the array is an array in case we got here through a subsequent call
         // arraySetElementBySelector(array(), 'item[subitem]', 'value');
@@ -91,26 +98,38 @@ class Utils
         // we got here through something like *[subitem]
         if ($container === '*') {
             foreach ($array as $key => $v) {
-                $array[$key] = self::arraySetBySelector($array[$key], $subselector, $value, $overwrite);
+                $array[$key] = self::setBySelector($array[$key], $subselector, $value, $overwrite);
             }
         } else {
-            $array[$container] = self::arraySetBySelector($array[$container], $subselector, $value, $overwrite);
+            $array[$container] = self::setBySelector($array[$container], $subselector, $value, $overwrite);
         }
 
         return $array;
     }
 
-    static function arrayGetBySelector($array, $selector)
+    /**
+     * Get values in the array by selector
+     *
+     * @example
+     * Arr::getBySelector($data, 'email');
+     * Arr::getBySelector($data, 'addresses[0][line]');
+     * Arr::getBySelector($data, 'addresses[*][line]');
+     *
+     * @param $array
+     * @param $selector
+     * @return array
+     */
+    static function getBySelector($array, $selector)
     {
         if (strpos($selector, '[*]') === false) {
             return array(
-                $selector => self::arrayGetByPath($array, $selector)
+                $selector => self::getByPath($array, $selector)
             );
         }
         $result = array();
         list($preffix, $suffix) = explode('[*]', $selector, 2);
 
-        $base = self::arrayGetByPath($array, $preffix);
+        $base = self::getByPath($array, $preffix);
         if (!is_array($base)) {
             $base = array();
         }
@@ -123,7 +142,7 @@ class Utils
         } else {
             foreach ($base as $itemKey => $itemValue) {
                 if (is_array($itemValue)) {
-                    $result["{$preffix}[{$itemKey}]{$suffix}"] = self::arrayGetByPath($itemValue, $suffix);
+                    $result["{$preffix}[{$itemKey}]{$suffix}"] = self::getByPath($itemValue, $suffix);
                 }
             }
         }

@@ -2,12 +2,19 @@
 
 namespace Sirius\Validation\DataWrapper;
 
-use Sirius\Validation\Utils;
+use Sirius\Validation\Util\Arr;
 
 class ArrayWrapper implements WrapperInterface
 {
+
+    /**
+     * @var array
+     */
     protected $data = array();
 
+    /**
+     * @param array $data
+     */
     function __construct($data = array())
     {
         $this->setData($data);
@@ -31,12 +38,12 @@ class ArrayWrapper implements WrapperInterface
 
     function getItemValue($item)
     {
-        return Utils::arrayGetByPath($this->data, $item);
+        return Arr::getByPath($this->data, $item);
     }
 
     function getItemsBySelector($selector)
     {
-        return Utils::arrayGetBySelector($this->data, $selector);
+        return Arr::getBySelector($this->data, $selector);
     }
 
 }

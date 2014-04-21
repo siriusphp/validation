@@ -1,6 +1,8 @@
 <?php
 namespace Sirius\Validation;
 
+use Sirius\Validation\Util\Arr;
+
 class Helper
 {
 
@@ -227,7 +229,7 @@ class Helper
         if (func_num_args() == 2) {
             return $value == $otherElementOrValue;
         }
-        return $value == Utils::arrayGetByPath($context, $otherElementOrValue);
+        return $value == Arr::getByPath($context, $otherElementOrValue);
     }
 
     static function date($value, $format = 'Y-m-d')
