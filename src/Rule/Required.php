@@ -9,7 +9,7 @@ class Required extends AbstractValidator
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        $this->success = ($value !== null || trim($value) !== '');
+        $this->success = ($value !== null && $value !== '');
         return $this->success;
     }
 }
