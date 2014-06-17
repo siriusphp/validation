@@ -103,34 +103,66 @@ class RuleFactory
      */
     function createValidator($name, $options = null, $messageTemplate = null, $label = null)
     {
+        $options = $this->normalizeOptions($options);
+
+        $validator = $this->constructValidatorByNameAndOptions($name, $options);
+
+        if ($messageTemplate) {
+            $validator->setMessageTemplate($messageTemplate);
+        }
+        if ($label) {
+            $validator->setOption('label', $label);
+        }
+        return $validator;
+    }
+
+    /**
+     * @param $options
+     *
+     * @return array|mixed
+     */
+    protected function normalizeOptions($options)
+    {
+        $result = $options;
         if ($options && is_string($options)) {
             $startChar = substr($options, 0, 1);
             if ($startChar == '{' || $startChar == '[') {
-                $options = json_decode($options, true);
+                $result = json_decode($options, true);
             } else {
                 parse_str($options, $output);
-                $options = $output;
+                $result = $output;
             }
         } elseif (!$options) {
-            $options = array();
+            $result = array();
         }
 
-        if (!is_array($options)) {
+        if (!is_array($result)) {
             throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
         }
 
+        return $result;
+    }
+
+    /**
+     * @param $name
+     * @param $options
+     *
+     * @return CallbackRule
+     */
+    protected function constructValidatorByNameAndOptions($name, $options)
+    {
         if (is_callable($name)) {
             $validator = new CallbackRule(
                 array(
-                    'callback' => $name,
+                    'callback'  => $name,
                     'arguments' => $options
                 )
             );
         } else {
             $name = trim($name);
             // use the validator map
-            if (isset($this->validatorsMap[strtolower($name)])) {
-                $name = $this->validatorsMap[strtolower($name)];
+            if (isset($this->validatorsMap[ strtolower($name) ])) {
+                $name = $this->validatorsMap[ strtolower($name) ];
             }
             if (class_exists('\Sirius\Validation\Rule\\' . $name)) {
                 $name = '\Sirius\Validation\Rule\\' . $name;
@@ -139,17 +171,11 @@ class RuleFactory
                 $validator = new $name($options);
             }
         }
+
         if (!isset($validator)) {
             throw new \InvalidArgumentException(
                 sprintf('Impossible to determine the validator based on the name: %s', (string)$name)
             );
-        }
-
-        if ($messageTemplate) {
-            $validator->setMessageTemplate($messageTemplate);
-        }
-        if ($label) {
-            $validator->setOption('label', $label);
         }
         return $validator;
     }
