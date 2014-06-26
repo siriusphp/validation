@@ -2,6 +2,8 @@
 
 namespace Sirius\Validation;
 
+use Sirius\Validation\Rule\AbstractValidator;
+
 class ValueValidator
 {
 
@@ -63,29 +65,18 @@ class ValueValidator
      *          $validator->add('minlength({"min": 2})({label} should have at least {min} characters)(Field)');
      *          // add validator with string and parameters as query string
      *          $validator->add('minlength(min=2)({label} should have at least {min} characters)(Field)');
+     *
      * @param string|callback $name
      * @param string|array $options
      * @param string $messageTemplate
      * @param string $label
+     *
      * @return \Sirius\Validation\Validator
      */
     function add($name, $options = null, $messageTemplate = null, $label = null)
     {
         if (is_array($name) && !is_callable($name)) {
-            foreach ($name as $singleRule) {
-                // make sure the rule is an array (the parameters of subsequent calls);
-                $singleRule = is_array($singleRule) ? $singleRule : array(
-                    $singleRule
-                );
-                call_user_func_array(
-                    array(
-                        $this,
-                        'add'
-                    ),
-                    $singleRule
-                );
-            }
-            return $this;
+            return $this->addMultiple($name);
         }
         if (is_string($name)) {
             // rule was supplied like 'required' or 'required | email'
@@ -98,9 +89,41 @@ class ValueValidator
             }
         }
         $validator = $this->ruleFactory->createValidator($name, $options, $messageTemplate, $label);
-        $validator->setErrorMessagePrototype($this->errorMessagePrototype);
 
-        $this->rules->attach($validator);
+        return $this->addRule($validator);
+    }
+
+    /**
+     * @param array $rules
+     *
+     * @return self
+     */
+    public function addMultiple($rules)
+    {
+        foreach ($rules as $singleRule) {
+            // make sure the rule is an array (the parameters of subsequent calls);
+            $singleRule = is_array($singleRule) ? $singleRule : array(
+                $singleRule
+            );
+            call_user_func_array(
+                array(
+                    $this,
+                    'add'
+                ),
+                $singleRule
+            );
+        }
+        return $this;
+    }
+
+    /**
+     * @param AbstractValidator $validationRule
+     *
+     * @return $this
+     */
+    function addRule(AbstractValidator $validationRule) {
+        $validationRule->setErrorMessagePrototype($this->errorMessagePrototype);
+        $this->rules->attach($validationRule);
         return $this;
     }
 
@@ -215,4 +238,5 @@ class ValueValidator
     {
         return $this->rules;
     }
+
 }

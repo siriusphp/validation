@@ -20,6 +20,10 @@ class ArrayWrapper implements WrapperInterface
         $this->setData($data);
     }
 
+    /**
+     * @param array|\ArrayObject|object $data
+     * @throws \InvalidArgumentException
+     */
     function setData($data)
     {
         if (is_object($data)) {
