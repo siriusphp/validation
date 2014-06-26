@@ -6,3 +6,4 @@ build/
 /vendor
 /composer.lock
 .idea/
+atlassian-ide-plugin.xml
