@@ -91,7 +91,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator->add('email', 'email');
 
         // test array objects
-        $data = new \ArrayObject([], \ArrayObject::ARRAY_AS_PROPS);
+        $data = new \ArrayObject(array(), \ArrayObject::ARRAY_AS_PROPS);
         $data->email = 'not_an_email';
 
         $this->validator->validate($data);
