@@ -13,7 +13,7 @@ Sirius Validation is a library for data validation. It offers:
 2. [validation helper](docs/helper.md) to simplify single value validation (does not generate error messages, only returns TRUE/FALSE)
 3. [build-in validation rules](docs/rules.md) to perform the actual data validation. The validation rules are used by the helper and validator objects.
 
-Out-of-the-box, the library can handle `array`s, `ArrayObject`s and objects that have implemented the `toArray` method. 
+Out-of-the-box, the library can handle `array`s, `ArrayObject`s and objects that have implemented the `toArray` method.
 In order to validate other data containers you must create a [`DataWrapper`](https://github.com/siriusphp/validation/blob/master/src/Validation/DataWrapper/WrapperInterface.php) so that the validator be able to extract data from your object.
 
 ##Elevator pitch
@@ -59,6 +59,11 @@ $validator->add('shipping_address[city]', 'MyApp\Validator\City'); // uses a cus
 ##Documentation
 
 [go to the documentation](docs/index.md)
+
+##Known issues
+
+In PHP 5.3 there is some problem with the SplObject storage that prevents the library to remove validation rules.
+This means that in PHP 5.3, you cannot remove a validation rule from a `Validator` or `ValueValidator` object
 
 ## Release notes
 
