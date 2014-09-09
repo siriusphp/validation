@@ -29,7 +29,7 @@ class RuleFactory
         // array rules
         Validator::RULE_ARRAY_LENGTH => 'ArrayLength',
         Validator::RULE_ARRAY_MAX_LENGTH => 'ArrayMaxLength',
-        Validator::RULE_ARRAY_MIN_LENGTH => 'ArrayMinLengh',
+        Validator::RULE_ARRAY_MIN_LENGTH => 'ArrayMinLength',
         Validator::RULE_IN_LIST => 'InList',
         Validator::RULE_NOT_IN_LIST => 'NotInList',
         // date rules
