@@ -20,7 +20,7 @@ class Between extends AbstractValidator
         }
         $maxValidator = new GreaterThan();
         if (isset($this->options['min'])) {
-            $minValidator->setOption('min', $this->options['min']);
+            $maxValidator->setOption('min', $this->options['min']);
         }
         $this->success = $minValidator->validate($value, $valueIdentifier) && $maxValidator->validate(
                 $value,
