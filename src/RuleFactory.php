@@ -81,7 +81,7 @@ class RuleFactory
      */
     function register($name, $class)
     {
-        if (in_array('Sirius\Validation\Rule\AbstractValidator', class_parents($class))) {
+        if (is_subclass_of($class, '\Sirius\Validation\Rule\AbstractValidator')) {
             $this->validatorsMap[$name] = $class;
         }
         return $this;
@@ -164,9 +164,11 @@ class RuleFactory
             if (isset($this->validatorsMap[ strtolower($name) ])) {
                 $name = $this->validatorsMap[ strtolower($name) ];
             }
+            // try if the validator is the name of a class in the package
             if (class_exists('\Sirius\Validation\Rule\\' . $name)) {
                 $name = '\Sirius\Validation\Rule\\' . $name;
             }
+            // at this point we should have a class that can be instanciated
             if (class_exists($name) && is_subclass_of($name, '\Sirius\Validation\Rule\AbstractValidator')) {
                 $validator = new $name($options);
             }

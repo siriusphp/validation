@@ -128,4 +128,3 @@ $validator->clearMessages();
 ```
 
 Anytime you execute `$validator->validate($values)` the validation messages are cleared (even those set manually).
-
