@@ -67,7 +67,7 @@ This means that in PHP 5.3, you cannot remove a validation rule from a `Validato
 
 ## Release notes
 
-#### 1.3
+#### 1.2.2
 
 - fixed bug with the 'between' validator (pull request #16)
 - added support for PHP 5.3 (tests fail but due to the short array syntax, not the inherent code in the library)
