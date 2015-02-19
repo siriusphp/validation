@@ -328,7 +328,7 @@ class Validator implements ValidatorInterface
      */
     public function addMessage($item, $message = null)
     {
-        if (!$message) {
+        if ($message === null || $message === '') {
             return $this;
         }
         if (!array_key_exists($item, $this->messages)) {

@@ -107,10 +107,10 @@ class RuleFactory
 
         $validator = $this->constructValidatorByNameAndOptions($name, $options);
 
-        if ($messageTemplate) {
+        if (is_string($messageTemplate) && $messageTemplate !== '') {
             $validator->setMessageTemplate($messageTemplate);
         }
-        if ($label) {
+        if (is_string($label) && $label !== '') {
             $validator->setOption('label', $label);
         }
         return $validator;
