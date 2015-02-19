@@ -63,7 +63,7 @@ abstract class AbstractValidator
      *
      * @param string $message
      */
-    static function setDefaultMessageTemplate($message)
+    public static function setDefaultMessageTemplate($message)
     {
         self::$defaultMessageTemplate = (string)$message;
     }

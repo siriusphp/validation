@@ -8,7 +8,7 @@ class Helper
 
     protected static $methods = array();
 
-    static function addMethod($ruleName, $callback)
+    public static function addMethod($ruleName, $callback)
     {
         if (is_callable($callback)) {
             self::$methods[$ruleName] = $callback;
@@ -17,12 +17,12 @@ class Helper
         return false;
     }
 
-    static function methodExists($name)
+    public static function methodExists($name)
     {
         return method_exists(__CLASS__, $name) or array_key_exists($name, self::$methods);
     }
 
-    static function __callStatic($name, $arguments)
+    public static function __callStatic($name, $arguments)
     {
         if (array_key_exists($name, self::$methods)) {
             return call_user_func_array(self::$methods[$name], $arguments);
@@ -30,7 +30,7 @@ class Helper
         throw new \InvalidArgumentException(sprintf('Validation method "%s" does not exist', $name));
     }
 
-    static function callback($value, $callback, $context = array())
+    public static function callback($value, $callback, $context = array())
     {
         $validator = new Rule\Callback();
         $validator->setOption('callback', $callback);
@@ -38,32 +38,32 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function required($value)
+    public static function required($value)
     {
         return $value !== null and trim($value) !== '';
     }
 
-    static function truthy($value)
+    public static function truthy($value)
     {
         return $value == true;
     }
 
-    static function falsy($value)
+    public static function falsy($value)
     {
         return $value == false;
     }
 
-    static function number($value)
+    public static function number($value)
     {
         return $value == '0' or is_numeric($value);
     }
 
-    static function integer($value)
+    public static function integer($value)
     {
         return $value == '0' or (int)$value == $value;
     }
 
-    static function lessThan($value, $max)
+    public static function lessThan($value, $max)
     {
         $validator = new Rule\LessThan(
             array(
@@ -73,7 +73,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function greaterThan($value, $min)
+    public static function greaterThan($value, $min)
     {
         $validator = new Rule\GreaterThan(
             array(
@@ -83,7 +83,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function between($value, $min, $max)
+    public static function between($value, $min, $max)
     {
         $validator = new Rule\Between(
             array(
@@ -94,35 +94,35 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function exactly($value, $otherValue)
+    public static function exactly($value, $otherValue)
     {
         return $value == $otherValue;
     }
 
-    static function not($value, $otherValue)
+    public static function not($value, $otherValue)
     {
         return !self::exactly($value, $otherValue);
     }
 
-    static function alpha($value)
+    public static function alpha($value)
     {
         $validator = new Rule\Alpha();
         return $validator->validate($value);
     }
 
-    static function alphanumeric($value)
+    public static function alphanumeric($value)
     {
         $validator = new Rule\AlphaNumeric();
         return $validator->validate($value);
     }
 
-    static function alphanumhyphen($value)
+    public static function alphanumhyphen($value)
     {
         $validator = new Rule\AlphaNumHyphen();
         return $validator->validate($value);
     }
 
-    static function minLength($value, $min)
+    public static function minLength($value, $min)
     {
         $validator = new Rule\MinLength(
             array(
@@ -132,7 +132,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function maxLength($value, $max)
+    public static function maxLength($value, $max)
     {
         $validator = new Rule\MaxLength(
             array(
@@ -142,7 +142,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function length($value, $min, $max)
+    public static function length($value, $min, $max)
     {
         $validator = new Rule\Length(
             array(
@@ -153,7 +153,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function setMinSize($value, $min)
+    public static function setMinSize($value, $min)
     {
         $validator = new Rule\ArrayMinLength(
             array(
@@ -163,7 +163,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function setMaxSize($value, $max)
+    public static function setMaxSize($value, $max)
     {
         $validator = new Rule\ArrayMaxLength(
             array(
@@ -173,7 +173,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function setSize($value, $min, $max)
+    public static function setSize($value, $min, $max)
     {
         $validator = new Rule\ArrayLength(
             array(
@@ -184,7 +184,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function in($value, $values)
+    public static function in($value, $values)
     {
         $validator = new Rule\InList(
             array(
@@ -194,7 +194,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function notIn($value, $values)
+    public static function notIn($value, $values)
     {
         $validator = new Rule\NotInList(
             array(
@@ -204,7 +204,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function regex($value, $pattern)
+    public static function regex($value, $pattern)
     {
         $validator = new Rule\Regex(
             array(
@@ -214,7 +214,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function notRegex($value, $pattern)
+    public static function notRegex($value, $pattern)
     {
         $validator = new Rule\NotRegex(
             array(
@@ -224,7 +224,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function equalTo($value, $otherElementOrValue, $context = null)
+    public static function equalTo($value, $otherElementOrValue, $context = null)
     {
         if (func_num_args() == 2) {
             return $value == $otherElementOrValue;
@@ -232,7 +232,7 @@ class Helper
         return $value == Arr::getByPath($context, $otherElementOrValue);
     }
 
-    static function date($value, $format = 'Y-m-d')
+    public static function date($value, $format = 'Y-m-d')
     {
         $validator = new Rule\Date(
             array(
@@ -242,7 +242,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function dateTime($value, $format = 'Y-m-d H:i:s')
+    public static function dateTime($value, $format = 'Y-m-d H:i:s')
     {
         $validator = new Rule\DateTime(
             array(
@@ -252,7 +252,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function time($value, $format = 'H:i:s')
+    public static function time($value, $format = 'H:i:s')
     {
         $validator = new Rule\Time(
             array(
@@ -262,13 +262,13 @@ class Helper
         return $validator->validate($value);
     }
 
-    static function website($value)
+    public static function website($value)
     {
         $validator = new Rule\Website();
         return $validator->validate($value);
     }
 
-    static function url($value)
+    public static function url($value)
     {
         $validator = new Rule\Url();
         return $validator->validate($value);
@@ -280,13 +280,13 @@ class Helper
      * @param string $value
      * @return bool
      */
-    static function ip($value)
+    public static function ip($value)
     {
         $validator = new Rule\IpAddress();
         return $validator->validate($value);
     }
 
-    static function email($value)
+    public static function email($value)
     {
         $validator = new Rule\Email();
         return $validator->validate($value);
@@ -299,7 +299,7 @@ class Helper
      * @param mixed $value
      * @return bool
      */
-    static function fullName($value)
+    public static function fullName($value)
     {
         $validator = new Rule\FullName();
         return $validator->validate($value);

@@ -40,7 +40,7 @@ class Arr
      * @param  string $path
      * @return mixed
      */
-    static function getByPath($array, $path = self::PATH_ROOT)
+    public static function getByPath($array, $path = self::PATH_ROOT)
     {
         $path = trim($path);
         if (!$path || $path == self::PATH_ROOT) {
@@ -72,7 +72,7 @@ class Arr
      * @param  bool $overwrite true if the $value should overwrite the existing value
      * @return array
      */
-    static function setBySelector($array, $selector, $value, $overwrite = false)
+    public static function setBySelector($array, $selector, $value, $overwrite = false)
     {
         // make sure the array is an array in case we got here through a subsequent call
         // arraySetElementBySelector(array(), 'item[subitem]', 'value');
@@ -119,7 +119,7 @@ class Arr
      * @param $selector
      * @return array
      */
-    static function getBySelector($array, $selector)
+    public static function getBySelector($array, $selector)
     {
         if (strpos($selector, '[*]') === false) {
             return array(
