@@ -90,7 +90,7 @@ class RuleFactory
     /**
      * Factory method to construct a validator based on options that are used most of the times
      *
-     * @param string $name
+     * @param string|callable $name
      *            name of a validator class or a callable object/function
      * @param string|array $options
      *            validator options (an array, JSON string or QUERY string)

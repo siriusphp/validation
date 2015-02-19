@@ -71,7 +71,7 @@ class ValueValidator
      * @param string $messageTemplate
      * @param string $label
      *
-     * @return \Sirius\Validation\Validator
+     * @return ValueValidator
      */
     function add($name, $options = null, $messageTemplate = null, $label = null)
     {
@@ -96,7 +96,7 @@ class ValueValidator
     /**
      * @param array $rules
      *
-     * @return self
+     * @return ValueValidator
      */
     public function addMultiple($rules)
     {
@@ -119,7 +119,7 @@ class ValueValidator
     /**
      * @param AbstractValidator $validationRule
      *
-     * @return $this
+     * @return ValueValidator
      */
     function addRule(AbstractValidator $validationRule) {
         $validationRule->setErrorMessagePrototype($this->errorMessagePrototype);

@@ -194,7 +194,7 @@ class Validator implements ValidatorInterface
      *
      * @throws \InvalidArgumentException
      *
-     * @return \Sirius\Validation\Validator
+     * @return Validator
      */
     function add($selector, $name = null, $options = null, $messageTemplate = null, $label = null)
     {
@@ -215,7 +215,7 @@ class Validator implements ValidatorInterface
     /**
      * @param array $selectorRulesCollection
      *
-     * @return $this
+     * @return Validator
      */
     public function addMultiple($selectorRulesCollection)
     {

@@ -1,8 +1,8 @@
 #Sirius Validation
 
-[![Build Status](https://travis-ci.org/siriusphp/validation.png?branch=master)](https://travis-ci.org/siriusphp/validation)
-[![Coverage Status](https://coveralls.io/repos/siriusphp/validation/badge.png)](https://coveralls.io/r/siriusphp/validation)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/siriusphp/validation/badges/quality-score.png?s=9ee7779b2bf75aae6c26bd5f0b6a90a9081b2545)](https://scrutinizer-ci.com/g/siriusphp/validation/)
+[![Build Status](https://scrutinizer-ci.com/g/siriusphp/validation/badges/build.png?b=master)](https://scrutinizer-ci.com/g/siriusphp/validation/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/siriusphp/validation/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/siriusphp/validation/?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/siriusphp/validation/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/siriusphp/validation/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/siriusphp/validation/v/stable.png)](https://packagist.org/packages/siriusphp/validation)
 [![License](https://poser.pugx.org/siriusphp/validation/license.png)](https://packagist.org/packages/siriusphp/validation)
 
