@@ -8,7 +8,7 @@ class Regex extends AbstractValidator
 
     protected static $defaultMessageTemplate = 'This input does not match the regular expression {pattern}';
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         if (isset($this->options['pattern'])) {

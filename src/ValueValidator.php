@@ -36,7 +36,7 @@ class ValueValidator
     protected $rules;
 
 
-    function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null)
+    public function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null)
     {
         if (!$ruleFactory) {
             $ruleFactory = new RuleFactory();
@@ -73,7 +73,7 @@ class ValueValidator
      *
      * @return ValueValidator
      */
-    function add($name, $options = null, $messageTemplate = null, $label = null)
+    public function add($name, $options = null, $messageTemplate = null, $label = null)
     {
         if (is_array($name) && !is_callable($name)) {
             return $this->addMultiple($name);
@@ -121,7 +121,7 @@ class ValueValidator
      *
      * @return ValueValidator
      */
-    function addRule(AbstractValidator $validationRule) {
+    public function addRule(AbstractValidator $validationRule) {
         $validationRule->setErrorMessagePrototype($this->errorMessagePrototype);
         $this->rules->attach($validationRule);
         return $this;
@@ -138,7 +138,7 @@ class ValueValidator
      * @internal param string $selector data selector
      * @return self
      */
-    function remove($name = true, $options = null)
+    public function remove($name = true, $options = null)
     {
         if ($name === true) {
             $this->rules = new RuleCollection();

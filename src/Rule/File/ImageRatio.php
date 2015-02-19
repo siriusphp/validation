@@ -30,7 +30,7 @@ class ImageRatio extends AbstractValidator
         return 0;
     }
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         $ratio = $this->normalizeRatio($this->options[self::OPTION_RATIO]);

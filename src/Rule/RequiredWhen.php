@@ -9,7 +9,7 @@ class RequiredWhen extends Required
 
     protected static $defaultMessageTemplate = 'This field is required';
 
-    function getItemRule()
+    public function getItemRule()
     {
         /* @var $rule AbstractValidator */
         $rule = false;
@@ -39,7 +39,7 @@ class RequiredWhen extends Required
         return $rule;
     }
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
 

@@ -7,7 +7,7 @@ class InList extends AbstractValidator
 
     protected static $defaultMessageTemplate = 'This input is not one of the accepted values';
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         if (!isset($this->options['list'])) {

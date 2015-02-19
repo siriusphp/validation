@@ -7,7 +7,7 @@ class RequiredWithout extends Required
 
     protected static $defaultMessageTemplate = 'This field is required';
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         if (isset($this->options[self::OPTION_ITEM]) && $this->context->getItemValue(

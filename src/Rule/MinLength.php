@@ -10,7 +10,7 @@ class MinLength extends AbstractValidator
 
     protected $options = array();
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         if (!isset($this->options['min'])) {

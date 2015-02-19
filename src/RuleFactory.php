@@ -79,7 +79,7 @@ class RuleFactory
      * @param string $class
      * @return \Sirius\Validation\RuleFactory
      */
-    function register($name, $class)
+    public function register($name, $class)
     {
         if (is_subclass_of($class, '\Sirius\Validation\Rule\AbstractValidator')) {
             $this->validatorsMap[$name] = $class;
@@ -101,7 +101,7 @@ class RuleFactory
      * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
-    function createValidator($name, $options = null, $messageTemplate = null, $label = null)
+    public function createValidator($name, $options = null, $messageTemplate = null, $label = null)
     {
         $options = $this->normalizeOptions($options);
 

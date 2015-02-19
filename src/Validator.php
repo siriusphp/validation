@@ -124,7 +124,7 @@ class Validator implements ValidatorInterface
      */
     protected $dataWrapper;
 
-    function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null)
+    public function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null)
     {
         if (!$ruleFactory) {
             $ruleFactory = new RuleFactory();
@@ -141,7 +141,7 @@ class Validator implements ValidatorInterface
      *
      * @return \Sirius\Validation\RuleFactory
      */
-    function getRuleFactory()
+    public function getRuleFactory()
     {
         return $this->ruleFactory;
     }
@@ -153,7 +153,7 @@ class Validator implements ValidatorInterface
      *
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
-    function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
+    public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
     {
         $this->errorMessagePrototype = $errorMessagePrototype;
         return $this;
@@ -164,7 +164,7 @@ class Validator implements ValidatorInterface
      *
      * @return ErrorMessage
      */
-    function getErroMessagePrototype()
+    public function getErroMessagePrototype()
     {
         return $this->errorMessagePrototype;
     }
@@ -196,7 +196,7 @@ class Validator implements ValidatorInterface
      *
      * @return Validator
      */
-    function add($selector, $name = null, $options = null, $messageTemplate = null, $label = null)
+    public function add($selector, $name = null, $options = null, $messageTemplate = null, $label = null)
     {
         // the $selector is an associative array with $selector => $rules
         if (func_num_args() == 1) {
@@ -256,7 +256,7 @@ class Validator implements ValidatorInterface
      *            rule options, necessary for rules that depend on params for their ID
      * @return self
      */
-    function remove($selector, $name = true, $options = null)
+    public function remove($selector, $name = true, $options = null)
     {
         if (!array_key_exists($selector, $this->rules)) {
             return $this;
@@ -273,7 +273,7 @@ class Validator implements ValidatorInterface
      *
      * @return \Sirius\Validation\DataWrapper\WrapperInterface
      */
-    function getDataWrapper()
+    public function getDataWrapper()
     {
         if (!$this->dataWrapper) {
             $this->dataWrapper = new DataWrapper\ArrayWrapper();
@@ -281,7 +281,7 @@ class Validator implements ValidatorInterface
         return $this->dataWrapper;
     }
 
-    function setData($data)
+    public function setData($data)
     {
         $this->getDataWrapper()->setData($data);
         $this->wasValidated = false;
@@ -297,7 +297,7 @@ class Validator implements ValidatorInterface
      *            array to be validated
      * @return boolean
      */
-    function validate($data = null)
+    public function validate($data = null)
     {
         if ($data !== null) {
             $this->setData($data);
@@ -326,7 +326,7 @@ class Validator implements ValidatorInterface
      * @param string $message
      * @return self
      */
-    function addMessage($item, $message = null)
+    public function addMessage($item, $message = null)
     {
         if (!$message) {
             return $this;
@@ -345,7 +345,7 @@ class Validator implements ValidatorInterface
      * @param string $item
      * @return self
      */
-    function clearMessages($item = null)
+    public function clearMessages($item = null)
     {
         if (is_string($item)) {
             if (array_key_exists($item, $this->messages)) {
@@ -362,7 +362,7 @@ class Validator implements ValidatorInterface
      *            key of the messages array (eg: 'password', 'addresses[0][line_1]')
      * @return array
      */
-    function getMessages($item = null)
+    public function getMessages($item = null)
     {
         if (is_string($item)) {
             return array_key_exists($item, $this->messages) ? $this->messages[$item] : array();
@@ -370,7 +370,7 @@ class Validator implements ValidatorInterface
         return $this->messages;
     }
 
-    function getRules()
+    public function getRules()
     {
         return $this->rules;
     }

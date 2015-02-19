@@ -6,7 +6,7 @@ class NotInList extends InList
 
     protected static $defaultMessageTemplate = 'This input is one of the forbidden values';
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         if (!isset($this->options['list'])) {

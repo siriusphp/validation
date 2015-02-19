@@ -10,7 +10,7 @@ class Callback extends AbstractValidator
 
     protected static $defaultMessageTemplate = 'This input does not meet the validation criteria';
 
-    function getUniqueId()
+    public function getUniqueId()
     {
         $uniqueId = get_called_class();
         // the callback is a function name (eg: is_int) or a static class method (eg: MyClass::method)
@@ -37,7 +37,7 @@ class Callback extends AbstractValidator
         return $uniqueId;
     }
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         if (!isset($this->options['callback']) || !is_callable($this->options['callback'])) {

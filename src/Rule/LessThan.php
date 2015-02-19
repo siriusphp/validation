@@ -13,7 +13,7 @@ class LessThan extends AbstractValidator
         'inclusive' => true
     );
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         if (!isset($this->options['max'])) {

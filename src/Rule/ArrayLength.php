@@ -11,7 +11,7 @@ class ArrayLength extends AbstractValidator
 
     protected $options = array();
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         $maxValidator = new ArrayMaxLength();

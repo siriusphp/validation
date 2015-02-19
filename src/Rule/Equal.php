@@ -8,7 +8,7 @@ class Equal extends AbstractValidator
 
     protected static $defaultMessageTemplate = 'This input is not equal to {value}';
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         if (isset($this->options[self::OPTION_VALUE])) {

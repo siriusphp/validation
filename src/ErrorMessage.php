@@ -7,13 +7,13 @@ class ErrorMessage
     protected $template = 'Invalid';
     protected $variables = array();
 
-    function __construct($template = '', $variables = array())
+    public function __construct($template = '', $variables = array())
     {
         $this->setTemplate($template)
             ->setVariables($variables);
     }
 
-    function setTemplate($template)
+    public function setTemplate($template)
     {
         $template = trim((string)$template);
         if ($template) {
@@ -22,7 +22,7 @@ class ErrorMessage
         return $this;
     }
 
-    function setVariables($variables = array())
+    public function setVariables($variables = array())
     {
         foreach ($variables as $k => $v) {
             $this->variables[$k] = $v;
@@ -30,7 +30,7 @@ class ErrorMessage
         return $this;
     }
 
-    function __toString()
+    public function __toString()
     {
         $result = $this->template;
         foreach ($this->variables as $k => $v) {

@@ -68,7 +68,7 @@ abstract class AbstractValidator
         self::$defaultMessageTemplate = (string)$message;
     }
 
-    function __construct($options = array())
+    public function __construct($options = array())
     {
         if (is_array($options) && !empty($options)) {
             foreach ($options as $k => $v) {
@@ -84,7 +84,7 @@ abstract class AbstractValidator
      *
      * @return string
      */
-    function getUniqueId()
+    public function getUniqueId()
     {
         return get_called_class() . '|' . json_encode(ksort($this->options));
     }
@@ -98,7 +98,7 @@ abstract class AbstractValidator
      * @param mixed $value
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
-    function setOption($name, $value)
+    public function setOption($name, $value)
     {
         $this->options[$name] = $value;
         return $this;
@@ -114,7 +114,7 @@ abstract class AbstractValidator
      * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
-    function setContext($context = null)
+    public function setContext($context = null)
     {
         if ($context === null) {
             return $this;
@@ -137,7 +137,7 @@ abstract class AbstractValidator
      * @param string $messageTemplate
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
-    function setMessageTemplate($messageTemplate)
+    public function setMessageTemplate($messageTemplate)
     {
         $this->messageTemplate = $messageTemplate;
         return $this;
@@ -148,7 +148,7 @@ abstract class AbstractValidator
      *
      * @return string
      */
-    function getMessageTemplate()
+    public function getMessageTemplate()
     {
         if (!$this->messageTemplate) {
             return static::$defaultMessageTemplate;
@@ -174,7 +174,7 @@ abstract class AbstractValidator
      * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
-    function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
+    public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
     {
         $this->errorMessagePrototype = $errorMessagePrototype;
         return $this;
@@ -186,7 +186,7 @@ abstract class AbstractValidator
      *
      * @return ErrorMessage
      */
-    function getErrorMessagePrototype()
+    public function getErrorMessagePrototype()
     {
         if (!$this->errorMessagePrototype) {
             $this->errorMessagePrototype = new ErrorMessage();
@@ -199,7 +199,7 @@ abstract class AbstractValidator
      *
      * @return NULL|\Sirius\Validation\ErrorMessage
      */
-    function getMessage()
+    public function getMessage()
     {
         if ($this->success) {
             return null;
@@ -219,7 +219,7 @@ abstract class AbstractValidator
      *
      * @return ErrorMessage
      */
-    function getPotentialMessage()
+    public function getPotentialMessage()
     {
         $message = clone ($this->getErrorMessagePrototype());
         $message->setTemplate($this->getMessageTemplate());

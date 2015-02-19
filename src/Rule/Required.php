@@ -6,7 +6,7 @@ class Required extends AbstractValidator
 
     protected static $defaultMessageTemplate = 'This field is required';
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         $this->success = ($value !== null && $value !== '');

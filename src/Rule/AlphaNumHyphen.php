@@ -6,7 +6,7 @@ class AlphaNumHyphen extends AbstractValidator
 
     protected static $defaultMessageTemplate = 'This input can contain only letters, digits, spaces, hyphens and underscores';
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         $this->success = (bool)ctype_alnum(

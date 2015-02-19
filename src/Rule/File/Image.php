@@ -25,7 +25,7 @@ class Image extends AbstractValidator
         IMAGETYPE_ICO => 'ico',
     );
 
-    function setOption($name, $value)
+    public function setOption($name, $value)
     {
         if ($name == self::OPTION_ALLOWED_IMAGES) {
             if (is_string($value)) {
@@ -37,7 +37,7 @@ class Image extends AbstractValidator
         return parent::setOption($name, $value);
     }
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         if (!file_exists($value)) {
@@ -50,7 +50,7 @@ class Image extends AbstractValidator
         return $this->success;
     }
 
-    function getPotentialMessage()
+    public function getPotentialMessage()
     {
         $message = parent::getPotentialMessage();
         $imageTypes = array_map('strtoupper', $this->options[self::OPTION_ALLOWED_IMAGES]);

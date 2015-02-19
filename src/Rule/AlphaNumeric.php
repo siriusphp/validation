@@ -6,7 +6,7 @@ class AlphaNumeric extends AbstractValidator
 
     protected static $defaultMessageTemplate = 'This input can contain only letters and digits';
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         $this->success = (bool)ctype_alnum((string)str_replace(' ', '', $value));

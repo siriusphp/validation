@@ -6,7 +6,7 @@ class EmailDomain extends AbstractValidator
 
     protected static $defaultMessageTemplate = 'This the email address does not belong to a valid domain';
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $value = (string) $value;
         $this->value = $value;

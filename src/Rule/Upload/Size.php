@@ -26,7 +26,7 @@ class Size extends AbstractValidator
         return $normalizedSize;
     }
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         if (!is_array($value) || !isset($value['tmp_name']) || !file_exists($value['tmp_name'])) {

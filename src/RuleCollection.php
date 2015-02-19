@@ -6,7 +6,7 @@ class RuleCollection extends \SplObjectStorage
 {
 
 
-    function attach($rule, $data = null)
+    public function attach($rule, $data = null)
     {
         if ($this->contains($rule)) {
             return;
@@ -26,7 +26,7 @@ class RuleCollection extends \SplObjectStorage
         return parent::attach($rule);
     }
 
-    function getHash($rule)
+    public function getHash($rule)
     {
         /* @var $rule Rule\AbstractValidator */
         return $rule->getUniqueId();

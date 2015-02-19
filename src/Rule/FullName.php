@@ -9,7 +9,7 @@ class FullName extends AbstractValidator
     /**
      * This is not going to work with Asian names, http://en.wikipedia.org/wiki/Chinese_name.
      */
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
 

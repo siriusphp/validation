@@ -15,7 +15,7 @@ class Extension extends AbstractValidator
         self::OPTION_ALLOWED_EXTENSIONS => array()
     );
 
-    function setOption($name, $value)
+    public function setOption($name, $value)
     {
         if ($name == self::OPTION_ALLOWED_EXTENSIONS) {
             if (is_string($value)) {
@@ -27,7 +27,7 @@ class Extension extends AbstractValidator
         return parent::setOption($name, $value);
     }
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         if (!is_array($value) || !isset($value['tmp_name']) || !file_exists($value['tmp_name'])) {
@@ -42,7 +42,7 @@ class Extension extends AbstractValidator
         return $this->success;
     }
 
-    function getPotentialMessage()
+    public function getPotentialMessage()
     {
         $message = parent::getPotentialMessage();
         $fileExtensions = array_map('strtoupper', $this->options[self::OPTION_ALLOWED_EXTENSIONS]);

@@ -12,7 +12,7 @@ class Date extends AbstractValidator
         'format' => 'Y-m-d'
     );
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         $this->success = $value == date(

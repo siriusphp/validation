@@ -15,7 +15,7 @@ class ArrayWrapper implements WrapperInterface
     /**
      * @param array $data
      */
-    function __construct($data = array())
+    public function __construct($data = array())
     {
         $this->setData($data);
     }
@@ -24,7 +24,7 @@ class ArrayWrapper implements WrapperInterface
      * @param array|\ArrayObject|object $data
      * @throws \InvalidArgumentException
      */
-    function setData($data)
+    public function setData($data)
     {
         if (is_object($data)) {
             if ($data instanceof \ArrayObject) {
@@ -40,12 +40,12 @@ class ArrayWrapper implements WrapperInterface
         return;
     }
 
-    function getItemValue($item)
+    public function getItemValue($item)
     {
         return Arr::getByPath($this->data, $item);
     }
 
-    function getItemsBySelector($selector)
+    public function getItemsBySelector($selector)
     {
         return Arr::getBySelector($this->data, $selector);
     }

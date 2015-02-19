@@ -6,7 +6,7 @@ class IpAddress extends AbstractValidator
 
     protected static $defaultMessageTemplate = 'This input is not a valid IP address';
 
-    function validate($value, $valueIdentifier = null)
+    public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         // Do not allow private and reserved range IPs
