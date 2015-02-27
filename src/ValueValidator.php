@@ -208,6 +208,11 @@ class ValueValidator
                 break;
             }
         }
+
+        if (!$isRequired && $value === null) {
+            return true;
+        }
+        
         /* @var $rule \Sirius\Validation\Rule\AbstractValidator */
         foreach ($this->rules as $rule) {
             $rule->setContext($context);
