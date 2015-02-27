@@ -8,7 +8,7 @@ class Email extends AbstractValidator
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        $this->success = (filter_var((string)$value, FILTER_VALIDATE_EMAIL) != false);
+        $this->success = (filter_var((string)$value, FILTER_VALIDATE_EMAIL) !== false);
         return $this->success;
     }
 }

@@ -19,7 +19,7 @@ class Helper
 
     public static function methodExists($name)
     {
-        return method_exists(__CLASS__, $name) or array_key_exists($name, self::$methods);
+        return method_exists(__CLASS__, $name) || array_key_exists($name, self::$methods);
     }
 
     public static function __callStatic($name, $arguments)
@@ -40,27 +40,27 @@ class Helper
 
     public static function required($value)
     {
-        return $value !== null and trim($value) !== '';
+        return $value !== null && trim($value) !== '';
     }
 
     public static function truthy($value)
     {
-        return $value == true;
+        return (bool)$value;
     }
 
     public static function falsy($value)
     {
-        return $value == false;
+        return !static::truthy($value);
     }
 
     public static function number($value)
     {
-        return $value == '0' or is_numeric($value);
+        return $value == '0' || is_numeric($value);
     }
 
     public static function integer($value)
     {
-        return $value == '0' or (int)$value == $value;
+        return $value == '0' || (int)$value == $value;
     }
 
     public static function lessThan($value, $max)

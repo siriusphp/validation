@@ -75,16 +75,15 @@ class Arr
     public static function setBySelector($array, $selector, $value, $overwrite = false)
     {
         // make sure the array is an array in case we got here through a subsequent call
-        // arraySetElementBySelector(array(), 'item[subitem]', 'value');
-        // will call
-        // arraySetElementBySelector(null, 'subitem', 'value');
+        // so arraySetElementBySelector(array(), 'item[subitem]', 'value');
+        // will call arraySetElementBySelector(null, 'subitem', 'value');
         if (!is_array($array)) {
             $array = array();
         }
         list($container, $subselector) = self::getSelectorParts($selector);
         if (!$subselector) {
             if ($container !== '*') {
-                if ($overwrite == true or !array_key_exists($container, $array)) {
+                if ($overwrite === true || !array_key_exists($container, $array)) {
                     $array[$container] = $value;
                 }
             }
@@ -92,7 +91,7 @@ class Arr
         }
 
         // if we have a subselector the $array[$container] must be an array
-        if ($container !== '*' and !array_key_exists($container, $array)) {
+        if ($container !== '*' && !array_key_exists($container, $array)) {
             $array[$container] = array();
         }
         // we got here through something like *[subitem]

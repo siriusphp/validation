@@ -1,6 +1,7 @@
 <?php
 namespace Sirius\Validation;
 
+use Sirius\Validation\ValidatorInterface;
 
 class Validator implements ValidatorInterface
 {
@@ -304,7 +305,7 @@ class Validator implements ValidatorInterface
         }
         // data was already validated, return the results immediately
         if ($this->wasValidated === true) {
-            return $this->wasValidated and count($this->messages) === 0;
+            return $this->wasValidated && count($this->messages) === 0;
         }
         foreach ($this->rules as $selector => $valueValidator) {
             foreach ($this->getDataWrapper()->getItemsBySelector($selector) as $valueIdentifier => $value) {
@@ -317,7 +318,7 @@ class Validator implements ValidatorInterface
             }
         }
         $this->wasValidated = true;
-        return $this->wasValidated and count($this->messages) === 0;
+        return $this->wasValidated && count($this->messages) === 0;
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace Sirius\Validation\DataWrapper;
 
 use Sirius\Validation\Util\Arr;
+use Sirius\Validation\DataWrapper\WrapperInterface;
 
 class ArrayWrapper implements WrapperInterface
 {
