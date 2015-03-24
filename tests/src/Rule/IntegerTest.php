@@ -14,6 +14,7 @@ class IntegerTest extends \PHPUnit_Framework_TestCase
 
     function testValidation()
     {
+        $this->assertTrue($this->validator->validate('0'));
         $this->assertTrue($this->validator->validate('10'));
         $this->assertFalse($this->validator->validate('10.3'));
     }
