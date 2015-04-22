@@ -4,8 +4,9 @@ namespace Sirius\Validation\Rule;
 class NotInList extends InList
 {
 
-    protected static $defaultMessageTemplate = 'This input is one of the forbidden values';
-
+    const MESSAGE = 'This input is one of the forbidden values';
+    const LABELED_MESSAGE = '{label} is one of the forbidden values';
+    
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

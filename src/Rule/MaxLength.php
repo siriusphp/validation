@@ -6,8 +6,9 @@ class MaxLength extends AbstractValidator
 
     const OPTION_MAX = 'max';
 
-    protected static $defaultMessageTemplate = 'This input have less than {max} characters';
-
+    const MESSAGE = 'This input should have less than {max} characters';
+    const LABELED_MESSAGE = '{label} should have less than {max} characters';
+    
     protected $options = array();
 
     public function validate($value, $valueIdentifier = null)

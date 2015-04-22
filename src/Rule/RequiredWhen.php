@@ -7,8 +7,9 @@ class RequiredWhen extends Required
     const OPTION_RULE = 'rule';
     const OPTION_RULE_OPTIONS = 'rule_options';
 
-    protected static $defaultMessageTemplate = 'This field is required';
-
+    const MESSAGE = 'This field is required';
+    const LABELED_MESSAGE = '{label} is required';
+    
     public function getItemRule()
     {
         /* @var $rule AbstractValidator */

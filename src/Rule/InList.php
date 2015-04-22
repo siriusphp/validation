@@ -6,7 +6,9 @@ class InList extends AbstractValidator
 {
 
     protected static $defaultMessageTemplate = 'This input is not one of the accepted values';
-
+    const MESSAGE = 'This input is not one of the accepted values';
+    const LABELED_MESSAGE = '{label} is not one of the accepted values';
+    
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

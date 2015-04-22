@@ -8,8 +8,10 @@ class ImageWidth extends AbstractValidator
     const OPTION_MAX = 'max';
     const OPTION_MIN = 'min';
 
-    protected static $defaultMessageTemplate = 'Image should be at least {min} pixels wide';
-
+    const MESSAGE = 'The image should be at least {min} pixels wide';
+    
+    const LABELED_MESSAGE = '{label} should be at least {min} pixels wide';
+    
     protected $options = array(
         self::OPTION_MAX => 1000000,
         self::OPTION_MIN => 0,

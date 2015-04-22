@@ -7,8 +7,9 @@ class Between extends AbstractValidator
     const OPTION_MIN = 'min';
     const OPTION_MAX = 'max';
 
-    protected static $defaultMessageTemplate = 'This input must be between {min} and {max}';
-
+    const MESSAGE = 'This input must be between {min} and {max}';
+    const LABELED_MESSAGE = '{label} must be between {min} and {max}';
+    
     protected $options = array();
 
     public function validate($value, $valueIdentifier = null)

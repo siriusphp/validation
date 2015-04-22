@@ -56,7 +56,7 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg', 'png'));
         $this->assertEquals(
-            'File does not have an acceptable extension (JPG, PNG)',
+            'The file does not have an acceptable extension (JPG, PNG)',
             (string)$this->validator->getPotentialMessage()
         );
     }

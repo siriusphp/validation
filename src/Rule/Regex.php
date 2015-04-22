@@ -6,8 +6,9 @@ class Regex extends AbstractValidator
 
     const OPTION_PATTERN = 'pattern';
 
-    protected static $defaultMessageTemplate = 'This input does not match the regular expression {pattern}';
-
+    const MESSAGE = 'This input does not match the regular expression {pattern}';
+    const LABELED_MESSAGE = '{label} does not match the regular expression {pattern}';
+    
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

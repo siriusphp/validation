@@ -9,8 +9,10 @@ class Image extends AbstractValidator
 
     const OPTION_ALLOWED_IMAGES = 'allowed';
 
-    protected static $defaultMessageTemplate = 'File is not a valid image (only {image_types} are allowed)';
-
+    const MESSAGE = 'The file is not a valid image (only {image_types} are allowed)';
+    
+    const LABELED_MESSAGE = '{label} is not a valid image (only {image_types} are allowed)';
+    
     protected $options = array(
         self::OPTION_ALLOWED_IMAGES => array('jpg', 'png', 'gif')
     );

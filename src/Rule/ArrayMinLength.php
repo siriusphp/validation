@@ -6,8 +6,9 @@ class ArrayMinLength extends AbstractValidator
 
     const OPTION_MIN = 'min';
 
-    protected static $defaultMessageTemplate = 'This input should contain at least {min} items';
-
+    const MESSAGE = 'This input should contain at least {min} items';
+    const LABELED_MESSAGE = '{label} should contain at least {min} items';
+    
     protected $options = array();
 
     public function validate($value, $valueIdentifier = null)

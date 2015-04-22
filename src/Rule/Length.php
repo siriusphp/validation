@@ -7,8 +7,9 @@ class Length extends AbstractValidator
     const OPTION_MIN = 'min';
     const OPTION_MAX = 'max';
 
-    protected static $defaultMessageTemplate = 'This input must be between {min} and {max} characters long';
-
+    const MESSAGE = 'This input must be between {min} and {max} characters long';
+    const LABELED_MESSAGE = '{label} must be between {min} and {max} characters long';
+    
     protected $options = array();
 
     public function validate($value, $valueIdentifier = null)

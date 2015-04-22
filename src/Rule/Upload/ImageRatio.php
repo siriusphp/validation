@@ -11,8 +11,10 @@ class ImageRatio extends AbstractValidator
     // how much can the image ratio diverge from the allowed ratio
     const OPTION_ERROR_MARGIN = 'error_margin';
 
-    protected static $defaultMessageTemplate = 'Image does must have a ratio (width/height) of {ratio})';
-
+    const MESSAGE = 'The image does must have a ratio (width/height) of {ratio})';
+    
+    const LABELED_MESSAGE = '{label} does must have a ratio (width/height) of {ratio})';
+    
     protected $options = array(
         self::OPTION_RATIO => 0,
         self::OPTION_ERROR_MARGIN => 0,

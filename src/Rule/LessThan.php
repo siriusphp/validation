@@ -7,8 +7,9 @@ class LessThan extends AbstractValidator
     const OPTION_MAX = 'max';
     const OPTION_INCLUSIVE = 'inclusive';
 
-    protected static $defaultMessageTemplate = 'This input must be less than {max}';
-
+    const MESSAGE = 'This input should be less than {max}';
+    const LABELED_MESSAGE = '{label} should be less than {max}';
+    
     protected $options = array(
         'inclusive' => true
     );

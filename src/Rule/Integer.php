@@ -4,8 +4,9 @@ namespace Sirius\Validation\Rule;
 class Integer extends AbstractValidator
 {
 
-    protected static $defaultMessageTemplate = 'This input must be an integer number';
-
+    const MESSAGE = 'This input must be an integer number';
+    const LABELED_MESSAGE = '{label} must be an integer number';
+    
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

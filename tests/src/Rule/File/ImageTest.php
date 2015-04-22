@@ -42,7 +42,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg', 'png'));
         $this->validator->validate('no_file.jpg');
         $this->assertEquals(
-            'File is not a valid image (only JPG, PNG are allowed)',
+            'The file is not a valid image (only JPG, PNG are allowed)',
             (string)$this->validator->getPotentialMessage()
         );
     }

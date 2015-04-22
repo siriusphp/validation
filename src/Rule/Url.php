@@ -4,8 +4,9 @@ namespace Sirius\Validation\Rule;
 class Url extends AbstractValidator
 {
 
-    protected static $defaultMessageTemplate = 'This input is not a valid URL';
-
+    const MESSAGE = 'This input is not a valid URL';
+    const LABELED_MESSAGE = '{label} is not a valid URL';
+    
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

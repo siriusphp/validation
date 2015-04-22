@@ -17,11 +17,14 @@ The error message has
 
 The variables are 'injected' into the resulting string through `str_replace`-ing the variables name inside brackets with their values (eg: `{min}` is replaced by `10`);
 
-## Translating error message
+## Translating the error messages
+
+There are a couple of ways to translate the error messages
 
 ##### 1.Postpone the translation until display
 
 ```php
+// make a function especially for that
 echo translateErrorMessageObjects($validator->getMessage('title'));
 ```
 
@@ -29,7 +32,9 @@ echo translateErrorMessageObjects($validator->getMessage('title'));
 
 ```php
 class TranslatableErrorMessage extends Sirius\Validation\ErrorMessage {
-	// write your implementation here
+	function __toString() {
+		// write your implementation here
+	}
 }
 
 // later when constructing your validators
@@ -37,8 +42,12 @@ class TranslatableErrorMessage extends Sirius\Validation\ErrorMessage {
 $validator = new Sirius\Validation\Validator(null, new TranslatableErrorMessage);
 ```
 
-##### 3.Pass translated strings to the validator
+##### 3.Use translated strings
 
 ```php
-$validator->add('title', 'maxlength', 'max=100', yourTranslateImplementation('{label} must have less than {max} characters'), yourTranslateImplementation('Title'));
+// in the validator
+$validator->add('title', 'maxlength', 'max=100', __('{label} must have less than {max} characters'), __('Title'));
+
+// or the rule factory
+$ruleFactoryInstance->setErrorMessages('maxlength', __('This field must have less than {max} characters'), __('{label} must have less than {max} characters'));
 ```

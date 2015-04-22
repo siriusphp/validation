@@ -6,8 +6,9 @@ class Match extends AbstractValidator
 
     const OPTION_ITEM = 'item';
 
-    protected static $defaultMessageTemplate = 'This input does not match {item}';
-
+    const MESSAGE = 'This input does not match {item}';
+    const LABELED_MESSAGE = '{label} does not match {item}';
+    
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

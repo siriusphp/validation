@@ -9,8 +9,10 @@ class Extension extends AbstractValidator
 
     const OPTION_ALLOWED_EXTENSIONS = 'allowed';
 
-    protected static $defaultMessageTemplate = 'File does not have an acceptable extension ({file_extensions})';
-
+    const MESSAGE = 'The file does not have an acceptable extension ({file_extensions})';
+    
+    const LABELED_MESSAGE = '{label} does not have an acceptable extension ({file_extensions})';
+    
     protected $options = array(
         self::OPTION_ALLOWED_EXTENSIONS => array()
     );

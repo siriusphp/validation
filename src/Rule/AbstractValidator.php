@@ -7,13 +7,9 @@ use Sirius\Validation\ErrorMessage;
 
 abstract class AbstractValidator
 {
-
-    /**
-     * Default error message template
-     *
-     * @var string
-     */
-    protected static $defaultMessageTemplate = 'Value is not valid';
+    const MESSAGE = 'Value is not valid';
+    
+    const LABELED_MESSAGE = '{label} is not valid';
 
     /**
      *
@@ -58,25 +54,52 @@ abstract class AbstractValidator
      */
     protected $errorMessagePrototype;
 
-    /**
-     * Set the global default message to be used by the validator
-     *
-     * @param string $message
-     */
-    public static function setDefaultMessageTemplate($message)
-    {
-        self::$defaultMessageTemplate = (string)$message;
-    }
-
     public function __construct($options = array())
     {
+        $options = $this->normalizeOptions($options);
         if (is_array($options) && !empty($options)) {
             foreach ($options as $k => $v) {
                 $this->setOption($k, $v);
             }
         }
     }
+    
+    /**
+     * @param $options
+     *
+     * @return array|mixed
+     */
+    protected function normalizeOptions($options)
+    {
+        if (is_array($options) && $this->arrayIsAssoc($options))
+        {
+            return $options;
+        }
+        $result = $options;
+        if ($options && is_string($options)) {
+            $startChar = substr($options, 0, 1);
+            if ($startChar == '{' || $startChar == '[') {
+                $result = json_decode($options, true);
+            } else {
+                parse_str($options, $output);
+                $result = $output;
+            }
+        } elseif (!$options) {
+            $result = array();
+        }
 
+        if (!is_array($result)) {
+            throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
+        }
+
+        return $result;
+    }
+    
+    protected function arrayIsAssoc($arr) {
+        return array_keys($arr) === range(0, count($arr));
+    }
+
+    
     /**
      * Generates a unique string to identify the validator.
      * It can be used to compare 2 validators
@@ -150,10 +173,13 @@ abstract class AbstractValidator
      */
     public function getMessageTemplate()
     {
-        if (!$this->messageTemplate) {
-            return static::$defaultMessageTemplate;
+        if ($this->messageTemplate) {
+            return $this->messageTemplate;
         }
-        return $this->messageTemplate;
+        if (isset($this->options['label'])) {
+            return constant(get_class($this) . '::LABELED_MESSAGE');
+        }
+        return constant(get_class($this) . '::MESSAGE');
     }
 
     /**

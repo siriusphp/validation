@@ -1,10 +1,14 @@
 # RuleFactory
 
-The [validator object](validator.md) uses a `RuleFactory` to construct the validation rules based on the parameters received by the `add()` method.
+Every [validator object](validator.md) uses a `RuleFactory` to construct the validation rules based on the parameters received by the `add()` method.
 
-The `RuleFactory` is a simple registry-like object which maps validation names to [validation rules classes](rules.md).
+The `RuleFactory` is a simple registry-like object which stores
 
-If your app uses dependency injection you can create one validator factory to be used by all the validators
+1. the names of validation rules and their corresponding [validation rules classes](rules.md).
+2. the default error messages for each validation rule. These are used when there is NO label attached to the field
+3. the default **LABELED** error messages for each validation rule. These are used when the field has a label attached
+
+By configuring the default error messages in the `RuleFactory` you don't have to repeat yourself. Since you should use a single `RuleFactory` for the entire app, there will be a single place where you can set the error message for, let's say, the `required` rule.
 
 ## Registering validator classes
 
@@ -16,21 +20,28 @@ use Sirius\Validation\Validator;
 
 $ruleFactory = new RuleFactory;
 // register new validation class
-$ruleFactory->register('user_exists', 'MyApp\UserExistsValidator');
+$ruleFactory->register('user_exists', 'MyApp\UserExistsValidator', $defaultMessageWithoutLabel, $defaultMessageWithLabel);
 
 // overwrite an already registered class
-$ruleFactory->register('email', 'MyApp\VeryPowerfullEmailValidator');
+$ruleFactory->register('email', 'MyApp\VeryPowerfullEmailValidator', $defaultMessageWithoutLabel, $defaultMessageWithLabel);
+
+// override just the error messages
+$ruleFactory->setMessages('email', $defaultMessageWithoutLabel, $defaultMessageWithLabel);
+// obviously you can override only what you need
+$ruleFactory->setMessages('email', null, $defaultMessageWithLabel);
 
 $validator = new Validator($ruleFactory);
 ```
 
-## Q&A
+## Complex validators
 
-### My validators are more complex (ie: they have dependencies), how can I use them?
+If your validator need access to external resources (eg: a database connection) they cannot be registered as classes on the validator factory you a few choices: 
 
-If your validator need access to external resources (eg: a database connection) they cannot be registered as classes on the validator factory you have 2 choices: **use the validator as a callback** or **pass the dependencies as options**
+1. use the validator as a callback
+2. pass the dependencies as options
+3. extend the `RuleFactory` class
 
-#### Using the validator as a callback 
+###1. Using the validator as a callback 
 
 ```
 namespace MyApp\Validation;
@@ -68,7 +79,7 @@ $validator = new Validator($ruleFactory);
 $validator->add('username', array($usernameValidator, 'validate'));
 ```
 
-#### Pass the dependencies as options
+###2. Pass the dependencies as options
 
 ```
 namespace MyApp\Validation;
@@ -81,7 +92,7 @@ class UsernameValidator extends AbstractValidator{
 	}
 
 	function validate($value) {
-		$options['db_connection']->query('SELECT * FROM users WHERE username=?', $value);
+		$this->options['db_connection']->query('SELECT * FROM users WHERE username=?', $value);
 		// continue here
 	}
 }
@@ -93,4 +104,29 @@ and in your validator you do something like
 $validator->add('username', 'MyApp\Validation\UsernameValidator', array(
 	'db_connection' => $dbConn
 ));
+```
+
+###3. Extend the `RuleFactory` class
+
+This solution depends on your application structure but assuming you have a dependency injection container you can use a different `RuleFactory` object that is capable of creating rules using a service locator or even the dependency injection container.
+
+The example below is just food for thought
+
+```php
+namespace MyApp\Validation;
+
+class RuleFactory extends \Sirius\Validation\RuleFactory {
+	
+	protected $dic;
+
+	function setDic(DependecyInjectionContainerInterface $dic) {
+		$this->dic = $dic;
+	}
+
+	protected function constructValidatorByNameAndOptions($name, $options) {
+		$validatorClass = $this->validatorsMap[$name];
+		$validator = $this->dic->createInstanceWithParams($validatorClass, array($options));
+		return $validator;
+	}
+}
 ```

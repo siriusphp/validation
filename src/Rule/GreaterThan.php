@@ -8,7 +8,9 @@ class GreaterThan extends AbstractValidator
     const OPTION_INCLUSIVE = 'inclusive';
 
     protected static $defaultMessageTemplate = 'This input must be greater than {min}';
-
+    const MESSAGE = 'This input should be greater than {min}';
+    const LABELED_MESSAGE = '{label} should be greater than {min}';
+    
     protected $options = array(
         'inclusive' => true
     );

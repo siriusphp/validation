@@ -8,8 +8,9 @@ class Callback extends AbstractValidator
 
     const OPTION_ARGUMENTS = 'arguments';
 
-    protected static $defaultMessageTemplate = 'This input does not meet the validation criteria';
-
+    const MESSAGE = 'This input does not meet the validation criteria';
+    const LABELED_MESSAGE = '{label} does not meet the validation criteria';
+    
     public function getUniqueId()
     {
         $uniqueId = get_called_class();

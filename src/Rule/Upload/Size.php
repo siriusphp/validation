@@ -7,8 +7,10 @@ class Size extends AbstractValidator
 {
     const OPTION_SIZE = 'size';
 
-    protected static $defaultMessageTemplate = 'File should not exceed {size}';
-
+    const MESSAGE = 'The file should not exceed {size}';
+    
+    const LABELED_MESSAGE = '{label} should not exceed {size}';
+    
     protected $options = array(
         self::OPTION_SIZE => '2M'
     );

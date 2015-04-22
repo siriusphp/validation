@@ -4,8 +4,9 @@ namespace Sirius\Validation\Rule;
 class Required extends AbstractValidator
 {
 
-    protected static $defaultMessageTemplate = 'This field is required';
-
+    const MESSAGE = 'This field is required';
+    const LABELED_MESSAGE = '{label} is required';
+    
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

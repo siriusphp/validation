@@ -35,8 +35,15 @@ class ValueValidator
      */
     protected $rules;
 
-
-    public function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null)
+    /**
+     * The label of the value to be validated
+     * 
+     * @var string
+     */
+    protected $label;
+    
+    
+    function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null, $label = null)
     {
         if (!$ruleFactory) {
             $ruleFactory = new RuleFactory();
@@ -46,7 +53,15 @@ class ValueValidator
             $errorMessagePrototype = new ErrorMessage();
         }
         $this->errorMessagePrototype = $errorMessagePrototype;
+        if ($label) {
+            $this->label = $label;
+        }
         $this->rules = new RuleCollection;
+    }
+    
+    public function setLabel($label = null) {
+        $this->label = $label;
+        return $this;
     }
 
     /**
@@ -60,11 +75,11 @@ class ValueValidator
      *          // add multiple rules using a string
      *          $validator->add('required | email');
      *          // add validator with options
-     *          $validator->add('minlength', array('min' => 2), '{label} should have at least {min} characters', 'Field');
+     *          $validator->add('minlength', array('min' => 2), '{label} should have at least {min} characters', 'Field label');
      *          // add validator with string and parameters as JSON string
-     *          $validator->add('minlength({"min": 2})({label} should have at least {min} characters)(Field)');
+     *          $validator->add('minlength({"min": 2})({label} should have at least {min} characters)(Field label)');
      *          // add validator with string and parameters as query string
-     *          $validator->add('minlength(min=2)({label} should have at least {min} characters)(Field)');
+     *          $validator->add('minlength(min=2)({label} should have at least {min} characters)(Field label)');
      *
      * @param string|callback $name
      * @param string|array $options
@@ -79,7 +94,7 @@ class ValueValidator
             return $this->addMultiple($name);
         }
         if (is_string($name)) {
-            // rule was supplied like 'required' or 'required | email'
+            // rule was supplied like 'required | email'
             if (strpos($name, ' | ') !== false) {
                 return $this->add(explode(' | ', $name));
             }
@@ -88,6 +103,12 @@ class ValueValidator
                 list ($name, $options, $messageTemplate, $label) = $this->parseRule($name);
             }
         }
+
+        // check for the default label
+        if (!$label and $this->label) {
+            $label = $this->label;
+        }
+        
         $validator = $this->ruleFactory->createValidator($name, $options, $messageTemplate, $label);
 
         return $this->addRule($validator);

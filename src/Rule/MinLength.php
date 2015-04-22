@@ -6,8 +6,9 @@ class MinLength extends AbstractValidator
 
     const OPTION_MIN = 'min';
 
-    protected static $defaultMessageTemplate = 'This input should have at least {min} characters';
-
+    const MESSAGE = 'This input should have at least {min} characters';
+    const LABELED_MESSAGE = '{label} should have at least {min} characters';
+    
     protected $options = array();
 
     public function validate($value, $valueIdentifier = null)

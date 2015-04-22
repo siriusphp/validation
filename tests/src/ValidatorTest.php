@@ -41,11 +41,11 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, count($this->validator->getMessages()));
     }
 
-    function testIfSetDataThrowsExceptionWhenTheDataIsNotAnArray()
+    function testExceptionThrownWhenTheDataIsNotAnArray()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $this->validator->setData('string');
-        $this->validator->setData(false);
+        $this->validator->validate('string');
+        $this->validator->validate(false);
     }
 
     function testIfValidateExecutes()

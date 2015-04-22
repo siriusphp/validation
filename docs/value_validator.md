@@ -7,11 +7,17 @@ If you need to validate a single value and also retrieve the error message you c
 ```php
 namespace Sirius\Validation;
 
-$valueValidator = new ValueValidator(new RuleFactory, new ErrorMessage);
-$valueValidator->add('required', null, 'You must provide the post title');
-$valueValidator->add('minlength', 'min=20', 'The post title must have at least {min} characters');
+// Set up the validator.
+// If the constructor parameters are not provided they will be created from defaults
+$ruleFactory = new RuleFactory;
+$errorMessagePrototype = new ErrorMessage;
+$valueValidator = new ValueValidator($ruleFactory, $errorMessagePrototype);
 
-$valueValidator->validate('Too short'); // return false
+// add the rules
+$valueValidator->add('required', null, 'You must provide the post title');
+$valueValidator->add('minlength', 'min=20', null, 'Label for the field');
+
+$valueValidator->validate('Too short'); // returns false
 $valueValidator->getMessages();
 ```
 

@@ -4,8 +4,9 @@ namespace Sirius\Validation\Rule;
 class EmailDomain extends AbstractValidator
 {
 
-    protected static $defaultMessageTemplate = 'This the email address does not belong to a valid domain';
-
+    const MESSAGE = 'This the email address does not belong to a valid domain';
+    const LABELED_MESSAGE = '{label} does not belong to a valid domain';
+    
     public function validate($value, $valueIdentifier = null)
     {
         $value = (string) $value;

@@ -4,8 +4,9 @@ namespace Sirius\Validation\Rule;
 class AlphaNumHyphen extends AbstractValidator
 {
 
-    protected static $defaultMessageTemplate = 'This input can contain only letters, digits, spaces, hyphens and underscores';
-
+    const MESSAGE = 'This input must contain only letters, digits, spaces, hyphens and underscores';
+    const LABELED_MESSAGE = '{label} must contain only letters, digits, spaces, hyphens and underscores';
+    
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

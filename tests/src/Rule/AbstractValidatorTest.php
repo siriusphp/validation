@@ -31,12 +31,6 @@ class AbstractValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('Not valid', (string)$this->validator->getErrorMessagePrototype());
     }
 
-    function testDefaultErrorMessageTemplateIsUsed()
-    {
-        FakeValidator::setDefaultMessageTemplate('Custom default message');
-        $this->assertEquals('Custom default message', (string)$this->validator->getPotentialMessage());
-    }
-
     function testMessageIsGeneratedCorrectly()
     {
         $this->validator->setOption('label', 'Accept');
