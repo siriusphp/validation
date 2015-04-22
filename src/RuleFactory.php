@@ -158,7 +158,7 @@ class RuleFactory
                     'arguments' => $options
                 )
             );
-        } else {
+        } elseif (is_string($name)) {
             $name = trim($name);
             // use the validator map
             if (isset($this->validatorsMap[ strtolower($name) ])) {
