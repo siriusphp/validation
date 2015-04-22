@@ -1,10 +1,12 @@
 #Sirius Validation
 
-[![Build Status](https://scrutinizer-ci.com/g/siriusphp/validation/badges/build.png?b=master)](https://scrutinizer-ci.com/g/siriusphp/validation/build-status/master)
-[![Code Coverage](https://scrutinizer-ci.com/g/siriusphp/validation/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/siriusphp/validation/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/siriusphp/validation/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/siriusphp/validation/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/siriusphp/validation/v/stable.png)](https://packagist.org/packages/siriusphp/validation)
-[![License](https://poser.pugx.org/siriusphp/validation/license.png)](https://packagist.org/packages/siriusphp/validation)
+[![Source Code](http://img.shields.io/badge/source-siriusphp/validation-blue.svg?style=flat-square)](https://github.com/siriusphp/validation)
+[![Latest Version](https://img.shields.io/packagist/v/siriusphp/validation.svg?style=flat-square)](https://github.com/siriusphp/validation/releases)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/siriusphp/validation/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/travis/siriusphp/validation/master.svg?style=flat-square)](https://travis-ci.org/siriusphp/validation)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/siriusphp/validation.svg?style=flat-square)](https://scrutinizer-ci.com/g/siriusphp/validation/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/siriusphp/validation.svg?style=flat-square)](https://scrutinizer-ci.com/g/siriusphp/validation)
+[![Total Downloads](https://img.shields.io/packagist/dt/siriusphp/validation.svg?style=flat-square)](https://packagist.org/packages/siriusphp/validation)
 
 Sirius Validation is a library for data validation. It offers:
 
