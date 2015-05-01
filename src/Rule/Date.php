@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Date extends AbstractValidator
+class Date extends AbstractRule
 {
 
     const OPTION_FORMAT = 'format';

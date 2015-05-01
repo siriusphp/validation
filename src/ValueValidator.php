@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation;
 
-use Sirius\Validation\Rule\AbstractValidator;
+use Sirius\Validation\Rule\AbstractRule;
 
 class ValueValidator
 {
@@ -142,7 +142,7 @@ class ValueValidator
      *
      * @return ValueValidator
      */
-    public function addRule(AbstractValidator $validationRule) {
+    public function addRule(AbstractRule $validationRule) {
         $validationRule->setErrorMessagePrototype($this->errorMessagePrototype);
         $this->rules->attach($validationRule);
         return $this;

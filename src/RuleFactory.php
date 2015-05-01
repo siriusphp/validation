@@ -95,7 +95,7 @@ class RuleFactory
      */
     public function register($name, $class, $errorMessage = '', $labeledErrorMessage = '')
     {
-        if (is_subclass_of($class, '\Sirius\Validation\Rule\AbstractValidator')) {
+        if (is_subclass_of($class, '\Sirius\Validation\Rule\AbstractRule')) {
             $this->validatorsMap[$name] = $class;
         }
         if ($errorMessage) {
@@ -182,7 +182,7 @@ class RuleFactory
                 $name = '\Sirius\Validation\Rule\\' . $name;
             }
             // at this point we should have a class that can be instanciated
-            if (class_exists($name) && is_subclass_of($name, '\Sirius\Validation\Rule\AbstractValidator')) {
+            if (class_exists($name) && is_subclass_of($name, '\Sirius\Validation\Rule\AbstractRule')) {
                 $validator = new $name($options);
             }
         }

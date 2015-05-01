@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Website extends AbstractValidator
+class Website extends AbstractRule
 {
 
     const WEBSITE_REGEX = '@^((http|https)\:)//.+$@i';

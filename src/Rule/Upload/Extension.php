@@ -2,9 +2,9 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-use Sirius\Validation\Rule\AbstractValidator;
+use Sirius\Validation\Rule\AbstractRule;
 
-class Extension extends AbstractValidator
+class Extension extends AbstractRule
 {
 
     const OPTION_ALLOWED_EXTENSIONS = 'allowed';

@@ -1,9 +1,9 @@
 <?php
 namespace Sirius\Validation\Rule\Upload;
 
-use Sirius\Validation\Rule\AbstractValidator;
+use Sirius\Validation\Rule\AbstractRule;
 
-class Size extends AbstractValidator
+class Size extends AbstractRule
 {
     const OPTION_SIZE = 'size';
 

@@ -1,0 +1,85 @@
+template:
+    url: https://github.com/siriusphp/Template-ReadTheDocs
+
+# List of directories to exclude from the processing (default contains "vendor" and "website")
+# Paths are relative to the repository root
+exclude:
+    - website
+    - vendor
+    - test
+    - src
+    - build
+
+# Base URL of the published website (no "/" at the end!)
+# You are advised to set and use this variable to write your links in the HTML layouts
+baseUrl: http://www.sirius.ro/open-source/php/validation
+
+title: Sirius\Validation
+subTitle: Framework agnostic validation library
+
+# The left menu bar
+menu:
+    sections:
+#        versions:
+#            name: Versions
+#            items:
+#                two:
+#                    text: "2.0"
+#                    relativeUrl:
+#                one:
+#                    text: "1.0"
+#                    relativeUrl: 1_0/
+        guide:
+            name: Getting started
+            items:
+                getting_started:
+                    text: Introduction
+                    relativeUrl:
+                installation:
+                    text: Installation
+                    relativeUrl: docs/installation.html
+                simple_example:
+                    text: Simple example
+                    relativeUrl: docs/simple_example.html
+                validators:
+                    text: Built-in rules
+                    relativeUrl: docs/validation_rules.html
+                helper:
+                    text: Validation helper
+                    relativeUrl: docs/validation_helper.html
+                validator:
+                    text: Validator object
+                    relativeUrl: docs/validator.html
+#                value_validator:
+#                    text: Value validator
+#                    relativeUrl: docs/value_validator.html
+        advanced:
+            name: Advanced topics
+            items:
+                rule_factory:
+                    text: The rule factory
+                    relativeUrl: docs/rule_factory.html
+                error_message:
+                    text: The error message
+                    relativeUrl: docs/error_message.html
+                validation_rule:
+                    text: The anatomy of a validation rule
+                    relativeUrl: docs/rule_anatomy.html
+                validation_context:
+                    text: The validation context
+                    relativeUrl: docs/validation_context.html
+        cookbook:
+            name: Cookbook
+            items:
+                complex_validator:
+                    text: Complex validators
+                    relativeUrl: docs/complex_validators.html
+                custome_rule:
+                    text: Create a custom rule
+                    relativeUrl: docs/custom_rule.html
+                translate_messages:
+                    text: Translate the error messages
+                    relativeUrl: docs/translate_messages.html
+                validation_context:
+                    text: The validation context
+                    relativeUrl: docs/validation_context.html

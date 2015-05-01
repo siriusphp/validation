@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Regex extends AbstractValidator
+class Regex extends AbstractRule
 {
 
     const OPTION_PATTERN = 'pattern';

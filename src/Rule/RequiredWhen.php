@@ -26,7 +26,7 @@ class RequiredWhen extends Required
             }
         } elseif (is_object(
                 $this->options[self::OPTION_RULE]
-            ) && $this->options[self::OPTION_RULE] instanceof AbstractValidator
+            ) && $this->options[self::OPTION_RULE] instanceof AbstractRule
         ) {
             $rule = $this->options[self::OPTION_RULE];
         }

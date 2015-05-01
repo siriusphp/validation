@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Number extends AbstractValidator
+class Number extends AbstractRule
 {
 
     const MESSAGE = 'This input must be a number';

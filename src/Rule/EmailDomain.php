@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class EmailDomain extends AbstractValidator
+class EmailDomain extends AbstractRule
 {
 
     const MESSAGE = 'This the email address does not belong to a valid domain';

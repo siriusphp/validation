@@ -2,9 +2,9 @@
 
 namespace Sirius\Validation\Rule\File;
 
-use Sirius\Validation\Rule\AbstractValidator;
+use Sirius\Validation\Rule\AbstractRule;
 
-class Image extends AbstractValidator
+class Image extends AbstractRule
 {
 
     const OPTION_ALLOWED_IMAGES = 'allowed';

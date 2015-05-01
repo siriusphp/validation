@@ -1,9 +1,9 @@
 <?php
 namespace Sirius\Validation\Rule\Upload;
 
-use Sirius\Validation\Rule\AbstractValidator;
+use Sirius\Validation\Rule\AbstractRule;
 
-class ImageRatio extends AbstractValidator
+class ImageRatio extends AbstractRule
 {
     // the image width/height ration;
     // can be a number or a string like 4:3, 16:9

@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class MinLength extends AbstractValidator
+class MinLength extends AbstractRule
 {
 
     const OPTION_MIN = 'min';

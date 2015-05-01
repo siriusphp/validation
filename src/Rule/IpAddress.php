@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class IpAddress extends AbstractValidator
+class IpAddress extends AbstractRule
 {
 
     const MESSAGE = 'This input is not a valid IP address';

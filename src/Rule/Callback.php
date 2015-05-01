@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Callback extends AbstractValidator
+class Callback extends AbstractRule
 {
 
     const OPTION_CALLBACK = 'callback';

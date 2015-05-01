@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class FullName extends AbstractValidator
+class FullName extends AbstractRule
 {
 
     protected static $defaultMessageTemplate = 'This input is not a valid full name (first name and last name)';

@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Match extends AbstractValidator
+class Match extends AbstractRule
 {
 
     const OPTION_ITEM = 'item';

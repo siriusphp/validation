@@ -5,14 +5,17 @@ use Sirius\Validation\DataWrapper\ArrayWrapper;
 use Sirius\Validation\DataWrapper\WrapperInterface;
 use Sirius\Validation\ErrorMessage;
 
-abstract class AbstractValidator
+abstract class AbstractRule
 {
+    // default error message when there is no LABEL attached
     const MESSAGE = 'Value is not valid';
-    
+
+    // default error message when there is a LABEL attached
     const LABELED_MESSAGE = '{label} is not valid';
 
     /**
-     *
+     * The validation context
+     * This is the data set that the data being validated belongs to
      * @var \Sirius\Validation\DataWrapper\WrapperInterface
      */
     protected $context;
@@ -27,6 +30,7 @@ abstract class AbstractValidator
 
     /**
      * Custom error message template for the validator instance
+     * If you don't agree with the default messages that were provided
      *
      * @var string
      */
@@ -41,14 +45,15 @@ abstract class AbstractValidator
 
     /**
      * Last value validated with the validator.
-     * Stored in order to be passed to the errorMessage
+     * Stored in order to be passed to the errorMessage so that you get error
+     * messages like '"abc" is not a valid email'
      *
      * @var mixed
      */
     protected $value;
 
     /**
-     * The prototype that will be used to generate the error message
+     * The error message prototype that will be used to generate the error message
      *
      * @var ErrorMessage
      */
@@ -65,9 +70,15 @@ abstract class AbstractValidator
     }
     
     /**
-     * @param $options
+     * Method that parses the option variable and converts it into an array
+     * You can pass anything to a validator like:
+     * - a query string (min=3&max=5)
+     * - a JSON string ({"min":3,"max":5})
      *
-     * @return array|mixed
+     * @param mixed $options
+     *
+     * @return array
+     * @throws \InvalidArgumentException
      */
     protected function normalizeOptions($options)
     {
@@ -94,16 +105,21 @@ abstract class AbstractValidator
 
         return $result;
     }
-    
+
+    /**
+     * Checks if an array is associative (ie: the keys are not numbers in sequence)
+     *
+     * @param array $arr
+     * @return bool
+     */
     protected function arrayIsAssoc($arr) {
-        return array_keys($arr) === range(0, count($arr));
+        return array_keys($arr) !== range(0, count($arr));
     }
 
     
     /**
      * Generates a unique string to identify the validator.
-     * It can be used to compare 2 validators
-     * (eg: so you don't add the same validator twice in a validator object)
+     * It is used to compare 2 validators so you don't add the same rule twice in a validator object
      *
      * @return string
      */
@@ -119,7 +135,7 @@ abstract class AbstractValidator
      *
      * @param string $name
      * @param mixed $value
-     * @return \Sirius\Validation\Rule\AbstractValidator
+     * @return \Sirius\Validation\Rule\AbstractRule
      */
     public function setOption($name, $value)
     {
@@ -135,7 +151,7 @@ abstract class AbstractValidator
      *
      * @param array|object $context
      * @throws \InvalidArgumentException
-     * @return \Sirius\Validation\Rule\AbstractValidator
+     * @return \Sirius\Validation\Rule\AbstractRule
      */
     public function setContext($context = null)
     {
@@ -158,7 +174,7 @@ abstract class AbstractValidator
      * Custom message for this validator to used instead of the the default one
      *
      * @param string $messageTemplate
-     * @return \Sirius\Validation\Rule\AbstractValidator
+     * @return \Sirius\Validation\Rule\AbstractRule
      */
     public function setMessageTemplate($messageTemplate)
     {
@@ -198,7 +214,7 @@ abstract class AbstractValidator
      *
      * @param ErrorMessage $errorMessagePrototype
      * @throws \InvalidArgumentException
-     * @return \Sirius\Validation\Rule\AbstractValidator
+     * @return \Sirius\Validation\Rule\AbstractRule
      */
     public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
     {

@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation\Rule;
 
-class InList extends AbstractValidator
+class InList extends AbstractRule
 {
 
     protected static $defaultMessageTemplate = 'This input is not one of the accepted values';

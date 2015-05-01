@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Alpha extends AbstractValidator
+class Alpha extends AbstractRule
 {
 
     const MESSAGE = 'This input can contain only letters';

@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Required extends AbstractValidator
+class Required extends AbstractRule
 {
 
     const MESSAGE = 'This field is required';

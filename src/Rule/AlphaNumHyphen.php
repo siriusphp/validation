@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class AlphaNumHyphen extends AbstractValidator
+class AlphaNumHyphen extends AbstractRule
 {
 
     const MESSAGE = 'This input must contain only letters, digits, spaces, hyphens and underscores';

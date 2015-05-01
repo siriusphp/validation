@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Email extends AbstractValidator
+class Email extends AbstractRule
 {
 
     const MESSAGE = 'This input must be a valid email address';

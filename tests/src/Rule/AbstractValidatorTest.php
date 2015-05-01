@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation\Rule;
 
-class FakeValidator extends \Sirius\Validation\Rule\AbstractValidator
+class FakeRule extends \Sirius\Validation\Rule\AbstractRule
 {
 
     function validate($value, $valueIdentifier = null)
@@ -14,12 +14,12 @@ class FakeValidator extends \Sirius\Validation\Rule\AbstractValidator
 }
 
 
-class AbstractValidatorTest extends \PHPUnit_Framework_TestCase
+class AbstractRuleTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new FakeValidator();
+        $this->validator = new FakeRule();
     }
 
     function testErrorMessagePrototype()

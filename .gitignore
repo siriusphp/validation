@@ -7,3 +7,6 @@ build/
 /composer.lock
 .idea/
 atlassian-ide-plugin.xml
+/website/
+.couscous
+couscous.phar

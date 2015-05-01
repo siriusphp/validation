@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class MaxLength extends AbstractValidator
+class MaxLength extends AbstractRule
 {
 
     const OPTION_MAX = 'max';

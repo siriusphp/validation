@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class AlphaNumeric extends AbstractValidator
+class AlphaNumeric extends AbstractRule
 {
 
     const MESSAGE = 'This input must contain only letters and digits';

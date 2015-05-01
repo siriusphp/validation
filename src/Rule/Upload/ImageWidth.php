@@ -1,9 +1,9 @@
 <?php
 namespace Sirius\Validation\Rule\Upload;
 
-use Sirius\Validation\Rule\AbstractValidator;
+use Sirius\Validation\Rule\AbstractRule;
 
-class ImageWidth extends AbstractValidator
+class ImageWidth extends AbstractRule
 {
     const OPTION_MAX = 'max';
     const OPTION_MIN = 'min';

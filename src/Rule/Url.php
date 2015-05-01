@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Url extends AbstractValidator
+class Url extends AbstractRule
 {
 
     const MESSAGE = 'This input is not a valid URL';

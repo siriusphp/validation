@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Equal extends AbstractValidator
+class Equal extends AbstractRule
 {
 
     const OPTION_VALUE = 'value';
