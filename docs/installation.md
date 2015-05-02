@@ -1,3 +1,7 @@
+---
+title: Installating Sirius\Validation
+---
+
 #Installation
 
 ## Using composer

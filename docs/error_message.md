@@ -1,4 +1,8 @@
-# ErrorMessage
+---
+title: The validation error messages
+---
+
+# The validation error messages
 
 The [validator object](validator.md) does not return the validation errors as strings but as instances of the `Sirius\Validation\ErrorMessage` class.
 

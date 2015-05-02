@@ -1,3 +1,7 @@
+---
+title: The anatomy of a validation rule
+---
+
 # The anatomy of a validation rule
 
 The classes for validation rules extend the `Sirius\Validation\Rule\AbstractRule` class
@@ -34,8 +38,8 @@ $validator = new LengthRule(array(
 
 // or use the power of your IDE to reduce the chances for mistakes
 $validator = new LengthRule(array(
-    LengthValidator::OPTION_MIN => 5,
-    LengthValidator::OPTION_MAX => 255
+    LengthRule::OPTION_MIN => 5,
+    LengthRule::OPTION_MAX => 255
 ));
 
 // you can also pass it any string that the class knows how to normalize (see the normalizeOptions() method)

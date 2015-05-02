@@ -14,6 +14,7 @@ exclude:
 # You are advised to set and use this variable to write your links in the HTML layouts
 baseUrl: http://www.sirius.ro/open-source/php/validation
 
+projectName: Sirius\Validation
 title: Sirius\Validation
 subTitle: Framework agnostic validation library
 
@@ -50,6 +51,9 @@ menu:
                 validator:
                     text: Validator object
                     relativeUrl: docs/validator.html
+                syntactic_sugar:
+                    text: Syntactic sugar
+                    relativeUrl: docs/syntactic_sugar.html
 #                value_validator:
 #                    text: Value validator
 #                    relativeUrl: docs/value_validator.html
@@ -75,11 +79,8 @@ menu:
                     text: Complex validators
                     relativeUrl: docs/complex_validators.html
                 custome_rule:
-                    text: Create a custom rule
+                    text: Custom validation rule
                     relativeUrl: docs/custom_rule.html
                 translate_messages:
-                    text: Translate the error messages
+                    text: Translating the error messages
                     relativeUrl: docs/translate_messages.html
-                validation_context:
-                    text: The validation context
-                    relativeUrl: docs/validation_context.html

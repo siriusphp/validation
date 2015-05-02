@@ -1,4 +1,8 @@
-# Validation rules classes
+---
+title: Built-in validation rules
+---
+
+# Built-in validation rules
 
 ### Required validators
 1. `Required`: value should not be `null` or an empty string

@@ -10,10 +10,9 @@
 
 Sirius Validation is a library for data validation. It offers:
 
-1. [validator object](docs/validator.md) . By default it know to validate arrays, `ArrayObject`s or objects that have a `toArray` method but it can be extended easily to validate other objects.
-2. [single value validator object](docs/value_validator.md) to validate single values
-3. [45 build-in validation rules](docs/rules.md) to perform the actual data validation. There are validators for strings, array, numbers, emails, URLs, files and uploads
-4. [validation helper](docs/helper.md) to simplify the validation of a single value (unlike the __single value validator object__ it does not generate error messages, it only returns TRUE/FALSE)
+1. [validator object](docs/validator.md)
+2. [45 build-in validation rules](docs/validation_rules.md). There are validators for strings, array, numbers, emails, URLs, files and uploads
+3. [validation helper](docs/helper.md) to simplify the validation of single values
 
 Out-of-the-box, the library can handle `array`s, `ArrayObject`s and objects that have implemented the `toArray` method.
 In order to validate other data containers you must create a [`DataWrapper`](https://github.com/siriusphp/validation/blob/master/src/Validation/DataWrapper/WrapperInterface.php) so that the validator be able to extract data from your object.
@@ -62,7 +61,7 @@ $validator->add('shipping_address[city]:City', 'MyApp\Validator\City'); // uses 
 
 ##Links
 
-[documentation](docs/index.md)
+[documentation](http://www.sirius.ro/php/sirius/validation)
 [changelog](CHANGELOG.md)
 
 ##Known issues

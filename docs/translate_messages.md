@@ -1,3 +1,7 @@
+---
+title: Translating the error messages
+---
+
 # Translating the error messages
 
 There are a couple of ways to translate the error messages, each having it's pros and cons:

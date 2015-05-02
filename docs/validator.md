@@ -1,3 +1,7 @@
+---
+title: The validator object
+---
+
 # The validator object
 
 This is the class that will be instantiated to perform validation
@@ -9,10 +13,10 @@ use Sirius\Validation\Validator;
 
 $ruleFactory = new RuleFactory;
 $errorMessagePrototype = new ErrorMessage;
-$validator = new Validator($validatorFactory, $errorMessagePrototype);
+$validator = new Validator($ruleFactory, $errorMessagePrototype);
 ```
 
-`$validatorFactory` and `$errorMessagePrototype` are optional dependencies (ie: they have a default value).
+`$validatorFactory` and `$errorMessagePrototype` are optional, they have a default value.
 See [RuleFactory](rule_factory.md) and [ErrorMessage](error_message.md) for details
 
 ## Add validation rules
@@ -28,6 +32,8 @@ $validator->add('username', 'required');
 $validator->add('password', 'minLength', array('min' => 6), '{label} must have at least {min} characters', 'Password');
 $validator->add('additional_emails[*]', 'email', array(), 'Email address is not valid');
 ```
+
+Be sure to check the [syntactic sugar options](syntactic_sugar.md) to reduce the verbosity.
 
 ##### $selector
 
@@ -76,56 +82,3 @@ $validator->clearMessages();
 ```
 
 Anytime you execute `$validator->validate($values)` the validation messages are cleared (even those set manually).
-
-### Syntactic sugar
-
-##### 1. Add multiple rules at once by using just a string
-```php
-// separate rules using ' | ' (space, pipe, space)
-$validator->add('email', 'required | email');
-```
-
-##### 2. Add rule with parameters and custom messages using only a string
-```php
-// parameters set as JSON string
-$validator->add('name', 'minlength({"min":2})({label} must have at least {min} characters)(Name)');
-// or parameters set as query string
-$validator->add('name', 'minlength(min=2)({label} must have at least {min} characters)(Name)');
-
-// the above examples are similar to
-$validator->add('name', 'minlength', array('min' => 2), '{label} must have at least {min} characters', 'Name');
-```
-
-##### 3. Mix and match 1 and 2
-```php
-$validator->add('name', 'required | minlength({"min":2})({label} must have at least {min} characters)(Name)');
-```
-
-Of course this means the error message cannot contain the ` | ` sequence
-
-##### 4. Add multiple rules per value
-```php
-$validator->add(
-    // add the label after the selector so you don't have to pass the label to every rule
-    'email:Email', 
-    array(
-        // only through the name of the validation rule
-        'email',
-        // or with all parameters
-        array('minlength', 'min=2', '{label} must have at least {min} characters'),
-    )
-);
-```
-
-##### 5. Add multiple rules on multiple values
-Mix and match everthing from above
-```php
-$validator->add(array(
-    'email:Email' => 'required | email',
-    'name:Name' => array(
-         'required',
-         array('minlength', 'min=2', '{label} must have at least {min} characters'),
-    )
-));
-```
-

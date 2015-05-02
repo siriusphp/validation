@@ -1,4 +1,8 @@
-# RuleFactory
+---
+title: The validation rules factory
+---
+
+# The validation rules factory
 
 Every [validator object](validator.md) uses a `RuleFactory` to construct the validation rules based on the parameters received by the `add()` method.
 

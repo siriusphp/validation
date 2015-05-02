@@ -1,3 +1,7 @@
+---
+title: Simple validation example
+---
+
 # Simple example
 
 ### Initialize your validator class

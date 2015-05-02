@@ -1,4 +1,8 @@
-# Complex validators
+---
+title: Complex validation rules
+---
+
+# Complex validation rules
 
 Usually a rule validation class doesn't need to much to do it's job but there are situations when your validator needs access to external resources (eg: a database connection).
 In this case, they cannot be registered as classes on the [rule factory](rule_factory.md). Still, you have a few choices: 

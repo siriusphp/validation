@@ -1,4 +1,8 @@
-#Validation\Helper
+---
+title: The validation helper
+---
+
+# The validation helper
 
 This is a class which contains static methods to perform data validation. 
 Is is designed to help you with basic validation operations, when you need to validate a single value or a small number of values
