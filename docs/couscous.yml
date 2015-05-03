@@ -38,49 +38,49 @@ menu:
                     relativeUrl:
                 installation:
                     text: Installation
-                    relativeUrl: docs/installation.html
+                    relativeUrl: installation.html
                 simple_example:
                     text: Simple example
-                    relativeUrl: docs/simple_example.html
+                    relativeUrl: simple_example.html
                 validators:
                     text: Built-in rules
-                    relativeUrl: docs/validation_rules.html
+                    relativeUrl: validation_rules.html
                 helper:
                     text: Validation helper
-                    relativeUrl: docs/validation_helper.html
+                    relativeUrl: validation_helper.html
                 validator:
                     text: Validator object
-                    relativeUrl: docs/validator.html
+                    relativeUrl: validator.html
                 syntactic_sugar:
                     text: Syntactic sugar
-                    relativeUrl: docs/syntactic_sugar.html
+                    relativeUrl: syntactic_sugar.html
 #                value_validator:
 #                    text: Value validator
-#                    relativeUrl: docs/value_validator.html
+#                    relativeUrl: value_validator.html
         advanced:
             name: Advanced topics
             items:
                 rule_factory:
                     text: The rule factory
-                    relativeUrl: docs/rule_factory.html
+                    relativeUrl: rule_factory.html
                 error_message:
                     text: The error message
-                    relativeUrl: docs/error_message.html
+                    relativeUrl: error_message.html
                 validation_rule:
                     text: The anatomy of a validation rule
-                    relativeUrl: docs/rule_anatomy.html
+                    relativeUrl: rule_anatomy.html
                 validation_context:
                     text: The validation context
-                    relativeUrl: docs/validation_context.html
+                    relativeUrl: validation_context.html
         cookbook:
             name: Cookbook
             items:
                 complex_validator:
                     text: Complex validators
-                    relativeUrl: docs/complex_validators.html
+                    relativeUrl: complex_validators.html
                 custome_rule:
                     text: Custom validation rule
-                    relativeUrl: docs/custom_rule.html
+                    relativeUrl: custom_rule.html
                 translate_messages:
                     text: Translating the error messages
-                    relativeUrl: docs/translate_messages.html
+                    relativeUrl: translate_messages.html
