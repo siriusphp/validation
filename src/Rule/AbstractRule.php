@@ -89,7 +89,7 @@ abstract class AbstractRule
         $result = $options;
         if ($options && is_string($options)) {
             $startChar = substr($options, 0, 1);
-            if ($startChar == '{' || $startChar == '[') {
+            if ($startChar == '{') {
                 $result = json_decode($options, true);
             } else {
                 parse_str($options, $output);
