@@ -24,10 +24,8 @@ class RequiredWhen extends Required
                 $ruleClass = 'Sirius\\Validation\\Rule\\' . $ruleClass;
                 $rule = new $ruleClass($ruleOptions);
             }
-        } elseif (is_object(
-                $this->options[self::OPTION_RULE]
-            ) && $this->options[self::OPTION_RULE] instanceof AbstractRule
-        ) {
+        } elseif (is_object($this->options[self::OPTION_RULE])
+            && $this->options[self::OPTION_RULE] instanceof AbstractRule) {
             $rule = $this->options[self::OPTION_RULE];
         }
         if (!$rule) {
@@ -47,9 +45,12 @@ class RequiredWhen extends Required
         if (!isset($this->options[self::OPTION_ITEM])) {
             $this->success = true;
         } else {
+
+            $relatedItemPath = $this->getRelatedValueIdentifier($valueIdentifier, $this->options[self::OPTION_ITEM]);
+            $relatedItemValue = $relatedItemPath !== null ? $this->context->getItemValue($relatedItemPath) : null;
+
             $itemRule = $this->getItemRule();
-            $itemValue = $this->context->getItemValue($this->options[self::OPTION_ITEM]);
-            if ($itemRule->validate($itemValue, $this->options[self::OPTION_ITEM])) {
+            if ($itemRule->validate($relatedItemValue, $relatedItemPath)) {
                 $this->success = ($value !== null || trim($value) !== '');
             } else {
                 $this->success = true;

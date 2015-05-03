@@ -268,4 +268,44 @@ abstract class AbstractRule
         $message->setVariables($this->options);
         return $message;
     }
+
+    /**
+     * Method for determining the path to a related item.
+     * Eg: for `lines[5][price]` the related item `lines[*][quantity]`
+     * has the value identifier as `lines[5][quantity]`
+     *
+     * @param $valueIdentifier
+     * @param $relatedItem
+     * @return string|null
+     */
+    protected function getRelatedValueIdentifier($valueIdentifier, $relatedItem) {
+        // in case we don't have a related path
+        if (strpos($relatedItem, '*') === false) {
+            return $relatedItem;
+        }
+
+        // lines[*][quantity] is converted to ['lines', '*', 'quantity']
+        $relatedItemParts = explode('[', str_replace(']', '', $relatedItem));
+        // lines[5][price] is ['lines', '5', 'price']
+        $valueIdentifierParts = explode('[', str_replace(']', '', $valueIdentifier));
+
+        if (count($relatedItemParts) !== count($valueIdentifierParts)) {
+            return $relatedItem;
+        }
+
+        // the result should be ['lines', '5', 'quantity']
+        $relatedValueIdentifierParts = array();
+        foreach ($relatedItemParts as $index => $part) {
+            if ($part === '*' && isset($valueIdentifierParts[$index])) {
+                $relatedValueIdentifierParts[] = $valueIdentifierParts[$index];
+            } else {
+                $relatedValueIdentifierParts[] = $part;
+            }
+        }
+
+        $relatedValueIdentifier = implode('][', $relatedValueIdentifierParts) . ']';
+        $relatedValueIdentifier = str_replace($relatedValueIdentifierParts[0] . ']', $relatedValueIdentifierParts[0], $relatedValueIdentifier);
+
+        return $relatedValueIdentifier;
+    }
 }
