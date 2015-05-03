@@ -44,12 +44,12 @@ class RequiredWithoutTest extends \PHPUnit_Framework_TestCase
         $this->rule->setContext(new ArrayWrapper(
                 array(
                     'lines' => array(
-                        0 => array('quantity' => 10, 'price' => 10),
+                        0 => array('quantity' => null, 'price' => null),
                         1 => array('quantity' => 20, 'price' => null),
                     )
                 ))
         );
-        $this->assertFalse($this->rule->validate(10, 'lines[0][price]'));
+        $this->assertFalse($this->rule->validate(null, 'lines[0][price]'));
         $this->assertTrue($this->rule->validate(null, 'lines[1][price]'));
     }
 }
