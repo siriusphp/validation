@@ -109,7 +109,7 @@ class ValueValidator
             $label = $this->label;
         }
         
-        $validator = $this->ruleFactory->createValidator($name, $options, $messageTemplate, $label);
+        $validator = $this->ruleFactory->createRule($name, $options, $messageTemplate, $label);
 
         return $this->addRule($validator);
     }
@@ -165,7 +165,7 @@ class ValueValidator
             $this->rules = new RuleCollection();
             return $this;
         }
-        $validator = $this->ruleFactory->createValidator($name, $options);
+        $validator = $this->ruleFactory->createRule($name, $options);
         $this->rules->detach($validator);
         return $this;
     }

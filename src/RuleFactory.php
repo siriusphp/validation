@@ -122,9 +122,9 @@ class RuleFactory
      * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
-    public function createValidator($name, $options = null, $messageTemplate = null, $label = null)
+    public function createRule($name, $options = null, $messageTemplate = null, $label = null)
     {
-        $validator = $this->constructValidatorByNameAndOptions($name, $options);
+        $validator = $this->construcRuleByNameAndOptions($name, $options);
         
         // no message template, try to get it from the registry
         if (!$messageTemplate) {
@@ -149,9 +149,9 @@ class RuleFactory
      * @return string|NULL
      */
     protected function getSuggestedMessageTemplate($name, $withLabel) {
-        $noLabelMessage = isset($this->errorMessages[$name]) ? $this->errorMessages[$name] : null;
+        $noLabelMessage = is_string($name) && isset($this->errorMessages[$name]) ? $this->errorMessages[$name] : null;
         if ($withLabel) {
-            return isset($this->labeledErrorMessages[$name]) ? $this->labeledErrorMessages[$name] : $noLabelMessage; 
+            return is_string($name) && isset($this->labeledErrorMessages[$name]) ? $this->labeledErrorMessages[$name] : $noLabelMessage;
         }
         return $noLabelMessage;
     }
@@ -162,7 +162,7 @@ class RuleFactory
      *
      * @return CallbackRule
      */
-    protected function constructValidatorByNameAndOptions($name, $options)
+    protected function construcRuleByNameAndOptions($name, $options)
     {
         if (is_callable($name)) {
             $validator = new CallbackRule(
