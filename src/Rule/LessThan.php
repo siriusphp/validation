@@ -9,7 +9,7 @@ class LessThan extends AbstractRule
 
     const MESSAGE = 'This input should be less than {max}';
     const LABELED_MESSAGE = '{label} should be less than {max}';
-    
+
     protected $options = array(
         'inclusive' => true
     );
@@ -26,6 +26,7 @@ class LessThan extends AbstractRule
                 $this->success = $value < $this->options['max'];
             }
         }
+
         return $this->success;
     }
 }

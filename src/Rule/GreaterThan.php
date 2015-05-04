@@ -10,7 +10,7 @@ class GreaterThan extends AbstractRule
     protected static $defaultMessageTemplate = 'This input must be greater than {min}';
     const MESSAGE = 'This input should be greater than {min}';
     const LABELED_MESSAGE = '{label} should be greater than {min}';
-    
+
     protected $options = array(
         'inclusive' => true
     );
@@ -27,6 +27,7 @@ class GreaterThan extends AbstractRule
                 $this->success = $value > $this->options['min'];
             }
         }
+
         return $this->success;
     }
 }

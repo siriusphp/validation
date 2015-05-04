@@ -8,7 +8,7 @@ class Website extends AbstractRule
 
     const MESSAGE = 'This input must be a valid website address';
     const LABELED_MESSAGE = '{label} must be a valid website address';
-    
+
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
@@ -18,6 +18,7 @@ class Website extends AbstractRule
                     FILTER_VALIDATE_URL,
                     FILTER_FLAG_HOST_REQUIRED
                 ));
+
         return $this->success;
     }
 }

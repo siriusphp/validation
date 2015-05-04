@@ -20,6 +20,7 @@ class RequiredWith extends Required
         } else {
             $this->success = true;
         }
+
         return $this->success;
     }
 }

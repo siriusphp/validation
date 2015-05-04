@@ -8,7 +8,7 @@ class MaxLength extends AbstractRule
 
     const MESSAGE = 'This input should have less than {max} characters';
     const LABELED_MESSAGE = '{label} should have less than {max} characters';
-    
+
     protected $options = array();
 
     public function validate($value, $valueIdentifier = null)
@@ -19,6 +19,7 @@ class MaxLength extends AbstractRule
         } else {
             $this->success = strlen($value) <= $this->options['max'];
         }
+
         return $this->success;
     }
 }

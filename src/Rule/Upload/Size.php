@@ -8,9 +8,9 @@ class Size extends AbstractRule
     const OPTION_SIZE = 'size';
 
     const MESSAGE = 'The file should not exceed {size}';
-    
+
     const LABELED_MESSAGE = '{label} should not exceed {size}';
-    
+
     protected $options = array(
         self::OPTION_SIZE => '2M'
     );
@@ -25,6 +25,7 @@ class Size extends AbstractRule
             $size = filter_var(substr($size, 0, strlen($size) - 1), FILTER_SANITIZE_NUMBER_FLOAT);
             $normalizedSize = $size * pow(1024, $units[$unit]);
         }
+
         return $normalizedSize;
     }
 
@@ -38,6 +39,7 @@ class Size extends AbstractRule
             $limit = $this->normalizeSize($this->options[self::OPTION_SIZE]);
             $this->success = $fileSize && $fileSize <= $limit;
         }
+
         return $this->success;
     }
 }

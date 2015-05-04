@@ -12,11 +12,11 @@ class ImageRatio extends AbstractRule
     const OPTION_ERROR_MARGIN = 'error_margin';
 
     const MESSAGE = 'The image does must have a ratio (width/height) of {ratio})';
-    
+
     const LABELED_MESSAGE = '{label} does must have a ratio (width/height) of {ratio})';
-    
+
     protected $options = array(
-        self::OPTION_RATIO => 0,
+        self::OPTION_RATIO        => 0,
         self::OPTION_ERROR_MARGIN => 0,
     );
 
@@ -27,8 +27,10 @@ class ImageRatio extends AbstractRule
         }
         if (strpos($ratio, ':') !== false) {
             list($width, $height) = explode(':', $ratio);
+
             return $width / $height;
         }
+
         return 0;
     }
 
@@ -45,6 +47,7 @@ class ImageRatio extends AbstractRule
             $actualRatio = $imageInfo[0] / $imageInfo[1];
             $this->success = abs($actualRatio - $ratio) <= $this->options[self::OPTION_ERROR_MARGIN];
         }
+
         return $this->success;
     }
 }

@@ -8,7 +8,7 @@ class Match extends AbstractRule
 
     const MESSAGE = 'This input does not match {item}';
     const LABELED_MESSAGE = '{label} does not match {item}';
-    
+
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
@@ -17,6 +17,7 @@ class Match extends AbstractRule
         } else {
             $this->success = true;
         }
+
         return $this->success;
     }
 }

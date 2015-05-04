@@ -8,7 +8,7 @@ class ArrayMinLength extends AbstractRule
 
     const MESSAGE = 'This input should contain at least {min} items';
     const LABELED_MESSAGE = '{label} should contain at least {min} items';
-    
+
     protected $options = array();
 
     public function validate($value, $valueIdentifier = null)
@@ -19,6 +19,7 @@ class ArrayMinLength extends AbstractRule
         } else {
             $this->success = is_array($value) && count($value) >= $this->options['min'];
         }
+
         return $this->success;
     }
 }

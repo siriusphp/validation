@@ -9,7 +9,7 @@ class Length extends AbstractRule
 
     const MESSAGE = 'This input must be between {min} and {max} characters long';
     const LABELED_MESSAGE = '{label} must be between {min} and {max} characters long';
-    
+
     protected $options = array();
 
     public function validate($value, $valueIdentifier = null)
@@ -27,6 +27,7 @@ class Length extends AbstractRule
                 $value,
                 $valueIdentifier
             );
+
         return $this->success;
     }
 }

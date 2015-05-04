@@ -10,7 +10,7 @@ class Callback extends AbstractRule
 
     const MESSAGE = 'This input does not meet the validation criteria';
     const LABELED_MESSAGE = '{label} does not meet the validation criteria';
-    
+
     public function getUniqueId()
     {
         $uniqueId = get_called_class();
@@ -31,10 +31,11 @@ class Callback extends AbstractRule
         }
 
         if (isset($this->options['arguments'])) {
-            $args = (array) $this->options['arguments'];
+            $args = (array)$this->options['arguments'];
             ksort($args);
             $uniqueId .= '|' . json_encode($args);
         }
+
         return $uniqueId;
     }
 
@@ -49,6 +50,7 @@ class Callback extends AbstractRule
             array_push($args, $valueIdentifier, $this->context);
             $this->success = (bool)call_user_func_array($this->options['callback'], $args);
         }
+
         return $this->success;
     }
 }

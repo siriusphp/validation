@@ -6,7 +6,7 @@ class IpAddress extends AbstractRule
 
     const MESSAGE = 'This input is not a valid IP address';
     const LABELED_MESSAGE = '{label} is not a valid IP address';
-    
+
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
@@ -17,6 +17,7 @@ class IpAddress extends AbstractRule
         } else {
             $this->success = (bool)filter_var($value, FILTER_VALIDATE_IP, $flags | FILTER_FLAG_IPV4);
         }
+
         return $this->success;
     }
 }

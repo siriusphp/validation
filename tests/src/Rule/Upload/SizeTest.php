@@ -14,11 +14,11 @@ class SizeTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = 'file_that_does_not_exist.jpg';
         $file = array(
-            'name' => $fileName,
-            'type' => 'not_required',
-            'size' => 'not_required',
+            'name'     => $fileName,
+            'type'     => 'not_required',
+            'size'     => 'not_required',
             'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error' => UPLOAD_ERR_OK
+            'error'    => UPLOAD_ERR_OK
         );
         $this->assertFalse($this->validator->validate($file));
     }
@@ -27,11 +27,11 @@ class SizeTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = 'real_jpeg_file.jpg';
         $file = array(
-            'name' => $fileName,
-            'type' => 'not_required',
-            'size' => 'not_required',
+            'name'     => $fileName,
+            'type'     => 'not_required',
+            'size'     => 'not_required',
             'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error' => UPLOAD_ERR_OK
+            'error'    => UPLOAD_ERR_OK
         );
         $this->assertTrue($this->validator->validate($file));
 
@@ -44,11 +44,11 @@ class SizeTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = 'real_jpeg_file.jpg';
         $file = array(
-            'name' => $fileName,
-            'type' => 'not_required',
-            'size' => 'not_required',
+            'name'     => $fileName,
+            'type'     => 'not_required',
+            'size'     => 'not_required',
             'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error' => UPLOAD_ERR_OK
+            'error'    => UPLOAD_ERR_OK
         );
         $this->validator->setOption(Size::OPTION_SIZE, 1000000000000);
         $this->assertTrue($this->validator->validate($file));

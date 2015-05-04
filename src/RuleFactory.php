@@ -13,21 +13,19 @@ class RuleFactory
      *
      * @var array
      */
-    protected $validatorsMap = array(
+    protected $validatorsMap = array();
 
-    );
-    
-    protected $errorMessages = array(
-    );
+    protected $errorMessages = array();
 
-    protected $labeledErrorMessages = array(
-    );
-    
-    function __construct() {
+    protected $labeledErrorMessages = array();
+
+    function __construct()
+    {
         $this->registerDefaultRules();
     }
-    
-    protected function registerDefaultRules() {
+
+    protected function registerDefaultRules()
+    {
         $rulesClasses = array(
             'Alpha',
             'AlphaNumeric',
@@ -77,7 +75,7 @@ class RuleFactory
             'Upload\Size',
         );
         foreach ($rulesClasses as $class) {
-            $fullClassName = '\\' . __NAMESPACE__ .  '\Rule\\' . $class;
+            $fullClassName = '\\' . __NAMESPACE__ . '\Rule\\' . $class;
             $name = strtolower(str_replace('\\', '', $class));
             $errorMessage = constant($fullClassName . '::MESSAGE');
             $labeledErrorMessage = constant($fullClassName . '::LABELED_MESSAGE');
@@ -104,7 +102,7 @@ class RuleFactory
         if ($labeledErrorMessage) {
             $this->labeledErrorMessages[$name] = $labeledErrorMessage;
         }
-        
+
         return $this;
     }
 
@@ -125,7 +123,7 @@ class RuleFactory
     public function createRule($name, $options = null, $messageTemplate = null, $label = null)
     {
         $validator = $this->construcRuleByNameAndOptions($name, $options);
-        
+
         // no message template, try to get it from the registry
         if (!$messageTemplate) {
             $messageTemplate = $this->getSuggestedMessageTemplate($name, !!$label);
@@ -137,22 +135,25 @@ class RuleFactory
         if (is_string($label) && $label !== '') {
             $validator->setOption('label', $label);
         }
+
         return $validator;
     }
-    
+
     /**
      * Get the error message saved in the registry for a rule, where the message
      * is with or without a the label
-     * 
+     *
      * @param string $name name of the rule
-     * @param bool $withLabel  
+     * @param bool $withLabel
      * @return string|NULL
      */
-    protected function getSuggestedMessageTemplate($name, $withLabel) {
+    protected function getSuggestedMessageTemplate($name, $withLabel)
+    {
         $noLabelMessage = is_string($name) && isset($this->errorMessages[$name]) ? $this->errorMessages[$name] : null;
         if ($withLabel) {
             return is_string($name) && isset($this->labeledErrorMessages[$name]) ? $this->labeledErrorMessages[$name] : $noLabelMessage;
         }
+
         return $noLabelMessage;
     }
 
@@ -174,8 +175,8 @@ class RuleFactory
         } else {
             $name = trim($name);
             // use the validator map
-            if (isset($this->validatorsMap[ strtolower($name) ])) {
-                $name = $this->validatorsMap[ strtolower($name) ];
+            if (isset($this->validatorsMap[strtolower($name)])) {
+                $name = $this->validatorsMap[strtolower($name)];
             }
             // try if the validator is the name of a class in the package
             if (class_exists('\Sirius\Validation\Rule\\' . $name)) {
@@ -192,6 +193,7 @@ class RuleFactory
                 sprintf('Impossible to determine the validator based on the name: %s', (string)$name)
             );
         }
+
         return $validator;
     }
 

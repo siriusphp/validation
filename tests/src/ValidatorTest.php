@@ -114,7 +114,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->validator->add(
             array(
-                'item' => array(
+                'item'  => array(
                     'required',
                     array('minlength', 'min=4', '{label} should have at least {min} characters', 'Item')
                 ),
@@ -124,7 +124,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         );
         $this->validator->validate(
             array(
-                'item' => 'ab',
+                'item'  => 'ab',
                 'itema' => 'abc'
             )
         );
@@ -183,8 +183,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
         $this->validator->validate(
             array(
-                'function' => true,
-                'method' => true,
+                'function'     => true,
+                'method'       => true,
                 'staticMethod' => true,
             )
         );

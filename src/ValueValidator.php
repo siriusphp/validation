@@ -37,12 +37,12 @@ class ValueValidator
 
     /**
      * The label of the value to be validated
-     * 
+     *
      * @var string
      */
     protected $label;
-    
-    
+
+
     function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null, $label = null)
     {
         if (!$ruleFactory) {
@@ -58,9 +58,11 @@ class ValueValidator
         }
         $this->rules = new RuleCollection;
     }
-    
-    public function setLabel($label = null) {
+
+    public function setLabel($label = null)
+    {
         $this->label = $label;
+
         return $this;
     }
 
@@ -108,7 +110,7 @@ class ValueValidator
         if (!$label and $this->label) {
             $label = $this->label;
         }
-        
+
         $validator = $this->ruleFactory->createRule($name, $options, $messageTemplate, $label);
 
         return $this->addRule($validator);
@@ -134,6 +136,7 @@ class ValueValidator
                 $singleRule
             );
         }
+
         return $this;
     }
 
@@ -142,9 +145,11 @@ class ValueValidator
      *
      * @return ValueValidator
      */
-    public function addRule(AbstractRule $validationRule) {
+    public function addRule(AbstractRule $validationRule)
+    {
         $validationRule->setErrorMessagePrototype($this->errorMessagePrototype);
         $this->rules->attach($validationRule);
+
         return $this;
     }
 
@@ -163,10 +168,12 @@ class ValueValidator
     {
         if ($name === true) {
             $this->rules = new RuleCollection();
+
             return $this;
         }
         $validator = $this->ruleFactory->createRule($name, $options);
         $this->rules->detach($validator);
+
         return $this;
     }
 
@@ -233,7 +240,7 @@ class ValueValidator
         if (!$isRequired && $value === null) {
             return true;
         }
-        
+
         /* @var $rule \Sirius\Validation\Rule\AbstractValidator */
         foreach ($this->rules as $rule) {
             $rule->setContext($context);
@@ -246,6 +253,7 @@ class ValueValidator
                 break;
             }
         }
+
         return count($this->messages) === 0;
     }
 
@@ -257,6 +265,7 @@ class ValueValidator
     public function addMessage($message)
     {
         array_push($this->messages, $message);
+
         return $this;
     }
 

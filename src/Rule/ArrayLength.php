@@ -9,7 +9,7 @@ class ArrayLength extends AbstractRule
 
     const MESSAGE = 'This input should contain between {min} and {max} items';
     const LABELED_MESSAGE = '{label} should contain between {min} and {max} items';
-    
+
     protected $options = array();
 
     public function validate($value, $valueIdentifier = null)
@@ -27,6 +27,7 @@ class ArrayLength extends AbstractRule
                 $value,
                 $valueIdentifier
             );
+
         return $this->success;
     }
 }

@@ -7,7 +7,7 @@ class RequiredWithout extends Required
 
     const MESSAGE = 'This field is required';
     const LABELED_MESSAGE = '{label} is required';
-    
+
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
@@ -20,6 +20,7 @@ class RequiredWithout extends Required
         } else {
             $this->success = true;
         }
+
         return $this->success;
     }
 }

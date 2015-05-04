@@ -9,7 +9,7 @@ class RequiredWhen extends Required
 
     const MESSAGE = 'This field is required';
     const LABELED_MESSAGE = '{label} is required';
-    
+
     public function getItemRule()
     {
         /* @var $rule AbstractValidator */
@@ -25,7 +25,8 @@ class RequiredWhen extends Required
                 $rule = new $ruleClass($ruleOptions);
             }
         } elseif (is_object($this->options[self::OPTION_RULE])
-            && $this->options[self::OPTION_RULE] instanceof AbstractRule) {
+            && $this->options[self::OPTION_RULE] instanceof AbstractRule
+        ) {
             $rule = $this->options[self::OPTION_RULE];
         }
         if (!$rule) {
@@ -35,6 +36,7 @@ class RequiredWhen extends Required
         }
         $context = $this->context ? $this->context : array();
         $rule->setContext($context);
+
         return $rule;
     }
 
@@ -56,6 +58,7 @@ class RequiredWhen extends Required
                 $this->success = true;
             }
         }
+
         return $this->success;
     }
 }

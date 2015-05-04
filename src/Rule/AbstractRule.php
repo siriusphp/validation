@@ -68,7 +68,7 @@ abstract class AbstractRule
             }
         }
     }
-    
+
     /**
      * Method that parses the option variable and converts it into an array
      * You can pass anything to a validator like:
@@ -82,8 +82,7 @@ abstract class AbstractRule
      */
     protected function normalizeOptions($options)
     {
-        if (is_array($options) && $this->arrayIsAssoc($options))
-        {
+        if (is_array($options) && $this->arrayIsAssoc($options)) {
             return $options;
         }
         $result = $options;
@@ -112,11 +111,12 @@ abstract class AbstractRule
      * @param array $arr
      * @return bool
      */
-    protected function arrayIsAssoc($arr) {
+    protected function arrayIsAssoc($arr)
+    {
         return array_keys($arr) !== range(0, count($arr));
     }
 
-    
+
     /**
      * Generates a unique string to identify the validator.
      * It is used to compare 2 validators so you don't add the same rule twice in a validator object
@@ -140,6 +140,7 @@ abstract class AbstractRule
     public function setOption($name, $value)
     {
         $this->options[$name] = $value;
+
         return $this;
     }
 
@@ -167,6 +168,7 @@ abstract class AbstractRule
             );
         }
         $this->context = $context;
+
         return $this;
     }
 
@@ -179,6 +181,7 @@ abstract class AbstractRule
     public function setMessageTemplate($messageTemplate)
     {
         $this->messageTemplate = $messageTemplate;
+
         return $this;
     }
 
@@ -195,6 +198,7 @@ abstract class AbstractRule
         if (isset($this->options['label'])) {
             return constant(get_class($this) . '::LABELED_MESSAGE');
         }
+
         return constant(get_class($this) . '::MESSAGE');
     }
 
@@ -219,6 +223,7 @@ abstract class AbstractRule
     public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
     {
         $this->errorMessagePrototype = $errorMessagePrototype;
+
         return $this;
     }
 
@@ -233,6 +238,7 @@ abstract class AbstractRule
         if (!$this->errorMessagePrototype) {
             $this->errorMessagePrototype = new ErrorMessage();
         }
+
         return $this->errorMessagePrototype;
     }
 
@@ -252,6 +258,7 @@ abstract class AbstractRule
                 'value' => $this->value
             )
         );
+
         return $message;
     }
 
@@ -266,6 +273,7 @@ abstract class AbstractRule
         $message = clone ($this->getErrorMessagePrototype());
         $message->setTemplate($this->getMessageTemplate());
         $message->setVariables($this->options);
+
         return $message;
     }
 
@@ -278,7 +286,8 @@ abstract class AbstractRule
      * @param $relatedItem
      * @return string|null
      */
-    protected function getRelatedValueIdentifier($valueIdentifier, $relatedItem) {
+    protected function getRelatedValueIdentifier($valueIdentifier, $relatedItem)
+    {
         // in case we don't have a related path
         if (strpos($relatedItem, '*') === false) {
             return $relatedItem;
@@ -304,7 +313,8 @@ abstract class AbstractRule
         }
 
         $relatedValueIdentifier = implode('][', $relatedValueIdentifierParts) . ']';
-        $relatedValueIdentifier = str_replace($relatedValueIdentifierParts[0] . ']', $relatedValueIdentifierParts[0], $relatedValueIdentifier);
+        $relatedValueIdentifier = str_replace($relatedValueIdentifierParts[0] . ']', $relatedValueIdentifierParts[0],
+            $relatedValueIdentifier);
 
         return $relatedValueIdentifier;
     }

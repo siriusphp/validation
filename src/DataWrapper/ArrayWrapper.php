@@ -30,7 +30,7 @@ class ArrayWrapper implements WrapperInterface
             throw new \InvalidArgumentException('Data passed to validator is not an array or an ArrayObject');
         }
         $this->data = $data;
-            }
+    }
 
     public function getItemValue($item)
     {

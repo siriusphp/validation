@@ -39,7 +39,8 @@ class RequiredWithoutTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->rule->validate(null));
     }
 
-    function testValidationWithDeepItems() {
+    function testValidationWithDeepItems()
+    {
         $this->rule->setOption(Rule::OPTION_ITEM, 'lines[*][quantity]');
         $this->rule->setContext(new ArrayWrapper(
                 array(

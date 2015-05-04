@@ -26,6 +26,7 @@ class Arr
                 $selector,
                 $firstClose + 1
             );
+
         return array($container, $subselector);
     }
 
@@ -55,6 +56,7 @@ class Arr
         if ($subpath === '') {
             return array_key_exists($container, $array) ? $array[$container] : null;
         }
+
         return array_key_exists($container, $array) ? self::getByPath($array[$container], $subpath) : null;
     }
 
@@ -87,6 +89,7 @@ class Arr
                     $array[$container] = $value;
                 }
             }
+
             return $array;
         }
 
@@ -145,6 +148,7 @@ class Arr
                 }
             }
         }
+
         return $result;
     }
 }

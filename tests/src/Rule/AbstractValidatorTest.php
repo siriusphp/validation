@@ -9,6 +9,7 @@ class FakeRule extends \Sirius\Validation\Rule\AbstractRule
     {
         $this->value = $value;
         $this->success = (bool)$value && isset($this->context) && $this->context->getItemValue('key');
+
         return $this->success;
     }
 }

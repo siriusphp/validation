@@ -10,7 +10,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     {
         $this->validator = new Validator();
         $this->validator
-            ->add('email', 'email | required') // does the order matter?
+            ->add('email', 'email | required')// does the order matter?
             ->add('email_confirm', 'required |  email | match(item=email)')
             ->add('password', 'required')
             ->add('password_confirm', 'required | match(item=password)')
@@ -24,14 +24,14 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     function notestWithCorrectData()
     {
         $data = array(
-            'email' => 'me@domain.com',
-            'email_confirm' => 'me@domain.com',
-            'password' => '1234',
-            'password_confirm' => '1234',
+            'email'                     => 'me@domain.com',
+            'email_confirm'             => 'me@domain.com',
+            'password'                  => '1234',
+            'password_confirm'          => '1234',
             'agree_to_provide_feedback' => true,
-            'feedback' => 'This is great!',
-            'birthday' => '1980-01-01',
-            'lines' => array(
+            'feedback'                  => 'This is great!',
+            'birthday'                  => '1980-01-01',
+            'lines'                     => array(
                 array('quantity' => 10, 'price' => 20)
             )
         );
@@ -41,11 +41,11 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     function testWithInvalidData()
     {
         $data = array(
-            'email_confirm' => 'me@domain.com',
-            'password' => '1234',
-            'password_confirm' => '123456',
+            'email_confirm'             => 'me@domain.com',
+            'password'                  => '1234',
+            'password_confirm'          => '123456',
             'agree_to_provide_feedback' => true,
-            'lines' => array(
+            'lines'                     => array(
                 array('quantity' => 10, 'price' => null)
             )
         );

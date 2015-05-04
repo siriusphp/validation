@@ -7,7 +7,7 @@ class FullName extends AbstractRule
     protected static $defaultMessageTemplate = 'This input is not a valid full name (first name and last name)';
     const MESSAGE = 'This input is not a valid full name (first name and last name)';
     const LABELED_MESSAGE = '{label} is not a valid full name (first name and last name)';
-    
+
     /**
      * This is not going to work with Asian names, http://en.wikipedia.org/wiki/Chinese_name.
      */

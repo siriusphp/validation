@@ -8,7 +8,7 @@ class MinLength extends AbstractRule
 
     const MESSAGE = 'This input should have at least {min} characters';
     const LABELED_MESSAGE = '{label} should have at least {min} characters';
-    
+
     protected $options = array();
 
     public function validate($value, $valueIdentifier = null)
@@ -19,6 +19,7 @@ class MinLength extends AbstractRule
         } else {
             $this->success = strlen($value) >= $this->options['min'];
         }
+
         return $this->success;
     }
 }

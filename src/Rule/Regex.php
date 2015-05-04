@@ -8,7 +8,7 @@ class Regex extends AbstractRule
 
     const MESSAGE = 'This input does not match the regular expression {pattern}';
     const LABELED_MESSAGE = '{label} does not match the regular expression {pattern}';
-    
+
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
@@ -17,6 +17,7 @@ class Regex extends AbstractRule
         } else {
             $this->success = true;
         }
+
         return $this->success;
     }
 }
