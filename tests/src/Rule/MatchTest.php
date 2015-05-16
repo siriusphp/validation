@@ -3,15 +3,15 @@
 namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\DataWrapper\ArrayWrapper;
-use Sirius\Validation\Rule\Match as Validator;
+use Sirius\Validation\Rule\Match as Rule;
 
 class MatchTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new Validator();
-        $this->validator->setContext(
+        $this->rule = new Rule();
+        $this->rule->setContext(
             new ArrayWrapper(
                 array(
                     'password' => 'secret'
@@ -22,15 +22,15 @@ class MatchTest extends \PHPUnit_Framework_TestCase
 
     function testValidationWithItemPresent()
     {
-        $this->validator->setOption(Validator::OPTION_ITEM, 'password');
-        $this->assertTrue($this->validator->validate('secret'));
-        $this->assertFalse($this->validator->validate('abc'));
+        $this->rule->setOption(Rule::OPTION_ITEM, 'password');
+        $this->assertTrue($this->rule->validate('secret'));
+        $this->assertFalse($this->rule->validate('abc'));
     }
 
     function testValidationWithoutItemPresent()
     {
-        $this->assertTrue($this->validator->validate('abc'));
-        $this->assertTrue($this->validator->validate(null));
+        $this->assertTrue($this->rule->validate('abc'));
+        $this->assertTrue($this->rule->validate(null));
     }
 
 }

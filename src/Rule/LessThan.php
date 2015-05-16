@@ -14,6 +14,11 @@ class LessThan extends AbstractRule
         'inclusive' => true
     );
 
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_MAX,
+        1 => self::OPTION_INCLUSIVE
+    );
+
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

@@ -2,25 +2,46 @@
 
 namespace Sirius\Validation\Rule;
 
-use Sirius\Validation\Rule\LessThan as Validator;
+use Sirius\Validation\Rule\LessThan as Rule;
 
 class LessThanTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new Validator();
+        $this->rule = new Rule();
     }
 
     function testExclusiveValidation()
     {
-        $this->validator->setOption('inclusive', false);
-        $this->validator->setOption('max', 100);
-        $this->assertFalse($this->validator->validate(100));
+        $this->rule->setOption('inclusive', false);
+        $this->rule->setOption('max', 100);
+        $this->assertFalse($this->rule->validate(100));
     }
 
     function testValidationWithoutALimit()
     {
-        $this->assertTrue($this->validator->validate(0));
+        $this->assertTrue($this->rule->validate(0));
+    }
+
+    function testOptionNormalizationForHttpQueryString() {
+        $this->rule = new Rule('max=100&inclusive=false');
+        $this->assertFalse($this->rule->validate(100));
+
+        $this->rule = new Rule('max=100&inclusive=true');
+        $this->assertTrue($this->rule->validate(100));
+    }
+
+    function testOptionNormalizationForJsonString() {
+        $this->rule = new Rule('{"max": 100, "inclusive": false}');
+        $this->assertFalse($this->rule->validate(100));
+    }
+
+    function testOptionNormalizationForCsvString() {
+        $this->rule = new Rule('100,false');
+        $this->assertFalse($this->rule->validate(100));
+
+        $this->rule = new Rule('100,true');
+        $this->assertTrue($this->rule->validate(100));
     }
 }

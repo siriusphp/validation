@@ -9,6 +9,10 @@ class Regex extends AbstractRule
     const MESSAGE = 'This input does not match the regular expression {pattern}';
     const LABELED_MESSAGE = '{label} does not match the regular expression {pattern}';
 
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_PATTERN
+    );
+
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

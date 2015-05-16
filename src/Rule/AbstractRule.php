@@ -72,8 +72,9 @@ abstract class AbstractRule
     /**
      * Method that parses the option variable and converts it into an array
      * You can pass anything to a validator like:
-     * - a query string (min=3&max=5)
-     * - a JSON string ({"min":3,"max":5})
+     * - a query string: 'min=3&max=5'
+     * - a JSON string: '{"min":3,"max":5}'
+     * - a CSV string: '5,true' (for this scenario the 'optionsIndexMap' property is required)
      *
      * @param mixed $options
      *
@@ -82,20 +83,24 @@ abstract class AbstractRule
      */
     protected function normalizeOptions($options)
     {
+        if (!$options) {
+            return array();
+        }
+
         if (is_array($options) && $this->arrayIsAssoc($options)) {
             return $options;
         }
+
         $result = $options;
         if ($options && is_string($options)) {
             $startChar = substr($options, 0, 1);
             if ($startChar == '{') {
                 $result = json_decode($options, true);
+            } elseif (strpos($options, '=') !== false) {
+                $result = $this->parseHttpQueryString($options);
             } else {
-                parse_str($options, $output);
-                $result = $output;
+                $result = $this->parseCsvString($options);
             }
-        } elseif (!$options) {
-            $result = array();
         }
 
         if (!is_array($result)) {
@@ -103,6 +108,60 @@ abstract class AbstractRule
         }
 
         return $result;
+    }
+
+    /**
+     * Converts a HTTP query string to an array
+     *
+     * @param $str
+     * @return array
+     */
+    protected function parseHttpQueryString($str) {
+        parse_str($str, $arr);
+        return $this->convertBooleanStrings($arr);
+    }
+
+    /**
+     * Converts 'true' and 'false' strings to TRUE and FALSE
+     *
+     * @param $v
+     * @param $k
+     * @return bool
+     */
+    protected function convertBooleanStrings($v, $k) {
+        if (is_array($v)) {
+            return array_map(array($this, 'convertBooleanStrings'), $v);
+        }
+        if ($v === 'true') {
+            return true;
+        }
+        if ($v === 'false') {
+            return false;
+        }
+        return $v;
+    }
+
+    /**
+     * Parses a CSV string and converts the result into an "options" array
+     * (an associative array that contains the options for the validation rule)
+     *
+     * @param $str
+     * @return array
+     */
+    protected function parseCsvString($str) {
+        if (!isset($this->optionsIndexMap) || !is_array($this->optionsIndexMap) || empty($this->optionsIndexMap)) {
+            throw new \InvalidArgumentException(sprintf('Class %s is missing the `optionsIndexMap` property', get_class($this)));
+        }
+
+        $options = explode(',', $str);
+        $result = array();
+        foreach ($options as $k => $v) {
+            if (!isset($this->optionsIndexMap[$k])) {
+                throw new \InvalidArgumentException(sprintf('Class %s does not have the index %d configured in the `optionsIndexMap` property', get_class($this), $k));
+            }
+            $result[$this->optionsIndexMap[$k]] = $v;
+        }
+        return $this->convertBooleanStrings($result);
     }
 
     /**

@@ -4,7 +4,6 @@ namespace Sirius\Validation\Rule;
 class FullName extends AbstractRule
 {
 
-    protected static $defaultMessageTemplate = 'This input is not a valid full name (first name and last name)';
     const MESSAGE = 'This input is not a valid full name (first name and last name)';
     const LABELED_MESSAGE = '{label} is not a valid full name (first name and last name)';
 

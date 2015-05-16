@@ -3,87 +3,87 @@
 namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\DataWrapper\ArrayWrapper;
-use Sirius\Validation\Rule\RequiredWhen as Validator;
+use Sirius\Validation\Rule\RequiredWhen as Rule;
 
 class RequiredWhenTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new Validator();
+        $this->rule = new Rule();
     }
 
     function testValidationWithItemValid()
     {
-        $this->validator->setOption(Validator::OPTION_ITEM, 'email');
-        $this->validator->setOption(Validator::OPTION_RULE, 'Email');
-        $this->validator->setContext(
+        $this->rule->setOption(Rule::OPTION_ITEM, 'email');
+        $this->rule->setOption(Rule::OPTION_RULE, 'Email');
+        $this->rule->setContext(
             new ArrayWrapper(
                 array(
                     'email' => 'me@domain.com'
                 )
             )
         );
-        $this->assertTrue($this->validator->validate('abc'));
-        $this->assertFalse($this->validator->validate(null));
+        $this->assertTrue($this->rule->validate('abc'));
+        $this->assertFalse($this->rule->validate(null));
     }
 
     function testValidationWithItemNotValid()
     {
-        $this->validator->setOption(Validator::OPTION_ITEM, 'email');
-        $this->validator->setOption(Validator::OPTION_RULE, 'Sirius\Validation\Rule\Email');
-        $this->validator->setContext(
+        $this->rule->setOption(Rule::OPTION_ITEM, 'email');
+        $this->rule->setOption(Rule::OPTION_RULE, 'Sirius\Validation\Rule\Email');
+        $this->rule->setContext(
             new ArrayWrapper(
                 array(
                     'email' => 'not_a_valid_email'
                 )
             )
         );
-        $this->assertTrue($this->validator->validate('abc'));
-        $this->assertTrue($this->validator->validate(null));
+        $this->assertTrue($this->rule->validate('abc'));
+        $this->assertTrue($this->rule->validate(null));
     }
 
     function testValidationWithoutItem()
     {
-        $this->validator->setOption(Validator::OPTION_RULE, 'Sirius\Validation\Rule\Email');
-        $this->validator->setContext(
+        $this->rule->setOption(Rule::OPTION_RULE, 'Sirius\Validation\Rule\Email');
+        $this->rule->setContext(
             new ArrayWrapper(
                 array(
                     'email' => 'not_a_valid_email'
                 )
             )
         );
-        $this->assertTrue($this->validator->validate('abc'));
-        $this->assertTrue($this->validator->validate(null));
+        $this->assertTrue($this->rule->validate('abc'));
+        $this->assertTrue($this->rule->validate(null));
     }
 
-    function testItemRuleSetAsValidatorObject()
+    function testItemRuleSetAsRuleObject()
     {
-        $this->validator->setOption(Validator::OPTION_ITEM, 'email');
-        $this->validator->setOption(Validator::OPTION_RULE, new \Sirius\Validation\Rule\Email);
-        $this->validator->setContext(
+        $this->rule->setOption(Rule::OPTION_ITEM, 'email');
+        $this->rule->setOption(Rule::OPTION_RULE, new \Sirius\Validation\Rule\Email);
+        $this->rule->setContext(
             new ArrayWrapper(
                 array(
                     'email' => 'me@domain.com'
                 )
             )
         );
-        $this->assertTrue($this->validator->validate('abc'));
-        $this->assertFalse($this->validator->validate(null));
+        $this->assertTrue($this->rule->validate('abc'));
+        $this->assertFalse($this->rule->validate(null));
     }
 
     function testExceptionThrownOnInvalidItemRule()
     {
         $this->setExpectedException('\InvalidArgumentException');
-        $this->validator->setOption(Validator::OPTION_ITEM, 'email');
-        $this->validator->setOption(Validator::OPTION_RULE, new \stdClass());
-        $this->validator->setContext(
+        $this->rule->setOption(Rule::OPTION_ITEM, 'email');
+        $this->rule->setOption(Rule::OPTION_RULE, new \stdClass());
+        $this->rule->setContext(
             new ArrayWrapper(
                 array(
                     'email' => 'me@domain.com'
                 )
             )
         );
-        $this->assertTrue($this->validator->validate('abc'));
+        $this->assertTrue($this->rule->validate('abc'));
     }
 }

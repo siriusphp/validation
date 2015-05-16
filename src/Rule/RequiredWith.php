@@ -8,6 +8,10 @@ class RequiredWith extends Required
     const MESSAGE = 'This field is required';
     const LABELED_MESSAGE = '{label} is required';
 
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_ITEM
+    );
+
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

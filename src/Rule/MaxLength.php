@@ -11,6 +11,10 @@ class MaxLength extends AbstractRule
 
     protected $options = array();
 
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_MAX
+    );
+
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

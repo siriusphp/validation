@@ -14,6 +14,10 @@ class Date extends AbstractRule
         'format' => 'Y-m-d'
     );
 
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_FORMAT
+    );
+
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

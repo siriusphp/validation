@@ -2,18 +2,18 @@
 
 namespace Sirius\Validation\Rule;
 
-use Sirius\Validation\Rule\ArrayMaxLength as Validator;
+use Sirius\Validation\Rule\ArrayMaxLength as Rule;
 
 class ArrayMaxLengthTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new Validator();
+        $this->rule = new Rule();
     }
 
     function testValidationWithoutALimit()
     {
-        $this->assertTrue($this->validator->validate(array()));
+        $this->assertTrue($this->rule->validate(array()));
     }
 }

@@ -9,6 +9,10 @@ class Match extends AbstractRule
     const MESSAGE = 'This input does not match {item}';
     const LABELED_MESSAGE = '{label} does not match {item}';
 
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_ITEM
+    );
+
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;

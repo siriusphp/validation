@@ -2,18 +2,18 @@
 
 namespace Sirius\Validation\Rule;
 
-use Sirius\Validation\Rule\InList as Validator;
+use Sirius\Validation\Rule\InList as Rule;
 
 class InListTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new Validator();
+        $this->rule = new Rule();
     }
 
     function testValidationWithoutALIstOfAcceptableValues()
     {
-        $this->assertTrue($this->validator->validate('abc'));
+        $this->assertTrue($this->rule->validate('abc'));
     }
 }

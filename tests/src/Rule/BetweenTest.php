@@ -2,23 +2,23 @@
 
 namespace Sirius\Validation\Rule;
 
-use Sirius\Validation\Rule\Between as Validator;
+use Sirius\Validation\Rule\Between as Rule;
 
 class BetweenTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new Validator();
+        $this->rule = new Rule();
     }
 
     function testValidation()
     {
-        $this->validator->setOption('min', 50);
-        $this->validator->setOption('max', 100);
-        $this->assertFalse($this->validator->validate(40));
-        $this->assertFalse($this->validator->validate(110));
-        $this->assertTrue($this->validator->validate(80));
+        $this->rule->setOption('min', 50);
+        $this->rule->setOption('max', 100);
+        $this->assertFalse($this->rule->validate(40));
+        $this->assertFalse($this->rule->validate(110));
+        $this->assertTrue($this->rule->validate(80));
     }
 
 }
