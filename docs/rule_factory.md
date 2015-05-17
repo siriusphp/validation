@@ -14,7 +14,7 @@ The `RuleFactory` is a simple registry-like object which stores
 
 By configuring the default error messages in the `RuleFactory` you don't have to repeat yourself. Since you should use a single `RuleFactory` for the entire app, there will be a single place where you can set the error message for, let's say, the `required` rule.
 
-**!!! Important !!!** The error messages are option because each [validation rule class](rule_anatomy.md) has constants which define the default error messages for that class.
+**!!! Important !!!** The error messages are optional because each [validation rule class](rule_anatomy.md) has constants which define the default error messages for that class.
 
 ### Registering validator classes
 

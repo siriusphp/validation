@@ -4,7 +4,7 @@ title: Complex validation rules
 
 # Complex validation rules
 
-Usually a rule validation class doesn't need to much to do it's job but there are situations when your validator needs access to external resources (eg: a database connection).
+Usually a rule validation class doesn't need too much to do its job but there are situations when your validator needs access to external resources (eg: a database connection).
 In this case, they cannot be registered as classes on the [rule factory](rule_factory.md). Still, you have a few choices: 
 
 1. use the validator as a callback
@@ -106,7 +106,7 @@ class RuleFactory extends \Sirius\Validation\RuleFactory {
 }
 ```
 
-And configure the service in the container
+Configure the service in the container
 
 ```php
 
@@ -115,6 +115,18 @@ $container->set('RuleFactory', function($container) {
     $factory->setDic($container);
     return $factory;
 });
+```
+
+Configure the validation rule in the container
+
+```php
+
+$container->set('MyApp\Validation\Rule\UniqueUsername', function($options) use ($container) {
+    $rule = new MyApp\Validation\Rule\UniqueUsername($options);
+    $rule->setDbConn($container->get('db_connection'));
+    return $rule;
+});
+```
 
 
 You must make sure that your validation uses the proper `RuleFactory`
@@ -123,4 +135,5 @@ You must make sure that your validation uses the proper `RuleFactory`
 use Sirius\Validation\Validator;
 
 $validator = new Validator($container->get('RuleFactory'));
+$validator->add('username', 'MyApp\Validation\Rule\UniqueUsername');
 ```

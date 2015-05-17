@@ -42,10 +42,10 @@ Is the path to the value(s) that will be validated with the rule
 ##### $name
 
 The <code>$name</code> must either:
-1. the name of a rule registered with the `RuleFactory` (eg: $ruleFactory->register('email', 'MyApp\ValidationRule\MorePowerfullEmailValidator')`)
-2. or the name of a class within the `Sirius\Validation\Rule` namespace (eg: `Email', 'MinLength') 
-3. or the name of a class that extends the `Sirius\Vaidation\Rule\AbstractRule` class
-4. or a callable entity (function, object method or static method) (eg: `$validator->add('username', 'MyClass::validateUsername', null, 'Username is already taken')`).
+1. the name of a rule registered with the [`RuleFactory`](rule_factory.md)
+2. the name of a class within the `Sirius\Validation\Rule` namespace (eg: `Email', 'MinLength') 
+3. the name of a class that extends the `Sirius\Vaidation\Rule\AbstractRule` class
+4. a callable entity (function, object method or static method) (eg: `$validator->add('username', 'MyClass::validateUsername', null, 'Username is already taken')`).
 
 ##### $options
 The <code>$options</code> variable represents the configuration options for the validators or additional parameters for the callback. It can be:
@@ -53,6 +53,7 @@ The <code>$options</code> variable represents the configuration options for the 
 1. an array
 2. a JSON string: `{"min": 100, "max": 200}`
 3. a URL query string: `min=100&max=200`
+4. a CSV string: `100,200` (this requires the validation rule class has the `optionsIndexMap` array properly set up)
 
 
 ##### $messageTemplate
@@ -61,7 +62,7 @@ Each validator has it's own default error message so you don't have to provide i
 
 ##### $label
 The <code>$label</code> is the label associated with the field. 
-From my experience, the most usefull error messages are those that contain the name of the field so I decided to make this option easily accessible.
+The most useful error messages are those that contain the name of the field so this will come very handy.
 
 
 ## Validate data

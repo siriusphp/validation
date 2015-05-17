@@ -26,20 +26,13 @@ class ThisOrThat extends AbstractRule {
         'that' => 'b'
     );
     
-    // if you want to let the user pass the options in a different way
-    // (ie: not as array, query string or JSON string)
-    // 
-    // in this case we want the user to pass the options like so: "this,that"
-    protected function normalizeOptions($options) {
-        if (is_string($options)) {
-            list($this, $that) = explode(',', $options, 2);
-            return array(
-                self::OPTION_THIS => $this,
-                self::OPTION_THAT => $that
-            );
-        }
-        return parent::normalizeOptions($options);
-    }
+    // if you want to let the user pass the options as a CSV (eg: 'this,that')
+    // you need to provide a `optionsIndexMap` property which will convert the options list
+    // into an associative array of options
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_THIS,
+        1 => self::OPTION_THAT
+    );
 
     function validate($value, $valueIdentifier = null) {
         return $value == $this->options[self::OPTION_THIS] || $value == $this->options[self::OPTION_THAT];

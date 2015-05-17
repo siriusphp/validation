@@ -28,28 +28,26 @@ $validator->add('name', 'required | minlength({"min":2})({label} must have at le
 
 Of course this means the error message cannot contain the ` | ` sequence
 
-##### 4. Add multiple rules per value
+##### 4. Add multiple rules per selector
 ```php
 $validator->add(
     // add the label after the selector so you don't have to pass the label to every rule
     'email:Email', 
     array(
-        // only through the name of the validation rule
+        // only using the name of the validation rule
         'email',
-        // or with all parameters
-        array('minlength', 'min=2', '{label} must have at least {min} characters'),
+        // or with all parameters (here passed as CSV) 
+        array('length', '2,100', '{label} must have between {min} and {max} characters'),
     )
 );
 ```
 
-##### 5. Add multiple rules on multiple values
+##### 5. Add multiple rules on multiple selectors
 Mix and match everthing from above
 ```php
 $validator->add(array(
     'email:Email' => 'required | email',
-    'name:Name' => array(
-         'required',
-         array('minlength', 'min=2', '{label} must have at least {min} characters'),
+    'name:Name' => 'required | length(2,100) | fullname'),
     )
 ));
 ```
