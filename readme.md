@@ -61,7 +61,7 @@ $validator->add('shipping_address[city]:City', 'MyApp\Validator\City'); // uses 
 
 ##Links
 
-- [documentation](http://www.sirius.ro/php/sirius/validation)
+- [documentation](http://www.sirius.ro/php/sirius/validation/)
 - [changelog](CHANGELOG.md)
 
 ##Known issues

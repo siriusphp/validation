@@ -1,7 +1,9 @@
 #### 2.0.0
 
-- added the `data_key:label` feature
+- added the `data_selector:label` feature
 - implemented default rule messages in the `RuleFactory` class. This way, if you have a custom error message for the `required` fields, you don't have to provide it to all the required fields, just set it up once in the `RuleFactory`
+- implemented a way to allow validation rule options to be passed as CSV (eg: '100,200' instead of 'min=200&max=200')
+
 
 #### 1.2.4
 
