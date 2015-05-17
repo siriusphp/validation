@@ -2,14 +2,16 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-use Sirius\Validation\Rule\AbstractValidator;
+use Sirius\Validation\Rule\AbstractRule;
 
-class Extension extends AbstractValidator
+class Extension extends AbstractRule
 {
 
     const OPTION_ALLOWED_EXTENSIONS = 'allowed';
 
-    protected static $defaultMessageTemplate = 'File does not have an acceptable extension ({file_extensions})';
+    const MESSAGE = 'The file does not have an acceptable extension ({file_extensions})';
+
+    const LABELED_MESSAGE = '{label} does not have an acceptable extension ({file_extensions})';
 
     protected $options = array(
         self::OPTION_ALLOWED_EXTENSIONS => array()
@@ -24,6 +26,7 @@ class Extension extends AbstractValidator
             $value = array_map('trim', $value);
             $value = array_map('strtolower', $value);
         }
+
         return parent::setOption($name, $value);
     }
 
@@ -39,6 +42,7 @@ class Extension extends AbstractValidator
                     $this->options[self::OPTION_ALLOWED_EXTENSIONS]
                 );
         }
+
         return $this->success;
     }
 
@@ -51,6 +55,7 @@ class Extension extends AbstractValidator
                 'file_extensions' => implode(', ', $fileExtensions)
             )
         );
+
         return $message;
     }
 }

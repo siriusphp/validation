@@ -2,18 +2,18 @@
 
 namespace Sirius\Validation\Rule;
 
-use Sirius\Validation\Rule\NotInList as Validator;
+use Sirius\Validation\Rule\NotInList as Rule;
 
 class NotInListTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new Validator();
+        $this->rule = new Rule();
     }
 
     function testValidationWithoutAListOfForbiddenValues()
     {
-        $this->assertTrue($this->validator->validate('abc'));
+        $this->assertTrue($this->rule->validate('abc'));
     }
 }

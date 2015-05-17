@@ -14,18 +14,10 @@ class ArrayWrapper implements WrapperInterface
     protected $data = array();
 
     /**
-     * @param array $data
-     */
-    public function __construct($data = array())
-    {
-        $this->setData($data);
-    }
-
-    /**
      * @param array|\ArrayObject|object $data
      * @throws \InvalidArgumentException
      */
-    public function setData($data)
+    public function __construct($data = array())
     {
         if (is_object($data)) {
             if ($data instanceof \ArrayObject) {
@@ -38,7 +30,6 @@ class ArrayWrapper implements WrapperInterface
             throw new \InvalidArgumentException('Data passed to validator is not an array or an ArrayObject');
         }
         $this->data = $data;
-        return;
     }
 
     public function getItemValue($item)

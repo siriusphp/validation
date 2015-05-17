@@ -2,72 +2,67 @@
 
 namespace Sirius\Validation\Rule;
 
-class FakeValidator extends \Sirius\Validation\Rule\AbstractValidator
+class FakeRule extends \Sirius\Validation\Rule\AbstractRule
 {
 
     function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
         $this->success = (bool)$value && isset($this->context) && $this->context->getItemValue('key');
+
         return $this->success;
     }
 }
 
 
-class AbstractValidatorTest extends \PHPUnit_Framework_TestCase
+class AbstractRuleTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new FakeValidator();
+        $this->rule = new FakeRule();
     }
 
     function testErrorMessagePrototype()
     {
         // we always have an error message prototype
-        $this->assertTrue($this->validator->getErrorMessagePrototype() instanceof \Sirius\Validation\ErrorMessage);
+        $this->assertTrue($this->rule->getErrorMessagePrototype() instanceof \Sirius\Validation\ErrorMessage);
         $proto = new \Sirius\Validation\ErrorMessage('Not valid');
-        $this->validator->setErrorMessagePrototype($proto);
-        $this->assertEquals('Not valid', (string)$this->validator->getErrorMessagePrototype());
-    }
-
-    function testDefaultErrorMessageTemplateIsUsed()
-    {
-        FakeValidator::setDefaultMessageTemplate('Custom default message');
-        $this->assertEquals('Custom default message', (string)$this->validator->getPotentialMessage());
+        $this->rule->setErrorMessagePrototype($proto);
+        $this->assertEquals('Not valid', (string)$this->rule->getErrorMessagePrototype());
     }
 
     function testMessageIsGeneratedCorrectly()
     {
-        $this->validator->setOption('label', 'Accept');
-        $this->validator->setMessageTemplate('Field "{label}" must be true, {value} was provided');
-        $this->validator->validate('false');
-        $this->assertEquals('Field "Accept" must be true, false was provided', (string)$this->validator->getMessage());
+        $this->rule->setOption('label', 'Accept');
+        $this->rule->setMessageTemplate('Field "{label}" must be true, {value} was provided');
+        $this->rule->validate('false');
+        $this->assertEquals('Field "Accept" must be true, false was provided', (string)$this->rule->getMessage());
     }
 
     function testNoMessageWhenValidationPasses()
     {
-        $this->validator->setContext(array('key' => true));
-        $this->assertTrue($this->validator->validate(true));
-        $this->assertNull($this->validator->getMessage());
+        $this->rule->setContext(array('key' => true));
+        $this->assertTrue($this->rule->validate(true));
+        $this->assertNull($this->rule->getMessage());
     }
 
     function testContext()
     {
-        $this->assertFalse($this->validator->validate(true));
-        $this->validator->setContext(array('key' => true));
-        $this->assertTrue($this->validator->validate(true));
+        $this->assertFalse($this->rule->validate(true));
+        $this->rule->setContext(array('key' => true));
+        $this->assertTrue($this->rule->validate(true));
     }
 
     function testErrorMessageTemplateIsUsed()
     {
-        $this->validator->setMessageTemplate('Custom message');
-        $this->assertEquals('Custom message', (string)$this->validator->getPotentialMessage());
+        $this->rule->setMessageTemplate('Custom message');
+        $this->assertEquals('Custom message', (string)$this->rule->getPotentialMessage());
     }
 
     function testErrorThrownOnInvalidContext()
     {
         $this->setExpectedException('\InvalidArgumentException');
-        $this->validator->setContext(new \stdClass());
+        $this->rule->setContext(new \stdClass());
     }
 }

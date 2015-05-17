@@ -1,10 +1,11 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class IpAddress extends AbstractValidator
+class IpAddress extends AbstractRule
 {
 
-    protected static $defaultMessageTemplate = 'This input is not a valid IP address';
+    const MESSAGE = 'This input is not a valid IP address';
+    const LABELED_MESSAGE = '{label} is not a valid IP address';
 
     public function validate($value, $valueIdentifier = null)
     {
@@ -16,6 +17,7 @@ class IpAddress extends AbstractValidator
         } else {
             $this->success = (bool)filter_var($value, FILTER_VALIDATE_IP, $flags | FILTER_FLAG_IPV4);
         }
+
         return $this->success;
     }
 }

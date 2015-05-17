@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation;
 
-use Sirius\Validation\Rule\AbstractValidator;
+use Sirius\Validation\Rule\AbstractRule;
 
 class ValueValidator
 {
@@ -35,8 +35,15 @@ class ValueValidator
      */
     protected $rules;
 
+    /**
+     * The label of the value to be validated
+     *
+     * @var string
+     */
+    protected $label;
 
-    public function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null)
+
+    function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null, $label = null)
     {
         if (!$ruleFactory) {
             $ruleFactory = new RuleFactory();
@@ -46,7 +53,17 @@ class ValueValidator
             $errorMessagePrototype = new ErrorMessage();
         }
         $this->errorMessagePrototype = $errorMessagePrototype;
+        if ($label) {
+            $this->label = $label;
+        }
         $this->rules = new RuleCollection;
+    }
+
+    public function setLabel($label = null)
+    {
+        $this->label = $label;
+
+        return $this;
     }
 
     /**
@@ -60,11 +77,11 @@ class ValueValidator
      *          // add multiple rules using a string
      *          $validator->add('required | email');
      *          // add validator with options
-     *          $validator->add('minlength', array('min' => 2), '{label} should have at least {min} characters', 'Field');
+     *          $validator->add('minlength', array('min' => 2), '{label} should have at least {min} characters', 'Field label');
      *          // add validator with string and parameters as JSON string
-     *          $validator->add('minlength({"min": 2})({label} should have at least {min} characters)(Field)');
+     *          $validator->add('minlength({"min": 2})({label} should have at least {min} characters)(Field label)');
      *          // add validator with string and parameters as query string
-     *          $validator->add('minlength(min=2)({label} should have at least {min} characters)(Field)');
+     *          $validator->add('minlength(min=2)({label} should have at least {min} characters)(Field label)');
      *
      * @param string|callback $name
      * @param string|array $options
@@ -79,7 +96,7 @@ class ValueValidator
             return $this->addMultiple($name);
         }
         if (is_string($name)) {
-            // rule was supplied like 'required' or 'required | email'
+            // rule was supplied like 'required | email'
             if (strpos($name, ' | ') !== false) {
                 return $this->add(explode(' | ', $name));
             }
@@ -88,7 +105,13 @@ class ValueValidator
                 list ($name, $options, $messageTemplate, $label) = $this->parseRule($name);
             }
         }
-        $validator = $this->ruleFactory->createValidator($name, $options, $messageTemplate, $label);
+
+        // check for the default label
+        if (!$label and $this->label) {
+            $label = $this->label;
+        }
+
+        $validator = $this->ruleFactory->createRule($name, $options, $messageTemplate, $label);
 
         return $this->addRule($validator);
     }
@@ -113,6 +136,7 @@ class ValueValidator
                 $singleRule
             );
         }
+
         return $this;
     }
 
@@ -121,9 +145,11 @@ class ValueValidator
      *
      * @return ValueValidator
      */
-    public function addRule(AbstractValidator $validationRule) {
+    public function addRule(AbstractRule $validationRule)
+    {
         $validationRule->setErrorMessagePrototype($this->errorMessagePrototype);
         $this->rules->attach($validationRule);
+
         return $this;
     }
 
@@ -142,10 +168,12 @@ class ValueValidator
     {
         if ($name === true) {
             $this->rules = new RuleCollection();
+
             return $this;
         }
-        $validator = $this->ruleFactory->createValidator($name, $options);
+        $validator = $this->ruleFactory->createRule($name, $options);
         $this->rules->detach($validator);
+
         return $this;
     }
 
@@ -212,7 +240,7 @@ class ValueValidator
         if (!$isRequired && $value === null) {
             return true;
         }
-        
+
         /* @var $rule \Sirius\Validation\Rule\AbstractValidator */
         foreach ($this->rules as $rule) {
             $rule->setContext($context);
@@ -225,6 +253,7 @@ class ValueValidator
                 break;
             }
         }
+
         return count($this->messages) === 0;
     }
 
@@ -236,6 +265,7 @@ class ValueValidator
     public function addMessage($message)
     {
         array_push($this->messages, $message);
+
         return $this;
     }
 

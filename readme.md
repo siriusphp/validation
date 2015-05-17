@@ -1,17 +1,18 @@
 #Sirius Validation
 
-[![Build Status](https://scrutinizer-ci.com/g/siriusphp/validation/badges/build.png?b=master)](https://scrutinizer-ci.com/g/siriusphp/validation/build-status/master)
-[![Code Coverage](https://scrutinizer-ci.com/g/siriusphp/validation/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/siriusphp/validation/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/siriusphp/validation/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/siriusphp/validation/?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/siriusphp/validation/v/stable.png)](https://packagist.org/packages/siriusphp/validation)
-[![License](https://poser.pugx.org/siriusphp/validation/license.png)](https://packagist.org/packages/siriusphp/validation)
+[![Source Code](http://img.shields.io/badge/source-siriusphp/validation-blue.svg?style=flat-square)](https://github.com/siriusphp/validation)
+[![Latest Version](https://img.shields.io/packagist/v/siriusphp/validation.svg?style=flat-square)](https://github.com/siriusphp/validation/releases)
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/siriusphp/validation/blob/master/LICENSE)
+[![Build Status](https://img.shields.io/travis/siriusphp/validation/master.svg?style=flat-square)](https://travis-ci.org/siriusphp/validation)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/siriusphp/validation.svg?style=flat-square)](https://scrutinizer-ci.com/g/siriusphp/validation/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/siriusphp/validation.svg?style=flat-square)](https://scrutinizer-ci.com/g/siriusphp/validation)
+[![Total Downloads](https://img.shields.io/packagist/dt/siriusphp/validation.svg?style=flat-square)](https://packagist.org/packages/siriusphp/validation)
 
 Sirius Validation is a library for data validation. It offers:
 
-1. [validator object](docs/validator.md) to validate arrays, `ArrayObjects` or objects that have a `toArray` method. It can be extended easily to validate other types.
-2. [value validator object](docs/value_validator.md) to validate single values
-2. [validation helper](docs/helper.md) to simplify single value validation (does not generate error messages, only returns TRUE/FALSE)
-3. [build-in validation rules](docs/rules.md) to perform the actual data validation. The validation rules are used by the helper and validator objects.
+1. [validator object](docs/validator.md)
+2. [45 build-in validation rules](docs/validation_rules.md). There are validators for strings, array, numbers, emails, URLs, files and uploads
+3. [validation helper](docs/helper.md) to simplify the validation of single values
 
 Out-of-the-box, the library can handle `array`s, `ArrayObject`s and objects that have implemented the `toArray` method.
 In order to validate other data containers you must create a [`DataWrapper`](https://github.com/siriusphp/validation/blob/master/src/Validation/DataWrapper/WrapperInterface.php) so that the validator be able to extract data from your object.
@@ -25,65 +26,46 @@ $validation = new \Sirius\Validation\Validator;
 $validator->add('title', 'required');
 
 // add a rule that has a list of options
-$validator->add('title', 'maxlength', array('max' => 100));
+$validator->add('title', 'length', array('min' => 10, 'max' => 100));
 // or use JSON
-$validator->add('title', 'maxlength', '{"max": 100}');
+$validator->add('title', 'length', '{"min": 10, "max": 100}');
 // or a URL query string
-$validator->add('title', 'maxlength', 'max=100');
+$validator->add('title', 'length', 'min=10&max=100');
+// or, if you know that the validator can CORECTLY parse (ie: understand) the options string
+$validator->add('title', 'length', '10,100');
 
 // add a rule with a custom error message
 $validator->add('title', 'maxlength', 'max=100', 'Article title must have less than {max} characters');
 
 // add a rule with a custom message and a label (very handy with forms)
-$validator->add('title', 'maxlength', 'max=100', '{label} must have less than {max} characters', 'Title');
+$validator->add('title:Title', 'maxlength', 'max=100', '{label} must have less than {max} characters');
 
 // add all of rule's configuration in a string (you'll see later why it's handy')
-$validator->add('title', 'maxlength(max=255)({label} must have less than {max} characters)(Title)');
+$validator->add('title:Title', 'maxlength(max=255)({label} must have less than {max} characters)');
 
 // add multiple rules at once (separate using [space][pipe][space])
-$validator->add('title', 'required | maxlength(max=255) | minlength(min=10)');
+$validator->add('title:Title', 'required | maxlength(255) | minlength(min=10)');
 
 // add all your rules at once
 $validator->add(array(
-    'title' => 'required | maxlength(max=10)({label} must have less than {max} characters)(Title)',
-	'content' => 'required',
-	'source' => 'website'
+    'title:Title' => 'required | maxlength(100)({label} must have less than {max} characters)',
+	'content:Content' => 'required',
+	'source:Source' => 'website'
 ));
 
 // add nested rules
-$validator->add('recipients[*]', 'email'); //all recipients must be valid email addresses
-$validator->add('shipping_address[city]', 'MyApp\Validator\City'); // uses a custom validator to validate the shipping city
+$validator->add('recipients[*]:Recipients', 'email'); //all recipients must be valid email addresses
+$validator->add('shipping_address[city]:City', 'MyApp\Validator\City'); // uses a custom validator to validate the shipping city
 
 ```
 
-##Documentation
+##Links
 
-[go to the documentation](docs/index.md)
+- [documentation](http://www.sirius.ro/php/sirius/validation)
+- [changelog](CHANGELOG.md)
 
 ##Known issues
 
 In PHP 5.3 there is some problem with the SplObject storage that prevents the library to remove validation rules.
 This means that in PHP 5.3, you cannot remove a validation rule from a `Validator` or `ValueValidator` object
 
-## Release notes
-
-#### 1.2.2
-
-- fixed bug with the 'between' validator (pull request #16)
-- added support for PHP 5.3 (tests fail but due to the short array syntax, not the inherent code in the library)
-- improved documentation on how to use complex validators (ie: that have dependencies)
-
-#### 1.2.1
-
-- fixed bug with the required rule not working properly on empty strings
-
-#### 1.2.0
-
-- improved the code base on Scrutinizer CI suggestions
-- removed the ValidatableTrait trait
-
-#### 1.1
-
-- Added HHVM to Travis CI
-- Renamed Validator\* classes into Rule\* classes (breaking change if you used custom rule classes)
-- Renamed ValidatorFactory to RuleFactory (breaking change)

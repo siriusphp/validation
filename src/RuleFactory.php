@@ -13,63 +13,75 @@ class RuleFactory
      *
      * @var array
      */
-    protected $validatorsMap = array(
-        Validator::RULE_REQUIRED => 'Required',
-        Validator::RULE_REQUIRED_WITH => 'RequiredWith',
-        Validator::RULE_REQUIRED_WITHOUT => 'RequiredWithout',
-        Validator::RULE_REQUIRED_WHEN => 'RequiredWhen',
-        // string rules
-        Validator::RULE_ALPHA => 'Alpha',
-        Validator::RULE_ALPHANUMERIC => 'AlphaNumeric',
-        Validator::RULE_ALPHANUMHYPHEN => 'AlphaNumHyphen',
-        Validator::RULE_LENGTH => 'Length',
-        Validator::RULE_MAX_LENGTH => 'MaxLength',
-        Validator::RULE_MIN_LENGTH => 'MinLength',
-        Validator::RULE_FULLNAME => 'FullName',
-        // array rules
-        Validator::RULE_ARRAY_LENGTH => 'ArrayLength',
-        Validator::RULE_ARRAY_MAX_LENGTH => 'ArrayMaxLength',
-        Validator::RULE_ARRAY_MIN_LENGTH => 'ArrayMinLength',
-        Validator::RULE_IN_LIST => 'InList',
-        Validator::RULE_NOT_IN_LIST => 'NotInList',
-        // date rules
-        Validator::RULE_DATE => 'Date',
-        Validator::RULE_DATETIME => 'DateTime',
-        Validator::RULE_TIME => 'Time',
-        // number rules
-        Validator::RULE_BETWEEN => 'Between',
-        Validator::RULE_GREATER_THAN => 'GreaterThan',
-        Validator::RULE_LESS_THAN => 'LessThan',
-        Validator::RULE_NUMBER => 'Number',
-        Validator::RULE_INTEGER => 'Integer',
-        // regular expression rules
-        Validator::RULE_REGEX => 'Regex',
-        Validator::RULE_NOT_REGEX => 'NotRegex',
-        // other rules
-        Validator::RULE_EMAIL => 'Email',
-        Validator::RULE_EMAIL_DOMAIN => 'EmailDomanin',
-        Validator::RULE_URL => 'Url',
-        Validator::RULE_WEBSITE => 'Website',
-        Validator::RULE_IP => 'IpAddress',
-        'ipaddress' => 'IpAddress',
-        Validator::RULE_MATCH => 'Match',
-        Validator::RULE_EQUAL => 'Equal',
-        // file rules
-        Validator::RULE_FILE_EXTENSION => 'File\Extension',
-        Validator::RULE_FILE_SIZE => 'File\Size',
-        Validator::RULE_IMAGE => 'File\Image',
-        Validator::RULE_IMAGE_WIDTH => 'File\ImageWidth',
-        Validator::RULE_IMAGE_HEIGHT => 'File\ImageHeight',
-        Validator::RULE_IMAGE_RATIO => 'File\ImageRatio',
-        // upload rules
-        Validator::RULE_UPLOAD_EXTENSION => 'Upload\Extension',
-        Validator::RULE_UPLOAD_SIZE => 'Upload\Size',
-        Validator::RULE_UPLOAD_IMAGE => 'Upload\Image',
-        Validator::RULE_UPLOAD_IMAGE_WIDTH => 'Upload\ImageWidth',
-        Validator::RULE_UPLOAD_IMAGE_HEIGHT => 'Upload\ImageHeight',
-        Validator::RULE_UPLOAD_IMAGE_RATIO => 'Upload\ImageRatio',
-        Validator::RULE_CALLBACK => 'Callback'
-    );
+    protected $validatorsMap = array();
+
+    protected $errorMessages = array();
+
+    protected $labeledErrorMessages = array();
+
+    function __construct()
+    {
+        $this->registerDefaultRules();
+    }
+
+    protected function registerDefaultRules()
+    {
+        $rulesClasses = array(
+            'Alpha',
+            'AlphaNumeric',
+            'AlphaNumHyphen',
+            'ArrayLength',
+            'ArrayMaxLength',
+            'ArrayMinLength',
+            'Between',
+            'Callback',
+            'Date',
+            'DateTime',
+            'Email',
+            'EmailDomain',
+            'Equal',
+            'FullName',
+            'GreaterThan',
+            'InList',
+            'Integer',
+            'IpAddress',
+            'Length',
+            'LessThan',
+            'Match',
+            'MaxLength',
+            'MinLength',
+            'NotInList',
+            'NotRegex',
+            'Number',
+            'Regex',
+            'Required',
+            'RequiredWhen',
+            'RequiredWith',
+            'RequiredWithout',
+            'Time',
+            'Url',
+            'Website',
+            'File\Extension',
+            'File\Image',
+            'File\ImageHeight',
+            'File\ImageRatio',
+            'File\ImageWidth',
+            'File\Size',
+            'Upload\Extension',
+            'Upload\Image',
+            'Upload\ImageHeight',
+            'Upload\ImageRatio',
+            'Upload\ImageWidth',
+            'Upload\Size',
+        );
+        foreach ($rulesClasses as $class) {
+            $fullClassName = '\\' . __NAMESPACE__ . '\Rule\\' . $class;
+            $name = strtolower(str_replace('\\', '', $class));
+            $errorMessage = constant($fullClassName . '::MESSAGE');
+            $labeledErrorMessage = constant($fullClassName . '::LABELED_MESSAGE');
+            $this->register($name, $fullClassName, $errorMessage, $labeledErrorMessage);
+        }
+    }
 
 
     /**
@@ -79,11 +91,18 @@ class RuleFactory
      * @param string $class
      * @return \Sirius\Validation\RuleFactory
      */
-    public function register($name, $class)
+    public function register($name, $class, $errorMessage = '', $labeledErrorMessage = '')
     {
-        if (is_subclass_of($class, '\Sirius\Validation\Rule\AbstractValidator')) {
+        if (is_subclass_of($class, '\Sirius\Validation\Rule\AbstractRule')) {
             $this->validatorsMap[$name] = $class;
         }
+        if ($errorMessage) {
+            $this->errorMessages[$name] = $errorMessage;
+        }
+        if ($labeledErrorMessage) {
+            $this->labeledErrorMessages[$name] = $labeledErrorMessage;
+        }
+
         return $this;
     }
 
@@ -101,11 +120,14 @@ class RuleFactory
      * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
-    public function createValidator($name, $options = null, $messageTemplate = null, $label = null)
+    public function createRule($name, $options = null, $messageTemplate = null, $label = null)
     {
-        $options = $this->normalizeOptions($options);
+        $validator = $this->construcRuleByNameAndOptions($name, $options);
 
-        $validator = $this->constructValidatorByNameAndOptions($name, $options);
+        // no message template, try to get it from the registry
+        if (!$messageTemplate) {
+            $messageTemplate = $this->getSuggestedMessageTemplate($name, !!$label);
+        }
 
         if (is_string($messageTemplate) && $messageTemplate !== '') {
             $validator->setMessageTemplate($messageTemplate);
@@ -113,34 +135,26 @@ class RuleFactory
         if (is_string($label) && $label !== '') {
             $validator->setOption('label', $label);
         }
+
         return $validator;
     }
 
     /**
-     * @param $options
+     * Get the error message saved in the registry for a rule, where the message
+     * is with or without a the label
      *
-     * @return array|mixed
+     * @param string $name name of the rule
+     * @param bool $withLabel
+     * @return string|NULL
      */
-    protected function normalizeOptions($options)
+    protected function getSuggestedMessageTemplate($name, $withLabel)
     {
-        $result = $options;
-        if ($options && is_string($options)) {
-            $startChar = substr($options, 0, 1);
-            if ($startChar == '{' || $startChar == '[') {
-                $result = json_decode($options, true);
-            } else {
-                parse_str($options, $output);
-                $result = $output;
-            }
-        } elseif (!$options) {
-            $result = array();
+        $noLabelMessage = is_string($name) && isset($this->errorMessages[$name]) ? $this->errorMessages[$name] : null;
+        if ($withLabel) {
+            return is_string($name) && isset($this->labeledErrorMessages[$name]) ? $this->labeledErrorMessages[$name] : $noLabelMessage;
         }
 
-        if (!is_array($result)) {
-            throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
-        }
-
-        return $result;
+        return $noLabelMessage;
     }
 
     /**
@@ -149,7 +163,7 @@ class RuleFactory
      *
      * @return CallbackRule
      */
-    protected function constructValidatorByNameAndOptions($name, $options)
+    protected function construcRuleByNameAndOptions($name, $options)
     {
         if (is_callable($name)) {
             $validator = new CallbackRule(
@@ -161,15 +175,15 @@ class RuleFactory
         } elseif (is_string($name)) {
             $name = trim($name);
             // use the validator map
-            if (isset($this->validatorsMap[ strtolower($name) ])) {
-                $name = $this->validatorsMap[ strtolower($name) ];
+            if (isset($this->validatorsMap[strtolower($name)])) {
+                $name = $this->validatorsMap[strtolower($name)];
             }
             // try if the validator is the name of a class in the package
             if (class_exists('\Sirius\Validation\Rule\\' . $name)) {
                 $name = '\Sirius\Validation\Rule\\' . $name;
             }
             // at this point we should have a class that can be instanciated
-            if (class_exists($name) && is_subclass_of($name, '\Sirius\Validation\Rule\AbstractValidator')) {
+            if (class_exists($name) && is_subclass_of($name, '\Sirius\Validation\Rule\AbstractRule')) {
                 $validator = new $name($options);
             }
         }
@@ -179,6 +193,7 @@ class RuleFactory
                 sprintf('Impossible to determine the validator based on the name: %s', (string)$name)
             );
         }
+
         return $validator;
     }
 

@@ -8,9 +8,9 @@ class ArrTest extends \PHPUnit_Framework_TestCase
     function setUp()
     {
         $this->data = array(
-            'name' => 'John Doe',
+            'name'      => 'John Doe',
             'addresses' => array(
-                'billing' => array(
+                'billing'  => array(
                     'street' => '1st Ave'
                 ),
                 'shipping' => array(
@@ -66,13 +66,13 @@ class ArrTest extends \PHPUnit_Framework_TestCase
         $arr = array(
             'people' => array(
                 array(
-                    'name' => 'John',
+                    'name'    => 'John',
                     'address' => array(
                         'city' => 'New York'
                     )
                 ),
                 array(
-                    'name' => 'Marry',
+                    'name'    => 'Marry',
                     'address' => array(
                         'state' => 'California'
                     )

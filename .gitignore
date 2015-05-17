@@ -1,9 +1,10 @@
-tests/report/
 build/
-/.settings
-/.buildpath
-/.project
-/vendor
-/composer.lock
+.settings/
+.buildpath
+.project
+vendor
+composer.lock
 .idea/
-atlassian-ide-plugin.xml
+website/
+docs/.couscous
+docs/couscous.phar

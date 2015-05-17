@@ -1,9 +1,13 @@
-#Validation\Helper
+---
+title: The validation helper
+---
 
-This is a container class for your validation methods (static functions). 
+# The validation helper
+
+This is a class which contains static methods to perform data validation. 
 Is is designed to help you with basic validation operations, when you need to validate a single value or a small number of values
 
-The Helper class uses the [Validators classes](validators.md) for the validation.
+The Helper class uses the [Validators classes](validation_rules.md) for the validation.
 
 ```
 use Sirius\Validation\Helper;
@@ -43,7 +47,7 @@ It comes with a set of pre-set validation methods:
 - dateTime($value, $format)
 - time($value, $time)
 
-You can add your own validation methods
+### Add your own validation methods
 
 ```php
 use Sirius\ValidationHelper as ValidationHelper;

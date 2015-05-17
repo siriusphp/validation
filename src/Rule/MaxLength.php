@@ -1,14 +1,19 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class MaxLength extends AbstractValidator
+class MaxLength extends AbstractRule
 {
 
     const OPTION_MAX = 'max';
 
-    protected static $defaultMessageTemplate = 'This input have less than {max} characters';
+    const MESSAGE = 'This input should have less than {max} characters';
+    const LABELED_MESSAGE = '{label} should have less than {max} characters';
 
     protected $options = array();
+
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_MAX
+    );
 
     public function validate($value, $valueIdentifier = null)
     {
@@ -18,6 +23,7 @@ class MaxLength extends AbstractValidator
         } else {
             $this->success = strlen($value) <= $this->options['max'];
         }
+
         return $this->success;
     }
 }

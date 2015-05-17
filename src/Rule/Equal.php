@@ -1,12 +1,17 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Equal extends AbstractValidator
+class Equal extends AbstractRule
 {
 
     const OPTION_VALUE = 'value';
 
-    protected static $defaultMessageTemplate = 'This input is not equal to {value}';
+    const MESSAGE = 'This input is not equal to {value}';
+    const LABELED_MESSAGE = '{label} is not equal to {value}';
+
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_VALUE
+    );
 
     public function validate($value, $valueIdentifier = null)
     {
@@ -16,6 +21,7 @@ class Equal extends AbstractValidator
         } else {
             $this->success = true;
         }
+
         return $this->success;
     }
 }

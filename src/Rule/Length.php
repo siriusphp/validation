@@ -1,15 +1,21 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Length extends AbstractValidator
+class Length extends AbstractRule
 {
 
     const OPTION_MIN = 'min';
     const OPTION_MAX = 'max';
 
-    protected static $defaultMessageTemplate = 'This input must be between {min} and {max} characters long';
+    const MESSAGE = 'This input must be between {min} and {max} characters long';
+    const LABELED_MESSAGE = '{label} must be between {min} and {max} characters long';
 
     protected $options = array();
+
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_MIN,
+        1 => self::OPTION_MAX
+    );
 
     public function validate($value, $valueIdentifier = null)
     {
@@ -26,6 +32,7 @@ class Length extends AbstractValidator
                 $value,
                 $valueIdentifier
             );
+
         return $this->success;
     }
 }

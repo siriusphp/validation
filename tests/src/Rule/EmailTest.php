@@ -2,20 +2,20 @@
 
 namespace Sirius\Validation\Rule;
 
-use Sirius\Validation\Rule\Email as Validator;
+use Sirius\Validation\Rule\Email as Rule;
 
 class EmailTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new Validator();
+        $this->rule = new Rule();
     }
 
     function testValidation()
     {
-        $this->assertFalse($this->validator->validate(''));
-        $this->assertTrue($this->validator->validate('me@domain.com'));
+        $this->assertFalse($this->rule->validate(''));
+        $this->assertTrue($this->rule->validate('me@domain.com'));
     }
 
 }

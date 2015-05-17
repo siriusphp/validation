@@ -21,8 +21,10 @@ class RuleCollection extends \SplObjectStorage
             foreach ($rules as $r) {
                 parent::attach($r);
             }
+
             return;
         }
+
         return parent::attach($rule);
     }
 

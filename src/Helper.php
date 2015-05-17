@@ -12,8 +12,10 @@ class Helper
     {
         if (is_callable($callback)) {
             self::$methods[$ruleName] = $callback;
+
             return true;
         }
+
         return false;
     }
 
@@ -35,6 +37,7 @@ class Helper
         $validator = new Rule\Callback();
         $validator->setOption('callback', $callback);
         $validator->setContext($context);
+
         return $validator->validate($value);
     }
 
@@ -70,6 +73,7 @@ class Helper
                 'max' => $max
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -80,6 +84,7 @@ class Helper
                 'min' => $min
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -91,6 +96,7 @@ class Helper
                 'max' => $max
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -107,18 +113,21 @@ class Helper
     public static function alpha($value)
     {
         $validator = new Rule\Alpha();
+
         return $validator->validate($value);
     }
 
     public static function alphanumeric($value)
     {
         $validator = new Rule\AlphaNumeric();
+
         return $validator->validate($value);
     }
 
     public static function alphanumhyphen($value)
     {
         $validator = new Rule\AlphaNumHyphen();
+
         return $validator->validate($value);
     }
 
@@ -129,6 +138,7 @@ class Helper
                 'min' => $min
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -139,6 +149,7 @@ class Helper
                 'max' => $max
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -150,6 +161,7 @@ class Helper
                 'max' => $max
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -160,6 +172,7 @@ class Helper
                 'min' => $min
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -170,6 +183,7 @@ class Helper
                 'max' => $max
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -181,6 +195,7 @@ class Helper
                 'max' => $max
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -191,6 +206,7 @@ class Helper
                 'list' => $values
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -201,6 +217,7 @@ class Helper
                 'list' => $values
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -211,6 +228,7 @@ class Helper
                 'pattern' => $pattern
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -221,6 +239,7 @@ class Helper
                 'pattern' => $pattern
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -229,6 +248,7 @@ class Helper
         if (func_num_args() == 2) {
             return $value == $otherElementOrValue;
         }
+
         return $value == Arr::getByPath($context, $otherElementOrValue);
     }
 
@@ -239,6 +259,7 @@ class Helper
                 'format' => $format
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -249,6 +270,7 @@ class Helper
                 'format' => $format
             )
         );
+
         return $validator->validate($value);
     }
 
@@ -259,18 +281,21 @@ class Helper
                 'format' => $format
             )
         );
+
         return $validator->validate($value);
     }
 
     public static function website($value)
     {
         $validator = new Rule\Website();
+
         return $validator->validate($value);
     }
 
     public static function url($value)
     {
         $validator = new Rule\Url();
+
         return $validator->validate($value);
     }
 
@@ -283,12 +308,14 @@ class Helper
     public static function ip($value)
     {
         $validator = new Rule\IpAddress();
+
         return $validator->validate($value);
     }
 
     public static function email($value)
     {
         $validator = new Rule\Email();
+
         return $validator->validate($value);
     }
 
@@ -302,6 +329,7 @@ class Helper
     public static function fullName($value)
     {
         $validator = new Rule\FullName();
+
         return $validator->validate($value);
     }
 
@@ -314,6 +342,7 @@ class Helper
     public static function emailDomain($value)
     {
         $validator = new Rule\EmailDomain();
+
         return $validator->validate($value);
     }
 }

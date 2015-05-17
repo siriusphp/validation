@@ -1,12 +1,17 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Match extends AbstractValidator
+class Match extends AbstractRule
 {
 
     const OPTION_ITEM = 'item';
 
-    protected static $defaultMessageTemplate = 'This input does not match {item}';
+    const MESSAGE = 'This input does not match {item}';
+    const LABELED_MESSAGE = '{label} does not match {item}';
+
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_ITEM
+    );
 
     public function validate($value, $valueIdentifier = null)
     {
@@ -16,6 +21,7 @@ class Match extends AbstractValidator
         } else {
             $this->success = true;
         }
+
         return $this->success;
     }
 }

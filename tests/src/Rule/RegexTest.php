@@ -2,19 +2,19 @@
 
 namespace Sirius\Validation\Rule;
 
-use Sirius\Validation\Rule\Regex as Validator;
+use Sirius\Validation\Rule\Regex as Rule;
 
 class RegexTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new Validator();
+        $this->rule = new Rule();
     }
 
     function testValidationWithoutARegexPattern()
     {
         // pattern was not set, everything is valid
-        $this->assertTrue($this->validator->validate('abc'));
+        $this->assertTrue($this->rule->validate('abc'));
     }
 }

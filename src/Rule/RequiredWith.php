@@ -5,19 +5,26 @@ class RequiredWith extends Required
 {
     const OPTION_ITEM = 'item';
 
-    protected static $defaultMessageTemplate = 'This field is required';
+    const MESSAGE = 'This field is required';
+    const LABELED_MESSAGE = '{label} is required';
+
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_ITEM
+    );
 
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (isset($this->options[self::OPTION_ITEM]) && $this->context->getItemValue(
-                $this->options[self::OPTION_ITEM]
-            ) !== null
-        ) {
+
+        $relatedItemPath = $this->getRelatedValueIdentifier($valueIdentifier, $this->options[self::OPTION_ITEM]);
+        $relatedItemValue = $relatedItemPath !== null ? $this->context->getItemValue($relatedItemPath) : null;
+
+        if (isset($this->options[self::OPTION_ITEM]) && $relatedItemValue !== null) {
             $this->success = ($value !== null || trim($value) !== '');
         } else {
             $this->success = true;
         }
+
         return $this->success;
     }
 }

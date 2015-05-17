@@ -157,6 +157,7 @@ class Validator implements ValidatorInterface
     public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
     {
         $this->errorMessagePrototype = $errorMessagePrototype;
+
         return $this;
     }
 
@@ -181,11 +182,11 @@ class Validator implements ValidatorInterface
      *          // add multiple rules using a string
      *          $validator->add('field', 'required | email');
      *          // add validator with options
-     *          $validator->add('field', 'minlength', array('min' => 2), '{label} should have at least {min} characters', 'Field');
+     *          $validator->add('field:Label', 'minlength', array('min' => 2), '{label} should have at least {min} characters');
      *          // add validator with string and parameters as JSON string
-     *          $validator->add('field', 'minlength({"min": 2})({label} should have at least {min} characters)(Field)');
+     *          $validator->add('field:Label', 'minlength({"min": 2})({label} should have at least {min} characters)');
      *          // add validator with string and parameters as query string
-     *          $validator->add('field', 'minlength(min=2)({label} should have at least {min} characters)(Field)');
+     *          $validator->add('field:label', 'minlength(min=2)({label} should have at least {min} characters)');
      *
      * @param string $selector
      * @param string|callback $name
@@ -207,9 +208,15 @@ class Validator implements ValidatorInterface
 
             return $this->addMultiple($selector);
         }
+
+        // check if the selector is in the form of 'selector:Label'
+        if (strpos($selector, ':') !== false) {
+            list($selector, $label) = explode(':', $selector, 2);
+        }
+
         $this->ensureSelectorRulesExist($selector);
-        $args = array_slice(func_get_args(), 1);
-        call_user_func_array(array($this->rules[$selector], 'add'), $args);
+        call_user_func(array($this->rules[$selector], 'add'), $name, $options, $messageTemplate, $label);
+
         return $this;
     }
 
@@ -223,7 +230,7 @@ class Validator implements ValidatorInterface
         foreach ($selectorRulesCollection as $selector => $rules) {
 
             // a single rule was passed for the $valueSelector
-            if (! is_array($rules)) {
+            if (!is_array($rules)) {
                 return $this->add($selector, $rules);
             }
 
@@ -245,6 +252,7 @@ class Validator implements ValidatorInterface
                 }
             }
         }
+
         return $this;
     }
 
@@ -265,6 +273,7 @@ class Validator implements ValidatorInterface
         /* @var $collection \Sirius\Validation\ValueValidator */
         $collection = $this->rules[$selector];
         $collection->remove($name, $options);
+
         return $this;
     }
 
@@ -272,22 +281,26 @@ class Validator implements ValidatorInterface
      * The data wrapper will be used to wrap around the data passed to the validator
      * This way you can validate anything, not just arrays (which is the default)
      *
+     * @param mixed $data
      * @return \Sirius\Validation\DataWrapper\WrapperInterface
      */
-    public function getDataWrapper()
+    public function getDataWrapper($data = null)
     {
-        if (!$this->dataWrapper) {
-            $this->dataWrapper = new DataWrapper\ArrayWrapper();
+        // if $data is set reconstruct the data wrapper
+        if (!$this->dataWrapper || $data) {
+            $this->dataWrapper = new DataWrapper\ArrayWrapper($data);
         }
+
         return $this->dataWrapper;
     }
 
     public function setData($data)
     {
-        $this->getDataWrapper()->setData($data);
+        $this->getDataWrapper($data);
         $this->wasValidated = false;
         // reset messages
         $this->messages = array();
+
         return $this;
     }
 
@@ -318,6 +331,7 @@ class Validator implements ValidatorInterface
             }
         }
         $this->wasValidated = true;
+
         return $this->wasValidated && count($this->messages) === 0;
     }
 
@@ -355,6 +369,7 @@ class Validator implements ValidatorInterface
         } elseif ($item === null) {
             $this->messages = array();
         }
+
         return $this;
     }
 
@@ -368,6 +383,7 @@ class Validator implements ValidatorInterface
         if (is_string($item)) {
             return array_key_exists($item, $this->messages) ? $this->messages[$item] : array();
         }
+
         return $this->messages;
     }
 
@@ -381,8 +397,8 @@ class Validator implements ValidatorInterface
      */
     protected function ensureSelectorRulesExist($selector)
     {
-        if (!isset($this->rules[ $selector ])) {
-            $this->rules[ $selector ] = new ValueValidator($this->getRuleFactory(), $this->getErroMessagePrototype());
+        if (!isset($this->rules[$selector])) {
+            $this->rules[$selector] = new ValueValidator($this->getRuleFactory(), $this->getErroMessagePrototype());
         }
     }
 

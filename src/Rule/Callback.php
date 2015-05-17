@@ -1,14 +1,15 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Callback extends AbstractValidator
+class Callback extends AbstractRule
 {
 
     const OPTION_CALLBACK = 'callback';
 
     const OPTION_ARGUMENTS = 'arguments';
 
-    protected static $defaultMessageTemplate = 'This input does not meet the validation criteria';
+    const MESSAGE = 'This input does not meet the validation criteria';
+    const LABELED_MESSAGE = '{label} does not meet the validation criteria';
 
     public function getUniqueId()
     {
@@ -30,10 +31,11 @@ class Callback extends AbstractValidator
         }
 
         if (isset($this->options['arguments'])) {
-            $args = (array) $this->options['arguments'];
+            $args = (array)$this->options['arguments'];
             ksort($args);
             $uniqueId .= '|' . json_encode($args);
         }
+
         return $uniqueId;
     }
 
@@ -48,6 +50,7 @@ class Callback extends AbstractValidator
             array_push($args, $valueIdentifier, $this->context);
             $this->success = (bool)call_user_func_array($this->options['callback'], $args);
         }
+
         return $this->success;
     }
 }

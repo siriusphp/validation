@@ -2,7 +2,9 @@
 
 namespace Sirius\Validation;
 
-class TestingCustomValidator extends Rule\AbstractValidator
+use Sirius\Validation\Rule\AbstractRule;
+
+class TestingCustomRule extends AbstractRule
 {
 
     function validate($value, $valueIdentifier = null)
@@ -21,11 +23,27 @@ class RuleFactoryTest extends \PHPUnit_Framework_TestCase
 
     function testRegistrationOfValidatorClasses()
     {
-        $this->ruleFactory->register('odd', '\Sirius\Validation\TestingCustomValidator');
+        $this->ruleFactory->register('even', '\Sirius\Validation\TestingCustomRule');
 
-        $validator = $this->ruleFactory ->createValidator('odd');
-        $this->assertTrue($validator instanceof TestingCustomValidator);
+        $validator = $this->ruleFactory->createRule('even');
+        $this->assertTrue($validator instanceof TestingCustomRule);
         $this->assertTrue($validator->validate(3));
         $this->assertFalse($validator->validate(4));
+        $this->assertEquals('Value is not valid', (string)$validator->getMessage());
+    }
+
+    function testCustomErrorMessages()
+    {
+        $this->ruleFactory->register('even', '\Sirius\Validation\TestingCustomRule', 'This should be even',
+            '{label} should be even');
+
+        $validatorWithLabel = $this->ruleFactory->createRule('even', null, null, 'Number');
+        $validatorWithLabel->validate(4);
+        $this->assertEquals('Number should be even', (string)$validatorWithLabel->getMessage());
+
+        $validator = $validator = $this->ruleFactory->createRule('even');
+        $validator->validate(4);
+        $this->assertEquals('This should be even', (string)$validator->getMessage());
+
     }
 }

@@ -1,12 +1,13 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Website extends AbstractValidator
+class Website extends AbstractRule
 {
 
     const WEBSITE_REGEX = '@^((http|https)\:)//.+$@i';
 
-    protected static $defaultMessageTemplate = 'This input must be a valid website address';
+    const MESSAGE = 'This input must be a valid website address';
+    const LABELED_MESSAGE = '{label} must be a valid website address';
 
     public function validate($value, $valueIdentifier = null)
     {
@@ -17,6 +18,7 @@ class Website extends AbstractValidator
                     FILTER_VALIDATE_URL,
                     FILTER_FLAG_HOST_REQUIRED
                 ));
+
         return $this->success;
     }
 }

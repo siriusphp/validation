@@ -19,6 +19,7 @@ class ErrorMessage
         if ($template) {
             $this->template = (string)$template;
         }
+
         return $this;
     }
 
@@ -27,6 +28,7 @@ class ErrorMessage
         foreach ($variables as $k => $v) {
             $this->variables[$k] = $v;
         }
+
         return $this;
     }
 
@@ -38,6 +40,7 @@ class ErrorMessage
                 $result = str_replace("{{$k}}", $v, $result);
             }
         }
+
         return $result;
     }
 }

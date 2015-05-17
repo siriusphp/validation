@@ -1,10 +1,11 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class AlphaNumHyphen extends AbstractValidator
+class AlphaNumHyphen extends AbstractRule
 {
 
-    protected static $defaultMessageTemplate = 'This input can contain only letters, digits, spaces, hyphens and underscores';
+    const MESSAGE = 'This input must contain only letters, digits, spaces, hyphens and underscores';
+    const LABELED_MESSAGE = '{label} must contain only letters, digits, spaces, hyphens and underscores';
 
     public function validate($value, $valueIdentifier = null)
     {
@@ -20,6 +21,7 @@ class AlphaNumHyphen extends AbstractValidator
                 $value
             )
         );
+
         return $this->success;
     }
 }

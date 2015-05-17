@@ -7,7 +7,8 @@ class RequiredWhen extends Required
     const OPTION_RULE = 'rule';
     const OPTION_RULE_OPTIONS = 'rule_options';
 
-    protected static $defaultMessageTemplate = 'This field is required';
+    const MESSAGE = 'This field is required';
+    const LABELED_MESSAGE = '{label} is required';
 
     public function getItemRule()
     {
@@ -23,9 +24,8 @@ class RequiredWhen extends Required
                 $ruleClass = 'Sirius\\Validation\\Rule\\' . $ruleClass;
                 $rule = new $ruleClass($ruleOptions);
             }
-        } elseif (is_object(
-                $this->options[self::OPTION_RULE]
-            ) && $this->options[self::OPTION_RULE] instanceof AbstractValidator
+        } elseif (is_object($this->options[self::OPTION_RULE])
+            && $this->options[self::OPTION_RULE] instanceof AbstractRule
         ) {
             $rule = $this->options[self::OPTION_RULE];
         }
@@ -36,6 +36,7 @@ class RequiredWhen extends Required
         }
         $context = $this->context ? $this->context : array();
         $rule->setContext($context);
+
         return $rule;
     }
 
@@ -46,14 +47,18 @@ class RequiredWhen extends Required
         if (!isset($this->options[self::OPTION_ITEM])) {
             $this->success = true;
         } else {
+
+            $relatedItemPath = $this->getRelatedValueIdentifier($valueIdentifier, $this->options[self::OPTION_ITEM]);
+            $relatedItemValue = $relatedItemPath !== null ? $this->context->getItemValue($relatedItemPath) : null;
+
             $itemRule = $this->getItemRule();
-            $itemValue = $this->context->getItemValue($this->options[self::OPTION_ITEM]);
-            if ($itemRule->validate($itemValue, $this->options[self::OPTION_ITEM])) {
+            if ($itemRule->validate($relatedItemValue, $relatedItemPath)) {
                 $this->success = ($value !== null || trim($value) !== '');
             } else {
                 $this->success = true;
             }
         }
+
         return $this->success;
     }
 }

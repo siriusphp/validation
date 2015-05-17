@@ -3,33 +3,33 @@
 namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\DataWrapper\ArrayWrapper;
-use Sirius\Validation\Rule\Required as Validator;
+use Sirius\Validation\Rule\Required as Rule;
 
 class RequiredTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
-     * @var Validator
+     * @var Rule
      */
-    protected $validator;
+    protected $rule;
 
     function setUp()
     {
-        $this->validator = new Validator();
+        $this->rule = new Rule();
     }
 
     function testValidationWithNull()
     {
-        $this->assertFalse($this->validator->validate(null));
+        $this->assertFalse($this->rule->validate(null));
     }
 
     function testValidationWithEmptyString()
     {
-        $this->assertFalse($this->validator->validate(''));
+        $this->assertFalse($this->rule->validate(''));
     }
 
     function testValidationWithWhitespaceString()
     {
-        $this->assertTrue($this->validator->validate('  '));
+        $this->assertTrue($this->rule->validate('  '));
     }
 }

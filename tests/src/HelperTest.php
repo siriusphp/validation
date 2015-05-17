@@ -14,8 +14,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $pool = array(
             'abc' => true,
-            1.2 => true,
-            '' => false
+            1.2   => true,
+            ''    => false
         );
         foreach ($pool as $key => $value) {
             $this->assertSame(Helper::required($key), $value);
@@ -27,9 +27,9 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $pool = array(
             'abc' => true,
-            1.2 => true,
-            0 => false,
-            '' => false
+            1.2   => true,
+            0     => false,
+            ''    => false
         );
         foreach ($pool as $key => $value) {
             $this->assertSame(Helper::truthy($key), $value);
@@ -40,9 +40,9 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $pool = array(
             'abc' => false,
-            1.2 => false,
-            0 => true,
-            '' => true
+            1.2   => false,
+            0     => true,
+            ''    => true
         );
         foreach ($pool as $key => $value) {
             $this->assertSame(Helper::falsy($key), $value);
@@ -64,11 +64,11 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     function testOfEmail()
     {
         $pool = array(
-            '-fa /lse@gmail.com' => false,
-            '12345@hotmail.com' => true,
+            '-fa /lse@gmail.com'          => false,
+            '12345@hotmail.com'           => true,
             'xxx.yyyy-zzz@domain.com.noc' => true,
-            'weird.name-99-@yahoo.com' => true,
-            'shit' => false
+            'weird.name-99-@yahoo.com'    => true,
+            'shit'                        => false
         );
         foreach ($pool as $key => $value) {
             if ($value) {
@@ -83,7 +83,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     function testOfNumber()
     {
         $pool = array(
-            '1' => true,
+            '1'   => true,
             '1,5' => false,
             '2.5' => true,
             'abc' => false
@@ -101,10 +101,10 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     function testOfInteger()
     {
         $pool = array(
-            '1' => true,
+            '1'     => true,
             '12345' => true,
-            '1.00' => true,
-            '1.24' => false
+            '1.00'  => true,
+            '1.24'  => false
         );
         foreach ($pool as $key => $value) {
             if ($value) {
@@ -262,8 +262,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $pool = array(
             'Some Random String ' => true,
-            '123' => false,
-            'With other chars :' => false
+            '123'                 => false,
+            'With other chars :'  => false
         );
         foreach ($pool as $key => $value) {
             if ($value) {
@@ -279,8 +279,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $pool = array(
             'Some Random String ' => true,
-            'Letters and 123' => true,
-            'With other chars :' => false
+            'Letters and 123'     => true,
+            'With other chars :'  => false
         );
         foreach ($pool as $key => $value) {
             if ($value) {
@@ -295,9 +295,9 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     function testOfAlphanumhyphen()
     {
         $pool = array(
-            'Some Random String ' => true,
-            'Letters and 123' => true,
-            'With other hyphens _ -' => true,
+            'Some Random String '        => true,
+            'Letters and 123'            => true,
+            'With other hyphens _ -'     => true,
             '? - this is not acceptable' => false
         );
         foreach ($pool as $key => $value) {

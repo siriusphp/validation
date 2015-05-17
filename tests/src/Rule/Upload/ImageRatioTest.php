@@ -14,11 +14,11 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = 'file_that_does_not_exist.gif';
         $file = array(
-            'name' => $fileName,
-            'type' => 'not_required',
-            'size' => 'not_required',
+            'name'     => $fileName,
+            'type'     => 'not_required',
+            'size'     => 'not_required',
             'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error' => UPLOAD_ERR_OK
+            'error'    => UPLOAD_ERR_OK
         );
         $this->assertFalse($this->validator->validate($file));
     }
@@ -27,11 +27,11 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = 'square_image.gif';
         $file = array(
-            'name' => $fileName,
-            'type' => 'not_required',
-            'size' => 'not_required',
+            'name'     => $fileName,
+            'type'     => 'not_required',
+            'size'     => 'not_required',
             'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error' => UPLOAD_ERR_OK
+            'error'    => UPLOAD_ERR_OK
         );
         $this->assertTrue($this->validator->validate($file));
     }
@@ -40,11 +40,11 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
     {
         $fileName = 'almost_square_image.gif';
         $file = array(
-            'name' => $fileName,
-            'type' => 'not_required',
-            'size' => 'not_required',
+            'name'     => $fileName,
+            'type'     => 'not_required',
+            'size'     => 'not_required',
             'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error' => UPLOAD_ERR_OK
+            'error'    => UPLOAD_ERR_OK
         );
         $this->assertFalse($this->validator->validate($file));
 
@@ -58,11 +58,11 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
         $this->validator->setOption(ImageRatio::OPTION_RATIO, 0);
         $fileName = 'almost_square_image.gif';
         $file = array(
-            'name' => $fileName,
-            'type' => 'not_required',
-            'size' => 'not_required',
+            'name'     => $fileName,
+            'type'     => 'not_required',
+            'size'     => 'not_required',
             'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error' => UPLOAD_ERR_OK
+            'error'    => UPLOAD_ERR_OK
         );
         $this->assertTrue($this->validator->validate($file));
     }
@@ -72,11 +72,11 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
         $this->validator->setOption(ImageRatio::OPTION_RATIO, 'abc');
         $fileName = 'almost_square_image.gif';
         $file = array(
-            'name' => $fileName,
-            'type' => 'not_required',
-            'size' => 'not_required',
+            'name'     => $fileName,
+            'type'     => 'not_required',
+            'size'     => 'not_required',
             'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error' => UPLOAD_ERR_OK
+            'error'    => UPLOAD_ERR_OK
         );
         $this->assertTrue($this->validator->validate($file));
     }
@@ -86,11 +86,11 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
         $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
         $fileName = '4_by_3_image.jpg';
         $file = array(
-            'name' => $fileName,
-            'type' => 'not_required',
-            'size' => 'not_required',
+            'name'     => $fileName,
+            'type'     => 'not_required',
+            'size'     => 'not_required',
             'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error' => UPLOAD_ERR_OK
+            'error'    => UPLOAD_ERR_OK
         );
         $this->assertTrue($this->validator->validate($file));
     }

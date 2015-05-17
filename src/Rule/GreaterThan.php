@@ -1,16 +1,22 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class GreaterThan extends AbstractValidator
+class GreaterThan extends AbstractRule
 {
 
     const OPTION_MIN = 'min';
     const OPTION_INCLUSIVE = 'inclusive';
 
-    protected static $defaultMessageTemplate = 'This input must be greater than {min}';
+    const MESSAGE = 'This input should be greater than {min}';
+    const LABELED_MESSAGE = '{label} should be greater than {min}';
 
     protected $options = array(
         'inclusive' => true
+    );
+
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_MIN,
+        1 => self::OPTION_INCLUSIVE
     );
 
     public function validate($value, $valueIdentifier = null)
@@ -25,6 +31,7 @@ class GreaterThan extends AbstractValidator
                 $this->success = $value > $this->options['min'];
             }
         }
+
         return $this->success;
     }
 }

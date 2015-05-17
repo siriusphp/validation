@@ -1,9 +1,9 @@
 <?php
 namespace Sirius\Validation\Rule\File;
 
-use Sirius\Validation\Rule\AbstractValidator;
+use Sirius\Validation\Rule\AbstractRule;
 
-class ImageRatio extends AbstractValidator
+class ImageRatio extends AbstractRule
 {
     // the image width/height ration;
     // can be a number or a string like 4:3, 16:9
@@ -11,10 +11,12 @@ class ImageRatio extends AbstractValidator
     // how much can the image ratio diverge from the allowed ratio
     const OPTION_ERROR_MARGIN = 'error_margin';
 
-    protected static $defaultMessageTemplate = 'Image does must have a ratio (width/height) of {ratio})';
+    const MESSAGE = 'The image does must have a ratio (width/height) of {ratio})';
+
+    const LABELED_MESSAGE = '{label} does must have a ratio (width/height) of {ratio})';
 
     protected $options = array(
-        self::OPTION_RATIO => 0,
+        self::OPTION_RATIO        => 0,
         self::OPTION_ERROR_MARGIN => 0,
     );
 
@@ -25,8 +27,10 @@ class ImageRatio extends AbstractValidator
         }
         if (strpos($ratio, ':') !== false) {
             list($width, $height) = explode(':', $ratio);
+
             return $width / $height;
         }
+
         return 0;
     }
 
@@ -43,6 +47,7 @@ class ImageRatio extends AbstractValidator
             $actualRatio = $imageInfo[0] / $imageInfo[1];
             $this->success = abs($actualRatio - $ratio) <= $this->options[self::OPTION_ERROR_MARGIN];
         }
+
         return $this->success;
     }
 }

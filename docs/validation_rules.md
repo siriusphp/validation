@@ -1,46 +1,8 @@
-# Validation rules classes
+---
+title: Built-in validation rules
+---
 
-All validator classes exted the `AbstractValidator` class
-
-## Usage
-
-```php
-use \Sirius\Validation\Rule\Length as LengthRule;
-
-// we'll use the Length class as an example to check if a string is between 5 and 255 characters long
-$validator = new LengthRule(array(
-    'min' => 5,
-    'max' => 255
-));
-
-// set/override options
-$validator->setOption('min', 10);
-$validator->setOption('max', 200);
-
-// each class has constants for the options so your IDE be able to help you while coding
-$validator->setOption(LengthValidator::OPTION_MIN, 10);
-$validator->setOption(LengthValidator::OPTION_MAX, 100);
-
-// set the error template message (overwrite the default)
-$validator->setMessageTemplate('{label} must be between {min} and {max} characters long');
-
-// add custom options that may be used by the error message
-$validator->setOption('label', 'Full name');
-
-// validate a value
-$validator->validate('abc'); // this will return false
-$validator->validate('abcdefghijlkmnop'); // this will return true
-
-// retrieve the error message (instance of `\Sirius\Validation\ErroMessage` which implements toString())
-$errorMessage = $validator->getMessage(); // if echo-ed will output 'Full name must be between 10 and 100 characters long'
-
-// if you need to retrieve the potential error message 
-// (ie: in case the validation will fail but before actually supplying a value)
-// (eg: to send the potential error message to a client-side validation library)
-$potentialMessage = $validator>getPotentialMessage(); // 'Full name must be between 10 and 100 characters long'
-```
-
-## Validators list
+# Built-in validation rules
 
 ### Required validators
 1. `Required`: value should not be `null` or an empty string

@@ -1,12 +1,17 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-class Regex extends AbstractValidator
+class Regex extends AbstractRule
 {
 
     const OPTION_PATTERN = 'pattern';
 
-    protected static $defaultMessageTemplate = 'This input does not match the regular expression {pattern}';
+    const MESSAGE = 'This input does not match the regular expression {pattern}';
+    const LABELED_MESSAGE = '{label} does not match the regular expression {pattern}';
+
+    protected $optionsIndexMap = array(
+        0 => self::OPTION_PATTERN
+    );
 
     public function validate($value, $valueIdentifier = null)
     {
@@ -16,6 +21,7 @@ class Regex extends AbstractValidator
         } else {
             $this->success = true;
         }
+
         return $this->success;
     }
 }
