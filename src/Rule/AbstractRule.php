@@ -125,10 +125,9 @@ abstract class AbstractRule
      * Converts 'true' and 'false' strings to TRUE and FALSE
      *
      * @param $v
-     * @param $k
      * @return bool
      */
-    protected function convertBooleanStrings($v, $k) {
+    protected function convertBooleanStrings($v) {
         if (is_array($v)) {
             return array_map(array($this, 'convertBooleanStrings'), $v);
         }
