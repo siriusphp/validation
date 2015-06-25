@@ -27,9 +27,11 @@ title: Built-in validation rules
 5. `NotInList: the value must not be in a list of forbidden values: Rule options: `list`
 
 ### Number validators
-7. `Between`: value must be a number between 2 limits: Rule options: `min` and `max`
-8. `LessThan`: value must be less than a number. Rule options: `max` and `inclusive` (to determine if the comparator is < or <=, defaults to TRUE)
-9. `GreaterThan`: value must be greater than a number. Rule options: `min` and `inclusive` (to determine if the comparator is > or >=, defaults to TRUE)
+1. `Number`: value must be a valid number
+2. `Integer`: value must be a valid integer
+3. `LessThan`: value must be less than a number. Rule options: `max` and `inclusive` (to determine if the comparator is < or <=, defaults to TRUE)
+4. `GreaterThan`: value must be greater than a number. Rule options: `min` and `inclusive` (to determine if the comparator is > or >=, defaults to TRUE)
+5. `Between`: value must be a number between 2 limits: Rule options: `min` and `max`. The same as `GreaterThan` and `LessThan`, both inclusive.
 
 ### Email/URLs validators
 1. `Email`: value must be an email address. Uses a regular expression for validation
