@@ -214,7 +214,7 @@ class Validator implements ValidatorInterface
             list($selector, $label) = explode(':', $selector, 2);
         }
 
-        $this->ensureSelectorRulesExist($selector);
+        $this->ensureSelectorRulesExist($selector, $label);
         call_user_func(array($this->rules[$selector], 'add'), $name, $options, $messageTemplate, $label);
 
         return $this;
@@ -393,12 +393,13 @@ class Validator implements ValidatorInterface
     }
 
     /**
-     * @param $selector
+     * @param string $selector
+     * @param string $label
      */
-    protected function ensureSelectorRulesExist($selector)
+    protected function ensureSelectorRulesExist($selector, $label = null)
     {
         if (!isset($this->rules[$selector])) {
-            $this->rules[$selector] = new ValueValidator($this->getRuleFactory(), $this->getErroMessagePrototype());
+            $this->rules[$selector] = new ValueValidator($this->getRuleFactory(), $this->getErroMessagePrototype(), $label);
         }
     }
 

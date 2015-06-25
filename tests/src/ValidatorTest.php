@@ -136,6 +136,24 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array('This field is required'), $this->validator->getMessages('itemb'));
     }
 
+    function testAddingValidationRulesViaStringsWithoutLabelArg()
+    {
+        $this->validator
+            // mixed rules in 1 string
+            ->add('item:Item', 'required | minLength({"min":4})')
+            // validator options as a QUERY string
+            ->add('itema:Item', 'minLength', 'min=8')
+            // validator without options and custom message
+            ->add('itemb:Item B', 'required')
+            // validator with defaults
+            ->add('itemc', 'email');
+        $this->validator->validate(array('item' => 'ab', 'itema' => 'abc', 'itemc' => 'abc'));
+        $this->assertEquals(array('Item should have at least 4 characters'), array((string)$this->validator->getMessages('item')[0]));
+        $this->assertEquals(array('Item should have at least 8 characters'), $this->validator->getMessages('itema'));
+        $this->assertEquals(array('Item B is required'), $this->validator->getMessages('itemb'));
+        $this->assertEquals(array('This input must be a valid email address'), $this->validator->getMessages('itemc'));
+    }
+
     function testAddingValidationRulesViaStrings()
     {
         $this->validator

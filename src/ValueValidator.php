@@ -98,7 +98,7 @@ class ValueValidator
         if (is_string($name)) {
             // rule was supplied like 'required | email'
             if (strpos($name, ' | ') !== false) {
-                return $this->add(explode(' | ', $name));
+                return $this->addMultiple(explode(' | ', $name));
             }
             // rule was supplied like this 'length(2,10)(error message template)(label)'
             if (strpos($name, '(') !== false) {
@@ -107,7 +107,7 @@ class ValueValidator
         }
 
         // check for the default label
-        if (!$label and $this->label) {
+        if (!$label && $this->label) {
             $label = $this->label;
         }
 
