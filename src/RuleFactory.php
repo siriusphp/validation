@@ -15,15 +15,27 @@ class RuleFactory
      */
     protected $validatorsMap = array();
 
+    /**
+     * @var array
+     */
     protected $errorMessages = array();
 
+    /**
+     * @var array
+     */
     protected $labeledErrorMessages = array();
 
+    /**
+     * Constructor
+     */
     function __construct()
     {
         $this->registerDefaultRules();
     }
 
+    /**
+     * Set up the default rules that come with the library
+     */
     protected function registerDefaultRules()
     {
         $rulesClasses = array(
@@ -137,6 +149,25 @@ class RuleFactory
         }
 
         return $validator;
+    }
+
+    /**
+     * Set default error message for a rule
+     *
+     * @param string $rule
+     * @param string|null $messageWithoutLabel
+     * @param string|null $messageWithLabel
+     *
+     * @return $this
+     */
+    public function setMessages($rule, $messageWithoutLabel = null, $messageWithLabel = null) {
+        if ($messageWithoutLabel) {
+            $this->errorMessages[$rule] = $messageWithoutLabel;
+        }
+        if ($messageWithLabel) {
+            $this->labeledErrorMessages[$rule] = $messageWithLabel;
+        }
+        return $this;
     }
 
     /**
