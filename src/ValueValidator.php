@@ -92,6 +92,11 @@ class ValueValidator
      */
     public function add($name, $options = null, $messageTemplate = null, $label = null)
     {
+        // set the default label
+        if ($label !== null && $this->label === null) {
+            $this->label = $label;
+        }
+
         if (is_array($name) && !is_callable($name)) {
             return $this->addMultiple($name);
         }
