@@ -22,9 +22,9 @@ title: Built-in validation rules
 ### Array validators
 1. `ArrayLength`: values which are arrays must contain a specific number of items. Rule options: `min` and `max`
 2. `ArrayMinlength`: array must contain at least a specific number of items: Rule options: `min`
-3. `ArrayMinlength`: array must contain at most a specific number of items: Rule options: `max`
-4. `InList: the value must be in a list of acceptable values. Rule options: `list`
-5. `NotInList: the value must not be in a list of forbidden values: Rule options: `list`
+3. `ArrayMaxlength`: array must contain at most a specific number of items: Rule options: `max`
+4. `InList`: the value must be in a list of acceptable values. Rule options: `list`
+5. `NotInList`: the value must not be in a list of forbidden values: Rule options: `list`
 
 ### Number validators
 1. `Number`: value must be a valid number
