@@ -53,6 +53,7 @@ title: Built-in validation rules
 
 ### File validators
 File validators work only with local files and they fail if the file does not exist
+
 1. `File\Extension`. Checks if the file has a certain extension. Rule options: `allowed` which can be an array or a comma separated string.
 2. `File\Image`. Checks if the file is an image of a certain type. Rule options: `allowed` which can be an array or a comma separated string (default: `jpg,png,gif`)
 3. `File\ImageRatio`. Checks if the image has a certain ratio. Rule options: `ratio` which can be a number or a string like `4:3`, `error_margin` - how much the file's ratio can deviate from the target (default: 0)
@@ -62,6 +63,7 @@ File validators work only with local files and they fail if the file does not ex
 
 ### Upload validators
 Upload validators work only uploaded files (each file is an upload-like array) and they fail if the temporary file does not exist.
+
 1. `Upload\Extension`. Checks if the uploaded file has a certain extension. Rule options: `allowed` which can be an array or a comma separated string.
 2. `Upload\Image`. Checks if the uploaded file is an image of a certain type. Rule options: `allowed` which can be an array or a comma separated string (default: `jpg,png,gif`)
 3. `Upload\ImageRatio`. Checks if the uploaded image has a certain ratio. Rule options: `ratio` which can be a number or a string like `4:3`, `error_margin` - how much the file's ratio can deviate from the target (default: 0)
