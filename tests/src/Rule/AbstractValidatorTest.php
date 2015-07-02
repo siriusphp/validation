@@ -65,4 +65,11 @@ class AbstractRuleTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\InvalidArgumentException');
         $this->rule->setContext(new \stdClass());
     }
+
+    function testGetOption()
+    {
+        $this->rule->setOption('label', 'Accept');
+        $this->assertEquals('Accept', $this->rule->getOption('label'));
+        $this->assertNull($this->rule->getOption('notExist'));
+    }
 }

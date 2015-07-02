@@ -203,6 +203,21 @@ abstract class AbstractRule
     }
 
     /**
+     * Get an option for the validator.
+     * 
+     * @param string $name
+     * @return mixed
+     */
+    public function getOption($name)
+    {
+        if (isset($this->options[$name])) {
+            return $this->options[$name];
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * The context of the validator can be used when the validator depends on other values
      * that are not known at the moment the validator is constructed
      * For example, when you need to validate an email field matches another email field,
