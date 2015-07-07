@@ -20,7 +20,7 @@ In order to validate other data containers you must create a [`DataWrapper`](htt
 ##Elevator pitch
 
 ```php
-$validation = new \Sirius\Validation\Validator;
+$validator = new \Sirius\Validation\Validator;
 
 // add a validation rule
 $validator->add('title', 'required');
