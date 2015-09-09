@@ -82,8 +82,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator->add('items[subitem]', 'required', null, 'This field is required');
         $this->validator->setData(array());
         $this->validator->validate();
-        $this->assertEquals($this->validator->getMessages('item'), array('This field is required'));
-        $this->assertEquals($this->validator->getMessages('items[subitem]'), array('This field is required'));
+        $this->assertEquals($this->validator->getMessages('item'), array( 'This field is required' ));
+        $this->assertEquals($this->validator->getMessages('items[subitem]'), array( 'This field is required' ));
     }
 
     function testDifferentDataFormats()
@@ -91,14 +91,14 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator->add('email', 'email');
 
         // test array objects
-        $data = new \ArrayObject(array(), \ArrayObject::ARRAY_AS_PROPS);
+        $data        = new \ArrayObject(array(), \ArrayObject::ARRAY_AS_PROPS);
         $data->email = 'not_an_email';
 
         $this->validator->validate($data);
         $this->assertEquals(1, count($this->validator->getMessages('email')));
 
         // test objects with a 'toArray' method
-        $data = new FakeObject();
+        $data        = new FakeObject();
         $data->email = 'not_an_email';
         $this->validator->validate($data);
         $this->assertEquals(1, count($this->validator->getMessages('email')));
@@ -116,9 +116,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             array(
                 'item'  => array(
                     'required',
-                    array('minlength', 'min=4', '{label} should have at least {min} characters', 'Item')
+                    array( 'minlength', 'min=4', '{label} should have at least {min} characters', 'Item' )
                 ),
-                'itema' => array('required', 'minLength(min=8)', 'required'),
+                'itema' => array( 'required', 'minLength(min=8)', 'required' ),
                 'itemb' => 'required'
             )
         );
@@ -128,12 +128,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
                 'itema' => 'abc'
             )
         );
-        $this->assertEquals(array('Item should have at least 4 characters'), $this->validator->getMessages('item'));
+        $this->assertEquals(array( 'Item should have at least 4 characters' ), $this->validator->getMessages('item'));
         $this->assertEquals(
-            array('This input should have at least 8 characters'),
+            array( 'This input should have at least 8 characters' ),
             $this->validator->getMessages('itema')
         );
-        $this->assertEquals(array('This field is required'), $this->validator->getMessages('itemb'));
+        $this->assertEquals(array( 'This field is required' ), $this->validator->getMessages('itemb'));
     }
 
     function testAddingValidationRulesViaStringsWithoutLabelArg()
@@ -147,11 +147,13 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             ->add('itemb:Item B', 'required')
             // validator with defaults
             ->add('itemc', 'email');
-        $this->validator->validate(array('item' => 'ab', 'itema' => 'abc', 'itemc' => 'abc'));
-        $this->assertEquals(array('Item should have at least 4 characters'), array((string)$this->validator->getMessages('item')[0]));
-        $this->assertEquals(array('Item should have at least 8 characters'), $this->validator->getMessages('itema'));
-        $this->assertEquals(array('Item B is required'), $this->validator->getMessages('itemb'));
-        $this->assertEquals(array('This input must be a valid email address'), $this->validator->getMessages('itemc'));
+        $this->validator->validate(array( 'item' => 'ab', 'itema' => 'abc', 'itemc' => 'abc' ));
+        $this->assertEquals(array( 'Item should have at least 4 characters' ),
+            array( (string) $this->validator->getMessages('item')[0] ));
+        $this->assertEquals(array( 'Item should have at least 8 characters' ), $this->validator->getMessages('itema'));
+        $this->assertEquals(array( 'Item B is required' ), $this->validator->getMessages('itemb'));
+        $this->assertEquals(array( 'This input must be a valid email address' ),
+            $this->validator->getMessages('itemc'));
     }
 
     function testAddingValidationRulesViaStrings()
@@ -165,11 +167,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             ->add('itemb', 'required()(Item B is required)')
             // validator with defaults
             ->add('itemc', 'email');
-        $this->validator->validate(array('item' => 'ab', 'itema' => 'abc', 'itemc' => 'abc'));
-        $this->assertEquals(array('Item should have at least 4 characters'), $this->validator->getMessages('item'));
-        $this->assertEquals(array('Item should have at least 8 characters'), $this->validator->getMessages('itema'));
-        $this->assertEquals(array('Item B is required'), $this->validator->getMessages('itemb'));
-        $this->assertEquals(array('This input must be a valid email address'), $this->validator->getMessages('itemc'));
+        $this->validator->validate(array( 'item' => 'ab', 'itema' => 'abc', 'itemc' => 'abc' ));
+        $this->assertEquals(array( 'Item should have at least 4 characters' ), $this->validator->getMessages('item'));
+        $this->assertEquals(array( 'Item should have at least 8 characters' ), $this->validator->getMessages('itema'));
+        $this->assertEquals(array( 'Item B is required' ), $this->validator->getMessages('itemb'));
+        $this->assertEquals(array( 'This input must be a valid email address' ),
+            $this->validator->getMessages('itemc'));
     }
 
     function testExceptionOnInvalidValidatorOptions()
@@ -192,11 +195,11 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     function testCallbackValidators()
     {
         $this->validator->add('function', __NAMESPACE__ . '\fakeValidationFunction');
-        $this->validator->add('method', array($this, 'fakeValidationMethod'));
+        $this->validator->add('method', array( $this, 'fakeValidationMethod' ));
         $this->validator->add(
             'staticMethod',
-            array(__CLASS__, 'fakeStaticValidationMethod'),
-            array(true)
+            array( __CLASS__, 'fakeStaticValidationMethod' ),
+            array( true )
         ); // this will return true
 
         $this->validator->validate(
@@ -239,24 +242,24 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator->validate(
             array(
                 'items' => array(
-                    array('key' => 'sss'),
-                    array('key' => 'sss')
+                    array( 'key' => 'sss' ),
+                    array( 'key' => 'sss' )
                 )
             )
         );
-        $this->assertEquals(array('Key must be an email'), $this->validator->getMessages('items[0][key]'));
-        $this->assertEquals(array('Key must be an email'), $this->validator->getMessages('items[1][key]'));
+        $this->assertEquals(array( 'Key must be an email' ), $this->validator->getMessages('items[0][key]'));
+        $this->assertEquals(array( 'Key must be an email' ), $this->validator->getMessages('items[1][key]'));
     }
 
     function testIfParametersAreSentToValidationMethods()
     {
         $this->validator
-            ->add('a', 'email', array(0, 1), 'This should be an email')
-            ->add('b', 'email', array(0, 1, 2), 'This should be an email')
-            ->add('c', 'email', array(0, 1, 2, 3), 'This should be an email');
-        $this->validator->validate(array('a' => 'a', 'b' => 'b', 'c' => 'c'));
+            ->add('a', 'email', array( 0, 1 ), 'This should be an email')
+            ->add('b', 'email', array( 0, 1, 2 ), 'This should be an email')
+            ->add('c', 'email', array( 0, 1, 2, 3 ), 'This should be an email');
+        $this->validator->validate(array( 'a' => 'a', 'b' => 'b', 'c' => 'c' ));
         $messages = $this->validator->getMessages();
-        foreach (array('a', 'b', 'c') as $k) {
+        foreach (array( 'a', 'b', 'c' ) as $k) {
             $this->assertEquals(1, count($messages[$k]));
         }
     }
@@ -265,7 +268,17 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('\InvalidArgumentException');
         $this->validator->add('item', 'faker');
-        $this->validator->validate(array('item' => true));
+        $this->validator->validate(array( 'item' => true ));
+    }
+
+    function testEmptyArrayValidation()
+    {
+        $this->validator->add(array(
+            'a' => array( 'required' ),
+            'b' => array( 'required' )
+        ));
+        $this->validator->validate(array());
+        $this->assertEquals(2, count($this->validator->getMessages()));
     }
 
 }
