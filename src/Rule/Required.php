@@ -9,7 +9,7 @@ class Required extends AbstractRule
 
     public function validate($value, $valueIdentifier = null)
     {
-        $this->value = $value;
+        $this->value   = $value;
         $this->success = ($value !== null && $value !== '');
 
         return $this->success;

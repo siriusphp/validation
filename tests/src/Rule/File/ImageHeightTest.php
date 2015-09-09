@@ -7,7 +7,7 @@ class ImageHeightTest extends \PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->validator = new ImageHeight(array('min' => 400));
+        $this->validator = new ImageHeight(array( 'min' => 400 ));
     }
 
     function testMissingFiles()

@@ -19,7 +19,7 @@ class ArrayLength extends AbstractRule
 
     public function validate($value, $valueIdentifier = null)
     {
-        $this->value = $value;
+        $this->value  = $value;
         $maxValidator = new ArrayMaxLength();
         if (isset($this->options['max'])) {
             $maxValidator->setOption('max', $this->options['max']);

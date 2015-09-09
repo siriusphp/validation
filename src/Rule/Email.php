@@ -10,8 +10,8 @@ class Email extends AbstractRule
 
     public function validate($value, $valueIdentifier = null)
     {
-        $this->value = $value;
-        $this->success = (filter_var((string)$value, FILTER_VALIDATE_EMAIL) !== false);
+        $this->value   = $value;
+        $this->success = (filter_var((string) $value, FILTER_VALIDATE_EMAIL) !== false);
 
         return $this->success;
     }

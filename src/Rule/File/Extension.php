@@ -33,10 +33,10 @@ class Extension extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (!file_exists($value)) {
+        if ( ! file_exists($value)) {
             $this->success = false;
         } else {
-            $extension = strtolower(substr($value, strrpos($value, '.') + 1, 10));
+            $extension     = strtolower(substr($value, strrpos($value, '.') + 1, 10));
             $this->success = is_array($this->options[self::OPTION_ALLOWED_EXTENSIONS]) && in_array(
                     $extension,
                     $this->options[self::OPTION_ALLOWED_EXTENSIONS]
@@ -48,7 +48,7 @@ class Extension extends AbstractRule
 
     public function getPotentialMessage()
     {
-        $message = parent::getPotentialMessage();
+        $message        = parent::getPotentialMessage();
         $fileExtensions = array_map('strtoupper', $this->options[self::OPTION_ALLOWED_EXTENSIONS]);
         $message->setVariables(
             array(

@@ -11,9 +11,9 @@ class Website extends AbstractRule
 
     public function validate($value, $valueIdentifier = null)
     {
-        $this->value = $value;
+        $this->value   = $value;
         $this->success = (substr($value, 0, 2) == '//')
-            || (preg_match(static::WEBSITE_REGEX, $value) && filter_var(
+                         || (preg_match(static::WEBSITE_REGEX, $value) && filter_var(
                     $value,
                     FILTER_VALIDATE_URL,
                     FILTER_FLAG_HOST_REQUIRED

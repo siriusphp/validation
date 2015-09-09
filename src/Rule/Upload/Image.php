@@ -14,7 +14,7 @@ class Image extends AbstractRule
     const LABELED_MESSAGE = '{label} is not a valid image (only {image_types} are allowed)';
 
     protected $options = array(
-        self::OPTION_ALLOWED_IMAGES => array('jpg', 'png', 'gif')
+        self::OPTION_ALLOWED_IMAGES => array( 'jpg', 'png', 'gif' )
     );
 
     protected $imageTypesMap = array(
@@ -43,11 +43,11 @@ class Image extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (!is_array($value) || !isset($value['tmp_name']) || !file_exists($value['tmp_name'])) {
+        if ( ! is_array($value) || ! isset($value['tmp_name']) || ! file_exists($value['tmp_name'])) {
             $this->success = false;
         } else {
-            $imageInfo = getimagesize($value['tmp_name']);
-            $extension = isset($this->imageTypesMap[$imageInfo[2]]) ? $this->imageTypesMap[$imageInfo[2]] : false;
+            $imageInfo     = getimagesize($value['tmp_name']);
+            $extension     = isset($this->imageTypesMap[$imageInfo[2]]) ? $this->imageTypesMap[$imageInfo[2]] : false;
             $this->success = ($extension && in_array($extension, $this->options[self::OPTION_ALLOWED_IMAGES]));
         }
 
@@ -56,7 +56,7 @@ class Image extends AbstractRule
 
     public function getPotentialMessage()
     {
-        $message = parent::getPotentialMessage();
+        $message    = parent::getPotentialMessage();
         $imageTypes = array_map('strtoupper', $this->options[self::OPTION_ALLOWED_IMAGES]);
         $message->setVariables(
             array(

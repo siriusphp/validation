@@ -45,8 +45,8 @@ class RequiredWithoutTest extends \PHPUnit_Framework_TestCase
         $this->rule->setContext(new ArrayWrapper(
                 array(
                     'lines' => array(
-                        0 => array('quantity' => null, 'price' => null),
-                        1 => array('quantity' => 20, 'price' => null),
+                        0 => array( 'quantity' => null, 'price' => null ),
+                        1 => array( 'quantity' => 20, 'price' => null ),
                     )
                 ))
         );

@@ -127,11 +127,11 @@ class Validator implements ValidatorInterface
 
     public function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null)
     {
-        if (!$ruleFactory) {
+        if ( ! $ruleFactory) {
             $ruleFactory = new RuleFactory();
         }
         $this->ruleFactory = $ruleFactory;
-        if (!$errorMessagePrototype) {
+        if ( ! $errorMessagePrototype) {
             $errorMessagePrototype = new ErrorMessage();
         }
         $this->errorMessagePrototype = $errorMessagePrototype;
@@ -202,7 +202,7 @@ class Validator implements ValidatorInterface
     {
         // the $selector is an associative array with $selector => $rules
         if (func_num_args() == 1) {
-            if (!is_array($selector)) {
+            if ( ! is_array($selector)) {
                 throw new \InvalidArgumentException('If $selector is the only argument it must be an array');
             }
 
@@ -215,7 +215,7 @@ class Validator implements ValidatorInterface
         }
 
         $this->ensureSelectorRulesExist($selector, $label);
-        call_user_func(array($this->rules[$selector], 'add'), $name, $options, $messageTemplate, $label);
+        call_user_func(array( $this->rules[$selector], 'add' ), $name, $options, $messageTemplate, $label);
 
         return $this;
     }
@@ -230,7 +230,7 @@ class Validator implements ValidatorInterface
         foreach ($selectorRulesCollection as $selector => $rules) {
 
             // a single rule was passed for the $valueSelector
-            if (!is_array($rules)) {
+            if ( ! is_array($rules)) {
                 return $this->add($selector, $rules);
             }
 
@@ -263,11 +263,12 @@ class Validator implements ValidatorInterface
      *            rule name or true if all rules should be deleted for that selector
      * @param mixed $options
      *            rule options, necessary for rules that depend on params for their ID
+     *
      * @return self
      */
     public function remove($selector, $name = true, $options = null)
     {
-        if (!array_key_exists($selector, $this->rules)) {
+        if ( ! array_key_exists($selector, $this->rules)) {
             return $this;
         }
         /* @var $collection \Sirius\Validation\ValueValidator */
@@ -282,12 +283,13 @@ class Validator implements ValidatorInterface
      * This way you can validate anything, not just arrays (which is the default)
      *
      * @param mixed $data
+     *
      * @return \Sirius\Validation\DataWrapper\WrapperInterface
      */
     public function getDataWrapper($data = null)
     {
         // if $data is set reconstruct the data wrapper
-        if (!$this->dataWrapper || $data) {
+        if ( ! $this->dataWrapper || $data) {
             $this->dataWrapper = new DataWrapper\ArrayWrapper($data);
         }
 
@@ -309,6 +311,7 @@ class Validator implements ValidatorInterface
      *
      * @param mixed $data
      *            array to be validated
+     *
      * @return boolean
      */
     public function validate($data = null)
@@ -323,7 +326,7 @@ class Validator implements ValidatorInterface
         foreach ($this->rules as $selector => $valueValidator) {
             foreach ($this->getDataWrapper()->getItemsBySelector($selector) as $valueIdentifier => $value) {
                 /* @var $valueValidator \Sirius\Validation\ValueValidator */
-                if (!$valueValidator->validate($value, $valueIdentifier, $this->getDataWrapper())) {
+                if ( ! $valueValidator->validate($value, $valueIdentifier, $this->getDataWrapper())) {
                     foreach ($valueValidator->getMessages() as $message) {
                         $this->addMessage($valueIdentifier, $message);
                     }
@@ -339,6 +342,7 @@ class Validator implements ValidatorInterface
      * @param string $item
      *            data identifier (eg: 'email', 'addresses[0][state]')
      * @param string $message
+     *
      * @return self
      */
     public function addMessage($item, $message = null)
@@ -346,7 +350,7 @@ class Validator implements ValidatorInterface
         if ($message === null || $message === '') {
             return $this;
         }
-        if (!array_key_exists($item, $this->messages)) {
+        if ( ! array_key_exists($item, $this->messages)) {
             $this->messages[$item] = array();
         }
         $this->messages[$item][] = $message;
@@ -358,6 +362,7 @@ class Validator implements ValidatorInterface
      * Clears the messages of an item
      *
      * @param string $item
+     *
      * @return self
      */
     public function clearMessages($item = null)
@@ -376,6 +381,7 @@ class Validator implements ValidatorInterface
     /**
      * @param string $item
      *            key of the messages array (eg: 'password', 'addresses[0][line_1]')
+     *
      * @return array
      */
     public function getMessages($item = null)
@@ -398,8 +404,9 @@ class Validator implements ValidatorInterface
      */
     protected function ensureSelectorRulesExist($selector, $label = null)
     {
-        if (!isset($this->rules[$selector])) {
-            $this->rules[$selector] = new ValueValidator($this->getRuleFactory(), $this->getErroMessagePrototype(), $label);
+        if ( ! isset($this->rules[$selector])) {
+            $this->rules[$selector] = new ValueValidator($this->getRuleFactory(), $this->getErroMessagePrototype(),
+                $label);
         }
     }
 

@@ -9,8 +9,8 @@ class Integer extends AbstractRule
 
     public function validate($value, $valueIdentifier = null)
     {
-        $this->value = $value;
-        $this->success = (bool)filter_var($value, FILTER_VALIDATE_INT) || (string)$value === '0';
+        $this->value   = $value;
+        $this->success = (bool) filter_var($value, FILTER_VALIDATE_INT) || (string) $value === '0';
 
         return $this->success;
     }

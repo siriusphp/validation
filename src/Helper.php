@@ -48,12 +48,12 @@ class Helper
 
     public static function truthy($value)
     {
-        return (bool)$value;
+        return (bool) $value;
     }
 
     public static function falsy($value)
     {
-        return !static::truthy($value);
+        return ! static::truthy($value);
     }
 
     public static function number($value)
@@ -63,7 +63,7 @@ class Helper
 
     public static function integer($value)
     {
-        return $value == '0' || (int)$value == $value;
+        return $value == '0' || (int) $value == $value;
     }
 
     public static function lessThan($value, $max)
@@ -107,7 +107,7 @@ class Helper
 
     public static function not($value, $otherValue)
     {
-        return !self::exactly($value, $otherValue);
+        return ! self::exactly($value, $otherValue);
     }
 
     public static function alpha($value)
@@ -303,6 +303,7 @@ class Helper
      * Test if a variable is a valid IP address
      *
      * @param string $value
+     *
      * @return bool
      */
     public static function ip($value)
@@ -324,6 +325,7 @@ class Helper
      * Criterias: at least 6 characters, 2 words
      *
      * @param mixed $value
+     *
      * @return bool
      */
     public static function fullName($value)
@@ -337,6 +339,7 @@ class Helper
      * Test if the domain of an email address is available
      *
      * @param string $value
+     *
      * @return bool
      */
     public static function emailDomain($value)

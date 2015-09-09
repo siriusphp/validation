@@ -7,7 +7,7 @@ class SizeTest extends \PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->validator = new Size(array('size' => '1M'));
+        $this->validator = new Size(array( 'size' => '1M' ));
     }
 
     function testMissingFiles()

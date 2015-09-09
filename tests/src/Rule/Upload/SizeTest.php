@@ -7,13 +7,13 @@ class SizeTest extends \PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->validator = new Size(array('size' => '1M'));
+        $this->validator = new Size(array( 'size' => '1M' ));
     }
 
     function testMissingFiles()
     {
         $fileName = 'file_that_does_not_exist.jpg';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -26,7 +26,7 @@ class SizeTest extends \PHPUnit_Framework_TestCase
     function testFile()
     {
         $fileName = 'real_jpeg_file.jpg';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -43,7 +43,7 @@ class SizeTest extends \PHPUnit_Framework_TestCase
     function testSizeAsNumber()
     {
         $fileName = 'real_jpeg_file.jpg';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',

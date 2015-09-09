@@ -7,13 +7,13 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->validator = new ImageRatio(array('ratio' => 1));
+        $this->validator = new ImageRatio(array( 'ratio' => 1 ));
     }
 
     function testMissingFiles()
     {
         $fileName = 'file_that_does_not_exist.gif';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -26,7 +26,7 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
     function testSquare()
     {
         $fileName = 'square_image.gif';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -39,7 +39,7 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
     function testAlmostSquare()
     {
         $fileName = 'almost_square_image.gif';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -57,7 +57,7 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
     {
         $this->validator->setOption(ImageRatio::OPTION_RATIO, 0);
         $fileName = 'almost_square_image.gif';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -71,7 +71,7 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
     {
         $this->validator->setOption(ImageRatio::OPTION_RATIO, 'abc');
         $fileName = 'almost_square_image.gif';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -85,7 +85,7 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
     {
         $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
         $fileName = '4_by_3_image.jpg';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',

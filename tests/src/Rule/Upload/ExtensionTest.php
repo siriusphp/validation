@@ -12,9 +12,9 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
 
     function testExistingFiles()
     {
-        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg'));
+        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
         $fileName = 'real_jpeg_file.jpg';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -26,9 +26,9 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
 
     function testMissingFiles()
     {
-        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg'));
+        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
         $fileName = 'file_that_does_not_exist.jpg';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -42,7 +42,7 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, 'jpg, GIF');
         $fileName = 'real_jpeg_file.jpg';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -54,10 +54,10 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
 
     function testPotentialMessage()
     {
-        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg', 'png'));
+        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg', 'png' ));
         $this->assertEquals(
             'The file does not have an acceptable extension (JPG, PNG)',
-            (string)$this->validator->getPotentialMessage()
+            (string) $this->validator->getPotentialMessage()
         );
     }
 }

@@ -7,7 +7,7 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->validator = new ImageRatio(array('ratio' => 1));
+        $this->validator = new ImageRatio(array( 'ratio' => 1 ));
     }
 
     function testMissingFiles()

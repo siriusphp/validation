@@ -16,7 +16,7 @@ class RequiredWith extends Required
     {
         $this->value = $value;
 
-        $relatedItemPath = $this->getRelatedValueIdentifier($valueIdentifier, $this->options[self::OPTION_ITEM]);
+        $relatedItemPath  = $this->getRelatedValueIdentifier($valueIdentifier, $this->options[self::OPTION_ITEM]);
         $relatedItemValue = $relatedItemPath !== null ? $this->context->getItemValue($relatedItemPath) : null;
 
         if (isset($this->options[self::OPTION_ITEM]) && $relatedItemValue !== null) {

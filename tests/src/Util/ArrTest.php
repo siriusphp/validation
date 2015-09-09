@@ -43,7 +43,7 @@ class ArrTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Arr::getByPath($this->data, 'email'), 'my@domain.com');
 
         $this->data = Arr::setBySelector($this->data, 'newsletters[offers]', true);
-        $this->assertEquals(Arr::getByPath($this->data, 'newsletters'), array('offers' => true));
+        $this->assertEquals(Arr::getByPath($this->data, 'newsletters'), array( 'offers' => true ));
         $this->data = Arr::setBySelector($this->data, 'addresses[*][state]', 'California');
         $this->assertEquals(Arr::getByPath($this->data, 'addresses[shipping][state]'), 'California');
         $this->assertEquals(Arr::getByPath($this->data, 'addresses[billing][state]'), 'California');
@@ -92,8 +92,8 @@ class ArrTest extends \PHPUnit_Framework_TestCase
     {
         $arr = array(
             'recipients' => array(
-                array('name' => 'John'),
-                array('name' => 'Marry', 'email' => 'marry@gmail.com')
+                array( 'name' => 'John' ),
+                array( 'name' => 'Marry', 'email' => 'marry@gmail.com' )
             )
         );
         $this->assertEquals(
@@ -114,7 +114,7 @@ class ArrTest extends \PHPUnit_Framework_TestCase
     {
         $arr = array(
             'lines' => array(
-                'quantities' => array(1, 2, 3)
+                'quantities' => array( 1, 2, 3 )
             )
         );
         $this->assertEquals(
@@ -131,7 +131,7 @@ class ArrTest extends \PHPUnit_Framework_TestCase
     {
         $arr = array(
             'lines' => array(
-                'quantities' => array(1, 2, 3)
+                'quantities' => array( 1, 2, 3 )
             )
         );
         $this->assertEquals(array(), Arr::getBySelector($arr, 'recipients[*]'));

@@ -37,14 +37,14 @@ class ImageRatio extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        $ratio = $this->normalizeRatio($this->options[self::OPTION_RATIO]);
-        if (!file_exists($value)) {
+        $ratio       = $this->normalizeRatio($this->options[self::OPTION_RATIO]);
+        if ( ! file_exists($value)) {
             $this->success = false;
         } elseif ($ratio == 0) {
             $this->success = true;
         } else {
-            $imageInfo = getimagesize($value);
-            $actualRatio = $imageInfo[0] / $imageInfo[1];
+            $imageInfo     = getimagesize($value);
+            $actualRatio   = $imageInfo[0] / $imageInfo[1];
             $this->success = abs($actualRatio - $ratio) <= $this->options[self::OPTION_ERROR_MARGIN];
         }
 

@@ -29,17 +29,17 @@ class CallbackTest extends \PHPUnit_Framework_TestCase
 
     function testGetUniqueIdForCallbacksAsArrays()
     {
-        $this->rule->setOption(Rule::OPTION_CALLBACK, array('Class', 'method'));
+        $this->rule->setOption(Rule::OPTION_CALLBACK, array( 'Class', 'method' ));
         $this->assertTrue(strpos($this->rule->getUniqueId(), '|Class::method') !== false);
 
-        $this->rule->setOption(Rule::OPTION_CALLBACK, array($this, 'setUp'));
+        $this->rule->setOption(Rule::OPTION_CALLBACK, array( $this, 'setUp' ));
         $this->assertTrue(strpos($this->rule->getUniqueId(), '->setUp') !== false);
     }
 
     function testGetUniqueIdForCallbacksWithArguments()
     {
         $this->rule->setOption(Rule::OPTION_CALLBACK, 'is_int');
-        $this->rule->setOption(Rule::OPTION_ARGUMENTS, array('b' => 2, 'a' => 1));
+        $this->rule->setOption(Rule::OPTION_ARGUMENTS, array( 'b' => 2, 'a' => 1 ));
 
         // arguments should be sorted by key so test for that too
         $this->assertTrue(strpos($this->rule->getUniqueId(), '|{"a":1,"b":2}') !== false);

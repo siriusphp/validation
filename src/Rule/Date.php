@@ -20,7 +20,7 @@ class Date extends AbstractRule
 
     public function validate($value, $valueIdentifier = null)
     {
-        $this->value = $value;
+        $this->value   = $value;
         $this->success = $value == date($this->options['format'],
                 $this->getTimestampFromFormatedString($value, $this->options['format']));
 
@@ -31,7 +31,7 @@ class Date extends AbstractRule
     {
         $result = date_parse_from_format($format, $string);
 
-        return mktime((int)$result['hour'], (int)$result['minute'], (int)$result['second'], (int)$result['month'],
-            (int)$result['day'], (int)$result['year']);
+        return mktime((int) $result['hour'], (int) $result['minute'], (int) $result['second'], (int) $result['month'],
+            (int) $result['day'], (int) $result['year']);
     }
 }

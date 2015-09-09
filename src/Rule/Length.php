@@ -21,7 +21,7 @@ class Length extends AbstractRule
 
     public function validate($value, $valueIdentifier = null)
     {
-        $this->value = $value;
+        $this->value  = $value;
         $maxValidator = new MinLength();
         if (isset($this->options['max'])) {
             $maxValidator->setOption('max', $this->options['max']);

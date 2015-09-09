@@ -22,7 +22,7 @@ class LessThan extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (!isset($this->options['max'])) {
+        if ( ! isset($this->options['max'])) {
             $this->success = true;
         } else {
             if ($this->options['inclusive']) {

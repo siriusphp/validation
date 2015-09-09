@@ -18,14 +18,14 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     function testRealImage()
     {
-        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg'));
+        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'real_jpeg_file.jpg';
         $this->assertTrue($this->validator->validate($file));
     }
 
     function testFakeImage()
     {
-        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg'));
+        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'fake_jpeg_file.jpg';
         $this->assertFalse($this->validator->validate($file));
     }
@@ -39,11 +39,11 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     function testPotentialMessage()
     {
-        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array('jpg', 'png'));
+        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg', 'png' ));
         $this->validator->validate('no_file.jpg');
         $this->assertEquals(
             'The file is not a valid image (only JPG, PNG are allowed)',
-            (string)$this->validator->getPotentialMessage()
+            (string) $this->validator->getPotentialMessage()
         );
     }
 }

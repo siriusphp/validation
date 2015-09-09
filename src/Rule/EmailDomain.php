@@ -9,10 +9,10 @@ class EmailDomain extends AbstractRule
 
     public function validate($value, $valueIdentifier = null)
     {
-        $value = (string)$value;
+        $value       = (string) $value;
         $this->value = $value;
         // Check if the email domain has a valid MX record
-        $this->success = (bool)checkdnsrr(preg_replace('/^[^@]+@/', '', $value), 'MX');
+        $this->success = (bool) checkdnsrr(preg_replace('/^[^@]+@/', '', $value), 'MX');
 
         return $this->success;
     }

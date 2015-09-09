@@ -7,7 +7,7 @@ class ImageWidthTest extends \PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->validator = new ImageWidth(array('min' => 500));
+        $this->validator = new ImageWidth(array( 'min' => 500 ));
     }
 
     function testMissingFiles()

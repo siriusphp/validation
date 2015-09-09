@@ -7,13 +7,13 @@ class ImageWidthTest extends \PHPUnit_Framework_TestCase
 
     function setUp()
     {
-        $this->validator = new ImageWidth(array('min' => 500));
+        $this->validator = new ImageWidth(array( 'min' => 500 ));
     }
 
     function testMissingFiles()
     {
         $fileName = 'file_that_does_not_exist.jpg';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -26,7 +26,7 @@ class ImageWidthTest extends \PHPUnit_Framework_TestCase
     function testFile()
     {
         $fileName = 'real_jpeg_file.jpg';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',
@@ -36,7 +36,7 @@ class ImageWidthTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->validator->validate($file));
 
         $fileName = 'square_image.gif';
-        $file = array(
+        $file     = array(
             'name'     => $fileName,
             'type'     => 'not_required',
             'size'     => 'not_required',

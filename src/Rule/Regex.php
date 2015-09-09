@@ -17,7 +17,7 @@ class Regex extends AbstractRule
     {
         $this->value = $value;
         if (isset($this->options['pattern'])) {
-            $this->success = (bool)preg_match($this->options['pattern'], $value);
+            $this->success = (bool) preg_match($this->options['pattern'], $value);
         } else {
             $this->success = true;
         }

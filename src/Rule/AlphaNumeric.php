@@ -10,8 +10,8 @@ class AlphaNumeric extends AbstractRule
 
     public function validate($value, $valueIdentifier = null)
     {
-        $this->value = $value;
-        $this->success = (bool)ctype_alnum((string)str_replace(' ', '', $value));
+        $this->value   = $value;
+        $this->success = (bool) ctype_alnum((string) str_replace(' ', '', $value));
 
         return $this->success;
     }

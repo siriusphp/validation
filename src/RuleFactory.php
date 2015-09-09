@@ -87,9 +87,9 @@ class RuleFactory
             'Upload\Size',
         );
         foreach ($rulesClasses as $class) {
-            $fullClassName = '\\' . __NAMESPACE__ . '\Rule\\' . $class;
-            $name = strtolower(str_replace('\\', '', $class));
-            $errorMessage = constant($fullClassName . '::MESSAGE');
+            $fullClassName       = '\\' . __NAMESPACE__ . '\Rule\\' . $class;
+            $name                = strtolower(str_replace('\\', '', $class));
+            $errorMessage        = constant($fullClassName . '::MESSAGE');
             $labeledErrorMessage = constant($fullClassName . '::LABELED_MESSAGE');
             $this->register($name, $fullClassName, $errorMessage, $labeledErrorMessage);
         }
@@ -101,6 +101,7 @@ class RuleFactory
      *
      * @param string $name
      * @param string $class
+     *
      * @return \Sirius\Validation\RuleFactory
      */
     public function register($name, $class, $errorMessage = '', $labeledErrorMessage = '')
@@ -129,6 +130,7 @@ class RuleFactory
      *            error message template
      * @param string $label
      *            label of the form input field or model attribute
+     *
      * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractValidator
      */
@@ -137,8 +139,8 @@ class RuleFactory
         $validator = $this->construcRuleByNameAndOptions($name, $options);
 
         // no message template, try to get it from the registry
-        if (!$messageTemplate) {
-            $messageTemplate = $this->getSuggestedMessageTemplate($name, !!$label);
+        if ( ! $messageTemplate) {
+            $messageTemplate = $this->getSuggestedMessageTemplate($name, ! ! $label);
         }
 
         if (is_string($messageTemplate) && $messageTemplate !== '') {
@@ -160,13 +162,15 @@ class RuleFactory
      *
      * @return $this
      */
-    public function setMessages($rule, $messageWithoutLabel = null, $messageWithLabel = null) {
+    public function setMessages($rule, $messageWithoutLabel = null, $messageWithLabel = null)
+    {
         if ($messageWithoutLabel) {
             $this->errorMessages[$rule] = $messageWithoutLabel;
         }
         if ($messageWithLabel) {
             $this->labeledErrorMessages[$rule] = $messageWithLabel;
         }
+
         return $this;
     }
 
@@ -176,6 +180,7 @@ class RuleFactory
      *
      * @param string $name name of the rule
      * @param bool $withLabel
+     *
      * @return string|NULL
      */
     protected function getSuggestedMessageTemplate($name, $withLabel)
@@ -219,9 +224,9 @@ class RuleFactory
             }
         }
 
-        if (!isset($validator)) {
+        if ( ! isset($validator)) {
             throw new \InvalidArgumentException(
-                sprintf('Impossible to determine the validator based on the name: %s', (string)$name)
+                sprintf('Impossible to determine the validator based on the name: %s', (string) $name)
             );
         }
 

@@ -15,6 +15,7 @@ class ArrayWrapper implements WrapperInterface
 
     /**
      * @param array|\ArrayObject|object $data
+     *
      * @throws \InvalidArgumentException
      */
     public function __construct($data = array())
@@ -26,7 +27,7 @@ class ArrayWrapper implements WrapperInterface
                 $data = $data->toArray();
             }
         }
-        if (!is_array($data)) {
+        if ( ! is_array($data)) {
             throw new \InvalidArgumentException('Data passed to validator is not an array or an ArrayObject');
         }
         $this->data = $data;

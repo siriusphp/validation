@@ -31,7 +31,7 @@ class Callback extends AbstractRule
         }
 
         if (isset($this->options['arguments'])) {
-            $args = (array)$this->options['arguments'];
+            $args = (array) $this->options['arguments'];
             ksort($args);
             $uniqueId .= '|' . json_encode($args);
         }
@@ -42,13 +42,13 @@ class Callback extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (!isset($this->options['callback']) || !is_callable($this->options['callback'])) {
+        if ( ! isset($this->options['callback']) || ! is_callable($this->options['callback'])) {
             $this->success = true;
         } else {
-            $args = (isset($this->options['arguments'])) ? (array)$this->options['arguments'] : array();
+            $args = (isset($this->options['arguments'])) ? (array) $this->options['arguments'] : array();
             array_unshift($args, $value);
             array_push($args, $valueIdentifier, $this->context);
-            $this->success = (bool)call_user_func_array($this->options['callback'], $args);
+            $this->success = (bool) call_user_func_array($this->options['callback'], $args);
         }
 
         return $this->success;

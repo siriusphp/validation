@@ -20,11 +20,11 @@ class ImageHeight extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (!file_exists($value)) {
+        if ( ! file_exists($value)) {
             $this->success = false;
         } else {
-            $imageInfo = getimagesize($value);
-            $height = isset($imageInfo[1]) ? $imageInfo[1] : 0;
+            $imageInfo     = getimagesize($value);
+            $height        = isset($imageInfo[1]) ? $imageInfo[1] : 0;
             $this->success = $height && $height <= $this->options[self::OPTION_MAX] && $height >= $this->options[self::OPTION_MIN];
         }
 

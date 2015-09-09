@@ -9,9 +9,9 @@ class AlphaNumHyphen extends AbstractRule
 
     public function validate($value, $valueIdentifier = null)
     {
-        $this->value = $value;
-        $this->success = (bool)ctype_alnum(
-            (string)str_replace(
+        $this->value   = $value;
+        $this->success = (bool) ctype_alnum(
+            (string) str_replace(
                 array(
                     ' ',
                     '_',

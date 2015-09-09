@@ -453,7 +453,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     function testOfEqualToWithContext()
     {
-        $pool = array(
+        $pool    = array(
             array(
                 'value',
                 'element_1',
@@ -560,7 +560,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     function testOfSetMaxSize()
     {
-        $set = array(
+        $set  = array(
             'element_1' => 'value',
             'element_2' => 'another_value',
             'element_3' => array(
@@ -584,7 +584,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     function testOfSetMinSize()
     {
-        $set = array(
+        $set  = array(
             'element_1' => 'value',
             'element_2' => 'another_value',
             'element_3' => array(
@@ -608,7 +608,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     function testOfSetSize()
     {
-        $set = array(
+        $set  = array(
             'element_1' => 'value',
             'element_2' => 'another_value',
             'element_3' => array(

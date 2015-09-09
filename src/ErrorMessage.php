@@ -10,14 +10,14 @@ class ErrorMessage
     public function __construct($template = '', $variables = array())
     {
         $this->setTemplate($template)
-            ->setVariables($variables);
+             ->setVariables($variables);
     }
 
     public function setTemplate($template)
     {
-        $template = trim((string)$template);
+        $template = trim((string) $template);
         if ($template) {
-            $this->template = (string)$template;
+            $this->template = (string) $template;
         }
 
         return $this;

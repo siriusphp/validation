@@ -22,7 +22,7 @@ class GreaterThan extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (!isset($this->options['min'])) {
+        if ( ! isset($this->options['min'])) {
             $this->success = true;
         } else {
             if ($this->options['inclusive']) {

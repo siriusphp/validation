@@ -62,7 +62,7 @@ abstract class AbstractRule
     public function __construct($options = array())
     {
         $options = $this->normalizeOptions($options);
-        if (is_array($options) && !empty($options)) {
+        if (is_array($options) && ! empty($options)) {
             foreach ($options as $k => $v) {
                 $this->setOption($k, $v);
             }
@@ -83,7 +83,7 @@ abstract class AbstractRule
      */
     protected function normalizeOptions($options)
     {
-        if (!$options) {
+        if ( ! $options) {
             return array();
         }
 
@@ -103,7 +103,7 @@ abstract class AbstractRule
             }
         }
 
-        if (!is_array($result)) {
+        if ( ! is_array($result)) {
             throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
         }
 
@@ -114,10 +114,13 @@ abstract class AbstractRule
      * Converts a HTTP query string to an array
      *
      * @param $str
+     *
      * @return array
      */
-    protected function parseHttpQueryString($str) {
+    protected function parseHttpQueryString($str)
+    {
         parse_str($str, $arr);
+
         return $this->convertBooleanStrings($arr);
     }
 
@@ -125,11 +128,13 @@ abstract class AbstractRule
      * Converts 'true' and 'false' strings to TRUE and FALSE
      *
      * @param $v
+     *
      * @return bool
      */
-    protected function convertBooleanStrings($v) {
+    protected function convertBooleanStrings($v)
+    {
         if (is_array($v)) {
-            return array_map(array($this, 'convertBooleanStrings'), $v);
+            return array_map(array( $this, 'convertBooleanStrings' ), $v);
         }
         if ($v === 'true') {
             return true;
@@ -137,6 +142,7 @@ abstract class AbstractRule
         if ($v === 'false') {
             return false;
         }
+
         return $v;
     }
 
@@ -145,21 +151,26 @@ abstract class AbstractRule
      * (an associative array that contains the options for the validation rule)
      *
      * @param $str
+     *
      * @return array
      */
-    protected function parseCsvString($str) {
-        if (!isset($this->optionsIndexMap) || !is_array($this->optionsIndexMap) || empty($this->optionsIndexMap)) {
-            throw new \InvalidArgumentException(sprintf('Class %s is missing the `optionsIndexMap` property', get_class($this)));
+    protected function parseCsvString($str)
+    {
+        if ( ! isset($this->optionsIndexMap) || ! is_array($this->optionsIndexMap) || empty($this->optionsIndexMap)) {
+            throw new \InvalidArgumentException(sprintf('Class %s is missing the `optionsIndexMap` property',
+                get_class($this)));
         }
 
         $options = explode(',', $str);
-        $result = array();
+        $result  = array();
         foreach ($options as $k => $v) {
-            if (!isset($this->optionsIndexMap[$k])) {
-                throw new \InvalidArgumentException(sprintf('Class %s does not have the index %d configured in the `optionsIndexMap` property', get_class($this), $k));
+            if ( ! isset($this->optionsIndexMap[$k])) {
+                throw new \InvalidArgumentException(sprintf('Class %s does not have the index %d configured in the `optionsIndexMap` property',
+                    get_class($this), $k));
             }
             $result[$this->optionsIndexMap[$k]] = $v;
         }
+
         return $this->convertBooleanStrings($result);
     }
 
@@ -167,6 +178,7 @@ abstract class AbstractRule
      * Checks if an array is associative (ie: the keys are not numbers in sequence)
      *
      * @param array $arr
+     *
      * @return bool
      */
     protected function arrayIsAssoc($arr)
@@ -193,6 +205,7 @@ abstract class AbstractRule
      *
      * @param string $name
      * @param mixed $value
+     *
      * @return \Sirius\Validation\Rule\AbstractRule
      */
     public function setOption($name, $value)
@@ -204,8 +217,9 @@ abstract class AbstractRule
 
     /**
      * Get an option for the validator.
-     * 
+     *
      * @param string $name
+     *
      * @return mixed
      */
     public function getOption($name)
@@ -224,6 +238,7 @@ abstract class AbstractRule
      * to confirm the email address
      *
      * @param array|object $context
+     *
      * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractRule
      */
@@ -235,7 +250,7 @@ abstract class AbstractRule
         if (is_array($context)) {
             $context = new ArrayWrapper($context);
         }
-        if (!is_object($context) || !$context instanceof WrapperInterface) {
+        if ( ! is_object($context) || ! $context instanceof WrapperInterface) {
             throw new \InvalidArgumentException(
                 'Validator context must be either an array or an instance of Sirius\Validator\DataWrapper\WrapperInterface'
             );
@@ -249,6 +264,7 @@ abstract class AbstractRule
      * Custom message for this validator to used instead of the the default one
      *
      * @param string $messageTemplate
+     *
      * @return \Sirius\Validation\Rule\AbstractRule
      */
     public function setMessageTemplate($messageTemplate)
@@ -280,6 +296,7 @@ abstract class AbstractRule
      *
      * @param mixed $value
      * @param null|mixed $valueIdentifier
+     *
      * @return mixed
      */
     abstract function validate($value, $valueIdentifier = null);
@@ -290,6 +307,7 @@ abstract class AbstractRule
      * This option can be used when you need translation
      *
      * @param ErrorMessage $errorMessagePrototype
+     *
      * @throws \InvalidArgumentException
      * @return \Sirius\Validation\Rule\AbstractRule
      */
@@ -308,7 +326,7 @@ abstract class AbstractRule
      */
     public function getErrorMessagePrototype()
     {
-        if (!$this->errorMessagePrototype) {
+        if ( ! $this->errorMessagePrototype) {
             $this->errorMessagePrototype = new ErrorMessage();
         }
 
@@ -357,6 +375,7 @@ abstract class AbstractRule
      *
      * @param $valueIdentifier
      * @param $relatedItem
+     *
      * @return string|null
      */
     protected function getRelatedValueIdentifier($valueIdentifier, $relatedItem)

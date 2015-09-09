@@ -7,8 +7,8 @@ class FakeRule extends \Sirius\Validation\Rule\AbstractRule
 
     function validate($value, $valueIdentifier = null)
     {
-        $this->value = $value;
-        $this->success = (bool)$value && isset($this->context) && $this->context->getItemValue('key');
+        $this->value   = $value;
+        $this->success = (bool) $value && isset($this->context) && $this->context->getItemValue('key');
 
         return $this->success;
     }
@@ -29,7 +29,7 @@ class AbstractRuleTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->rule->getErrorMessagePrototype() instanceof \Sirius\Validation\ErrorMessage);
         $proto = new \Sirius\Validation\ErrorMessage('Not valid');
         $this->rule->setErrorMessagePrototype($proto);
-        $this->assertEquals('Not valid', (string)$this->rule->getErrorMessagePrototype());
+        $this->assertEquals('Not valid', (string) $this->rule->getErrorMessagePrototype());
     }
 
     function testMessageIsGeneratedCorrectly()
@@ -37,12 +37,12 @@ class AbstractRuleTest extends \PHPUnit_Framework_TestCase
         $this->rule->setOption('label', 'Accept');
         $this->rule->setMessageTemplate('Field "{label}" must be true, {value} was provided');
         $this->rule->validate('false');
-        $this->assertEquals('Field "Accept" must be true, false was provided', (string)$this->rule->getMessage());
+        $this->assertEquals('Field "Accept" must be true, false was provided', (string) $this->rule->getMessage());
     }
 
     function testNoMessageWhenValidationPasses()
     {
-        $this->rule->setContext(array('key' => true));
+        $this->rule->setContext(array( 'key' => true ));
         $this->assertTrue($this->rule->validate(true));
         $this->assertNull($this->rule->getMessage());
     }
@@ -50,14 +50,14 @@ class AbstractRuleTest extends \PHPUnit_Framework_TestCase
     function testContext()
     {
         $this->assertFalse($this->rule->validate(true));
-        $this->rule->setContext(array('key' => true));
+        $this->rule->setContext(array( 'key' => true ));
         $this->assertTrue($this->rule->validate(true));
     }
 
     function testErrorMessageTemplateIsUsed()
     {
         $this->rule->setMessageTemplate('Custom message');
-        $this->assertEquals('Custom message', (string)$this->rule->getPotentialMessage());
+        $this->assertEquals('Custom message', (string) $this->rule->getPotentialMessage());
     }
 
     function testErrorThrownOnInvalidContext()

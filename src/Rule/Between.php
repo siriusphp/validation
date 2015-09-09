@@ -19,7 +19,7 @@ class Between extends AbstractRule
 
     public function validate($value, $valueIdentifier = null)
     {
-        $this->value = $value;
+        $this->value  = $value;
         $minValidator = new LessThan();
         if (isset($this->options['max'])) {
             $minValidator->setOption('max', $this->options['max']);

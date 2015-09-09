@@ -13,9 +13,9 @@ class IpAddress extends AbstractRule
         // Do not allow private and reserved range IPs
         $flags = FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE;
         if (strpos($value, ':') !== false) {
-            $this->success = (bool)filter_var($value, FILTER_VALIDATE_IP, $flags | FILTER_FLAG_IPV6);
+            $this->success = (bool) filter_var($value, FILTER_VALIDATE_IP, $flags | FILTER_FLAG_IPV6);
         } else {
-            $this->success = (bool)filter_var($value, FILTER_VALIDATE_IP, $flags | FILTER_FLAG_IPV4);
+            $this->success = (bool) filter_var($value, FILTER_VALIDATE_IP, $flags | FILTER_FLAG_IPV4);
         }
 
         return $this->success;
