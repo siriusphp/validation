@@ -23,6 +23,11 @@ class ErrorMessage
         return $this;
     }
 
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
     public function setVariables($variables = array())
     {
         foreach ($variables as $k => $v) {
@@ -30,6 +35,11 @@ class ErrorMessage
         }
 
         return $this;
+    }
+
+    public function getVariables()
+    {
+        return $this->variables;
     }
 
     public function __toString()
