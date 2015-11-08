@@ -8,7 +8,7 @@ title: Installating Sirius\Validation
 
 Sirius\Validation is available on [Packagist](https://packagist.org/packages/siriusphp/validation) so you can use
 ```
-composer require sirius/validation
+composer require siriusphp/validation
 ```
 
 Make sure to include the Composer autoload file in your project
