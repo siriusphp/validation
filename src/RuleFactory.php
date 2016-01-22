@@ -215,7 +215,7 @@ class RuleFactory
                 $name = $this->validatorsMap[strtolower($name)];
             }
             // try if the validator is the name of a class in the package
-            if (class_exists('\Sirius\Validation\Rule\\' . $name)) {
+            if (class_exists('\Sirius\Validation\Rule\\' . $name, false)) {
                 $name = '\Sirius\Validation\Rule\\' . $name;
             }
             // at this point we should have a class that can be instanciated
