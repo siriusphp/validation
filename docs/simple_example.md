@@ -22,7 +22,7 @@ $validator->add(
         'email:Your email' => 'required | email',
         
         // validators can have options
-        'message:Your message' => 'required | minlength(10)'
+        'message:Your message' => 'required | minlength(10)',
         
         // and you can overwrite the default error message
         'phone:Phone' => 'regex(/your_regex_here/)(This field must be a valid US phone number)'
