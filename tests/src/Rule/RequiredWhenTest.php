@@ -26,6 +26,7 @@ class RequiredWhenTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertTrue($this->rule->validate('abc'));
         $this->assertFalse($this->rule->validate(null));
+        $this->assertFalse($this->rule->validate(''));
     }
 
     function testValidationWithItemNotValid()
@@ -41,6 +42,7 @@ class RequiredWhenTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertTrue($this->rule->validate('abc'));
         $this->assertTrue($this->rule->validate(null));
+        $this->assertTrue($this->rule->validate(''));
     }
 
     function testValidationWithoutItem()
@@ -55,6 +57,7 @@ class RequiredWhenTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertTrue($this->rule->validate('abc'));
         $this->assertTrue($this->rule->validate(null));
+        $this->assertTrue($this->rule->validate(''));
     }
 
     function testItemRuleSetAsRuleObject()
@@ -70,6 +73,7 @@ class RequiredWhenTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertTrue($this->rule->validate('abc'));
         $this->assertFalse($this->rule->validate(null));
+        $this->assertFalse($this->rule->validate(''));
     }
 
     function testExceptionThrownOnInvalidItemRule()

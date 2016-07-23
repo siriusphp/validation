@@ -30,6 +30,7 @@ class RequiredWithoutTest extends \PHPUnit_Framework_TestCase
         $this->rule->setOption(Rule::OPTION_ITEM, 'item_2');
         $this->assertTrue($this->rule->validate('abc'));
         $this->assertFalse($this->rule->validate(null));
+        $this->assertFalse($this->rule->validate(''));
     }
 
     function testValidationWithItemPresent()
@@ -37,6 +38,7 @@ class RequiredWithoutTest extends \PHPUnit_Framework_TestCase
         $this->rule->setOption(Rule::OPTION_ITEM, 'item_1');
         $this->assertTrue($this->rule->validate('abc'));
         $this->assertTrue($this->rule->validate(null));
+        $this->assertTrue($this->rule->validate(''));
     }
 
     function testValidationWithDeepItems()
@@ -52,5 +54,6 @@ class RequiredWithoutTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertFalse($this->rule->validate(null, 'lines[0][price]'));
         $this->assertTrue($this->rule->validate(null, 'lines[1][price]'));
+        $this->assertTrue($this->rule->validate('', 'lines[1][price]'));
     }
 }
