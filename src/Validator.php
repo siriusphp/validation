@@ -231,7 +231,8 @@ class Validator implements ValidatorInterface
 
             // a single rule was passed for the $valueSelector
             if ( ! is_array($rules)) {
-                return $this->add($selector, $rules);
+                $this->add($selector, $rules);
+                continue;
             }
 
             // multiple rules were passed for the same $valueSelector
