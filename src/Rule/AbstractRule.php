@@ -61,7 +61,7 @@ abstract class AbstractRule
 
     /**
      * Options map in case the options are passed as list instead of associative array
-     * 
+     *
      * @var array
      */
     protected $optionsIndexMap = array();
