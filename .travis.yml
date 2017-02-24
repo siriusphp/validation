@@ -12,6 +12,7 @@ matrix:
     allow_failures:
         - php: 5.3
         - php: 5.4
+        - php: hhvm
 
 before_script:
  - wget -c https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
