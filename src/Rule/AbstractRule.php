@@ -59,6 +59,13 @@ abstract class AbstractRule
      */
     protected $errorMessagePrototype;
 
+    /**
+     * Options map in case the options are passed as list instead of associative array
+     * 
+     * @var array
+     */
+    protected $optionsIndexMap = array();
+
     public function __construct($options = array())
     {
         $options = $this->normalizeOptions($options);
@@ -129,7 +136,7 @@ abstract class AbstractRule
      *
      * @param $v
      *
-     * @return bool
+     * @return bool|array
      */
     protected function convertBooleanStrings($v)
     {
