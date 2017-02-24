@@ -19,7 +19,7 @@ class Size extends AbstractRule
     {
         $units = array( 'B' => 0, 'K' => 1, 'M' => 2, 'G' => 3 );
         $unit  = strtoupper(substr($size, strlen($size) - 1, 1));
-        if ( ! isset($units[$unit])) {
+        if (! isset($units[$unit])) {
             $normalizedSize = filter_var($size, FILTER_SANITIZE_NUMBER_INT);
         } else {
             $size           = filter_var(substr($size, 0, strlen($size) - 1), FILTER_SANITIZE_NUMBER_FLOAT);
@@ -32,7 +32,7 @@ class Size extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if ( ! is_array($value) || ! isset($value['tmp_name']) || ! file_exists($value['tmp_name'])) {
+        if (! is_array($value) || ! isset($value['tmp_name']) || ! file_exists($value['tmp_name'])) {
             $this->success = false;
         } else {
             $fileSize      = @filesize($value['tmp_name']);

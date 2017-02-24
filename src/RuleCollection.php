@@ -4,8 +4,6 @@ namespace Sirius\Validation;
 
 class RuleCollection extends \SplObjectStorage
 {
-
-
     public function attach($rule, $data = null)
     {
         if ($this->contains($rule)) {
@@ -33,5 +31,4 @@ class RuleCollection extends \SplObjectStorage
         /* @var $rule Rule\AbstractValidator */
         return $rule->getUniqueId();
     }
-
 }

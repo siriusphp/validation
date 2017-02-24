@@ -384,7 +384,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             )
         );
         foreach ($pool as $sample) {
-            $this->assertSame(Helper::in($sample[0], $sample[1]), $sample[2]);
+            $this->assertSame(Helper::inList($sample[0], $sample[1]), $sample[2]);
         }
     }
 
@@ -409,7 +409,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             )
         );
         foreach ($pool as $sample) {
-            $this->assertSame(Helper::notIn($sample[0], $sample[1]), $sample[2]);
+            $this->assertSame(Helper::notInList($sample[0], $sample[1]), $sample[2]);
         }
     }
 
@@ -554,7 +554,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
         );
 
         foreach ($pool as $sample) {
-            $this->assertSame(Helper::ip($sample[0]), $sample[1]);
+            $this->assertSame(Helper::ipAddress($sample[0]), $sample[1]);
         }
     }
 

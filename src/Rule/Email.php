@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class Email extends AbstractRule
 {
-
     const MESSAGE = 'This input must be a valid email address';
 
     const LABELED_MESSAGE = '{label} must be a valid email address';

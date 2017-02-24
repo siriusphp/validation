@@ -83,7 +83,7 @@ abstract class AbstractRule
      */
     protected function normalizeOptions($options)
     {
-        if ( ! $options) {
+        if (! $options) {
             return array();
         }
 
@@ -103,7 +103,7 @@ abstract class AbstractRule
             }
         }
 
-        if ( ! is_array($result)) {
+        if (! is_array($result)) {
             throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
         }
 
@@ -156,17 +156,22 @@ abstract class AbstractRule
      */
     protected function parseCsvString($str)
     {
-        if ( ! isset($this->optionsIndexMap) || ! is_array($this->optionsIndexMap) || empty($this->optionsIndexMap)) {
-            throw new \InvalidArgumentException(sprintf('Class %s is missing the `optionsIndexMap` property',
-                get_class($this)));
+        if (! isset($this->optionsIndexMap) || ! is_array($this->optionsIndexMap) || empty($this->optionsIndexMap)) {
+            throw new \InvalidArgumentException(sprintf(
+                'Class %s is missing the `optionsIndexMap` property',
+                get_class($this)
+            ));
         }
 
         $options = explode(',', $str);
         $result  = array();
         foreach ($options as $k => $v) {
-            if ( ! isset($this->optionsIndexMap[$k])) {
-                throw new \InvalidArgumentException(sprintf('Class %s does not have the index %d configured in the `optionsIndexMap` property',
-                    get_class($this), $k));
+            if (! isset($this->optionsIndexMap[$k])) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Class %s does not have the index %d configured in the `optionsIndexMap` property',
+                    get_class($this),
+                    $k
+                ));
             }
             $result[$this->optionsIndexMap[$k]] = $v;
         }
@@ -250,9 +255,10 @@ abstract class AbstractRule
         if (is_array($context)) {
             $context = new ArrayWrapper($context);
         }
-        if ( ! is_object($context) || ! $context instanceof WrapperInterface) {
+        if (! is_object($context) || ! $context instanceof WrapperInterface) {
             throw new \InvalidArgumentException(
-                'Validator context must be either an array or an instance of Sirius\Validator\DataWrapper\WrapperInterface'
+                'Validator context must be either an array or an instance 
+                of Sirius\Validator\DataWrapper\WrapperInterface'
             );
         }
         $this->context = $context;
@@ -299,7 +305,7 @@ abstract class AbstractRule
      *
      * @return mixed
      */
-    abstract function validate($value, $valueIdentifier = null);
+    abstract public function validate($value, $valueIdentifier = null);
 
     /**
      * Sets the error message prototype that will be used when returning the error message
@@ -326,7 +332,7 @@ abstract class AbstractRule
      */
     public function getErrorMessagePrototype()
     {
-        if ( ! $this->errorMessagePrototype) {
+        if (! $this->errorMessagePrototype) {
             $this->errorMessagePrototype = new ErrorMessage();
         }
 
@@ -405,8 +411,11 @@ abstract class AbstractRule
         }
 
         $relatedValueIdentifier = implode('][', $relatedValueIdentifierParts) . ']';
-        $relatedValueIdentifier = str_replace($relatedValueIdentifierParts[0] . ']', $relatedValueIdentifierParts[0],
-            $relatedValueIdentifier);
+        $relatedValueIdentifier = str_replace(
+            $relatedValueIdentifierParts[0] . ']',
+            $relatedValueIdentifierParts[0],
+            $relatedValueIdentifier
+        );
 
         return $relatedValueIdentifier;
     }

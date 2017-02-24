@@ -5,7 +5,6 @@ use Sirius\Validation\ValidatorInterface;
 
 class Validator implements ValidatorInterface
 {
-
     const RULE_REQUIRED = 'required';
 
     const RULE_REQUIRED_WITH = 'requiredwith';
@@ -127,11 +126,11 @@ class Validator implements ValidatorInterface
 
     public function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null)
     {
-        if ( ! $ruleFactory) {
+        if (!$ruleFactory) {
             $ruleFactory = new RuleFactory();
         }
         $this->ruleFactory = $ruleFactory;
-        if ( ! $errorMessagePrototype) {
+        if (!$errorMessagePrototype) {
             $errorMessagePrototype = new ErrorMessage();
         }
         $this->errorMessagePrototype = $errorMessagePrototype;
@@ -172,21 +171,27 @@ class Validator implements ValidatorInterface
     }
 
     /**
-     * @example // add multiple rules at once
-     *          $validator->add(array(
-     *          'field_a' => 'required',
-     *          'field_b' => array('required', array('email', null, '{label} must be an email', 'Field B')),
-     *          ));
-     *          // add multiple rules using arrays
-     *          $validator->add('field', array('required', 'email'));
-     *          // add multiple rules using a string
-     *          $validator->add('field', 'required | email');
-     *          // add validator with options
-     *          $validator->add('field:Label', 'minlength', array('min' => 2), '{label} should have at least {min} characters');
-     *          // add validator with string and parameters as JSON string
-     *          $validator->add('field:Label', 'minlength({"min": 2})({label} should have at least {min} characters)');
-     *          // add validator with string and parameters as query string
-     *          $validator->add('field:label', 'minlength(min=2)({label} should have at least {min} characters)');
+     * @example
+     * // add multiple rules at once
+     * $validator->add(array(
+     *   'field_a' => 'required',
+     *   'field_b' => array('required', array('email', null, '{label} must be an email', 'Field B')),
+     * ));
+     *
+     * // add multiple rules using arrays
+     * $validator->add('field', array('required', 'email'));
+     *
+     * // add multiple rules using a string
+     * $validator->add('field', 'required | email');
+     *
+     * // add validator with options
+     * $validator->add('field:Label', 'minlength', array('min' => 2), '{label} should have at least {min} characters');
+     *
+     * // add validator with string and parameters as JSON string
+     * $validator->add('field:Label', 'minlength({"min": 2})({label} should have at least {min} characters)');
+     *
+     * // add validator with string and parameters as query string
+     * $validator->add('field:label', 'minlength(min=2)({label} should have at least {min} characters)');
      *
      * @param string $selector
      * @param string|callback $name
@@ -202,7 +207,7 @@ class Validator implements ValidatorInterface
     {
         // the $selector is an associative array with $selector => $rules
         if (func_num_args() == 1) {
-            if ( ! is_array($selector)) {
+            if (!is_array($selector)) {
                 throw new \InvalidArgumentException('If $selector is the only argument it must be an array');
             }
 
@@ -228,9 +233,8 @@ class Validator implements ValidatorInterface
     public function addMultiple($selectorRulesCollection)
     {
         foreach ($selectorRulesCollection as $selector => $rules) {
-
             // a single rule was passed for the $valueSelector
-            if ( ! is_array($rules)) {
+            if (! is_array($rules)) {
                 $this->add($selector, $rules);
                 continue;
             }
@@ -269,7 +273,7 @@ class Validator implements ValidatorInterface
      */
     public function remove($selector, $name = true, $options = null)
     {
-        if ( ! array_key_exists($selector, $this->rules)) {
+        if (!array_key_exists($selector, $this->rules)) {
             return $this;
         }
         /* @var $collection \Sirius\Validation\ValueValidator */
@@ -290,7 +294,7 @@ class Validator implements ValidatorInterface
     public function getDataWrapper($data = null)
     {
         // if $data is set reconstruct the data wrapper
-        if ( ! $this->dataWrapper || $data) {
+        if (!$this->dataWrapper || $data) {
             $this->dataWrapper = new DataWrapper\ArrayWrapper($data);
         }
 
@@ -327,7 +331,7 @@ class Validator implements ValidatorInterface
         foreach ($this->rules as $selector => $valueValidator) {
             foreach ($this->getDataWrapper()->getItemsBySelector($selector) as $valueIdentifier => $value) {
                 /* @var $valueValidator \Sirius\Validation\ValueValidator */
-                if ( ! $valueValidator->validate($value, $valueIdentifier, $this->getDataWrapper())) {
+                if (!$valueValidator->validate($value, $valueIdentifier, $this->getDataWrapper())) {
                     foreach ($valueValidator->getMessages() as $message) {
                         $this->addMessage($valueIdentifier, $message);
                     }
@@ -351,7 +355,7 @@ class Validator implements ValidatorInterface
         if ($message === null || $message === '') {
             return $this;
         }
-        if ( ! array_key_exists($item, $this->messages)) {
+        if (!array_key_exists($item, $this->messages)) {
             $this->messages[$item] = array();
         }
         $this->messages[$item][] = $message;
@@ -405,10 +409,12 @@ class Validator implements ValidatorInterface
      */
     protected function ensureSelectorRulesExist($selector, $label = null)
     {
-        if ( ! isset($this->rules[$selector])) {
-            $this->rules[$selector] = new ValueValidator($this->getRuleFactory(), $this->getErroMessagePrototype(),
-                $label);
+        if (!isset($this->rules[$selector])) {
+            $this->rules[$selector] = new ValueValidator(
+                $this->getRuleFactory(),
+                $this->getErroMessagePrototype(),
+                $label
+            );
         }
     }
-
 }

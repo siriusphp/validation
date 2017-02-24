@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class Alpha extends AbstractRule
 {
-
     const MESSAGE = 'This input can contain only letters';
     const LABELED_MESSAGE = '{label} can contain only letters';
 

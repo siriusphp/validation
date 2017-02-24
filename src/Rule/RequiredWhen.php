@@ -14,7 +14,9 @@ class RequiredWhen extends Required
     {
         /* @var $rule AbstractValidator */
         $rule        = false;
-        $ruleOptions = (isset($this->options[self::OPTION_RULE_OPTIONS])) ? (array) $this->options[self::OPTION_RULE_OPTIONS] : array();
+        $ruleOptions = (isset($this->options[self::OPTION_RULE_OPTIONS])) ?
+            (array) $this->options[self::OPTION_RULE_OPTIONS] :
+            array();
 
         if (is_string($this->options[self::OPTION_RULE])) {
             $ruleClass = $this->options[self::OPTION_RULE];
@@ -29,7 +31,7 @@ class RequiredWhen extends Required
         ) {
             $rule = $this->options[self::OPTION_RULE];
         }
-        if ( ! $rule) {
+        if (! $rule) {
             throw new \InvalidArgumentException(
                 'Validator for the other item is not valid or cannot be constructed based on the data provided'
             );
@@ -44,10 +46,9 @@ class RequiredWhen extends Required
     {
         $this->value = $value;
 
-        if ( ! isset($this->options[self::OPTION_ITEM])) {
+        if (! isset($this->options[self::OPTION_ITEM])) {
             $this->success = true;
         } else {
-
             $relatedItemPath  = $this->getRelatedValueIdentifier($valueIdentifier, $this->options[self::OPTION_ITEM]);
             $relatedItemValue = $relatedItemPath !== null ? $this->context->getItemValue($relatedItemPath) : null;
 

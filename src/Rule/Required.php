@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class Required extends AbstractRule
 {
-
     const MESSAGE = 'This field is required';
     const LABELED_MESSAGE = '{label} is required';
 

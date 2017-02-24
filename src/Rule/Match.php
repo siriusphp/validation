@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class Match extends AbstractRule
 {
-
     const OPTION_ITEM = 'item';
 
     const MESSAGE = 'This input does not match {item}';

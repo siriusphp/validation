@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class Regex extends AbstractRule
 {
-
     const OPTION_PATTERN = 'pattern';
 
     const MESSAGE = 'This input does not match the regular expression {pattern}';

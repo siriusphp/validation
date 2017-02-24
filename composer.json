@@ -1,30 +1,44 @@
 {
-    "name": "siriusphp/validation",
-    "description": "Data validation library. Validate arrays, array objects, domain models etc using a simple API. Easily add your own validators on top of the already dozens built-in validation rules",
-    "type": "library",
-    "license": "MIT",
-    "keywords": [
-        "form",
-        "validation",
-        "sanitization",
-        "security",
-        "modeling"
-    ],
-    "authors": [
-        {
-            "name": "Adrian Miu",
-            "email": "adrian@adrianmiu.ro"
-        }
-    ],
-    "require": {
-        "php": ">=5.3"
-    },
-    "require-dev": {
-    	"phpunit/phpunit": "3.7"
-    },
-    "autoload": {
-        "psr-4": {
-            "Sirius\\Validation\\": "src/"
-        }
+  "name": "siriusphp/validation",
+  "description": "Data validation library. Validate arrays, array objects, domain models etc using a simple API. Easily add your own validators on top of the already dozens built-in validation rules",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "form",
+    "validation",
+    "sanitization",
+    "security",
+    "modeling"
+  ],
+  "authors": [
+    {
+      "name": "Adrian Miu",
+      "email": "adrian@adrianmiu.ro"
     }
+  ],
+  "require": {
+    "php": ">=5.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "3.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sirius\\Validation\\": "src/"
+    }
+  },
+  "scripts": {
+    "phpcs": [
+      "php phpcs.phar --standard=PSR2 ./src"
+    ],
+    "phpmd": [
+      "php phpmd.phar ./src xml phpmd.xml"
+    ],
+    "phpcbf": [
+      "php phpcbf.phar ./src --standard=PSR2 -w"
+    ],
+    "phpcsfix": [
+      "php php-cs-fixer.phar fix ./src --rules=@PSR2"
+    ]
+  }
 }

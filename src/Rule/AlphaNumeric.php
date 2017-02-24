@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class AlphaNumeric extends AbstractRule
 {
-
     const MESSAGE = 'This input must contain only letters and digits';
 
     const LABELED_MESSAGE = '{label} must contain only letters and digits';

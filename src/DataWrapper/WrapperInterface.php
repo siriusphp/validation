@@ -22,5 +22,4 @@ interface WrapperInterface
      * @return array
      */
     public function getItemsBySelector($selector);
-
 }

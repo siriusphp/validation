@@ -13,11 +13,13 @@ matrix:
         - php: 5.3
 
 before_script:
+ - wget -c https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
  - composer self-update
  - composer install --prefer-source
 
 script:
   - mkdir -p build/logs
+  - composer run-script phpcs
   - cd tests
   - phpunit
 

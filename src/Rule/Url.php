@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class Url extends AbstractRule
 {
-
     const MESSAGE = 'This input is not a valid URL';
     const LABELED_MESSAGE = '{label} is not a valid URL';
 

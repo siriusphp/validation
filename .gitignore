@@ -8,3 +8,7 @@ composer.lock
 website/
 docs/.couscous
 docs/couscous.phar
+php-cs-fixer.phar
+phpcbf.phar
+phpcs.phar
+phpmd.phar

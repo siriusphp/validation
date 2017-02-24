@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class ArrayLength extends AbstractRule
 {
-
     const OPTION_MIN = 'min';
     const OPTION_MAX = 'max';
 
@@ -29,9 +28,9 @@ class ArrayLength extends AbstractRule
             $minValidator->setOption('min', $this->options['min']);
         }
         $this->success = $minValidator->validate($value, $valueIdentifier) && $maxValidator->validate(
-                $value,
-                $valueIdentifier
-            );
+            $value,
+            $valueIdentifier
+        );
 
         return $this->success;
     }

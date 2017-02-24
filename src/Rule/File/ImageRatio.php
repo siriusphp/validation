@@ -38,7 +38,7 @@ class ImageRatio extends AbstractRule
     {
         $this->value = $value;
         $ratio       = $this->normalizeRatio($this->options[self::OPTION_RATIO]);
-        if ( ! file_exists($value)) {
+        if (! file_exists($value)) {
             $this->success = false;
         } elseif ($ratio == 0) {
             $this->success = true;

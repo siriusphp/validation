@@ -6,7 +6,6 @@ use Sirius\Validation\Rule\AbstractRule;
 
 class Image extends AbstractRule
 {
-
     const OPTION_ALLOWED_IMAGES = 'allowed';
 
     const MESSAGE = 'The file is not a valid image (only {image_types} are allowed)';
@@ -43,7 +42,7 @@ class Image extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if ( ! is_array($value) || ! isset($value['tmp_name']) || ! file_exists($value['tmp_name'])) {
+        if (! is_array($value) || ! isset($value['tmp_name']) || ! file_exists($value['tmp_name'])) {
             $this->success = false;
         } else {
             $imageInfo     = getimagesize($value['tmp_name']);

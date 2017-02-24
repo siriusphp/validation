@@ -27,7 +27,7 @@ class ArrayWrapper implements WrapperInterface
                 $data = $data->toArray();
             }
         }
-        if ( ! is_array($data)) {
+        if (! is_array($data)) {
             throw new \InvalidArgumentException('Data passed to validator is not an array or an ArrayObject');
         }
         $this->data = $data;
@@ -42,5 +42,4 @@ class ArrayWrapper implements WrapperInterface
     {
         return Arr::getBySelector($this->data, $selector);
     }
-
 }

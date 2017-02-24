@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class Callback extends AbstractRule
 {
-
     const OPTION_CALLBACK = 'callback';
 
     const OPTION_ARGUMENTS = 'arguments';
@@ -23,8 +22,8 @@ class Callback extends AbstractRule
                 $uniqueId .= '|' . implode('::', $this->options['callback']);
             } elseif (is_object($this->options['callback'][0])) {
                 $uniqueId .= '|' . spl_object_hash(
-                        $this->options['callback'][0]
-                    ) . '->' . $this->options['callback'][1];
+                    $this->options['callback'][0]
+                ) . '->' . $this->options['callback'][1];
             }
         } elseif (is_object($this->options['callback']) && $this->options['callback'] instanceof \Closure) {
             $uniqueId .= '|' . spl_object_hash($this->options['callback']);
@@ -42,7 +41,7 @@ class Callback extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if ( ! isset($this->options['callback']) || ! is_callable($this->options['callback'])) {
+        if (! isset($this->options['callback']) || ! is_callable($this->options['callback'])) {
             $this->success = true;
         } else {
             $args = (isset($this->options['arguments'])) ? (array) $this->options['arguments'] : array();

@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class LessThan extends AbstractRule
 {
-
     const OPTION_MAX = 'max';
     const OPTION_INCLUSIVE = 'inclusive';
 
@@ -22,7 +21,7 @@ class LessThan extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if ( ! isset($this->options['max'])) {
+        if (! isset($this->options['max'])) {
             $this->success = true;
         } else {
             if ($this->options['inclusive']) {

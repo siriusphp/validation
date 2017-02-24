@@ -4,7 +4,6 @@ namespace Sirius\Validation\Rule;
 
 class InList extends AbstractRule
 {
-
     const OPTION_LIST = 'list';
 
     const MESSAGE = 'This input is not one of the accepted values';
@@ -17,7 +16,7 @@ class InList extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if ( ! isset($this->options['list'])) {
+        if (! isset($this->options['list'])) {
             $this->success = true;
         } else {
             if (is_array($this->options['list'])) {

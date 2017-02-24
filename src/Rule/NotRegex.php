@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class NotRegex extends Regex
 {
-
     const MESSAGE = 'This input should not match the regular expression {pattern}';
     const LABELED_MESSAGE = '{label} Tshould not match the regular expression {pattern}';
 

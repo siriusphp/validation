@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class Integer extends AbstractRule
 {
-
     const MESSAGE = 'This input must be an integer number';
     const LABELED_MESSAGE = '{label} must be an integer number';
 

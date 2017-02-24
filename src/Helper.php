@@ -5,7 +5,6 @@ use Sirius\Validation\Util\Arr;
 
 class Helper
 {
-
     protected static $methods = array();
 
     public static function addMethod($ruleName, $callback)
@@ -199,7 +198,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    public static function in($value, $values)
+    public static function inList($value, $values)
     {
         $validator = new Rule\InList(
             array(
@@ -210,7 +209,7 @@ class Helper
         return $validator->validate($value);
     }
 
-    public static function notIn($value, $values)
+    public static function notInList($value, $values)
     {
         $validator = new Rule\NotInList(
             array(
@@ -306,7 +305,7 @@ class Helper
      *
      * @return bool
      */
-    public static function ip($value)
+    public static function ipAddress($value)
     {
         $validator = new Rule\IpAddress();
 

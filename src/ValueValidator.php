@@ -43,13 +43,16 @@ class ValueValidator
     protected $label;
 
 
-    function __construct(RuleFactory $ruleFactory = null, ErrorMessage $errorMessagePrototype = null, $label = null)
-    {
-        if ( ! $ruleFactory) {
+    public function __construct(
+        RuleFactory $ruleFactory = null,
+        ErrorMessage $errorMessagePrototype = null,
+        $label = null
+    ) {
+        if (!$ruleFactory) {
             $ruleFactory = new RuleFactory();
         }
         $this->ruleFactory = $ruleFactory;
-        if ( ! $errorMessagePrototype) {
+        if (!$errorMessagePrototype) {
             $errorMessagePrototype = new ErrorMessage();
         }
         $this->errorMessagePrototype = $errorMessagePrototype;
@@ -69,19 +72,24 @@ class ValueValidator
     /**
      * Add 1 or more validation rules
      *
-     * @example // add multiple rules at once
-     *          $validator->add(array(
-     *          'required',
-     *          array('required', array('email', null, '{label} must be an email', 'Field B')),
-     *          ));
-     *          // add multiple rules using a string
-     *          $validator->add('required | email');
-     *          // add validator with options
-     *          $validator->add('minlength', array('min' => 2), '{label} should have at least {min} characters', 'Field label');
-     *          // add validator with string and parameters as JSON string
-     *          $validator->add('minlength({"min": 2})({label} should have at least {min} characters)(Field label)');
-     *          // add validator with string and parameters as query string
-     *          $validator->add('minlength(min=2)({label} should have at least {min} characters)(Field label)');
+     * @example
+     * // add multiple rules at once
+     * $validator->add(array(
+     *   'required',
+     *   array('required', array('email', null, '{label} must be an email', 'Field B')),
+     * ));
+     *
+     * // add multiple rules using a string
+     * $validator->add('required | email');
+     *
+     * // add validator with options
+     * $validator->add('minlength', array('min' => 2), '{label} should have at least {min} characters', 'Field label');
+     *
+     * // add validator with string and parameters as JSON string
+     * $validator->add('minlength({"min": 2})({label} should have at least {min} characters)(Field label)');
+     *
+     * // add validator with string and parameters as query string
+     * $validator->add('minlength(min=2)({label} should have at least {min} characters)(Field label)');
      *
      * @param string|callback $name
      * @param string|array $options
@@ -92,7 +100,7 @@ class ValueValidator
      */
     public function add($name, $options = null, $messageTemplate = null, $label = null)
     {
-        if (is_array($name) && ! is_callable($name)) {
+        if (is_array($name) && !is_callable($name)) {
             return $this->addMultiple($name);
         }
         if (is_string($name)) {
@@ -102,12 +110,12 @@ class ValueValidator
             }
             // rule was supplied like this 'length(2,10)(error message template)(label)'
             if (strpos($name, '(') !== false) {
-                list ($name, $options, $messageTemplate, $label) = $this->parseRule($name);
+                list($name, $options, $messageTemplate, $label) = $this->parseRule($name);
             }
         }
 
         // check for the default label
-        if ( ! $label && $this->label) {
+        if (!$label && $this->label) {
             $label = $this->label;
         }
 
@@ -240,14 +248,14 @@ class ValueValidator
             }
         }
 
-        if ( ! $isRequired && $value === null) {
+        if (!$isRequired && $value === null) {
             return true;
         }
 
         /* @var $rule \Sirius\Validation\Rule\AbstractValidator */
         foreach ($this->rules as $rule) {
             $rule->setContext($context);
-            if ( ! $rule->validate($value, $valueIdentifier)) {
+            if (!$rule->validate($value, $valueIdentifier)) {
                 $this->addMessage($rule->getMessage());
             }
             // if field is required and we have an error,
@@ -276,5 +284,4 @@ class ValueValidator
     {
         return $this->rules;
     }
-
 }

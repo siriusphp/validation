@@ -28,7 +28,7 @@ class RuleFactory
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
         $this->registerDefaultRules();
     }
@@ -139,8 +139,8 @@ class RuleFactory
         $validator = $this->construcRuleByNameAndOptions($name, $options);
 
         // no message template, try to get it from the registry
-        if ( ! $messageTemplate) {
-            $messageTemplate = $this->getSuggestedMessageTemplate($name, ! ! $label);
+        if (!$messageTemplate) {
+            $messageTemplate = $this->getSuggestedMessageTemplate($name, !!$label);
         }
 
         if (is_string($messageTemplate) && $messageTemplate !== '') {
@@ -187,7 +187,9 @@ class RuleFactory
     {
         $noLabelMessage = is_string($name) && isset($this->errorMessages[$name]) ? $this->errorMessages[$name] : null;
         if ($withLabel) {
-            return is_string($name) && isset($this->labeledErrorMessages[$name]) ? $this->labeledErrorMessages[$name] : $noLabelMessage;
+            return is_string($name) && isset($this->labeledErrorMessages[$name]) ?
+                $this->labeledErrorMessages[$name] :
+                $noLabelMessage;
         }
 
         return $noLabelMessage;
@@ -224,7 +226,7 @@ class RuleFactory
             }
         }
 
-        if ( ! isset($validator)) {
+        if (!isset($validator)) {
             throw new \InvalidArgumentException(
                 sprintf('Impossible to determine the validator based on the name: %s', (string) $name)
             );
@@ -232,5 +234,4 @@ class RuleFactory
 
         return $validator;
     }
-
 }

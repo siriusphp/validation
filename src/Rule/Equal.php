@@ -3,7 +3,6 @@ namespace Sirius\Validation\Rule;
 
 class Equal extends AbstractRule
 {
-
     const OPTION_VALUE = 'value';
 
     const MESSAGE = 'This input is not equal to {value}';
