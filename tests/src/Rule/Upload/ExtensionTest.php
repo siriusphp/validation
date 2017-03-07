@@ -24,6 +24,18 @@ class ExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
+    function testNoUpload()
+    {
+        $file     = array(
+            'name'     => 'not_required',
+            'type'     => 'not_required',
+            'size'     => 'not_required',
+            'tmp_name' => 'not_required',
+            'error'    => UPLOAD_ERR_NO_FILE
+        );
+        $this->assertTrue($this->validator->validate($file));
+    }
+
     function testMissingFiles()
     {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));

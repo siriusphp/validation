@@ -1,13 +1,20 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Gumacs
+ * Date: 2017. 03. 07.
+ * Time: 16:05
+ */
 
 namespace Sirius\Validation\Rule\Upload;
 
-class ImageHeightTest extends \PHPUnit_Framework_TestCase
+
+class RequiredTest extends \PHPUnit_Framework_TestCase
 {
 
     function setUp()
     {
-        $this->validator = new ImageHeight(array( 'min' => 400 ));
+        $this->validator = new Required();
     }
 
     function testMissingFiles()
@@ -23,6 +30,32 @@ class ImageHeightTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->validator->validate($file));
     }
 
+    function testUploadOk()
+    {
+        $fileName = 'real_jpeg_file.jpg';
+        $file     = array(
+            'name'     => $fileName,
+            'type'     => 'not_required',
+            'size'     => 'not_required',
+            'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
+            'error'    => UPLOAD_ERR_OK
+        );
+        $this->assertTrue($this->validator->validate($file));
+    }
+
+    function testUploadNotOk()
+    {
+        $fileName = 'real_jpeg_file.jpg';
+        $file     = array(
+            'name'     => $fileName,
+            'type'     => 'not_required',
+            'size'     => 'not_required',
+            'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
+            'error'    => UPLOAD_ERR_PARTIAL
+        );
+        $this->assertFalse($this->validator->validate($file));
+    }
+
     function testNoUpload()
     {
         $file     = array(
@@ -32,7 +65,7 @@ class ImageHeightTest extends \PHPUnit_Framework_TestCase
             'tmp_name' => 'not_required',
             'error'    => UPLOAD_ERR_NO_FILE
         );
-        $this->assertTrue($this->validator->validate($file));
+        $this->assertFalse($this->validator->validate($file));
     }
 
     function testFile()
@@ -46,20 +79,5 @@ class ImageHeightTest extends \PHPUnit_Framework_TestCase
             'error'    => UPLOAD_ERR_OK
         );
         $this->assertTrue($this->validator->validate($file));
-
-        $fileName = 'square_image.gif';
-        $file     = array(
-            'name'     => $fileName,
-            'type'     => 'not_required',
-            'size'     => 'not_required',
-            'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error'    => UPLOAD_ERR_OK
-        );
-        $this->assertFalse($this->validator->validate($file));
-
-        // change minimum
-        $this->validator->setOption(ImageHeight::OPTION_MIN, 200);
-        $this->assertTrue($this->validator->validate($file));
     }
-
 }
