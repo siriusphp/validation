@@ -23,6 +23,18 @@ class ImageWidthTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->validator->validate($file));
     }
 
+    function testNoUpload()
+    {
+        $file     = array(
+            'name'     => 'not_required',
+            'type'     => 'not_required',
+            'size'     => 'not_required',
+            'tmp_name' => 'not_required',
+            'error'    => UPLOAD_ERR_NO_FILE
+        );
+        $this->assertTrue($this->validator->validate($file));
+    }
+
     function testFile()
     {
         $fileName = 'real_jpeg_file.jpg';

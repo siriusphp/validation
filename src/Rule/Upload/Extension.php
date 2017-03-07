@@ -32,8 +32,14 @@ class Extension extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (! is_array($value) || ! isset($value['tmp_name']) || ! file_exists($value['tmp_name'])) {
+        if (! is_array($value) || ! isset($value['tmp_name'])) {
             $this->success = false;
+        } else if(! file_exists($value['tmp_name'])) {
+            if($value['error'] === UPLOAD_ERR_NO_FILE ){
+                $this->success = true;
+            }else{
+                $this->success = false;
+            }
         } else {
             $extension     = strtolower(substr($value['name'], strrpos($value['name'], '.') + 1, 10));
             $this->success = is_array($this->options[self::OPTION_ALLOWED_EXTENSIONS]) && in_array(

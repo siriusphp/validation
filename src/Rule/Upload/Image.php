@@ -42,8 +42,14 @@ class Image extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (! is_array($value) || ! isset($value['tmp_name']) || ! file_exists($value['tmp_name'])) {
+        if (! is_array($value) || ! isset($value['tmp_name'])) {
             $this->success = false;
+        } else if(! file_exists($value['tmp_name'])) {
+            if($value['error'] === UPLOAD_ERR_NO_FILE ){
+                $this->success = true;
+            }else{
+                $this->success = false;
+            }
         } else {
             $imageInfo     = getimagesize($value['tmp_name']);
             $extension     = isset($this->imageTypesMap[$imageInfo[2]]) ? $this->imageTypesMap[$imageInfo[2]] : false;
