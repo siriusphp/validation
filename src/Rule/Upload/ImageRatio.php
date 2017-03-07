@@ -40,13 +40,9 @@ class ImageRatio extends AbstractRule
         $ratio       = $this->normalizeRatio($this->options[self::OPTION_RATIO]);
         if (! is_array($value) || ! isset($value['tmp_name'])) {
             $this->success = false;
-        } else if(! file_exists($value['tmp_name'])) {
-            if($value['error'] === UPLOAD_ERR_NO_FILE ){
-                $this->success = true;
-            }else{
-                $this->success = false;
-            }
-        } else if ($ratio == 0) {
+        } elseif (! file_exists($value['tmp_name'])) {
+            $this->success = $value['error'] === UPLOAD_ERR_NO_FILE;
+        } elseif ($ratio == 0) {
             $this->success = true;
         } else {
             $imageInfo     = getimagesize($value['tmp_name']);

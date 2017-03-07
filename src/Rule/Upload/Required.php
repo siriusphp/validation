@@ -8,7 +8,6 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-
 use Sirius\Validation\Rule\AbstractRule;
 
 class Required extends AbstractRule
@@ -20,7 +19,8 @@ class Required extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value = $value;
-        if (! is_array($value) || ! isset($value['tmp_name']) || ! file_exists($value['tmp_name']) || $value['error'] !== UPLOAD_ERR_OK) {
+        if (! is_array($value) || ! isset($value['tmp_name']) ||
+            ! file_exists($value['tmp_name']) || $value['error'] !== UPLOAD_ERR_OK) {
             $this->success = false;
         } else {
             $this->success = true;

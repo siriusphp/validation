@@ -79,6 +79,7 @@ class RuleFactory
             'File\ImageRatio',
             'File\ImageWidth',
             'File\Size',
+            'Upload\Required',
             'Upload\Extension',
             'Upload\Image',
             'Upload\ImageHeight',
