@@ -1,3 +1,8 @@
+#### 2.2.0
+
+- added `Upload\Required` rule
+- fixed upload validators when the upload was not successful
+
 #### 2.0.0
 
 - added the `data_selector:label` feature
