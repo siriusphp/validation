@@ -242,15 +242,13 @@ class ValueValidator
         $this->messages = array();
         $isRequired     = false;
 
-        /* @var $rule \Sirius\Validation\Rule\AbstractValidator */
         // evaluate the required rules
+        /* @var $rule \Sirius\Validation\Rule\AbstractValidator */
         foreach ($this->rules as $rule) {
             if ($rule instanceof Rule\Required) {
                 $isRequired = true;
 
-                $rule->setContext($context);
-                if (!$rule->validate($value, $valueIdentifier)) {
-                    $this->addMessage($rule->getMessage());
+                if (!$this->validateRule($rule, $value, $valueIdentifier, $context)) {
                     return false;
                 }
             }
@@ -264,10 +262,8 @@ class ValueValidator
         // evaluate the non-required rules
         foreach ($this->rules as $rule) {
             if (!($rule instanceof Rule\Required)) {
-                $rule->setContext($context);
-                if (!$rule->validate($value, $valueIdentifier)) {
-                    $this->addMessage($rule->getMessage());
-                }
+                $this->validateRule($rule, $value, $valueIdentifier, $context);
+
                 // if field is required and we have an error,
                 // do not continue with the rest of rules
                 if ($isRequired && count($this->messages)) {
@@ -277,6 +273,16 @@ class ValueValidator
         }
 
         return count($this->messages) === 0;
+    }
+
+    private function validateRule($rule, $value, $valueIdentifier, $context)
+    {
+        $rule->setContext($context);
+        if (!$rule->validate($value, $valueIdentifier)) {
+            $this->addMessage($rule->getMessage());
+            return false;
+        }
+        return true;
     }
 
     public function getMessages()
