@@ -241,27 +241,38 @@ class ValueValidator
     {
         $this->messages = array();
         $isRequired     = false;
+
+        /* @var $rule \Sirius\Validation\Rule\AbstractValidator */
+        // evaluate the required rules
         foreach ($this->rules as $rule) {
             if ($rule instanceof Rule\Required) {
                 $isRequired = true;
-                break;
+
+                $rule->setContext($context);
+                if (!$rule->validate($value, $valueIdentifier)) {
+                    $this->addMessage($rule->getMessage());
+                    return false;
+                }
             }
         }
 
-        if (!$isRequired && $value === null) {
+        // avoid future rule evaluations if value is null
+        if ($value === null) {
             return true;
         }
 
-        /* @var $rule \Sirius\Validation\Rule\AbstractValidator */
+        // evaluate the non-required rules
         foreach ($this->rules as $rule) {
-            $rule->setContext($context);
-            if (!$rule->validate($value, $valueIdentifier)) {
-                $this->addMessage($rule->getMessage());
-            }
-            // if field is required and we have an error,
-            // do not continue with the rest of rules
-            if ($isRequired && count($this->messages)) {
-                break;
+            if (!($rule instanceof Rule\Required)) {
+                $rule->setContext($context);
+                if (!$rule->validate($value, $valueIdentifier)) {
+                    $this->addMessage($rule->getMessage());
+                }
+                // if field is required and we have an error,
+                // do not continue with the rest of rules
+                if ($isRequired && count($this->messages)) {
+                    break;
+                }
             }
         }
 
