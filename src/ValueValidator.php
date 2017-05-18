@@ -241,31 +241,48 @@ class ValueValidator
     {
         $this->messages = array();
         $isRequired     = false;
+
+        // evaluate the required rules
+        /* @var $rule \Sirius\Validation\Rule\AbstractValidator */
         foreach ($this->rules as $rule) {
             if ($rule instanceof Rule\Required) {
                 $isRequired = true;
-                break;
+
+                if (!$this->validateRule($rule, $value, $valueIdentifier, $context)) {
+                    return false;
+                }
             }
         }
 
-        if (!$isRequired && $value === null) {
+        // avoid future rule evaluations if value is null
+        if ($value === null) {
             return true;
         }
 
-        /* @var $rule \Sirius\Validation\Rule\AbstractValidator */
+        // evaluate the non-required rules
         foreach ($this->rules as $rule) {
-            $rule->setContext($context);
-            if (!$rule->validate($value, $valueIdentifier)) {
-                $this->addMessage($rule->getMessage());
-            }
-            // if field is required and we have an error,
-            // do not continue with the rest of rules
-            if ($isRequired && count($this->messages)) {
-                break;
+            if (!($rule instanceof Rule\Required)) {
+                $this->validateRule($rule, $value, $valueIdentifier, $context);
+
+                // if field is required and we have an error,
+                // do not continue with the rest of rules
+                if ($isRequired && count($this->messages)) {
+                    break;
+                }
             }
         }
 
         return count($this->messages) === 0;
+    }
+
+    private function validateRule($rule, $value, $valueIdentifier, $context)
+    {
+        $rule->setContext($context);
+        if (!$rule->validate($value, $valueIdentifier)) {
+            $this->addMessage($rule->getMessage());
+            return false;
+        }
+        return true;
     }
 
     public function getMessages()

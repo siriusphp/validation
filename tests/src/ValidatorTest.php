@@ -281,4 +281,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, count($this->validator->getMessages()));
     }
 
+    function testValidationRequireConditional()
+    {
+        $this->validator->add(array(
+            'a' => array( 'number', 'requiredWith(b)' ),
+            'b' => array( 'number', 'requiredWith(a)' )
+        ));
+        $this->assertTrue($this->validator->validate(array()));
+    }
 }
