@@ -53,4 +53,11 @@ class ImageRatioTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
+    function testFileNotAnImage()
+    {
+        $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
+        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'corrupt_image.jpg';
+        $this->assertFalse($this->validator->validate($file));
+    }
+
 }
