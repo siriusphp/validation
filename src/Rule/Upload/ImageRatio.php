@@ -47,7 +47,7 @@ class ImageRatio extends AbstractRule
         } else {
             $imageInfo     = getimagesize($value['tmp_name']);
 
-            if($imageInfo) {
+            if ($imageInfo) {
                 $actualRatio   = $imageInfo[0] / $imageInfo[1];
                 $this->success = abs($actualRatio - $ratio) <= $this->options[self::OPTION_ERROR_MARGIN];
             } else {
