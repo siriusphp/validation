@@ -44,8 +44,14 @@ class ImageRatio extends AbstractRule
             $this->success = true;
         } else {
             $imageInfo     = getimagesize($value);
-            $actualRatio   = $imageInfo[0] / $imageInfo[1];
-            $this->success = abs($actualRatio - $ratio) <= $this->options[self::OPTION_ERROR_MARGIN];
+
+            if (is_array($imageInfo)) {
+                $actualRatio   = $imageInfo[0] / $imageInfo[1];
+                $this->success = abs($actualRatio - $ratio) <= $this->options[self::OPTION_ERROR_MARGIN];
+            } else {
+                // no image size computed => no valid image
+                return $this->success = false;
+            }
         }
 
         return $this->success;
