@@ -90,7 +90,7 @@ abstract class AbstractRule
      */
     protected function normalizeOptions($options)
     {
-        if ('0' !== $options && ! $options) {
+        if (! $options) {
             return array();
         }
 
@@ -99,7 +99,7 @@ abstract class AbstractRule
         }
 
         $result = $options;
-        if (is_string($options) && '' !== $options) {
+        if ($options && is_string($options)) {
             $startChar = substr($options, 0, 1);
             if ($startChar == '{') {
                 $result = json_decode($options, true);
@@ -264,7 +264,7 @@ abstract class AbstractRule
         }
         if (! is_object($context) || ! $context instanceof WrapperInterface) {
             throw new \InvalidArgumentException(
-                'Validator context must be either an array or an instance
+                'Validator context must be either an array or an instance 
                 of Sirius\Validator\DataWrapper\WrapperInterface'
             );
         }
