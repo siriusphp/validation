@@ -42,4 +42,10 @@ class GreaterThanTest extends \PHPUnit_Framework_TestCase
         $this->rule = new Rule('min=0');
         $this->assertSame('0', $this->rule->getOption('min'));
     }
+
+    function testConstructWithMinValueZeroCvsFormat()
+    {
+        $this->rule = new Rule('0');
+        $this->assertSame('0', $this->rule->getOption('min'));
+    }
 }
