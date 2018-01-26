@@ -90,6 +90,9 @@ abstract class AbstractRule
      */
     protected function normalizeOptions($options)
     {
+        if ('0' === $options && count($this->optionsIndexMap) > 0) {
+            $options = array($this->optionsIndexMap[0] => '0');
+        }
         if (! $options) {
             return array();
         }
@@ -264,7 +267,7 @@ abstract class AbstractRule
         }
         if (! is_object($context) || ! $context instanceof WrapperInterface) {
             throw new \InvalidArgumentException(
-                'Validator context must be either an array or an instance 
+                'Validator context must be either an array or an instance
                 of Sirius\Validator\DataWrapper\WrapperInterface'
             );
         }

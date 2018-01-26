@@ -12,6 +12,12 @@ class GreaterThanTest extends \PHPUnit_Framework_TestCase
         $this->rule = new Rule();
     }
 
+    function testDefaultOptions()
+    {
+        $this->assertNull($this->rule->getOption('min'));
+        $this->assertTrue($this->rule->getOption('inclusive'));
+    }
+
     function testExclusiveValidation()
     {
         $this->rule->setOption('inclusive', false);
@@ -22,5 +28,24 @@ class GreaterThanTest extends \PHPUnit_Framework_TestCase
     function testValidationWithoutALimit()
     {
         $this->assertTrue($this->rule->validate(0));
+    }
+
+    function testConstructCvsFormatMinZeroAndInclusiveFalse()
+    {
+        $this->rule = new Rule('0,false');
+        $this->assertSame('0', $this->rule->getOption('min'));
+        $this->assertSame(false, $this->rule->getOption('inclusive'));
+    }
+
+    function testConstructWithMinValueZeroQueryStringFormat()
+    {
+        $this->rule = new Rule('min=0');
+        $this->assertSame('0', $this->rule->getOption('min'));
+    }
+
+    function testConstructWithMinValueZeroCvsFormat()
+    {
+        $this->rule = new Rule('0');
+        $this->assertSame('0', $this->rule->getOption('min'));
     }
 }
