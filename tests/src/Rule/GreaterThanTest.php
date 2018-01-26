@@ -12,6 +12,12 @@ class GreaterThanTest extends \PHPUnit_Framework_TestCase
         $this->rule = new Rule();
     }
 
+    function testDefaultOptions()
+    {
+        $this->assertNull($this->rule->getOption('min'));
+        $this->assertTrue($this->rule->getOption('inclusive'));
+    }
+
     function testExclusiveValidation()
     {
         $this->rule->setOption('inclusive', false);
