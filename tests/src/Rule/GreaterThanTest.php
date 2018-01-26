@@ -29,4 +29,11 @@ class GreaterThanTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->rule->validate(0));
     }
+
+    function testConstructCvsFormatMinZeroAndInclusiveFalse()
+    {
+        $this->rule = new Rule('0,false');
+        $this->assertSame('0', $this->rule->getOption('min'));
+        $this->assertSame(false, $this->rule->getOption('inclusive'));
+    }
 }
