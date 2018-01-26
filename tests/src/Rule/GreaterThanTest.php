@@ -36,4 +36,10 @@ class GreaterThanTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('0', $this->rule->getOption('min'));
         $this->assertSame(false, $this->rule->getOption('inclusive'));
     }
+
+    function testConstructWithMinValueZeroQueryStringFormat()
+    {
+        $this->rule = new Rule('min=0');
+        $this->assertSame('0', $this->rule->getOption('min'));
+    }
 }
