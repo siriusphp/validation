@@ -91,7 +91,7 @@ abstract class AbstractRule
     protected function normalizeOptions($options)
     {
         if ('0' === $options && count($this->optionsIndexMap) > 0) {
-            $options = [$this->optionsIndexMap[0] => '0'];
+            $options = array($this->optionsIndexMap[0] => '0');
         }
         if (! $options) {
             return array();
