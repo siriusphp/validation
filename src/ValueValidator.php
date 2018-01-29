@@ -217,7 +217,7 @@ class ValueValidator
         preg_match_all('/\(([^\)]*)\)/', $ruleAsString, $matches);
 
         if (isset($matches[1])) {
-            if (isset($matches[1][0]) && $matches[1][0]) {
+            if (isset($matches[1][0]) && $matches[1][0] !== '') {
                 $options = $matches[1][0];
             }
             if (isset($matches[1][1]) && $matches[1][1]) {
