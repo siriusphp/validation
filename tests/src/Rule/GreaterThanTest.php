@@ -30,7 +30,7 @@ class GreaterThanTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->rule->validate(0));
     }
 
-    function testConstructCvsFormatMinZeroAndInclusiveFalse()
+    function testConstructCsvFormatMinZeroAndInclusiveFalse()
     {
         $this->rule = new Rule('0,false');
         $this->assertSame('0', $this->rule->getOption('min'));
@@ -43,7 +43,7 @@ class GreaterThanTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('0', $this->rule->getOption('min'));
     }
 
-    function testConstructWithMinValueZeroCvsFormat()
+    function testConstructWithMinValueZeroCsvFormat()
     {
         $this->rule = new Rule('0');
         $this->assertSame('0', $this->rule->getOption('min'));

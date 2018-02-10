@@ -1,8 +1,14 @@
 <?php
 namespace Sirius\Validation;
 
+use Sirius\Validation\Rule\GreaterThan;
+
 class ValueValidatorTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var ValueValidator
+     */
+    private $validator;
 
     function setUp()
     {
@@ -63,5 +69,25 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array(
             'Item should have at least 4 characters'
         ), $this->validator->getMessages());
+    }
+
+    function testParseRuleWithZeroValueInCsvFormat()
+    {
+        $this->validator->add('GreaterThan(0)');
+        /** @var GreaterThan $rule */
+        foreach ($this->validator->getRules() as $rule) {
+            break;
+        }
+
+        $this->assertSame('0', $rule->getOption('min'));
+
+        $this->validator->validate(1);
+        $this->assertEmpty($this->validator->getMessages());
+
+        $this->validator->validate(0);
+        $this->assertEmpty($this->validator->getMessages());
+
+        $this->validator->validate(-1);
+        $this->assertNotEmpty($this->validator->getMessages());
     }
 }
