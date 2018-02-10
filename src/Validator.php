@@ -194,7 +194,7 @@ class Validator implements ValidatorInterface
      * // add validator with string and parameters as query string
      * $validator->add('field:label', 'minlength(min=2)({label} should have at least {min} characters)');
      *
-     * @param string $selector
+     * @param string|array $selector
      * @param string|callback $name
      * @param string|array $options
      * @param string $messageTemplate
