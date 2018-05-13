@@ -254,8 +254,8 @@ class ValueValidator
             }
         }
 
-        // avoid future rule evaluations if value is null
-        if ($value === null) {
+        // avoid future rule evaluations if value is null or empty string
+        if ($this->isEmpty($value)) {
             return true;
         }
 
@@ -300,5 +300,10 @@ class ValueValidator
     public function getRules()
     {
         return $this->rules;
+    }
+
+    protected function isEmpty($value)
+    {
+        return in_array($value, [null, '']);
     }
 }

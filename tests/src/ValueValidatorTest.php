@@ -58,6 +58,7 @@ class ValueValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->validator->add('email');
         $this->assertTrue($this->validator->validate(null));
+        $this->assertTrue($this->validator->validate(''));
     }
 
     function testDefaultLabel()
