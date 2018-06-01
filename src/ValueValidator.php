@@ -304,6 +304,6 @@ class ValueValidator
 
     protected function isEmpty($value)
     {
-        return in_array($value, [null, '']);
+        return in_array($value, array(null, ''));
     }
 }
