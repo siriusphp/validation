@@ -12,7 +12,7 @@ Sirius Validation is a library for data validation. It offers:
 
 1. [validator object](validator.md)
 2. [45 build-in validation rules](validation_rules.md). There are validators for strings, array, numbers, emails, URLs, files and uploads
-3. [validation helper](helper.md) to simplify the validation of single values
+3. [validation helper](validation_helper.md) to simplify the validation of single values
 
 Out-of-the-box, the library can handle `array`s, `ArrayObject`s and objects that have implemented the `toArray` method.
 In order to validate other data containers you must create a [`DataWrapper`](https://github.com/siriusphp/validation/blob/master/src/Validation/DataWrapper/WrapperInterface.php) so that the validator be able to extract data from your object.
