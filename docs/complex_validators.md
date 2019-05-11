@@ -15,7 +15,7 @@ In this case, they cannot be registered as classes on the [rule factory](rule_fa
 
 ```
 namespace MyApp\Validation\Rule;
-use Sirius\Validation\Validator\AbstractRule;
+use Latinosoft\Validation\Validator\AbstractRule;
 
 class UniqueUsername extends AbstractRule{
 	
@@ -57,7 +57,7 @@ $validator->add('username', array($UniqueUsername, 'validate'));
 
 ```
 namespace MyApp\Validation\Rule;
-use Sirius\Validation\Validator\AbstractRule;
+use Latinosoft\Validation\Validator\AbstractRule;
 
 class UniqueUsername extends AbstractRule{
 	
@@ -90,7 +90,7 @@ The example below does not use a real-life implementation, it's just food for th
 ```php
 namespace MyApp\Validation;
 
-class RuleFactory extends \Sirius\Validation\RuleFactory {
+class RuleFactory extends \Latinosoft\Validation\RuleFactory {
 	
 	protected $dic;
 
@@ -132,7 +132,7 @@ $container->set('MyApp\Validation\Rule\UniqueUsername', function($options) use (
 You must make sure that your validation uses the proper `RuleFactory`
 
 ```php
-use Sirius\Validation\Validator;
+use Latinosoft\Validation\Validator;
 
 $validator = new Validator($container->get('RuleFactory'));
 $validator->add('username', 'MyApp\Validation\Rule\UniqueUsername');

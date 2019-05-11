@@ -1,11 +1,11 @@
 <?php
 
-namespace Sirius\Validation\Rule\Upload;
+namespace Latinosoft\Validation\Rule\Upload;
 
-class ExtensionTest extends \PHPUnit_Framework_TestCase
+class ExtensionTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->validator = new Extension();
     }

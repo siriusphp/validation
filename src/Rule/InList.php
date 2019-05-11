@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
 class InList extends AbstractRule
 {

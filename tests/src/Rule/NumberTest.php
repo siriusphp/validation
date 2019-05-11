@@ -1,13 +1,13 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\Rule\Number as Rule;
+use Latinosoft\Validation\Rule\Number as Rule;
 
-class NumberTest extends \PHPUnit_Framework_TestCase
+class NumberTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new Rule();
     }

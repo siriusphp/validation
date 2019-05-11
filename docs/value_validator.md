@@ -5,7 +5,7 @@ You can use the [validation helper](validation_helper.md) to validate single val
 If you need to validate a single value and also retrieve the error message you can use `ValueValidator` class
 
 ```php
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
 
 // Set up the validator.
 // If the constructor parameters are not provided they will be created from defaults

@@ -1,5 +1,5 @@
 <?php
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
 class Website extends AbstractRule
 {
@@ -14,8 +14,7 @@ class Website extends AbstractRule
         $this->success = (substr($value, 0, 2) == '//')
                         || (preg_match(static::WEBSITE_REGEX, $value) && filter_var(
                             $value,
-                            FILTER_VALIDATE_URL,
-                            FILTER_FLAG_HOST_REQUIRED
+                            FILTER_VALIDATE_URL
                         ));
 
         return $this->success;

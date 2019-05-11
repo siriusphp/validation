@@ -1,11 +1,11 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\DataWrapper\ArrayWrapper;
-use Sirius\Validation\Rule\RequiredWithout as Rule;
+use Latinosoft\Validation\DataWrapper\ArrayWrapper;
+use Latinosoft\Validation\Rule\RequiredWithout as Rule;
 
-class RequiredWithoutTest extends \PHPUnit_Framework_TestCase
+class RequiredWithoutTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -13,7 +13,7 @@ class RequiredWithoutTest extends \PHPUnit_Framework_TestCase
      */
     protected $rule;
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new Rule();
         $this->rule->setContext(

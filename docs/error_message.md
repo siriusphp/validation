@@ -4,7 +4,7 @@ title: The validation error messages
 
 # The validation error messages
 
-The [validator object](validator.md) does not return the validation errors as strings but as instances of the `Sirius\Validation\ErrorMessage` class.
+The [validator object](validator.md) does not return the validation errors as strings but as instances of the `Latinosoft\Validation\ErrorMessage` class.
 
 The reasons for this are:
 
@@ -21,4 +21,4 @@ The error message has
 
 The variables are 'injected' into the resulting string through `str_replace`-ing the variables name inside brackets with their values (eg: `{min}` is replaced by `10`);
 
-The Sirius\Validation library doesn't use a specific implementation for translating the error messages but we have a [recipe](translate_messages.md) for that.
+The Latinosoft\Validation library doesn't use a specific implementation for translating the error messages but we have a [recipe](translate_messages.md) for that.

@@ -1,7 +1,7 @@
 <?php
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
 
-use Sirius\Validation\ValidatorInterface;
+use Latinosoft\Validation\ValidatorInterface;
 
 class Validator implements ValidatorInterface
 {
@@ -109,7 +109,7 @@ class Validator implements ValidatorInterface
     protected $messages = array();
 
     /**
-     * @var \Sirius\Validation\RuleFactory
+     * @var \Latinosoft\Validation\RuleFactory
      */
     protected $ruleFactory;
 
@@ -121,7 +121,7 @@ class Validator implements ValidatorInterface
     /**
      * The object that will contain the data
      *
-     * @var \Sirius\Validation\DataWrapper\WrapperInterface
+     * @var \Latinosoft\Validation\DataWrapper\WrapperInterface
      */
     protected $dataWrapper;
 
@@ -140,7 +140,7 @@ class Validator implements ValidatorInterface
     /**
      * Retrieve the rule factory
      *
-     * @return \Sirius\Validation\RuleFactory
+     * @return \Latinosoft\Validation\RuleFactory
      */
     public function getRuleFactory()
     {
@@ -152,7 +152,7 @@ class Validator implements ValidatorInterface
      *
      * @throws \InvalidArgumentException
      *
-     * @return \Sirius\Validation\Rule\AbstractValidator
+     * @return \Latinosoft\Validation\Rule\AbstractValidator
      */
     public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
     {
@@ -277,7 +277,7 @@ class Validator implements ValidatorInterface
         if (!array_key_exists($selector, $this->rules)) {
             return $this;
         }
-        /* @var $collection \Sirius\Validation\ValueValidator */
+        /* @var $collection \Latinosoft\Validation\ValueValidator */
         $collection = $this->rules[$selector];
         $collection->remove($name, $options);
 
@@ -290,7 +290,7 @@ class Validator implements ValidatorInterface
      *
      * @param mixed $data
      *
-     * @return \Sirius\Validation\DataWrapper\WrapperInterface
+     * @return \Latinosoft\Validation\DataWrapper\WrapperInterface
      */
     public function getDataWrapper($data = null)
     {
@@ -331,7 +331,7 @@ class Validator implements ValidatorInterface
         }
         foreach ($this->rules as $selector => $valueValidator) {
             foreach ($this->getDataWrapper()->getItemsBySelector($selector) as $valueIdentifier => $value) {
-                /* @var $valueValidator \Sirius\Validation\ValueValidator */
+                /* @var $valueValidator \Latinosoft\Validation\ValueValidator */
                 if (!$valueValidator->validate($value, $valueIdentifier, $this->getDataWrapper())) {
                     foreach ($valueValidator->getMessages() as $message) {
                         $this->addMessage($valueIdentifier, $message);

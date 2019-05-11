@@ -1,7 +1,7 @@
 <?php
-namespace Sirius\Validation\Rule\File;
+namespace Latinosoft\Validation\Rule\File;
 
-use Sirius\Validation\Rule\AbstractRule;
+use Latinosoft\Validation\Rule\AbstractRule;
 
 class ImageWidth extends AbstractRule
 {

@@ -8,7 +8,7 @@ The code below explains how you should properly create your custom validation ru
 
 ```php
 namespace MyApp\Validation\Rule;
-use Sirius\Validation\Rule\AbstractRule;
+use Latinosoft\Validation\Rule\AbstractRule;
 
 class ThisOrThat extends AbstractRule {
     
@@ -46,7 +46,7 @@ The `$valueIdentifier` is the path of the value being validated within the [vali
 ### Use the validator in your app
 
 ```php
-use Sirius\Validation\Validator;
+use Latinosoft\Validation\Validator;
 use MyApp\Validation\Rule\ThisOrThat;
 
 $validator = new Validator();

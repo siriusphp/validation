@@ -1,8 +1,8 @@
 <?php
 
-namespace Sirius\Validation\Rule\Upload;
+namespace Latinosoft\Validation\Rule\Upload;
 
-use Sirius\Validation\Rule\AbstractRule;
+use Latinosoft\Validation\Rule\AbstractRule;
 
 class Extension extends AbstractRule
 {

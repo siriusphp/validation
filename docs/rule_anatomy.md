@@ -4,7 +4,7 @@ title: The anatomy of a validation rule
 
 # The anatomy of a validation rule
 
-The classes for validation rules extend the `Sirius\Validation\Rule\AbstractRule` class
+The classes for validation rules extend the `Latinosoft\Validation\Rule\AbstractRule` class
 
 The class has the following constants:
 
@@ -18,7 +18,7 @@ The class has the following properties
 - `options` - the parameters required during validation. In the case of a string length rule the options are `min` (minimum numbers of characters)  and `max` (maximum number of characters)
 - `messageTemplate` - the string that will determine the error message that will be returned if the value is not valid and you don't want to use the default messages
 - `value` - the last value that was validated by the rule
-- `context` - the data set that is being validated (eg: $_POST in case of a form). The `context` must implement the `Sirius\Validation\DataWrapper\WrapperInterface`
+- `context` - the data set that is being validated (eg: $_POST in case of a form). The `context` must implement the `Latinosoft\Validation\DataWrapper\WrapperInterface`
 
 
 ## Usage
@@ -28,7 +28,7 @@ The operations below are performed by the [RuleFactory](rule_factory.md) but the
 ### Initialize the validation rule
 
 ```php
-use \Sirius\Validation\Rule\Length as LengthRule;
+use \Latinosoft\Validation\Rule\Length as LengthRule;
 
 // we'll use the Length class as an example to check if a string is between 5 and 255 characters long
 $validator = new LengthRule(array(
@@ -78,7 +78,7 @@ $validator->validate('abcdefghijlkmnop', $context); // this will return true
 ### Get the error message (actual or potential)
 
 ```
-// retrieve the error message (instance of `\Sirius\Validation\ErroMessage` which implements toString())
+// retrieve the error message (instance of `\Latinosoft\Validation\ErroMessage` which implements toString())
 $errorMessage = $validator->getMessage(); // if echo-ed will output 'Full name must be between 10 and 100 characters long'
 
 // if you need to retrieve the potential error message 

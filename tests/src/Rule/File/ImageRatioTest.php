@@ -1,11 +1,11 @@
 <?php
 
-namespace Sirius\Validation\Rule\File;
+namespace Latinosoft\Validation\Rule\File;
 
-class ImageRatioTest extends \PHPUnit_Framework_TestCase
+class ImageRatioTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->validator = new ImageRatio(array( 'ratio' => 1 ));
     }

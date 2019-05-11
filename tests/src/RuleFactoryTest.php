@@ -1,8 +1,9 @@
 <?php
 
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
 
-use Sirius\Validation\Rule\AbstractRule;
+use PHPUnit\Framework\TestCase;
+use Latinosoft\Validation\Rule\AbstractRule;
 
 class TestingCustomRule extends AbstractRule
 {
@@ -13,17 +14,17 @@ class TestingCustomRule extends AbstractRule
     }
 }
 
-class RuleFactoryTest extends \PHPUnit_Framework_TestCase
+class RuleFactoryTest extends TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->ruleFactory = new RuleFactory();
     }
 
     function testRegistrationOfValidatorClasses()
     {
-        $this->ruleFactory->register('even', '\Sirius\Validation\TestingCustomRule');
+        $this->ruleFactory->register('even', '\Latinosoft\Validation\TestingCustomRule');
 
         $validator = $this->ruleFactory->createRule('even');
         $this->assertTrue($validator instanceof TestingCustomRule);
@@ -34,7 +35,7 @@ class RuleFactoryTest extends \PHPUnit_Framework_TestCase
 
     function testCustomErrorMessages()
     {
-        $this->ruleFactory->register('even', '\Sirius\Validation\TestingCustomRule', 'This should be even',
+        $this->ruleFactory->register('even', '\Latinosoft\Validation\TestingCustomRule', 'This should be even',
             '{label} should be even');
 
         $validatorWithLabel = $this->ruleFactory->createRule('even', null, null, 'Number');

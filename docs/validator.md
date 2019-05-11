@@ -7,9 +7,9 @@ title: The validator object
 This is the class that will be instantiated to perform validation
 
 ```php
-use Sirius\Validation\RuleFactory;
-use Sirius\Validation\ErrorMessage;
-use Sirius\Validation\Validator;
+use Latinosoft\Validation\RuleFactory;
+use Latinosoft\Validation\ErrorMessage;
+use Latinosoft\Validation\Validator;
 
 $ruleFactory = new RuleFactory;
 $errorMessagePrototype = new ErrorMessage;
@@ -43,8 +43,8 @@ Is the path to the value(s) that will be validated with the rule
 
 The <code>$name</code> must either:
 1. the name of a rule registered with the [`RuleFactory`](rule_factory.md)
-2. the name of a class within the `Sirius\Validation\Rule` namespace (eg: `Email', 'MinLength') 
-3. the name of a class that extends the `Sirius\Vaidation\Rule\AbstractRule` class
+2. the name of a class within the `Latinosoft\Validation\Rule` namespace (eg: `Email', 'MinLength') 
+3. the name of a class that extends the `Latinosoft\Vaidation\Rule\AbstractRule` class
 4. a callable entity (function, object method or static method) (eg: `$validator->add('username', 'MyClass::validateUsername', null, 'Username is already taken')`).
 
 ##### $options

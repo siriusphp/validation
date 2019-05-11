@@ -1,13 +1,13 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\Rule\GreaterThan as Rule;
+use Latinosoft\Validation\Rule\GreaterThan as Rule;
 
-class GreaterThanTest extends \PHPUnit_Framework_TestCase
+class GreaterThanTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new Rule();
     }

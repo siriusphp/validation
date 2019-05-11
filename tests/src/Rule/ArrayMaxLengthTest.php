@@ -1,13 +1,13 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\Rule\ArrayMaxLength as Rule;
+use Latinosoft\Validation\Rule\ArrayMaxLength as Rule;
 
-class ArrayMaxLengthTest extends \PHPUnit_Framework_TestCase
+class ArrayMaxLengthTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new Rule();
     }

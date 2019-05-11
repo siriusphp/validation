@@ -1,7 +1,7 @@
 <?php
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
 
-use Sirius\Validation\Util\Arr;
+use Latinosoft\Validation\Util\Arr;
 
 class Helper
 {

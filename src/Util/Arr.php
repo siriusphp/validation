@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirius\Validation\Util;
+namespace Latinosoft\Validation\Util;
 
 class Arr
 {

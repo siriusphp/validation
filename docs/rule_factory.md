@@ -21,7 +21,7 @@ By configuring the default error messages in the `RuleFactory` you don't have to
 The code below assumes you got a handle of the $validationFactory from a registry or dependency injection container.
 
 ```
-use Sirius\Validation\RuleFactory;
+use Latinosoft\Validation\RuleFactory;
 
 $ruleFactory = new RuleFactory;
 // register new validation class
@@ -45,7 +45,7 @@ $ruleFactory->setMessages('email', null, $defaultMessageWithLabel);
 If you omit this step you will end up using a regular (ie: non-custom) `RuleFactory` instance
 
 ```php
-use Sirius\Validation\Validator;
+use Latinosoft\Validation\Validator;
 
 $validator = new Validator($ruleFactory);
 ```

@@ -1,6 +1,9 @@
 <?php
 
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
+
+use PHPUnit\Framework\TestCase;
+use Latinosoft\Validation\ErrorMessage;
 
 class CustomErrorMessage extends ErrorMessage
 {
@@ -12,10 +15,10 @@ class CustomErrorMessage extends ErrorMessage
 
 }
 
-class ErrorMessageTest extends \PHPUnit_Framework_TestCase
+class ErrorMessageTest extends TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->validator = new Validator();
         $this->validator->setErrorMessagePrototype(new CustomErrorMessage());

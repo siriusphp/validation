@@ -1,11 +1,11 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\DataWrapper\ArrayWrapper;
-use Sirius\Validation\Rule\RequiredWith as Rule;
+use Latinosoft\Validation\DataWrapper\ArrayWrapper;
+use Latinosoft\Validation\Rule\RequiredWith as Rule;
 
-class RequiredWithTest extends \PHPUnit_Framework_TestCase
+class RequiredWithTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -13,7 +13,7 @@ class RequiredWithTest extends \PHPUnit_Framework_TestCase
      */
     protected $rule;
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new Rule();
         $this->rule->setContext(

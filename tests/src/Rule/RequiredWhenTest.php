@@ -1,14 +1,14 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\DataWrapper\ArrayWrapper;
-use Sirius\Validation\Rule\RequiredWhen as Rule;
+use Latinosoft\Validation\DataWrapper\ArrayWrapper;
+use Latinosoft\Validation\Rule\RequiredWhen as Rule;
 
-class RequiredWhenTest extends \PHPUnit_Framework_TestCase
+class RequiredWhenTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new Rule();
     }
@@ -32,7 +32,7 @@ class RequiredWhenTest extends \PHPUnit_Framework_TestCase
     function testValidationWithItemNotValid()
     {
         $this->rule->setOption(Rule::OPTION_ITEM, 'email');
-        $this->rule->setOption(Rule::OPTION_RULE, 'Sirius\Validation\Rule\Email');
+        $this->rule->setOption(Rule::OPTION_RULE, 'Latinosoft\Validation\Rule\Email');
         $this->rule->setContext(
             new ArrayWrapper(
                 array(
@@ -47,7 +47,7 @@ class RequiredWhenTest extends \PHPUnit_Framework_TestCase
 
     function testValidationWithoutItem()
     {
-        $this->rule->setOption(Rule::OPTION_RULE, 'Sirius\Validation\Rule\Email');
+        $this->rule->setOption(Rule::OPTION_RULE, 'Latinosoft\Validation\Rule\Email');
         $this->rule->setContext(
             new ArrayWrapper(
                 array(
@@ -63,7 +63,7 @@ class RequiredWhenTest extends \PHPUnit_Framework_TestCase
     function testItemRuleSetAsRuleObject()
     {
         $this->rule->setOption(Rule::OPTION_ITEM, 'email');
-        $this->rule->setOption(Rule::OPTION_RULE, new \Sirius\Validation\Rule\Email);
+        $this->rule->setOption(Rule::OPTION_RULE, new \Latinosoft\Validation\Rule\Email);
         $this->rule->setContext(
             new ArrayWrapper(
                 array(
@@ -78,7 +78,7 @@ class RequiredWhenTest extends \PHPUnit_Framework_TestCase
 
     function testExceptionThrownOnInvalidItemRule()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         $this->rule->setOption(Rule::OPTION_ITEM, 'email');
         $this->rule->setOption(Rule::OPTION_RULE, new \stdClass());
         $this->rule->setContext(

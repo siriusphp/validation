@@ -1,8 +1,8 @@
 <?php
 
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
 
-use Sirius\Validation\Rule\AbstractRule;
+use Latinosoft\Validation\Rule\AbstractRule;
 
 class ValueValidator
 {
@@ -17,21 +17,21 @@ class ValueValidator
     /**
      * Will be used to construct the rules
      *
-     * @var \Sirius\Validation\RuleFactory
+     * @var \Latinosoft\Validation\RuleFactory
      */
     protected $ruleFactory;
 
     /**
      * The prototype that will be used to generate the error message
      *
-     * @var \Sirius\Validation\ErrorMessage
+     * @var \Latinosoft\Validation\ErrorMessage
      */
     protected $errorMessagePrototype;
 
     /**
      * The rule collections for the validation
      *
-     * @var \Sirius\Validation\RuleCollection
+     * @var \Latinosoft\Validation\RuleCollection
      */
     protected $rules;
 
@@ -243,7 +243,7 @@ class ValueValidator
         $isRequired     = false;
 
         // evaluate the required rules
-        /* @var $rule \Sirius\Validation\Rule\AbstractValidator */
+        /* @var $rule \Latinosoft\Validation\Rule\AbstractValidator */
         foreach ($this->rules as $rule) {
             if ($rule instanceof Rule\Required) {
                 $isRequired = true;

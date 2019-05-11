@@ -1,10 +1,12 @@
 <?php
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
 
-class RuleCollectionTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class RuleCollectionTest extends TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->collection = new RuleCollection();
     }

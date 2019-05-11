@@ -1,9 +1,9 @@
 <?php
 
-namespace Sirius\Validation\DataWrapper;
+namespace Latinosoft\Validation\DataWrapper;
 
-use Sirius\Validation\Util\Arr;
-use Sirius\Validation\DataWrapper\WrapperInterface;
+use Latinosoft\Validation\Util\Arr;
+use Latinosoft\Validation\DataWrapper\WrapperInterface;
 
 class ArrayWrapper implements WrapperInterface
 {

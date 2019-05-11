@@ -1,9 +1,9 @@
 <?php
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\DataWrapper\ArrayWrapper;
-use Sirius\Validation\DataWrapper\WrapperInterface;
-use Sirius\Validation\ErrorMessage;
+use Latinosoft\Validation\DataWrapper\ArrayWrapper;
+use Latinosoft\Validation\DataWrapper\WrapperInterface;
+use Latinosoft\Validation\ErrorMessage;
 
 abstract class AbstractRule
 {
@@ -16,7 +16,7 @@ abstract class AbstractRule
     /**
      * The validation context
      * This is the data set that the data being validated belongs to
-     * @var \Sirius\Validation\DataWrapper\WrapperInterface
+     * @var \Latinosoft\Validation\DataWrapper\WrapperInterface
      */
     protected $context;
 
@@ -221,7 +221,7 @@ abstract class AbstractRule
      * @param string $name
      * @param mixed $value
      *
-     * @return \Sirius\Validation\Rule\AbstractRule
+     * @return \Latinosoft\Validation\Rule\AbstractRule
      */
     public function setOption($name, $value)
     {
@@ -255,7 +255,7 @@ abstract class AbstractRule
      * @param array|object $context
      *
      * @throws \InvalidArgumentException
-     * @return \Sirius\Validation\Rule\AbstractRule
+     * @return \Latinosoft\Validation\Rule\AbstractRule
      */
     public function setContext($context = null)
     {
@@ -268,7 +268,7 @@ abstract class AbstractRule
         if (! is_object($context) || ! $context instanceof WrapperInterface) {
             throw new \InvalidArgumentException(
                 'Validator context must be either an array or an instance
-                of Sirius\Validator\DataWrapper\WrapperInterface'
+                of Latinosoft\Validator\DataWrapper\WrapperInterface'
             );
         }
         $this->context = $context;
@@ -281,7 +281,7 @@ abstract class AbstractRule
      *
      * @param string $messageTemplate
      *
-     * @return \Sirius\Validation\Rule\AbstractRule
+     * @return \Latinosoft\Validation\Rule\AbstractRule
      */
     public function setMessageTemplate($messageTemplate)
     {
@@ -325,7 +325,7 @@ abstract class AbstractRule
      * @param ErrorMessage $errorMessagePrototype
      *
      * @throws \InvalidArgumentException
-     * @return \Sirius\Validation\Rule\AbstractRule
+     * @return \Latinosoft\Validation\Rule\AbstractRule
      */
     public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
     {
@@ -352,7 +352,7 @@ abstract class AbstractRule
     /**
      * Retrieve the error message if validation failed
      *
-     * @return NULL|\Sirius\Validation\ErrorMessage
+     * @return NULL|\Latinosoft\Validation\ErrorMessage
      */
     public function getMessage()
     {

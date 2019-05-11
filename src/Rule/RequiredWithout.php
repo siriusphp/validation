@@ -1,5 +1,5 @@
 <?php
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
 class RequiredWithout extends Required
 {
@@ -19,7 +19,7 @@ class RequiredWithout extends Required
         $relatedItemPath  = $this->getRelatedValueIdentifier($valueIdentifier, $this->options[self::OPTION_ITEM]);
         $relatedItemValue = $relatedItemPath !== null ? $this->context->getItemValue($relatedItemPath) : null;
 
-        if (isset($this->options[self::OPTION_ITEM]) && $relatedItemValue === null) {
+        if (isset($this->options[self::OPTION_ITEM]) && ($relatedItemValue === null || trim($relatedItemValue) === '')) {
             $this->success = ($value !== null && trim($value) !== '');
         } else {
             $this->success = true;

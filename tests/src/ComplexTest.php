@@ -1,12 +1,13 @@
 <?php
 
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
 
+use PHPUnit\Framework\TestCase;
 
-class ComplexTest extends \PHPUnit_Framework_TestCase
+class ComplexTest extends TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->validator = new Validator();
         $this->validator

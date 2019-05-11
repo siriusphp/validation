@@ -1,5 +1,5 @@
 <?php
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
 class RequiredWhen extends Required
 {
@@ -22,8 +22,8 @@ class RequiredWhen extends Required
             $ruleClass = $this->options[self::OPTION_RULE];
             if (class_exists($ruleClass)) {
                 $rule = new $ruleClass($ruleOptions);
-            } elseif (class_exists('Sirius\\Validation\\Rule\\' . $ruleClass)) {
-                $ruleClass = 'Sirius\\Validation\\Rule\\' . $ruleClass;
+            } elseif (class_exists('Latinosoft\\Validation\\Rule\\' . $ruleClass)) {
+                $ruleClass = 'Latinosoft\\Validation\\Rule\\' . $ruleClass;
                 $rule      = new $ruleClass($ruleOptions);
             }
         } elseif (is_object($this->options[self::OPTION_RULE])

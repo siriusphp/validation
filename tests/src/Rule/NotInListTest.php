@@ -1,13 +1,13 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\Rule\NotInList as Rule;
+use Latinosoft\Validation\Rule\NotInList as Rule;
 
-class NotInListTest extends \PHPUnit_Framework_TestCase
+class NotInListTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new Rule();
     }

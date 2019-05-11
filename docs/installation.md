@@ -1,12 +1,12 @@
 ---
-title: Installating Sirius\Validation
+title: Installating Latinosoft\Validation
 ---
 
 #Installation
 
 ## Using composer
 
-Sirius\Validation is available on [Packagist](https://packagist.org/packages/siriusphp/validation) so you can use
+Latinosoft\Validation is available on [Packagist](https://packagist.org/packages/siriusphp/validation) so you can use
 ```
 composer require siriusphp/validation
 ```

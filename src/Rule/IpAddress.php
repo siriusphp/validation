@@ -1,5 +1,5 @@
 <?php
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
 class IpAddress extends AbstractRule
 {

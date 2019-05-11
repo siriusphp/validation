@@ -20,7 +20,7 @@ echo translateErrorMessageObjects($validator->getMessages('title'));
 ### 2. Use a translatable error message class
 
 ```php
-class TranslatableErrorMessage extends Sirius\Validation\ErrorMessage {
+class TranslatableErrorMessage extends Latinosoft\Validation\ErrorMessage {
     protected $translator;
     
     function __construct($translator, $template, $options = array()) {
@@ -34,7 +34,7 @@ class TranslatableErrorMessage extends Sirius\Validation\ErrorMessage {
 }
 
 // later when constructing your validators
-$validator = new Sirius\Validation\Validator(null, new TranslatableErrorMessage);
+$validator = new Latinosoft\Validation\Validator(null, new TranslatableErrorMessage);
 ```
 
 ### 3.Use translated string for the message templates

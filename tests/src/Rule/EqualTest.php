@@ -1,13 +1,13 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\Rule\Equal as Rule;
+use Latinosoft\Validation\Rule\Equal as Rule;
 
-class EqualTest extends \PHPUnit_Framework_TestCase
+class EqualTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new Rule();
     }

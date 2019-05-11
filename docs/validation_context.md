@@ -10,7 +10,7 @@ Let's say the user must fill a form an order form where it must supply the shipp
 The form has a checkbox "Use a different billing address" which, when checked, shows the billing address details (stree, city etc).
 Those fields become required only when the user checked that option.
 
-For this reason, the entire validation rules within the Sirius\Validation library are "context-aware". This means the data-set to be validated is passed to each rule.
+For this reason, the entire validation rules within the Latinosoft\Validation library are "context-aware". This means the data-set to be validated is passed to each rule.
 
 This can be seen in action in the [RequiredWith](https://github.com/siriusphp/validation/blob/master/src/Rule/RequiredWith.php#L13) rule.
 

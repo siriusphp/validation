@@ -1,16 +1,17 @@
 <?php
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
 
-use Sirius\Validation\Rule\GreaterThan;
+use PHPUnit\Framework\TestCase;
+use Latinosoft\Validation\Rule\GreaterThan;
 
-class ValueValidatorTest extends \PHPUnit_Framework_TestCase
+class ValueValidatorTest extends TestCase
 {
     /**
      * @var ValueValidator
      */
     private $validator;
 
-    function setUp()
+    function setUp(): void
     {
         $this->validator = new ValueValidator();
     }

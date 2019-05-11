@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
 
 class RuleCollection extends \SplObjectStorage
 {

@@ -1,14 +1,14 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\DataWrapper\ArrayWrapper;
-use Sirius\Validation\Rule\Match as Rule;
+use Latinosoft\Validation\DataWrapper\ArrayWrapper;
+use Latinosoft\Validation\Rule\Match as Rule;
 
-class MatchTest extends \PHPUnit_Framework_TestCase
+class MatchTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new Rule();
         $this->rule->setContext(

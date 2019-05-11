@@ -10,7 +10,7 @@ Is is designed to help you with basic validation operations, when you need to va
 The Helper class uses the [Validators classes](validation_rules.md) for the validation.
 
 ```
-use Sirius\Validation\Helper;
+use Latinosoft\Validation\Helper;
 
 if (Helper::email('email@domain.com) && Helper::fullName('My Name')) {
 	// proceed with your application logic here
@@ -50,7 +50,7 @@ It comes with a set of pre-set validation methods:
 ### Add your own validation methods
 
 ```php
-use Sirius\ValidationHelper as ValidationHelper;
+use Latinosoft\ValidationHelper as ValidationHelper;
 ValidationHelper::addMethod('username', 'UserLibrary::validateUsername');
 // and call it latter
 ValidationHelper::username('minime2013');

@@ -9,7 +9,7 @@ title: Simple validation example
 Let's consider a simple contact form that has the following field: `name`, `email`, `phone` and `message`.
 
 ```php
-use Sirius\Validation\Validator;
+use Latinosoft\Validation\Validator;
 
 $validator = new Validator();
 $validator->add(

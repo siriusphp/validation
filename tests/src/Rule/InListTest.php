@@ -1,13 +1,13 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\Rule\InList as Rule;
+use Latinosoft\Validation\Rule\InList as Rule;
 
-class InListTest extends \PHPUnit_Framework_TestCase
+class InListTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new Rule();
     }

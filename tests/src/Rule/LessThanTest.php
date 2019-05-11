@@ -1,13 +1,13 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-use Sirius\Validation\Rule\LessThan as Rule;
+use Latinosoft\Validation\Rule\LessThan as Rule;
 
-class LessThanTest extends \PHPUnit_Framework_TestCase
+class LessThanTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new Rule();
     }

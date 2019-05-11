@@ -1,8 +1,8 @@
 <?php
 
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
 
-use Sirius\Validation\Rule\Callback as CallbackRule;
+use Latinosoft\Validation\Rule\Callback as CallbackRule;
 
 class RuleFactory
 {
@@ -103,11 +103,11 @@ class RuleFactory
      * @param string $name
      * @param string $class
      *
-     * @return \Sirius\Validation\RuleFactory
+     * @return \Latinosoft\Validation\RuleFactory
      */
     public function register($name, $class, $errorMessage = '', $labeledErrorMessage = '')
     {
-        if (is_subclass_of($class, '\Sirius\Validation\Rule\AbstractRule')) {
+        if (is_subclass_of($class, '\Latinosoft\Validation\Rule\AbstractRule')) {
             $this->validatorsMap[$name] = $class;
         }
         if ($errorMessage) {
@@ -133,7 +133,7 @@ class RuleFactory
      *            label of the form input field or model attribute
      *
      * @throws \InvalidArgumentException
-     * @return \Sirius\Validation\Rule\AbstractValidator
+     * @return \Latinosoft\Validation\Rule\AbstractRule
      */
     public function createRule($name, $options = null, $messageTemplate = null, $label = null)
     {
@@ -218,11 +218,11 @@ class RuleFactory
                 $name = $this->validatorsMap[strtolower($name)];
             }
             // try if the validator is the name of a class in the package
-            if (class_exists('\Sirius\Validation\Rule\\' . $name, false)) {
-                $name = '\Sirius\Validation\Rule\\' . $name;
+            if (class_exists('\Latinosoft\Validation\Rule\\' . $name, false)) {
+                $name = '\Latinosoft\Validation\Rule\\' . $name;
             }
             // at this point we should have a class that can be instanciated
-            if (class_exists($name) && is_subclass_of($name, '\Sirius\Validation\Rule\AbstractRule')) {
+            if (class_exists($name) && is_subclass_of($name, '\Latinosoft\Validation\Rule\AbstractRule')) {
                 $validator = new $name($options);
             }
         }

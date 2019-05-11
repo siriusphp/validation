@@ -1,8 +1,8 @@
 <?php
 
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
-class FakeRule extends \Sirius\Validation\Rule\AbstractRule
+class FakeRule extends \Latinosoft\Validation\Rule\AbstractRule
 {
 
     function validate($value, $valueIdentifier = null)
@@ -15,10 +15,10 @@ class FakeRule extends \Sirius\Validation\Rule\AbstractRule
 }
 
 
-class AbstractRuleTest extends \PHPUnit_Framework_TestCase
+class AbstractRuleTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    function setUp(): void
     {
         $this->rule = new FakeRule();
     }
@@ -26,8 +26,8 @@ class AbstractRuleTest extends \PHPUnit_Framework_TestCase
     function testErrorMessagePrototype()
     {
         // we always have an error message prototype
-        $this->assertTrue($this->rule->getErrorMessagePrototype() instanceof \Sirius\Validation\ErrorMessage);
-        $proto = new \Sirius\Validation\ErrorMessage('Not valid');
+        $this->assertTrue($this->rule->getErrorMessagePrototype() instanceof \Latinosoft\Validation\ErrorMessage);
+        $proto = new \Latinosoft\Validation\ErrorMessage('Not valid');
         $this->rule->setErrorMessagePrototype($proto);
         $this->assertEquals('Not valid', (string) $this->rule->getErrorMessagePrototype());
     }
@@ -62,7 +62,7 @@ class AbstractRuleTest extends \PHPUnit_Framework_TestCase
 
     function testErrorThrownOnInvalidContext()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         $this->rule->setContext(new \stdClass());
     }
 

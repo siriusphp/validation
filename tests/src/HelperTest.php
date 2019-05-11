@@ -1,7 +1,9 @@
 <?php
-namespace Sirius\Validation;
+namespace Latinosoft\Validation;
 
-class HelperTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class HelperTest extends TestCase
 {
 
     function testOfMethodExists()
@@ -652,7 +654,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     function testOfInvalidAddMethodCalls()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         Helper::addMethod('mySecondValidation', 'nonexistantcallback');
         $this->assertTrue(Helper::mySecondValidation(5));
     }

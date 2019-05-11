@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirius\Validation\DataWrapper;
+namespace Latinosoft\Validation\DataWrapper;
 
 interface WrapperInterface
 {

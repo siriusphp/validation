@@ -6,9 +6,9 @@
  * Time: 16:02
  */
 
-namespace Sirius\Validation\Rule\Upload;
+namespace Latinosoft\Validation\Rule\Upload;
 
-use Sirius\Validation\Rule\AbstractRule;
+use Latinosoft\Validation\Rule\AbstractRule;
 
 class Required extends AbstractRule
 {

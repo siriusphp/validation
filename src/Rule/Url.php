@@ -1,5 +1,5 @@
 <?php
-namespace Sirius\Validation\Rule;
+namespace Latinosoft\Validation\Rule;
 
 class Url extends AbstractRule
 {
@@ -9,7 +9,7 @@ class Url extends AbstractRule
     public function validate($value, $valueIdentifier = null)
     {
         $this->value   = $value;
-        $this->success = (bool) filter_var($value, FILTER_VALIDATE_URL, FILTER_FLAG_HOST_REQUIRED);
+        $this->success = (bool) filter_var($value, FILTER_VALIDATE_URL);
 
         return $this->success;
     }
