@@ -251,6 +251,15 @@ class Helper
         return $value == Arr::getByPath($context, $otherElementOrValue);
     }
 
+    public static function notEqualTo($value, $otherElementOrValue, $context = null)
+    {
+        if (func_num_args() == 2) {
+            return $value != $otherElementOrValue;
+        }
+
+        return $value != Arr::getByPath($context, $otherElementOrValue);
+    }
+
     public static function date($value, $format = 'Y-m-d')
     {
         $validator = new Rule\Date(
