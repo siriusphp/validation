@@ -29,8 +29,8 @@ class NotMatchTest extends \PHPUnit_Framework_TestCase
 
     function testValidationWithoutItemPresent()
     {
-        $this->assertTrue($this->rule->validate('abc'));
-        $this->assertTrue($this->rule->validate(null));
+        $this->assertFalse($this->rule->validate('abc'));
+        $this->assertFalse($this->rule->validate(null));
     }
 
 }

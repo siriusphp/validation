@@ -1,7 +1,6 @@
 <?php
 namespace Sirius\Validation\Rule;
 
-
 class NotMatch extends Match
 {
     const MESSAGE = 'This input does match {item}';
