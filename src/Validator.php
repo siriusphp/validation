@@ -73,7 +73,11 @@ class Validator implements ValidatorInterface
 
     const RULE_MATCH = 'match';
 
+    const RULE_NOT_MATCH = 'notmatch';
+
     const RULE_EQUAL = 'equal';
+
+    const RULE_NOT_EQUAL = 'notequal';
 
     const RULE_CALLBACK = 'callback';
 

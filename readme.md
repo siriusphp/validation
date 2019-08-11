@@ -1,4 +1,4 @@
-#Sirius Validation
+# Sirius Validation
 
 [![Source Code](http://img.shields.io/badge/source-siriusphp/validation-blue.svg?style=flat-square)](https://github.com/siriusphp/validation)
 [![Latest Version](https://img.shields.io/packagist/v/siriusphp/validation.svg?style=flat-square)](https://github.com/siriusphp/validation/releases)
@@ -18,7 +18,7 @@ Sirius Validation is a library for data validation. It offers:
 Out-of-the-box, the library can handle `array`s, `ArrayObject`s and objects that have implemented the `toArray` method.
 In order to validate other data containers you must create a [`DataWrapper`](https://github.com/siriusphp/validation/blob/master/src/Validation/DataWrapper/WrapperInterface.php) so that the validator be able to extract data from your object.
 
-##Elevator pitch
+## Elevator pitch
 
 ```php
 $validator = new \Sirius\Validation\Validator;
@@ -60,12 +60,12 @@ $validator->add('shipping_address[city]:City', 'MyApp\Validator\City'); // uses 
 
 ```
 
-##Links
+## Links
 
 - [documentation](http://sirius.ro/php/sirius/validation/)
 - [changelog](CHANGELOG.md)
 
-##Known issues
+## Known issues
 
 In PHP 5.3 there is some problem with the SplObject storage that prevents the library to remove validation rules.
 This means that in PHP 5.3, you cannot remove a validation rule from a `Validator` or `ValueValidator` object

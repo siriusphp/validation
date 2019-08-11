@@ -12,7 +12,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
         $this->validator
             ->add('email', 'email | required')// does the order matter?
             ->add('email_confirm', 'required |  email | match(item=email)')
-            ->add('password', 'required')
+            ->add('password', 'required | notmatch(item=email)')
             ->add('password_confirm', 'required | match(item=password)')
             ->add('feedback', 'requiredwith(item=agree_to_provide_feedback)')
             ->add('birthday', 'requiredwhen', array( 'item' => 'email_confirm', 'rule' => 'Email' ))
@@ -41,8 +41,8 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
     function testWithInvalidData()
     {
         $data = array(
-            'email_confirm'             => 'me@domain.com',
-            'password'                  => '1234',
+            'email'                     => 'me@domain.com',
+            'password'                  => 'me@domain.com',
             'password_confirm'          => '123456',
             'agree_to_provide_feedback' => true,
             'lines'                     => array(
@@ -52,10 +52,10 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
         $this->validator->validate($data);
         $messages = $this->validator->getMessages();
 
-        $this->assertEquals('This field is required', (string) $messages['email'][0]);
+        $this->assertEquals('This field is required', (string) $messages['email_confirm'][0]);
+        $this->assertEquals('This input does match email', (string) $messages['password'][0]);
         $this->assertEquals('This input does not match password', (string) $messages['password_confirm'][0]);
         $this->assertEquals('This field is required', (string) $messages['feedback'][0]);
         $this->assertEquals('This field is required', (string) $messages['lines[0][price]'][0]);
     }
-
 }
