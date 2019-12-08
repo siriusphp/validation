@@ -9,6 +9,7 @@ php:
 
 matrix:
     allow_failures:
+        - php: 7.4
 
 before_script:
  - wget -c https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
