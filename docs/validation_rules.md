@@ -49,7 +49,9 @@ title: Built-in validation rules
 2. `NotRegex`: value must NOT match a regular expression pattern.  Rule options: `pattern`
 3. `Callback`: checks if a value is valid using a custom callback (a function, an object's method, a class' static method).  Rule options: `callback` and `arguments` (additional paramters for the callback)
 4. `Match`: the value must match the value of another item in the context. Rule options: `item` (eg: if `auth[password_confirm]` must match `auth[password]` the `item` is `auth[password]`
-5. `Equal`: the value must be the same as predefined value. Rule options: `value`
+5. `NotMatch': the value must not match the value of another item in the context. Rule options: `item` (eg: if `auth[password]` must not match `auth[username]` the `item` is `auth[username]`
+6. `Equal`: the value must be the same as predefined value. Rule options: `value`
+7. `NotEqual`: the value must not be the same as predefined value. Rule options: `value`
 
 ### File validators
 File validators work only with local files and they fail if the file does not exist

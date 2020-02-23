@@ -490,10 +490,53 @@ class HelperTest extends TestCase
         }
     }
 
+    function testOfNotEqualToWithContext()
+    {
+        $pool    = array(
+            array(
+                'value',
+                'element_1',
+                false
+            ),
+            array(
+                'value',
+                'element_2',
+                true
+            ),
+            array(
+                'new value',
+                'element_3[sub_element_1][sub_element_2]',
+                false
+            )
+        );
+        $context = array(
+            'element_1' => 'value',
+            'element_2' => 'another_value',
+            'element_3' => array(
+                'sub_element_1' => array(
+                    'sub_element_2' => 'new value'
+                )
+            )
+        );
+        foreach ($pool as $sample) {
+            $this->assertSame(
+                Helper::notEqualTo($sample[0], $sample[1], $context),
+                $sample[2],
+                sprintf("%s %s", $sample[0], $sample[1])
+            );
+        }
+    }
+
     function testOfEqualToWithoutContext()
     {
         $this->assertTrue(Helper::equalTo(5, '5'));
         $this->assertFalse(Helper::equalTo(5, 'a'));
+    }
+
+    function testOfNotEqualToWithoutContext()
+    {
+        $this->assertTrue(Helper::NotEqualTo(5, 'a'));
+        $this->assertFalse(Helper::NotEqualTo(5, '5'));
     }
 
     function testOfWebsite()
