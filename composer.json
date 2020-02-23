@@ -1,6 +1,6 @@
 {
   "name": "latinosoft/validation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Data validation library (Siriusphp/Validation updated fork). Validate arrays, array objects, domain models etc using a simple API. Easily add your own validators on top of the already dozens built-in validation rules",
   "type": "library",
   "license": "MIT",
