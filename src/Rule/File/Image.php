@@ -50,7 +50,7 @@ class Image extends AbstractRule
             if (!is_array($imageInfo)) {
                 $this->success = false;
             } else {
-                $extension     = isset($this->imageTypesMap[$imageInfo[2]]) ? $this->imageTypesMap[$imageInfo[2]] : false;
+                $extension     = $this->imageTypesMap[$imageInfo[2]] ?? false;
                 $this->success = ($extension && in_array($extension, $this->options[self::OPTION_ALLOWED_IMAGES]));
             }
         }
