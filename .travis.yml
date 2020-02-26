@@ -18,8 +18,8 @@ before_script:
 script:
   - mkdir -p build/logs
   - composer run-script cs
-  - cd tests && ../vendor/bin/phpunit && cd ..
+  - vendor\bin\phpunit -c tests\phpunit.xml
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover ../build/logs/clover.xml
+  - php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml
