@@ -18,7 +18,7 @@ before_script:
 script:
   - mkdir -p build/logs
   - composer run-script cs
-  - vendor\bin\phpunit -c tests\phpunit.xml
+  - vendor/bin/phpunit -c tests/phpunit.xml
 
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
