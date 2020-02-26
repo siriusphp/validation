@@ -8,7 +8,7 @@ php:
 
 matrix:
     allow_failures:
-        - php: 7.4
+        - php: 7.1
 
 before_script:
  - wget -c https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
@@ -17,7 +17,7 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - composer run-script phpcs
+  - composer run-script cs
   - cd tests && ../vendor/bin/phpunit && cd ..
 
 after_script:
