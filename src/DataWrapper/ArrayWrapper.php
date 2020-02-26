@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sirius\Validation\DataWrapper;
 
@@ -11,14 +12,14 @@ class ArrayWrapper implements WrapperInterface
     /**
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * @param array|\ArrayObject|object $data
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($data = array())
+    public function __construct($data = [])
     {
         if (is_object($data)) {
             if ($data instanceof \ArrayObject) {
@@ -33,12 +34,12 @@ class ArrayWrapper implements WrapperInterface
         $this->data = $data;
     }
 
-    public function getItemValue($item)
+    public function getItemValue(string $item)
     {
         return Arr::getByPath($this->data, $item);
     }
 
-    public function getItemsBySelector($selector)
+    public function getItemsBySelector(string $selector): array
     {
         return Arr::getBySelector($this->data, $selector);
     }

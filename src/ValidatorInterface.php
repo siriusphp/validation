@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sirius\Validation;
 
@@ -8,5 +9,5 @@ interface ValidatorInterface
 
     public function remove($selector, $name = true, $options = null);
 
-    public function validate($data = array());
+    public function validate($data = []);
 }

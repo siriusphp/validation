@@ -4,10 +4,10 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\Between as Rule;
 
-class BetweenTest extends \PHPUnit_Framework_TestCase
+class BetweenTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->rule = new Rule();
     }

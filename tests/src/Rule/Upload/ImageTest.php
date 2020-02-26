@@ -2,10 +2,10 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-class ImageTest extends \PHPUnit_Framework_TestCase
+class ImageTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->validator = new Image();
     }

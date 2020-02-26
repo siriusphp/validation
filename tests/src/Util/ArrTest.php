@@ -2,10 +2,10 @@
 
 namespace Sirius\Validation\Util;
 
-class ArrTest extends \PHPUnit_Framework_TestCase
+class ArrTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->data = array(
             'name'      => 'John Doe',

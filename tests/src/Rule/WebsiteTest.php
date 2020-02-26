@@ -4,10 +4,10 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\Website as Rule;
 
-class WebsiteTest extends \PHPUnit_Framework_TestCase
+class WebsiteTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->rule = new Rule();
     }

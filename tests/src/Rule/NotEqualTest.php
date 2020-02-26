@@ -4,10 +4,10 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\NotEqual as Rule;
 
-class NotEqualTest extends \PHPUnit_Framework_TestCase
+class NotEqualTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->rule = new Rule();
     }

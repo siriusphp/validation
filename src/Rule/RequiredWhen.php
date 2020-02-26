@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 class RequiredWhen extends Required
@@ -16,7 +17,7 @@ class RequiredWhen extends Required
         $rule        = false;
         $ruleOptions = (isset($this->options[self::OPTION_RULE_OPTIONS])) ?
             (array) $this->options[self::OPTION_RULE_OPTIONS] :
-            array();
+            [];
 
         if (is_string($this->options[self::OPTION_RULE])) {
             $ruleClass = $this->options[self::OPTION_RULE];
@@ -36,13 +37,13 @@ class RequiredWhen extends Required
                 'Validator for the other item is not valid or cannot be constructed based on the data provided'
             );
         }
-        $context = $this->context ? $this->context : array();
+        $context = $this->context ? $this->context : [];
         $rule->setContext($context);
 
         return $rule;
     }
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value = $value;
 

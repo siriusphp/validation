@@ -4,10 +4,10 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\Integer as Rule;
 
-class IntegerTest extends \PHPUnit_Framework_TestCase
+class IntegerTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->rule = new Rule();
     }

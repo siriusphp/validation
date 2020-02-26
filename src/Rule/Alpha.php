@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 class Alpha extends AbstractRule
@@ -6,7 +7,7 @@ class Alpha extends AbstractRule
     const MESSAGE = 'This input can contain only letters';
     const LABELED_MESSAGE = '{label} can contain only letters';
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value   = $value;
         $this->success = (bool) ctype_alpha((string) str_replace(' ', '', $value));

@@ -1,13 +1,14 @@
 <?php
+declare(strict_types=1);
 
 namespace Sirius\Validation;
 
 class ErrorMessage
 {
     protected $template = 'Invalid';
-    protected $variables = array();
+    protected $variables = [];
 
-    public function __construct($template = '', $variables = array())
+    public function __construct($template = '', $variables = [])
     {
         $this->setTemplate($template)
              ->setVariables($variables);
@@ -28,7 +29,7 @@ class ErrorMessage
         return $this->template;
     }
 
-    public function setVariables($variables = array())
+    public function setVariables($variables = [])
     {
         foreach ($variables as $k => $v) {
             $this->variables[$k] = $v;

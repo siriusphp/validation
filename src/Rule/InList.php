@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sirius\Validation\Rule;
 
@@ -9,11 +10,11 @@ class InList extends AbstractRule
     const MESSAGE = 'This input is not one of the accepted values';
     const LABELED_MESSAGE = '{label} is not one of the accepted values';
 
-    protected $optionsIndexMap = array(
+    protected $optionsIndexMap = [
         0 => self::OPTION_LIST
-    );
+    ];
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value = $value;
         if (! isset($this->options['list'])) {

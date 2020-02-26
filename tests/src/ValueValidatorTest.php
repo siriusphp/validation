@@ -3,14 +3,14 @@ namespace Sirius\Validation;
 
 use Sirius\Validation\Rule\GreaterThan;
 
-class ValueValidatorTest extends \PHPUnit_Framework_TestCase
+class ValueValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ValueValidator
      */
     private $validator;
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->validator = new ValueValidator();
     }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 class Date extends AbstractRule
@@ -9,15 +10,15 @@ class Date extends AbstractRule
 
     const LABELED_MESSAGE = '{label} must be a date having the format {format}';
 
-    protected $options = array(
+    protected $options = [
         'format' => 'Y-m-d'
-    );
+    ];
 
-    protected $optionsIndexMap = array(
+    protected $optionsIndexMap = [
         0 => self::OPTION_FORMAT
-    );
+    ];
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value   = $value;
         $this->success = $value == date(

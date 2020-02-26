@@ -2,10 +2,10 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-class SizeTest extends \PHPUnit_Framework_TestCase
+class SizeTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->validator = new Size(array( 'size' => '1M' ));
     }

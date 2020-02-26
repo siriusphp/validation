@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sirius\Validation\Rule\File;
 
@@ -12,11 +13,11 @@ class Image extends AbstractRule
 
     const LABELED_MESSAGE = '{label} is not a valid image (only {image_types} are allowed)';
 
-    protected $options = array(
-        self::OPTION_ALLOWED_IMAGES => array( 'jpg', 'png', 'gif' )
-    );
+    protected $options = [
+        self::OPTION_ALLOWED_IMAGES => ['jpg', 'png', 'gif']
+    ];
 
-    protected $imageTypesMap = array(
+    protected $imageTypesMap = [
         IMAGETYPE_GIF      => 'gif',
         IMAGETYPE_JPEG     => 'jpg',
         IMAGETYPE_JPEG2000 => 'jpg',
@@ -24,7 +25,7 @@ class Image extends AbstractRule
         IMAGETYPE_PSD      => 'psd',
         IMAGETYPE_BMP      => 'bmp',
         IMAGETYPE_ICO      => 'ico',
-    );
+    ];
 
     public function setOption($name, $value)
     {
@@ -39,7 +40,7 @@ class Image extends AbstractRule
         return parent::setOption($name, $value);
     }
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value = $value;
         if (! file_exists($value)) {
@@ -57,11 +58,9 @@ class Image extends AbstractRule
     {
         $message    = parent::getPotentialMessage();
         $imageTypes = array_map('strtoupper', $this->options[self::OPTION_ALLOWED_IMAGES]);
-        $message->setVariables(
-            array(
-                'image_types' => implode(', ', $imageTypes)
-            )
-        );
+        $message->setVariables([
+            'image_types' => implode(', ', $imageTypes)
+        ]);
 
         return $message;
     }

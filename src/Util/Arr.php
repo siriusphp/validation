@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sirius\Validation\Util;
 
@@ -19,7 +20,7 @@ class Arr
     {
         $firstOpen = strpos($selector, '[');
         if ($firstOpen === false) {
-            return array( $selector, '' );
+            return [$selector, ''];
         }
         $firstClose  = strpos($selector, ']');
         $container   = substr($selector, 0, $firstOpen);
@@ -28,7 +29,7 @@ class Arr
             $firstClose + 1
         );
 
-        return array( $container, $subselector );
+        return [$container, $subselector];
     }
 
     /**
@@ -83,7 +84,7 @@ class Arr
         // so arraySetElementBySelector(array(), 'item[subitem]', 'value');
         // will call arraySetElementBySelector(null, 'subitem', 'value');
         if (! is_array($array)) {
-            $array = array();
+            $array = [];
         }
         list($container, $subselector) = self::getSelectorParts($selector);
         if (! $subselector) {
@@ -98,7 +99,7 @@ class Arr
 
         // if we have a subselector the $array[$container] must be an array
         if ($container !== '*' && ! array_key_exists($container, $array)) {
-            $array[$container] = array();
+            $array[$container] = [];
         }
         // we got here through something like *[subitem]
         if ($container === '*') {
@@ -128,16 +129,14 @@ class Arr
     public static function getBySelector($array, $selector)
     {
         if (strpos($selector, '[*]') === false) {
-            return array(
-                $selector => self::getByPath($array, $selector)
-            );
+            return [$selector => self::getByPath($array, $selector)];
         }
-        $result = array();
+        $result = [];
         list($preffix, $suffix) = explode('[*]', $selector, 2);
 
         $base = self::getByPath($array, $preffix);
         if (! is_array($base)) {
-            $base = array();
+            $base = [];
         }
         // we don't have a suffix, the selector was something like path[subpath][*]
         if (! $suffix) {

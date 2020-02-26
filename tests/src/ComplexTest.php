@@ -3,10 +3,10 @@
 namespace Sirius\Validation;
 
 
-class ComplexTest extends \PHPUnit_Framework_TestCase
+class ComplexTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->validator = new Validator();
         $this->validator

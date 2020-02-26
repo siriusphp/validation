@@ -41,18 +41,17 @@ $validator->add('title', 'maxlength', 'max=100', 'Article title must have less t
 // add a rule with a custom message and a label (very handy with forms)
 $validator->add('title:Title', 'maxlength', 'max=100', '{label} must have less than {max} characters');
 
-// add all of rule's configuration in a string (you'll see later why it's handy')
-$validator->add('title:Title', 'maxlength(max=255)({label} must have less than {max} characters)');
-
 // add multiple rules at once (separate using [space][pipe][space])
 $validator->add('title:Title', 'required | maxlength(255) | minlength(min=10)');
 
 // add all your rules at once
-$validator->add(array(
-    'title:Title' => 'required | maxlength(100)({label} must have less than {max} characters)',
-	'content:Content' => 'required',
-	'source:Source' => 'website'
-));
+$validator->add([
+        'title:Title' => 'required | maxlength(100)',
+        'content:Content' => 'required',
+        'source:Source' => 'website'
+    ], [
+        'content.required' => 'The content field should have a velue'
+    ]);
 
 // add nested rules
 $validator->add('recipients[*]:Recipients', 'email'); //all recipients must be valid email addresses
@@ -64,9 +63,4 @@ $validator->add('shipping_address[city]:City', 'MyApp\Validator\City'); // uses 
 
 - [documentation](http://sirius.ro/php/sirius/validation/)
 - [changelog](CHANGELOG.md)
-
-## Known issues
-
-In PHP 5.3 there is some problem with the SplObject storage that prevents the library to remove validation rules.
-This means that in PHP 5.3, you cannot remove a validation rule from a `Validator` or `ValueValidator` object
 

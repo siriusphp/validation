@@ -2,10 +2,10 @@
 
 namespace Sirius\Validation\Rule\File;
 
-class ImageHeightTest extends \PHPUnit_Framework_TestCase
+class ImageHeightTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->validator = new ImageHeight(array( 'min' => 400 ));
     }

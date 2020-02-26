@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 class NotInList extends InList
@@ -8,11 +9,11 @@ class NotInList extends InList
     const MESSAGE = 'This input is one of the forbidden values';
     const LABELED_MESSAGE = '{label} is one of the forbidden values';
 
-    protected $optionsIndexMap = array(
+    protected $optionsIndexMap = [
         0 => self::OPTION_LIST
-    );
+    ];
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value = $value;
         if (! isset($this->options['list'])) {

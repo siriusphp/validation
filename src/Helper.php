@@ -1,11 +1,12 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation;
 
 use Sirius\Validation\Util\Arr;
 
 class Helper
 {
-    protected static $methods = array();
+    protected static $methods = [];
 
     public static function addMethod($ruleName, $callback)
     {
@@ -31,7 +32,7 @@ class Helper
         throw new \InvalidArgumentException(sprintf('Validation method "%s" does not exist', $name));
     }
 
-    public static function callback($value, $callback, $context = array())
+    public static function callback($value, $callback, $context = [])
     {
         $validator = new Rule\Callback();
         $validator->setOption('callback', $callback);
@@ -42,7 +43,7 @@ class Helper
 
     public static function required($value)
     {
-        return $value !== null && trim($value) !== '';
+        return $value !== null && (!is_string($value) || trim($value) !== '');
     }
 
     public static function truthy($value)
@@ -67,34 +68,24 @@ class Helper
 
     public static function lessThan($value, $max)
     {
-        $validator = new Rule\LessThan(
-            array(
-                'max' => $max
-            )
-        );
+        $validator = new Rule\LessThan(['max' => $max]);
 
         return $validator->validate($value);
     }
 
     public static function greaterThan($value, $min)
     {
-        $validator = new Rule\GreaterThan(
-            array(
-                'min' => $min
-            )
-        );
+        $validator = new Rule\GreaterThan(['min' => $min]);
 
         return $validator->validate($value);
     }
 
     public static function between($value, $min, $max)
     {
-        $validator = new Rule\Between(
-            array(
-                'min' => $min,
-                'max' => $max
-            )
-        );
+        $validator = new Rule\Between([
+            'min' => $min,
+            'max' => $max
+        ]);
 
         return $validator->validate($value);
     }
@@ -132,112 +123,76 @@ class Helper
 
     public static function minLength($value, $min)
     {
-        $validator = new Rule\MinLength(
-            array(
-                'min' => $min
-            )
-        );
+        $validator = new Rule\MinLength(['min' => $min]);
 
         return $validator->validate($value);
     }
 
     public static function maxLength($value, $max)
     {
-        $validator = new Rule\MaxLength(
-            array(
-                'max' => $max
-            )
-        );
+        $validator = new Rule\MaxLength(['max' => $max]);
 
         return $validator->validate($value);
     }
 
     public static function length($value, $min, $max)
     {
-        $validator = new Rule\Length(
-            array(
-                'min' => $min,
-                'max' => $max
-            )
-        );
+        $validator = new Rule\Length([
+            'min' => $min,
+            'max' => $max
+        ]);
 
         return $validator->validate($value);
     }
 
     public static function setMinSize($value, $min)
     {
-        $validator = new Rule\ArrayMinLength(
-            array(
-                'min' => $min
-            )
-        );
+        $validator = new Rule\ArrayMinLength(['min' => $min]);
 
         return $validator->validate($value);
     }
 
     public static function setMaxSize($value, $max)
     {
-        $validator = new Rule\ArrayMaxLength(
-            array(
-                'max' => $max
-            )
-        );
+        $validator = new Rule\ArrayMaxLength(['max' => $max]);
 
         return $validator->validate($value);
     }
 
     public static function setSize($value, $min, $max)
     {
-        $validator = new Rule\ArrayLength(
-            array(
-                'min' => $min,
-                'max' => $max
-            )
-        );
+        $validator = new Rule\ArrayLength([
+            'min' => $min,
+            'max' => $max
+        ]);
 
         return $validator->validate($value);
     }
 
     public static function inList($value, $values)
     {
-        $validator = new Rule\InList(
-            array(
-                'list' => $values
-            )
-        );
+        $validator = new Rule\InList(['list' => $values]);
 
         return $validator->validate($value);
     }
 
     public static function notInList($value, $values)
     {
-        $validator = new Rule\NotInList(
-            array(
-                'list' => $values
-            )
-        );
+        $validator = new Rule\NotInList(['list' => $values]);
 
         return $validator->validate($value);
     }
 
     public static function regex($value, $pattern)
     {
-        $validator = new Rule\Regex(
-            array(
-                'pattern' => $pattern
-            )
-        );
+        $validator = new Rule\Regex(['pattern' => $pattern]);
 
         return $validator->validate($value);
     }
 
     public static function notRegex($value, $pattern)
     {
-        $validator = new Rule\NotRegex(
-            array(
-                'pattern' => $pattern
-            )
-        );
+        $validator = new Rule\NotRegex(['pattern' => $pattern]);
 
         return $validator->validate($value);
     }
@@ -262,33 +217,21 @@ class Helper
 
     public static function date($value, $format = 'Y-m-d')
     {
-        $validator = new Rule\Date(
-            array(
-                'format' => $format
-            )
-        );
+        $validator = new Rule\Date(['format' => $format]);
 
         return $validator->validate($value);
     }
 
     public static function dateTime($value, $format = 'Y-m-d H:i:s')
     {
-        $validator = new Rule\DateTime(
-            array(
-                'format' => $format
-            )
-        );
+        $validator = new Rule\DateTime(['format' => $format]);
 
         return $validator->validate($value);
     }
 
     public static function time($value, $format = 'H:i:s')
     {
-        $validator = new Rule\Time(
-            array(
-                'format' => $format
-            )
-        );
+        $validator = new Rule\Time(['format' => $format]);
 
         return $validator->validate($value);
     }

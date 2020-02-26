@@ -5,10 +5,10 @@ namespace Sirius\Validation\Rule;
 use Sirius\Validation\DataWrapper\ArrayWrapper;
 use Sirius\Validation\Rule\NotMatch as Rule;
 
-class NotMatchTest extends \PHPUnit_Framework_TestCase
+class NotMatchTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->rule = new Rule();
         $this->rule->setContext(

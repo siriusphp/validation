@@ -15,10 +15,10 @@ class FakeObject
     }
 }
 
-class ValidatorTest extends \PHPUnit_Framework_TestCase
+class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->validator = new Validator(new RuleFactory, new ErrorMessage);
     }
@@ -43,7 +43,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     function testExceptionThrownWhenTheDataIsNotAnArray()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $this->validator->validate('string');
         $this->validator->validate(false);
     }
@@ -106,7 +106,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     function testIfExceptionIsThrownOnInvalidRules()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         $this->validator->add('random_string');
     }
 
@@ -177,7 +177,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     function testExceptionOnInvalidValidatorOptions()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         $this->validator->add('item', 'required', new \stdClass());
     }
 
@@ -266,7 +266,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
     function testIfExceptionIsThrownForInvalidValidationMethods()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         $this->validator->add('item', 'faker');
         $this->validator->validate(array( 'item' => true ));
     }

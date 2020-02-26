@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 class Required extends AbstractRule
@@ -6,7 +7,7 @@ class Required extends AbstractRule
     const MESSAGE = 'This field is required';
     const LABELED_MESSAGE = '{label} is required';
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value   = $value;
         $this->success = ($value !== null && $value !== '');

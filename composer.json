@@ -17,10 +17,10 @@
     }
   ],
   "require": {
-    "php": ">=5.3"
+    "php": ">=7.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "^4.8"
+    "phpunit/phpunit": "^8.5"
   },
   "autoload": {
     "psr-4": {
@@ -28,16 +28,16 @@
     }
   },
   "scripts": {
-    "phpcs": [
+    "cs": [
       "php phpcs.phar --standard=PSR2 ./src"
     ],
-    "phpmd": [
+    "md": [
       "php phpmd.phar ./src xml phpmd.xml"
     ],
-    "phpcbf": [
+    "cbf": [
       "php phpcbf.phar ./src --standard=PSR2 -w"
     ],
-    "phpcsfix": [
+    "csfix": [
       "php php-cs-fixer.phar fix ./src --rules=@PSR2"
     ]
   }

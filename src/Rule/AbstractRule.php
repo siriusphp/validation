@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\DataWrapper\ArrayWrapper;
 use Sirius\Validation\DataWrapper\WrapperInterface;
 use Sirius\Validation\ErrorMessage;
+use Sirius\Validation\Util\RuleHelper;
 
 abstract class AbstractRule
 {
@@ -16,7 +18,7 @@ abstract class AbstractRule
     /**
      * The validation context
      * This is the data set that the data being validated belongs to
-     * @var \Sirius\Validation\DataWrapper\WrapperInterface
+     * @var WrapperInterface
      */
     protected $context;
 
@@ -26,7 +28,7 @@ abstract class AbstractRule
      *
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Custom error message template for the validator instance
@@ -64,11 +66,11 @@ abstract class AbstractRule
      *
      * @var array
      */
-    protected $optionsIndexMap = array();
+    protected $optionsIndexMap = [];
 
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
-        $options = $this->normalizeOptions($options);
+        $options = RuleHelper::normalizeOptions($options, $this->optionsIndexMap);
         if (is_array($options) && ! empty($options)) {
             foreach ($options as $k => $v) {
                 $this->setOption($k, $v);
@@ -77,138 +79,12 @@ abstract class AbstractRule
     }
 
     /**
-     * Method that parses the option variable and converts it into an array
-     * You can pass anything to a validator like:
-     * - a query string: 'min=3&max=5'
-     * - a JSON string: '{"min":3,"max":5}'
-     * - a CSV string: '5,true' (for this scenario the 'optionsIndexMap' property is required)
-     *
-     * @param mixed $options
-     *
-     * @return array
-     * @throws \InvalidArgumentException
-     */
-    protected function normalizeOptions($options)
-    {
-        if ('0' === $options && count($this->optionsIndexMap) > 0) {
-            $options = array($this->optionsIndexMap[0] => '0');
-        }
-        if (! $options) {
-            return array();
-        }
-
-        if (is_array($options) && $this->arrayIsAssoc($options)) {
-            return $options;
-        }
-
-        $result = $options;
-        if ($options && is_string($options)) {
-            $startChar = substr($options, 0, 1);
-            if ($startChar == '{') {
-                $result = json_decode($options, true);
-            } elseif (strpos($options, '=') !== false) {
-                $result = $this->parseHttpQueryString($options);
-            } else {
-                $result = $this->parseCsvString($options);
-            }
-        }
-
-        if (! is_array($result)) {
-            throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
-        }
-
-        return $result;
-    }
-
-    /**
-     * Converts a HTTP query string to an array
-     *
-     * @param $str
-     *
-     * @return array
-     */
-    protected function parseHttpQueryString($str)
-    {
-        parse_str($str, $arr);
-
-        return $this->convertBooleanStrings($arr);
-    }
-
-    /**
-     * Converts 'true' and 'false' strings to TRUE and FALSE
-     *
-     * @param $v
-     *
-     * @return bool|array
-     */
-    protected function convertBooleanStrings($v)
-    {
-        if (is_array($v)) {
-            return array_map(array( $this, 'convertBooleanStrings' ), $v);
-        }
-        if ($v === 'true') {
-            return true;
-        }
-        if ($v === 'false') {
-            return false;
-        }
-
-        return $v;
-    }
-
-    /**
-     * Parses a CSV string and converts the result into an "options" array
-     * (an associative array that contains the options for the validation rule)
-     *
-     * @param $str
-     *
-     * @return array
-     */
-    protected function parseCsvString($str)
-    {
-        if (! isset($this->optionsIndexMap) || ! is_array($this->optionsIndexMap) || empty($this->optionsIndexMap)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Class %s is missing the `optionsIndexMap` property',
-                get_class($this)
-            ));
-        }
-
-        $options = explode(',', $str);
-        $result  = array();
-        foreach ($options as $k => $v) {
-            if (! isset($this->optionsIndexMap[$k])) {
-                throw new \InvalidArgumentException(sprintf(
-                    'Class %s does not have the index %d configured in the `optionsIndexMap` property',
-                    get_class($this),
-                    $k
-                ));
-            }
-            $result[$this->optionsIndexMap[$k]] = $v;
-        }
-
-        return $this->convertBooleanStrings($result);
-    }
-
-    /**
-     * Checks if an array is associative (ie: the keys are not numbers in sequence)
-     *
-     * @param array $arr
-     *
-     * @return bool
-     */
-    protected function arrayIsAssoc($arr)
-    {
-        return array_keys($arr) !== range(0, count($arr));
-    }
-
-
-    /**
      * Generates a unique string to identify the validator.
      * It is used to compare 2 validators so you don't add the same rule twice in a validator object
      *
      * @return string
      */
-    public function getUniqueId()
+    public function getUniqueId(): string
     {
         return get_called_class() . '|' . json_encode(ksort($this->options));
     }
@@ -221,7 +97,7 @@ abstract class AbstractRule
      * @param string $name
      * @param mixed $value
      *
-     * @return \Sirius\Validation\Rule\AbstractRule
+     * @return AbstractRule
      */
     public function setOption($name, $value)
     {
@@ -254,8 +130,8 @@ abstract class AbstractRule
      *
      * @param array|object $context
      *
-     * @throws \InvalidArgumentException
-     * @return \Sirius\Validation\Rule\AbstractRule
+     * @return AbstractRule
+     *@throws \InvalidArgumentException
      */
     public function setContext($context = null)
     {
@@ -268,7 +144,7 @@ abstract class AbstractRule
         if (! is_object($context) || ! $context instanceof WrapperInterface) {
             throw new \InvalidArgumentException(
                 'Validator context must be either an array or an instance
-                of Sirius\Validator\DataWrapper\WrapperInterface'
+                of ' . WrapperInterface::class
             );
         }
         $this->context = $context;
@@ -281,7 +157,7 @@ abstract class AbstractRule
      *
      * @param string $messageTemplate
      *
-     * @return \Sirius\Validation\Rule\AbstractRule
+     * @return AbstractRule
      */
     public function setMessageTemplate($messageTemplate)
     {
@@ -295,7 +171,7 @@ abstract class AbstractRule
      *
      * @return string
      */
-    public function getMessageTemplate()
+    public function getMessageTemplate(): string
     {
         if ($this->messageTemplate) {
             return $this->messageTemplate;
@@ -315,7 +191,7 @@ abstract class AbstractRule
      *
      * @return mixed
      */
-    abstract public function validate($value, $valueIdentifier = null);
+    abstract public function validate($value, string $valueIdentifier = null);
 
     /**
      * Sets the error message prototype that will be used when returning the error message
@@ -324,8 +200,8 @@ abstract class AbstractRule
      *
      * @param ErrorMessage $errorMessagePrototype
      *
+     * @return AbstractRule
      * @throws \InvalidArgumentException
-     * @return \Sirius\Validation\Rule\AbstractRule
      */
     public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
     {
@@ -352,7 +228,7 @@ abstract class AbstractRule
     /**
      * Retrieve the error message if validation failed
      *
-     * @return NULL|\Sirius\Validation\ErrorMessage
+     * @return NULL|ErrorMessage
      */
     public function getMessage()
     {
@@ -360,11 +236,9 @@ abstract class AbstractRule
             return null;
         }
         $message = $this->getPotentialMessage();
-        $message->setVariables(
-            array(
-                'value' => $this->value
-            )
-        );
+        $message->setVariables([
+            'value' => $this->value
+        ]);
 
         return $message;
     }
@@ -377,7 +251,7 @@ abstract class AbstractRule
      */
     public function getPotentialMessage()
     {
-        $message = clone ($this->getErrorMessagePrototype());
+        $message = clone $this->getErrorMessagePrototype();
         $message->setTemplate($this->getMessageTemplate());
         $message->setVariables($this->options);
 
@@ -411,7 +285,7 @@ abstract class AbstractRule
         }
 
         // the result should be ['lines', '5', 'quantity']
-        $relatedValueIdentifierParts = array();
+        $relatedValueIdentifierParts = [];
         foreach ($relatedItemParts as $index => $part) {
             if ($part === '*' && isset($valueIdentifierParts[$index])) {
                 $relatedValueIdentifierParts[] = $valueIdentifierParts[$index];

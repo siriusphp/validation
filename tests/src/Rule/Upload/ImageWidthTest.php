@@ -2,10 +2,10 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-class ImageWidthTest extends \PHPUnit_Framework_TestCase
+class ImageWidthTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->validator = new ImageWidth(array( 'min' => 500 ));
     }

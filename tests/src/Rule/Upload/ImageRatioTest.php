@@ -2,10 +2,10 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-class ImageRatioTest extends \PHPUnit_Framework_TestCase
+class ImageRatioTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->validator = new ImageRatio(array( 'ratio' => 1 ));
     }

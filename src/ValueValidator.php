@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Sirius\Validation;
 
@@ -12,7 +13,7 @@ class ValueValidator
      *
      * @var array
      */
-    protected $messages = array();
+    protected $messages = [];
 
     /**
      * Will be used to construct the rules
@@ -76,14 +77,14 @@ class ValueValidator
      * // add multiple rules at once
      * $validator->add(array(
      *   'required',
-     *   array('required', array('email', null, '{label} must be an email', 'Field B')),
+     *   ['required', ['email', null, '{label} must be an email', 'Field B']],
      * ));
      *
      * // add multiple rules using a string
      * $validator->add('required | email');
      *
      * // add validator with options
-     * $validator->add('minlength', array('min' => 2), '{label} should have at least {min} characters', 'Field label');
+     * $validator->add('minlength', ['min' => 2], '{label} should have at least {min} characters', 'Field label');
      *
      * // add validator with string and parameters as JSON string
      * $validator->add('minlength({"min": 2})({label} should have at least {min} characters)(Field label)');
@@ -133,16 +134,8 @@ class ValueValidator
     {
         foreach ($rules as $singleRule) {
             // make sure the rule is an array (the parameters of subsequent calls);
-            $singleRule = is_array($singleRule) ? $singleRule : array(
-                $singleRule
-            );
-            call_user_func_array(
-                array(
-                    $this,
-                    'add'
-                ),
-                $singleRule
-            );
+            $singleRule = is_array($singleRule) ? $singleRule : [$singleRule];
+            call_user_func_array([$this, 'add'], $singleRule);
         }
 
         return $this;
@@ -193,12 +186,12 @@ class ValueValidator
      *
      *          will be converted into
      *
-     *          array(
-     *          'minLength', // validator name
-     *          array('min' => 2'), // validator options
-     *          '{label} must have at least {min} characters',
-     *          'Street' // label
-     *          )
+     *          [
+     *            'minLength', // validator name
+     *            ['min' => 2'], // validator options
+     *            '{label} must have at least {min} characters',
+     *            'Street' // label
+     *          ]
      *
      * @param string $ruleAsString
      *
@@ -207,13 +200,13 @@ class ValueValidator
     protected function parseRule($ruleAsString)
     {
         $ruleAsString    = trim($ruleAsString);
-        $options         = array();
+        $options         = [];
         $messageTemplate = null;
         $label           = null;
 
         $name         = substr($ruleAsString, 0, strpos($ruleAsString, '('));
         $ruleAsString = substr($ruleAsString, strpos($ruleAsString, '('));
-        $matches      = array();
+        $matches      = [];
         preg_match_all('/\(([^\)]*)\)/', $ruleAsString, $matches);
 
         if (isset($matches[1])) {
@@ -228,18 +221,18 @@ class ValueValidator
             }
         }
 
-        return array(
+        return [
             $name,
             $options,
             $messageTemplate,
             $label
-        );
+        ];
     }
 
 
-    public function validate($value, $valueIdentifier = null, DataWrapper\WrapperInterface $context = null)
+    public function validate($value, string $valueIdentifier = null, DataWrapper\WrapperInterface $context = null)
     {
-        $this->messages = array();
+        $this->messages = [];
         $isRequired     = false;
 
         // evaluate the required rules
@@ -304,6 +297,6 @@ class ValueValidator
 
     protected function isEmpty($value)
     {
-        return in_array($value, array(null, ''), true);
+        return in_array($value, [null, ''], true);
     }
 }

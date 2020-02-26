@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 class Website extends AbstractRule
@@ -8,7 +9,7 @@ class Website extends AbstractRule
     const MESSAGE = 'This input must be a valid website address';
     const LABELED_MESSAGE = '{label} must be a valid website address';
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value   = $value;
         $this->success = (substr($value, 0, 2) == '//')

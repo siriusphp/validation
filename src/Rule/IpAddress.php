@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 class IpAddress extends AbstractRule
@@ -6,7 +7,7 @@ class IpAddress extends AbstractRule
     const MESSAGE = 'This input is not a valid IP address';
     const LABELED_MESSAGE = '{label} is not a valid IP address';
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value = $value;
         // Do not allow private and reserved range IPs

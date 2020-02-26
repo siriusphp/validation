@@ -5,7 +5,7 @@ namespace Sirius\Validation\Rule;
 use Sirius\Validation\DataWrapper\ArrayWrapper;
 use Sirius\Validation\Rule\Required as Rule;
 
-class RequiredTest extends \PHPUnit_Framework_TestCase
+class RequiredTest extends \PHPUnit\Framework\TestCase
 {
 
     /**
@@ -13,7 +13,7 @@ class RequiredTest extends \PHPUnit_Framework_TestCase
      */
     protected $rule;
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->rule = new Rule();
     }

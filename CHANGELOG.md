@@ -1,3 +1,12 @@
+#### 3.0.0
+
+- Simplified the API (ie: less options to create rules)
+- Expanded the ability to set custom error messages per selector (eg: "address.city.required")
+
+#### 2.3.0
+
+- Removed 5.* support
+
 #### 2.2.0
 
 - added `Upload\Required` rule

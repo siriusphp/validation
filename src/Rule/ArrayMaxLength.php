@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 class ArrayMaxLength extends AbstractRule
@@ -9,13 +10,13 @@ class ArrayMaxLength extends AbstractRule
 
     const LABELED_MESSAGE = '{label} should contain less than {min} items';
 
-    protected $options = array();
+    protected $options = [];
 
-    protected $optionsIndexMap = array(
+    protected $optionsIndexMap = [
         self::OPTION_MAX
-    );
+    ];
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value = $value;
         if (! isset($this->options['max'])) {

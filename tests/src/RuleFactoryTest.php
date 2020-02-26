@@ -13,10 +13,10 @@ class TestingCustomRule extends AbstractRule
     }
 }
 
-class RuleFactoryTest extends \PHPUnit_Framework_TestCase
+class RuleFactoryTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->ruleFactory = new RuleFactory();
     }

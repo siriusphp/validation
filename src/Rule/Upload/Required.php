@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: Gumacs
@@ -16,7 +17,7 @@ class Required extends AbstractRule
 
     const LABELED_MESSAGE = '{label} is required';
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value = $value;
         if (! is_array($value) || ! isset($value['tmp_name']) ||

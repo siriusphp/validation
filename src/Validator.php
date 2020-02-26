@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation;
 
 use Sirius\Validation\ValidatorInterface;
@@ -105,12 +106,12 @@ class Validator implements ValidatorInterface
     /**
      * @var array
      */
-    protected $rules = array();
+    protected $rules = [];
 
     /**
      * @var array
      */
-    protected $messages = array();
+    protected $messages = [];
 
     /**
      * @var \Sirius\Validation\RuleFactory
@@ -180,20 +181,17 @@ class Validator implements ValidatorInterface
      * // add multiple rules at once
      * $validator->add(array(
      *   'field_a' => 'required',
-     *   'field_b' => array('required', array('email', null, '{label} must be an email', 'Field B')),
+     *   'field_b' => ['required', ['email', null, '{label} must be an email', 'Field B']],
      * ));
      *
      * // add multiple rules using arrays
-     * $validator->add('field', array('required', 'email'));
+     * $validator->add('field', ['required', 'email']);
      *
      * // add multiple rules using a string
      * $validator->add('field', 'required | email');
      *
      * // add validator with options
-     * $validator->add('field:Label', 'minlength', array('min' => 2), '{label} should have at least {min} characters');
-     *
-     * // add validator with string and parameters as JSON string
-     * $validator->add('field:Label', 'minlength({"min": 2})({label} should have at least {min} characters)');
+     * $validator->add('field:Label', 'minlength', ['min' => 2], '{label} should have at least {min} characters');
      *
      * // add validator with string and parameters as query string
      * $validator->add('field:label', 'minlength(min=2)({label} should have at least {min} characters)');
@@ -249,14 +247,8 @@ class Validator implements ValidatorInterface
                 // the rule is an array, this means it contains $name, $options, $messageTemplate, $label
                 if (is_array($rule)) {
                     array_unshift($rule, $selector);
-                    call_user_func_array(
-                        array(
-                            $this,
-                            'add'
-                        ),
-                        $rule
-                    );
-                    // the rule is only the name of the validator
+                    call_user_func_array([$this, 'add'], $rule);
+                // the rule is only the name of the validator
                 } else {
                     $this->add($selector, $rule);
                 }
@@ -311,7 +303,7 @@ class Validator implements ValidatorInterface
         $this->getDataWrapper($data);
         $this->wasValidated = false;
         // reset messages
-        $this->messages = array();
+        $this->messages = [];
 
         return $this;
     }
@@ -361,7 +353,7 @@ class Validator implements ValidatorInterface
             return $this;
         }
         if (!array_key_exists($item, $this->messages)) {
-            $this->messages[$item] = array();
+            $this->messages[$item] = [];
         }
         $this->messages[$item][] = $message;
 
@@ -382,7 +374,7 @@ class Validator implements ValidatorInterface
                 unset($this->messages[$item]);
             }
         } elseif ($item === null) {
-            $this->messages = array();
+            $this->messages = [];
         }
 
         return $this;
@@ -397,7 +389,7 @@ class Validator implements ValidatorInterface
     public function getMessages($item = null)
     {
         if (is_string($item)) {
-            return array_key_exists($item, $this->messages) ? $this->messages[$item] : array();
+            return array_key_exists($item, $this->messages) ? $this->messages[$item] : [];
         }
 
         return $this->messages;

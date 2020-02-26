@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 class AlphaNumeric extends AbstractRule
@@ -7,7 +8,7 @@ class AlphaNumeric extends AbstractRule
 
     const LABELED_MESSAGE = '{label} must contain only letters and digits';
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value   = $value;
         $this->success = (bool) ctype_alnum((string) str_replace(' ', '', $value));

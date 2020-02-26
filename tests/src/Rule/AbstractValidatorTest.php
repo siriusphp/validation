@@ -15,10 +15,10 @@ class FakeRule extends \Sirius\Validation\Rule\AbstractRule
 }
 
 
-class AbstractRuleTest extends \PHPUnit_Framework_TestCase
+class AbstractRuleTest extends \PHPUnit\Framework\TestCase
 {
 
-    function setUp()
+    protected function setUp(): void
     {
         $this->rule = new FakeRule();
     }
@@ -62,7 +62,7 @@ class AbstractRuleTest extends \PHPUnit_Framework_TestCase
 
     function testErrorThrownOnInvalidContext()
     {
-        $this->setExpectedException('\InvalidArgumentException');
+        $this->expectException('\InvalidArgumentException');
         $this->rule->setContext(new \stdClass());
     }
 

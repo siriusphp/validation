@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 class Email extends AbstractRule
@@ -7,7 +8,7 @@ class Email extends AbstractRule
 
     const LABELED_MESSAGE = '{label} must be a valid email address';
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value   = $value;
         $this->success = (filter_var((string) $value, FILTER_VALIDATE_EMAIL) !== false);

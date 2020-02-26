@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
 class ArrayMinLength extends AbstractRule
@@ -8,13 +9,13 @@ class ArrayMinLength extends AbstractRule
     const MESSAGE = 'This input should contain at least {min} items';
     const LABELED_MESSAGE = '{label} should contain at least {min} items';
 
-    protected $options = array();
+    protected $options = [];
 
-    protected $optionsIndexMap = array(
+    protected $optionsIndexMap = [
         0 => self::OPTION_MIN
-    );
+    ];
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value = $value;
         if (! isset($this->options['min'])) {

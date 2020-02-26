@@ -1,7 +1,9 @@
 <?php
+declare(strict_types=1);
 namespace Sirius\Validation\Rule\File;
 
 use Sirius\Validation\Rule\AbstractRule;
+use Sirius\Validation\Util\RuleHelper;
 
 class ImageRatio extends AbstractRule
 {
@@ -15,10 +17,10 @@ class ImageRatio extends AbstractRule
 
     const LABELED_MESSAGE = '{label} does must have a ratio (width/height) of {ratio})';
 
-    protected $options = array(
+    protected $options = [
         self::OPTION_RATIO        => 0,
         self::OPTION_ERROR_MARGIN => 0,
-    );
+    ];
 
     protected function normalizeRatio($ratio)
     {
@@ -34,10 +36,10 @@ class ImageRatio extends AbstractRule
         return 0;
     }
 
-    public function validate($value, $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null)
     {
         $this->value = $value;
-        $ratio       = $this->normalizeRatio($this->options[self::OPTION_RATIO]);
+        $ratio       = RuleHelper::normalizeImageRatio($this->options[self::OPTION_RATIO]);
         if (! file_exists($value)) {
             $this->success = false;
         } elseif ($ratio == 0) {
