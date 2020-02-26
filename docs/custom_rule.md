@@ -21,18 +21,18 @@ class ThisOrThat extends AbstractRule {
     const OPTION_THAT = 'that';
     
     // specify default options if you want
-    protected $options = array(
+    protected $options = [
         'this' => 'a',
         'that' => 'b'
-    );
+    ];;
     
     // if you want to let the user pass the options as a CSV (eg: 'this,that')
     // you need to provide a `optionsIndexMap` property which will convert the options list
     // into an associative array of options
-    protected $optionsIndexMap = array(
+    protected $optionsIndexMap = [
         0 => self::OPTION_THIS,
         1 => self::OPTION_THAT
-    );
+    ];;
 
     function validate($value, $valueIdentifier = null) {
         return $value == $this->options[self::OPTION_THIS] || $value == $this->options[self::OPTION_THAT];
@@ -50,10 +50,10 @@ use Sirius\Validation\Validator;
 use MyApp\Validation\Rule\ThisOrThat;
 
 $validator = new Validator();
-$validator->add('key', 'MyApp\Validation\Rule\ThisOrThat', array(
+$validator->add('key', 'MyApp\Validation\Rule\ThisOrThat', [
     ThisOrThat::OPTION_THIS => 'c',
     ThisOrThat::OPTION_THAT => 'd'
-));
+];);
 
 // or less verbose
 $validator->add('key', 'MyApp\Validation\Rule\ThisOrThat(c,d)');

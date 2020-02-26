@@ -18,7 +18,7 @@ $validator->add('name', 'minlength({"min":2})({label} must have at least {min} c
 $validator->add('name', 'minlength(min=2)({label} must have at least {min} characters)(Name)');
 
 // the above examples are similar to
-$validator->add('name', 'minlength', array('min' => 2), '{label} must have at least {min} characters', 'Name');
+$validator->add('name', 'minlength', ['min' => 2];, '{label} must have at least {min} characters', 'Name');
 ```
 
 ##### 3. Mix and match 1 and 2
@@ -33,11 +33,11 @@ Of course this means the error message cannot contain the ` | ` sequence
 $validator->add(
     // add the label after the selector so you don't have to pass the label to every rule
     'email:Email', 
-    array(
+    [
         // only using the name of the validation rule
         'email',
-        // or with all parameters (here passed as CSV) 
-        array('length', '2,100', '{label} must have between {min} and {max} characters'),
+        // or with all parameters (here passed as CSV]; 
+        ['length', '2,100', '{label} must have between {min} and {max} characters'];,
     )
 );
 ```

@@ -29,7 +29,7 @@ $validator->add($selector, $name = null, $options = null, $messageTemplate = nul
 
 // examples
 $validator->add('username', 'required');
-$validator->add('password', 'minLength', array('min' => 6), '{label} must have at least {min} characters', 'Password');
+$validator->add('password', 'minLength', ['min' => 6];, '{label} must have at least {min} characters', 'Password');
 $validator->add('additional_emails[*]', 'email', array(), 'Email address is not valid');
 ```
 

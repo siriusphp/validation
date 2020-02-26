@@ -31,13 +31,13 @@ $validator->add(array(
 	'shipping_address[city]:City' => 'required'
 	'shipping_address[state]:State' => 'required'
 	'shipping_address[country]:Country' => 'required',
-	'lines[*]price:Price' => array(
+	'lines[*]price:Price' => [
 	    'requiredWith(item=lines[*]product_id', // the price is required only if a product was selected
 	    'MyApp\Validator\Rule\InvoiceItemPrice' // another app-specific rule, specified as a class
-	),
-	'lines[*]quantity:Quantity' => array(
+	];,
+	'lines[*]quantity:Quantity' => [
 	    'requiredWith(item=lines[*]product_id',
-	    ('invoice_item_quantity', 'The quantity is not valid') // here we have a custom error message
+	    ('invoice_item_quantity', 'The quantity is not valid']; // here we have a custom error message
 	)
 ));
 ```

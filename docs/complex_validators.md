@@ -50,7 +50,7 @@ $UniqueUsername = $dependencyInjectionContainer->get('UniqueUsername');
 
 $validator = new Validator($ruleFactory);
 // the second parameter for the add() can be the name of a rule or a callback
-$validator->add('username', array($UniqueUsername, 'validate'));
+$validator->add('username', [$UniqueUsername, 'validate'];);
 ```
 
 ###2. Pass the dependencies as options
@@ -76,9 +76,9 @@ and in your validator you do something like
 
 ```
 $dbConn = $serviceLocator->get('dbconnection');
-$validator->add('username', 'MyApp\Validation\Rule\UniqueUsername', array(
+$validator->add('username', 'MyApp\Validation\Rule\UniqueUsername', [
 	'db_connection' => $dbConn
-));
+];);
 ```
 
 ###3. Extend the `RuleFactory` class
@@ -100,7 +100,7 @@ class RuleFactory extends \Sirius\Validation\RuleFactory {
 
 	protected function constructValidatorByNameAndOptions($name, $options) {
 		$validatorClass = $this->validatorsMap[$name];
-		$validator = $this->dic->createInstanceWithParams($validatorClass, array($options));
+		$validator = $this->dic->createInstanceWithParams($validatorClass, [$options];);
 		return $validator;
 	}
 }
