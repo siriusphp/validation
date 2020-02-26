@@ -49,8 +49,12 @@ class Image extends AbstractRule
             $this->success = $value['error'] === UPLOAD_ERR_NO_FILE;
         } else {
             $imageInfo     = getimagesize($value['tmp_name']);
-            $extension     = isset($this->imageTypesMap[$imageInfo[2]]) ? $this->imageTypesMap[$imageInfo[2]] : false;
-            $this->success = ($extension && in_array($extension, $this->options[self::OPTION_ALLOWED_IMAGES]));
+            if (!is_array($imageInfo)) {
+                $this->success = false;
+            } else {
+                $extension     = isset($this->imageTypesMap[$imageInfo[2]]) ? $this->imageTypesMap[$imageInfo[2]] : false;
+                $this->success = ($extension && in_array($extension, $this->options[self::OPTION_ALLOWED_IMAGES]));
+            }
         }
 
         return $this->success;
