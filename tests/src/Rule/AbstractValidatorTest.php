@@ -5,7 +5,7 @@ namespace Sirius\Validation\Rule;
 class FakeRule extends \Sirius\Validation\Rule\AbstractRule
 {
 
-    function validate($value, $valueIdentifier = null)
+    function validate($value, string $valueIdentifier = null):bool
     {
         $this->value   = $value;
         $this->success = (bool) $value && isset($this->context) && $this->context->getItemValue('key');

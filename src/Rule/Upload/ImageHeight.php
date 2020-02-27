@@ -18,7 +18,7 @@ class ImageHeight extends AbstractRule
         self::OPTION_MIN => 0,
     ];
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
         if (! is_array($value) || ! isset($value['tmp_name'])) {

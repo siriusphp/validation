@@ -2,6 +2,7 @@
 declare(strict_types=1);
 namespace Sirius\Validation;
 
+use Sirius\Validation\DataWrapper\WrapperInterface;
 use Sirius\Validation\ValidatorInterface;
 
 class Validator implements ValidatorInterface
@@ -114,7 +115,7 @@ class Validator implements ValidatorInterface
     protected $messages = [];
 
     /**
-     * @var \Sirius\Validation\RuleFactory
+     * @var RuleFactory
      */
     protected $ruleFactory;
 
@@ -126,7 +127,7 @@ class Validator implements ValidatorInterface
     /**
      * The object that will contain the data
      *
-     * @var \Sirius\Validation\DataWrapper\WrapperInterface
+     * @var WrapperInterface
      */
     protected $dataWrapper;
 
@@ -145,9 +146,9 @@ class Validator implements ValidatorInterface
     /**
      * Retrieve the rule factory
      *
-     * @return \Sirius\Validation\RuleFactory
+     * @return RuleFactory
      */
-    public function getRuleFactory()
+    public function getRuleFactory():RuleFactory
     {
         return $this->ruleFactory;
     }
@@ -157,9 +158,9 @@ class Validator implements ValidatorInterface
      *
      * @throws \InvalidArgumentException
      *
-     * @return \Sirius\Validation\Rule\AbstractValidator
+     * @return $this
      */
-    public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
+    public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype):Validator
     {
         $this->errorMessagePrototype = $errorMessagePrototype;
 
@@ -171,7 +172,7 @@ class Validator implements ValidatorInterface
      *
      * @return ErrorMessage
      */
-    public function getErroMessagePrototype()
+    public function getErroMessagePrototype():ErrorMessage
     {
         return $this->errorMessagePrototype;
     }
@@ -204,9 +205,9 @@ class Validator implements ValidatorInterface
      *
      * @throws \InvalidArgumentException
      *
-     * @return Validator
+     * @return $this
      */
-    public function add($selector, $name = null, $options = null, $messageTemplate = null, $label = null)
+    public function add($selector, $name = null, $options = null, $messageTemplate = null, $label = null):Validator
     {
         // the $selector is an associative array with $selector => $rules
         if (func_num_args() == 1) {
@@ -231,9 +232,9 @@ class Validator implements ValidatorInterface
     /**
      * @param array $selectorRulesCollection
      *
-     * @return Validator
+     * @return $this
      */
-    public function addMultiple($selectorRulesCollection)
+    public function addMultiple($selectorRulesCollection):Validator
     {
         foreach ($selectorRulesCollection as $selector => $rules) {
             // a single rule was passed for the $valueSelector
@@ -268,7 +269,7 @@ class Validator implements ValidatorInterface
      *
      * @return self
      */
-    public function remove($selector, $name = true, $options = null)
+    public function remove($selector, $name = true, $options = null):Validator
     {
         if (!array_key_exists($selector, $this->rules)) {
             return $this;
@@ -286,9 +287,9 @@ class Validator implements ValidatorInterface
      *
      * @param mixed $data
      *
-     * @return \Sirius\Validation\DataWrapper\WrapperInterface
+     * @return WrapperInterface
      */
-    public function getDataWrapper($data = null)
+    public function getDataWrapper($data = null):WrapperInterface
     {
         // if $data is set reconstruct the data wrapper
         if (!$this->dataWrapper || $data) {
@@ -298,7 +299,7 @@ class Validator implements ValidatorInterface
         return $this->dataWrapper;
     }
 
-    public function setData($data)
+    public function setData($data):Validator
     {
         $this->getDataWrapper($data);
         $this->wasValidated = false;
@@ -316,7 +317,7 @@ class Validator implements ValidatorInterface
      *
      * @return boolean
      */
-    public function validate($data = null)
+    public function validate($data = null):bool
     {
         if ($data !== null) {
             $this->setData($data);
@@ -347,7 +348,7 @@ class Validator implements ValidatorInterface
      *
      * @return self
      */
-    public function addMessage($item, $message = null)
+    public function addMessage($item, $message = null):Validator
     {
         if ($message === null || $message === '') {
             return $this;
@@ -367,7 +368,7 @@ class Validator implements ValidatorInterface
      *
      * @return self
      */
-    public function clearMessages($item = null)
+    public function clearMessages($item = null):Validator
     {
         if (is_string($item)) {
             if (array_key_exists($item, $this->messages)) {
@@ -386,7 +387,7 @@ class Validator implements ValidatorInterface
      *
      * @return array
      */
-    public function getMessages($item = null)
+    public function getMessages($item = null):array
     {
         if (is_string($item)) {
             return array_key_exists($item, $this->messages) ? $this->messages[$item] : [];
@@ -395,7 +396,7 @@ class Validator implements ValidatorInterface
         return $this->messages;
     }
 
-    public function getRules()
+    public function getRules():array
     {
         return $this->rules;
     }

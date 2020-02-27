@@ -43,7 +43,7 @@ class RequiredWhen extends Required
         return $rule;
     }
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
 

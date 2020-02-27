@@ -191,7 +191,7 @@ abstract class AbstractRule
      *
      * @return mixed
      */
-    abstract public function validate($value, string $valueIdentifier = null);
+    abstract public function validate($value, string $valueIdentifier = null):bool;
 
     /**
      * Sets the error message prototype that will be used when returning the error message
@@ -216,7 +216,7 @@ abstract class AbstractRule
      *
      * @return ErrorMessage
      */
-    public function getErrorMessagePrototype()
+    public function getErrorMessagePrototype():ErrorMessage
     {
         if (! $this->errorMessagePrototype) {
             $this->errorMessagePrototype = new ErrorMessage();
@@ -249,7 +249,7 @@ abstract class AbstractRule
      *
      * @return ErrorMessage
      */
-    public function getPotentialMessage()
+    public function getPotentialMessage(): ErrorMessage
     {
         $message = clone $this->getErrorMessagePrototype();
         $message->setTemplate($this->getMessageTemplate());

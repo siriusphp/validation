@@ -7,7 +7,7 @@ use Sirius\Validation\Rule\AbstractRule;
 class TestingCustomRule extends AbstractRule
 {
 
-    function validate($value, $valueIdentifier = null)
+    function validate($value, string $valueIdentifier = null):bool
     {
         return (bool) ($value % 2);
     }

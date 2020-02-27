@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Sirius\Validation\Rule\File;
 
+use Sirius\Validation\ErrorMessage;
 use Sirius\Validation\Rule\AbstractRule;
 
 class Extension extends AbstractRule
@@ -30,7 +31,7 @@ class Extension extends AbstractRule
         return parent::setOption($name, $value);
     }
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
         if (! file_exists($value)) {
@@ -46,7 +47,7 @@ class Extension extends AbstractRule
         return $this->success;
     }
 
-    public function getPotentialMessage()
+    public function getPotentialMessage():ErrorMessage
     {
         $message        = parent::getPotentialMessage();
         $fileExtensions = array_map('strtoupper', $this->options[self::OPTION_ALLOWED_EXTENSIONS]);

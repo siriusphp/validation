@@ -39,7 +39,7 @@ class Callback extends AbstractRule
         return $uniqueId;
     }
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
         if (! isset($this->options['callback']) || ! is_callable($this->options['callback'])) {

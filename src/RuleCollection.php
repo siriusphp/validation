@@ -29,7 +29,7 @@ class RuleCollection extends \SplObjectStorage
 
     public function getHash($rule)
     {
-        /* @var $rule Rule\AbstractValidator */
+        /* @var $rule Rule\AbstractRule */
         return $rule->getUniqueId();
     }
 }

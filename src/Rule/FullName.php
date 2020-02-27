@@ -10,7 +10,7 @@ class FullName extends AbstractRule
     /**
      * This is not going to work with Asian names, http://en.wikipedia.org/wiki/Chinese_name.
      */
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
 

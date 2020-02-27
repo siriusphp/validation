@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Sirius\Validation\Rule\Upload;
 
+use Sirius\Validation\ErrorMessage;
 use Sirius\Validation\Rule\AbstractRule;
 
 class Image extends AbstractRule
@@ -40,7 +41,7 @@ class Image extends AbstractRule
         return parent::setOption($name, $value);
     }
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
         if (! is_array($value) || ! isset($value['tmp_name'])) {
@@ -60,7 +61,7 @@ class Image extends AbstractRule
         return $this->success;
     }
 
-    public function getPotentialMessage()
+    public function getPotentialMessage():ErrorMessage
     {
         $message    = parent::getPotentialMessage();
         $imageTypes = array_map('strtoupper', $this->options[self::OPTION_ALLOWED_IMAGES]);

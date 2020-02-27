@@ -17,7 +17,7 @@ class MinLength extends AbstractStringRule
         1 => self::OPTION_ENCODING
     ];
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
         if (! isset($this->options['min'])) {

@@ -22,7 +22,7 @@ class ImageRatio extends AbstractRule
         self::OPTION_ERROR_MARGIN => 0,
     ];
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
         $ratio       = RuleHelper::normalizeImageRatio($this->options[self::OPTION_RATIO]);

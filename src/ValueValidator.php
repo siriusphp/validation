@@ -63,7 +63,7 @@ class ValueValidator
         $this->rules = new RuleCollection;
     }
 
-    public function setLabel($label = null)
+    public function setLabel($label = null):ValueValidator
     {
         $this->label = $label;
 
@@ -99,7 +99,7 @@ class ValueValidator
      *
      * @return ValueValidator
      */
-    public function add($name, $options = null, $messageTemplate = null, $label = null)
+    public function add($name, $options = null, $messageTemplate = null, $label = null):ValueValidator
     {
         if (is_array($name) && !is_callable($name)) {
             return $this->addMultiple($name);
@@ -130,7 +130,7 @@ class ValueValidator
      *
      * @return ValueValidator
      */
-    public function addMultiple($rules)
+    public function addMultiple($rules):ValueValidator
     {
         foreach ($rules as $singleRule) {
             // make sure the rule is an array (the parameters of subsequent calls);
@@ -146,7 +146,7 @@ class ValueValidator
      *
      * @return ValueValidator
      */
-    public function addRule(AbstractRule $validationRule)
+    public function addRule(AbstractRule $validationRule):ValueValidator
     {
         $validationRule->setErrorMessagePrototype($this->errorMessagePrototype);
         $this->rules->attach($validationRule);
@@ -166,7 +166,7 @@ class ValueValidator
      * @internal param string $selector data selector
      * @return self
      */
-    public function remove($name = true, $options = null)
+    public function remove($name = true, $options = null):ValueValidator
     {
         if ($name === true) {
             $this->rules = new RuleCollection();
@@ -197,7 +197,7 @@ class ValueValidator
      *
      * @return array
      */
-    protected function parseRule($ruleAsString)
+    protected function parseRule($ruleAsString):array
     {
         $ruleAsString    = trim($ruleAsString);
         $options         = [];
@@ -230,7 +230,7 @@ class ValueValidator
     }
 
 
-    public function validate($value, string $valueIdentifier = null, DataWrapper\WrapperInterface $context = null)
+    public function validate($value, string $valueIdentifier = null, DataWrapper\WrapperInterface $context = null):bool
     {
         $this->messages = [];
         $isRequired     = false;
@@ -268,7 +268,7 @@ class ValueValidator
         return count($this->messages) === 0;
     }
 
-    private function validateRule($rule, $value, $valueIdentifier, $context)
+    private function validateRule($rule, $value, $valueIdentifier, $context):bool
     {
         $rule->setContext($context);
         if (!$rule->validate($value, $valueIdentifier)) {
@@ -278,24 +278,24 @@ class ValueValidator
         return true;
     }
 
-    public function getMessages()
+    public function getMessages():array
     {
         return $this->messages;
     }
 
-    public function addMessage($message)
+    public function addMessage($message):ValueValidator
     {
         array_push($this->messages, $message);
 
         return $this;
     }
 
-    public function getRules()
+    public function getRules():RuleCollection
     {
         return $this->rules;
     }
 
-    protected function isEmpty($value)
+    protected function isEmpty($value):bool
     {
         return in_array($value, [null, ''], true);
     }

@@ -19,7 +19,7 @@ class Length extends AbstractRule
         2 => self::OPTION_ENCODING
     ];
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value  = $value;
         $maxValidator = new MinLength();

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Sirius\Validation;
 
+use Sirius\Validation\Rule\AbstractRule;
 use Sirius\Validation\Rule\Callback as CallbackRule;
 
 class RuleFactory
@@ -106,7 +107,7 @@ class RuleFactory
      * @param string $name
      * @param string $class
      *
-     * @return \Sirius\Validation\RuleFactory
+     * @return $this
      */
     public function register($name, $class, $errorMessage = '', $labeledErrorMessage = '')
     {
@@ -136,9 +137,9 @@ class RuleFactory
      *            label of the form input field or model attribute
      *
      * @throws \InvalidArgumentException
-     * @return \Sirius\Validation\Rule\AbstractValidator
+     * @return AbstractRule
      */
-    public function createRule($name, $options = null, $messageTemplate = null, $label = null)
+    public function createRule($name, $options = null, $messageTemplate = null, $label = null):AbstractRule
     {
         $validator = $this->construcRuleByNameAndOptions($name, $options);
 

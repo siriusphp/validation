@@ -8,7 +8,7 @@ class Email extends AbstractRule
 
     const LABELED_MESSAGE = '{label} must be a valid email address';
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value   = $value;
         $this->success = (filter_var((string) $value, FILTER_VALIDATE_EMAIL) !== false);

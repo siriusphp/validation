@@ -18,7 +18,7 @@ class Date extends AbstractRule
         0 => self::OPTION_FORMAT
     ];
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value   = $value;
         $this->success = $value == date(

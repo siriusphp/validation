@@ -13,7 +13,7 @@ class Equal extends AbstractRule
         0 => self::OPTION_VALUE
     ];
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
         if (isset($this->options[self::OPTION_VALUE])) {

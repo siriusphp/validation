@@ -17,7 +17,7 @@ class Size extends AbstractRule
         self::OPTION_SIZE => '2M'
     ];
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
         if (! file_exists($value)) {

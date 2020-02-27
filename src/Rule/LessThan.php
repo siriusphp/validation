@@ -19,7 +19,7 @@ class LessThan extends AbstractRule
         1 => self::OPTION_INCLUSIVE
     ];
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
         if (! isset($this->options['max'])) {

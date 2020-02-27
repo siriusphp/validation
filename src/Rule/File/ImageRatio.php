@@ -36,7 +36,7 @@ class ImageRatio extends AbstractRule
         return 0;
     }
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value = $value;
         $ratio       = RuleHelper::normalizeImageRatio($this->options[self::OPTION_RATIO]);

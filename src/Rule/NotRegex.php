@@ -7,7 +7,7 @@ class NotRegex extends Regex
     const MESSAGE = 'This input should not match the regular expression {pattern}';
     const LABELED_MESSAGE = '{label} Tshould not match the regular expression {pattern}';
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         parent::validate($value, $valueIdentifier);
         $this->success = ! $this->success;

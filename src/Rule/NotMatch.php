@@ -7,7 +7,7 @@ class NotMatch extends Match
     const MESSAGE = 'This input does match {item}';
     const LABELED_MESSAGE = '{label} does match {item}';
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         parent::validate($value, $valueIdentifier);
         $this->success = ! $this->success;

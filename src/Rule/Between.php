@@ -17,7 +17,7 @@ class Between extends AbstractRule
         1 => self::OPTION_MAX
     ];
 
-    public function validate($value, string $valueIdentifier = null)
+    public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value  = $value;
         $minValidator = new LessThan();
