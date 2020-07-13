@@ -55,7 +55,7 @@ class RequiredWhen extends Required
 
             $itemRule = $this->getItemRule();
             if ($itemRule->validate($relatedItemValue, $relatedItemPath)) {
-                $this->success = ($value !== null && trim($value) !== '');
+                $this->success = ($value !== null && (!is_string($value) || trim($value) !== ''));
             } else {
                 $this->success = true;
             }
