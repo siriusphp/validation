@@ -5,6 +5,7 @@ namespace Sirius\Validation;
 
 use Sirius\Validation\Rule\AbstractRule;
 use Sirius\Validation\Rule\Callback as CallbackRule;
+use Sirius\Validation\Rule\Matching;
 
 class RuleFactory
 {
@@ -61,7 +62,6 @@ class RuleFactory
             'IpAddress',
             'Length',
             'LessThan',
-            'Match',
             'MaxLength',
             'MinLength',
             'NotEqual',
@@ -98,6 +98,7 @@ class RuleFactory
             $labeledErrorMessage = constant($fullClassName . '::LABELED_MESSAGE');
             $this->register($name, $fullClassName, $errorMessage, $labeledErrorMessage);
         }
+        $this->register('match', Matching::class, Matching::MESSAGE, Matching::LABELED_MESSAGE);
     }
 
 

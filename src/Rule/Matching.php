@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
-class Match extends AbstractRule
+class Matching extends AbstractRule
 {
     const OPTION_ITEM = 'item';
 

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace Sirius\Validation\Rule;
 
-class NotMatch extends Match
+class NotMatch extends Matching
 {
     const MESSAGE = 'This input does match {item}';
     const LABELED_MESSAGE = '{label} does match {item}';
