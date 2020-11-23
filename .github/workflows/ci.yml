@@ -17,6 +17,7 @@ jobs:
               phpunit-flags: '--no-coverage'
 
     runs-on: ubuntu-latest
+    continue-on-failure: true
 
     steps:
     - uses: actions/checkout@v2
@@ -45,10 +46,8 @@ jobs:
 
     - name: Run test suite
       run: |
-        wget -c https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-        composer run-script cs
         mkdir -p build/logs
         vendor/bin/phpunit -c tests/phpunit.xml
-    
+
     - name: Upload to Scrutinizer-CI
-      run: wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml  
+      run: wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml
