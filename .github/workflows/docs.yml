@@ -11,9 +11,9 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Build docs
-      run: |
-        curl -OS https://couscous.io/couscous.phar
-        php couscous.phar generate --target=build/docs/ ./docs
+        run: |
+          curl -OS https://couscous.io/couscous.phar
+          php couscous.phar generate --target=build/docs/ ./docs
 
       - name: FTP Deployer
         uses: sand4rt/ftp-deployer@v1.1
