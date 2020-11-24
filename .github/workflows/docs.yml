@@ -19,7 +19,7 @@ jobs:
         uses: sand4rt/ftp-deployer@v1.1
         with:
           host: ${{ secrets.DOCS_FTP_HOST }}
-          username: ${{ secrets.DOCS_FTP_USERNAME }}
+          username: ${{ secrets.DOCS_FTP_USER }}
           password: ${{ secrets.DOCS_FTP_PASSWORD }}
           remote_folder: validation
           # The local folder location
