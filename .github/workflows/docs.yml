@@ -3,7 +3,7 @@ name: Publish docs
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - '*.*.*'
 jobs:
   docs:
     runs-on: ubuntu-latest
