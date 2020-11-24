@@ -23,6 +23,6 @@ jobs:
           password: ${{ secrets.DOCS_FTP_PASSWORD }}
           remote_folder: validation
           # The local folder location
-          local_folder: docs/.couscous
+          local_folder: build/docs/
           # Remove existing files inside FTP remote folder
           cleanup: false # optional
