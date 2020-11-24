@@ -1,0 +1,28 @@
+name: Publish docs
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Build docs
+      run: |
+        curl -OS https://couscous.io/couscous.phar
+        php couscous.phar generate --target=build/docs/ ./docs
+
+      - name: FTP Deployer
+        uses: sand4rt/ftp-deployer@v1.1
+        with:
+          host: ${{ secrets.DOCS_FTP_HOST }}
+          username: ${{ secrets.DOCS_FTP_USERNAME }}
+          password: ${{ secrets.DOCS_FTP_PASSWORD }}
+          remote_folder: validation
+          # The local folder location
+          local_folder: docs/.couscous
+          # Remove existing files inside FTP remote folder
+          cleanup: false # optional
