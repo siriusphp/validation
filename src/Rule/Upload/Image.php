@@ -26,6 +26,7 @@ class Image extends AbstractRule
         IMAGETYPE_PSD      => 'psd',
         IMAGETYPE_BMP      => 'bmp',
         IMAGETYPE_ICO      => 'ico',
+        IMAGETYPE_WEBP     => 'webp',
     ];
 
     public function setOption($name, $value)
