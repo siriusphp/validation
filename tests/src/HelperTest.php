@@ -587,7 +587,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
                 true
             ),
             array(
-                '256.5765.53.21',
+                '256.576a.53.21',
                 false
             ),
             array(
