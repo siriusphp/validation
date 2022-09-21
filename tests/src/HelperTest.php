@@ -591,7 +591,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
                 false
             ),
             array(
-                '2001:db8:85a3:8d3:1319:8a2e:370:7348',
+                '2002:51c4:7c3c:0000:0000:0000:0000:0000',
                 true
             ) //IPv6
         );
