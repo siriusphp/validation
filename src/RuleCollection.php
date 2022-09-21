@@ -1,10 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Sirius\Validation;
 
-class RuleCollection extends \SplObjectStorage
+use SplObjectStorage;
+use ReturnTypeWillChange;
+
+class RuleCollection extends SplObjectStorage
 {
+    /**
+     * @param null|object $rule
+     * @param null|mixed  $data
+     */
+    #[ReturnTypeWillChange]
     public function attach($rule, $data = null)
     {
         if ($this->contains($rule)) {
@@ -24,12 +33,16 @@ class RuleCollection extends \SplObjectStorage
             return;
         }
 
-        return parent::attach($rule);
+        parent::attach($rule);
     }
 
+    /**
+     * @param object $rule
+     */
+    #[ReturnTypeWillChange]
     public function getHash($rule)
     {
-        /* @var $rule Rule\AbstractRule */
+        /* @var $rule Sirius\Validation\Rule\AbstractRule */
         return $rule->getUniqueId();
     }
 }
