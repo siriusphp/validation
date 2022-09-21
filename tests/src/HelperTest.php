@@ -597,8 +597,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         );
 
         foreach ($pool as $sample) {
-            print_r($sample);
-            $this->assertSame(Helper::ipAddress($sample[0]), $sample[1]);
+            $this->assertSame(Helper::ipAddress($sample[0]), $sample[1], $sample[0]);
         }
     }
 
