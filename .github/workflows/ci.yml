@@ -50,5 +50,5 @@ jobs:
         vendor/bin/phpunit -c tests/phpunit.xml
 
     - name: Upload to Scrutinizer-CI
-      if: matrix.send-to-scrutinizer == "yes"
+      if: matrix.send-to-scrutinizer == 'yes'
       run: wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml
