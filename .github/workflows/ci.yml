@@ -11,10 +11,10 @@ jobs:
     strategy:
       matrix:
         php: ['7.4', '8.0', '8.1', '8.2']
-        #include:
-        #    - php: '8.0'
-        #     composer-flags: '--ignore-platform-req=php'
-        #      phpunit-flags: '--no-coverage'
+        phpunit-flags: '--no-coverage'
+        include:
+            - php: '8.0'
+              send-to-scrutinizer: 'yes'
 
     runs-on: ubuntu-latest
 
@@ -49,5 +49,5 @@ jobs:
         vendor/bin/phpunit -c tests/phpunit.xml
 
     - name: Upload to Scrutinizer-CI
-      if: ${{ php-version == "7.4" }}
+      if: matrix.send-to-scrutinizer == "yes"
       run: wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml
