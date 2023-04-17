@@ -10,7 +10,7 @@ class Alpha extends AbstractRule
     public function validate($value, string $valueIdentifier = null):bool
     {
         $this->value   = $value;
-        $this->success = (bool) ctype_alpha((string) str_replace(' ', '', $value));
+        $this->success = (bool) ctype_alpha((string) str_replace(' ', '', (string) $value));
 
         return $this->success;
     }

@@ -48,7 +48,7 @@ class ErrorMessage
         $result = $this->template;
         foreach ($this->variables as $k => $v) {
             if (strpos($result, "{{$k}}") !== false) {
-                $result = str_replace("{{$k}}", $v, $result);
+                $result = str_replace("{{$k}}", $v, (string) $result);
             }
         }
 
