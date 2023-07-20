@@ -12,7 +12,7 @@ class NotInListTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testValidationWithoutAListOfForbiddenValues()
+    function testValidationWithoutAListOfForbiddenValues(): void
     {
         $this->assertTrue($this->rule->validate('abc'));
     }

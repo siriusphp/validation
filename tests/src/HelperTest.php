@@ -4,13 +4,13 @@ namespace Sirius\Validation;
 class HelperTest extends \PHPUnit\Framework\TestCase
 {
 
-    function testOfMethodExists()
+    function testOfMethodExists(): void
     {
         $this->assertTrue(Helper::methodExists('email'));
         $this->assertFalse(Helper::methodExists('nonExistingMethod'));
     }
 
-    function testOfRequired()
+    function testOfRequired(): void
     {
         $pool = array(
             'abc' => true,
@@ -23,7 +23,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(Helper::required(null), false);
     }
 
-    function testOfTruthy()
+    function testOfTruthy(): void
     {
         $pool = array(
             'abc' => true,
@@ -36,7 +36,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfFalsy()
+    function testOfFalsy(): void
     {
         $pool = array(
             'abc' => false,
@@ -49,7 +49,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfCallback()
+    function testOfCallback(): void
     {
         $this->assertTrue(
             Helper::callback(
@@ -61,7 +61,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    function testOfEmail()
+    function testOfEmail(): void
     {
         $pool = array(
             '-fa /lse@gmail.com'          => false,
@@ -80,7 +80,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfNumber()
+    function testOfNumber(): void
     {
         $pool = array(
             '1'   => true,
@@ -98,7 +98,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfInteger()
+    function testOfInteger(): void
     {
         $pool = array(
             '1'     => true,
@@ -116,7 +116,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfLessThan()
+    function testOfLessThan(): void
     {
         $pool = array(
             array(
@@ -140,7 +140,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfGreaterThan()
+    function testOfGreaterThan(): void
     {
         $pool = array(
             array(
@@ -164,7 +164,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfBetween()
+    function testOfBetween(): void
     {
         $pool = array(
             array(
@@ -190,7 +190,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfExactly()
+    function testOfExactly(): void
     {
         $pool = array(
             array(
@@ -224,7 +224,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfNot()
+    function testOfNot(): void
     {
         $pool = array(
             array(
@@ -258,7 +258,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfAlpha()
+    function testOfAlpha(): void
     {
         $pool = array(
             'Some Random String ' => true,
@@ -275,7 +275,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfAlphanumeric()
+    function testOfAlphanumeric(): void
     {
         $pool = array(
             'Some Random String ' => true,
@@ -292,7 +292,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfAlphanumhyphen()
+    function testOfAlphanumhyphen(): void
     {
         $pool = array(
             'Some Random String '        => true,
@@ -310,12 +310,12 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfLength()
+    function testOfLength(): void
     {
         $this->assertTrue(Helper::length('abc', 1, 5));
     }
 
-    function testOfMinLength()
+    function testOfMinLength(): void
     {
         $pool = array(
             array(
@@ -339,7 +339,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfMaxLength()
+    function testOfMaxLength(): void
     {
         $pool = array(
             array(
@@ -363,7 +363,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfIn()
+    function testOfIn(): void
     {
         $pool = array(
             array(
@@ -388,7 +388,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfNotIn()
+    function testOfNotIn(): void
     {
         $pool = array(
             array(
@@ -413,7 +413,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfRegex()
+    function testOfRegex(): void
     {
         $pool = array(
             array(
@@ -432,7 +432,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfNotRegex()
+    function testOfNotRegex(): void
     {
         $pool = array(
             array(
@@ -451,7 +451,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfEqualToWithContext()
+    function testOfEqualToWithContext(): void
     {
         $pool    = array(
             array(
@@ -488,7 +488,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfNotEqualToWithContext()
+    function testOfNotEqualToWithContext(): void
     {
         $pool    = array(
             array(
@@ -525,19 +525,19 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfEqualToWithoutContext()
+    function testOfEqualToWithoutContext(): void
     {
         $this->assertTrue(Helper::equalTo(5, '5'));
         $this->assertFalse(Helper::equalTo(5, 'a'));
     }
 
-    function testOfNotEqualToWithoutContext()
+    function testOfNotEqualToWithoutContext(): void
     {
         $this->assertTrue(Helper::NotEqualTo(5, 'a'));
         $this->assertFalse(Helper::NotEqualTo(5, '5'));
     }
 
-    function testOfWebsite()
+    function testOfWebsite(): void
     {
         $pool = array(
             array(
@@ -558,7 +558,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfUrl()
+    function testOfUrl(): void
     {
         $pool = array(
             array(
@@ -579,7 +579,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfIp()
+    function testOfIp(): void
     {
         $pool = array(
             array(
@@ -601,7 +601,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfSetMaxSize()
+    function testOfSetMaxSize(): void
     {
         $set  = array(
             'element_1' => 'value',
@@ -625,7 +625,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfSetMinSize()
+    function testOfSetMinSize(): void
     {
         $set  = array(
             'element_1' => 'value',
@@ -649,7 +649,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testOfSetSize()
+    function testOfSetSize(): void
     {
         $set  = array(
             'element_1' => 'value',
@@ -680,7 +680,7 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         return ($value == 5 and $options = 3 and $context == null);
     }
 
-    function testOfValidAddMethodCalls()
+    function testOfValidAddMethodCalls(): void
     {
         Helper::addMethod(
             'myValidation',
@@ -693,14 +693,14 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(Helper::myValidation(5, 3, 3));
     }
 
-    function testOfInvalidAddMethodCalls()
+    function testOfInvalidAddMethodCalls(): void
     {
         $this->expectException('InvalidArgumentException');
         Helper::addMethod('mySecondValidation', 'nonexistantcallback');
         $this->assertTrue(Helper::mySecondValidation(5));
     }
 
-    function testOfFullName()
+    function testOfFullName(): void
     {
         $this->assertTrue(Helper::fullName('First Last'));
         $this->assertFalse(Helper::fullName('F Last'));
@@ -708,25 +708,25 @@ class HelperTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(Helper::fullName('Fi La'));
     }
 
-    function testOfEmailDomain()
+    function testOfEmailDomain(): void
     {
         $this->assertTrue(Helper::emailDomain('me@hotmail.com'));
         $this->assertFalse(Helper::emailDomain('me@hotmail.com.not.valid'));
     }
 
-    function testOfDate()
+    function testOfDate(): void
     {
         $this->assertTrue(Helper::date('2012-07-13', 'Y-m-d'));
         $this->assertFalse(Helper::date('2012-07-13', 'Y/m/d'));
     }
 
-    function testOfDateTime()
+    function testOfDateTime(): void
     {
         $this->assertTrue(Helper::dateTime('2012-07-13 20:00:15', 'Y-m-d H:i:s'));
         $this->assertFalse(Helper::dateTime('2012-07-13'));
     }
 
-    function testOfTime()
+    function testOfTime(): void
     {
         $this->assertTrue(Helper::time('20:00:15', 'H:i:s'));
         $this->assertFalse(Helper::time('20:00:99'));

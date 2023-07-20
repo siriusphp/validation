@@ -12,7 +12,7 @@ class ArrayMinLengthTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testValidationWithoutALimit()
+    function testValidationWithoutALimit(): void
     {
         $this->assertTrue($this->rule->validate(array()));
     }

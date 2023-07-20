@@ -18,17 +18,17 @@ class RequiredTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testValidationWithNull()
+    function testValidationWithNull(): void
     {
         $this->assertFalse($this->rule->validate(null));
     }
 
-    function testValidationWithEmptyString()
+    function testValidationWithEmptyString(): void
     {
         $this->assertFalse($this->rule->validate(''));
     }
 
-    function testValidationWithWhitespaceString()
+    function testValidationWithWhitespaceString(): void
     {
         $this->assertTrue($this->rule->validate('  '));
     }

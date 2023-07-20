@@ -10,7 +10,7 @@ class ImageRatioTest extends \PHPUnit\Framework\TestCase
         $this->validator = new ImageRatio(array( 'ratio' => 1 ));
     }
 
-    function testMissingFiles()
+    function testMissingFiles(): void
     {
         $fileName = 'file_that_does_not_exist.gif';
         $file     = array(
@@ -23,7 +23,7 @@ class ImageRatioTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testNoUpload()
+    function testNoUpload(): void
     {
         $file     = array(
             'name'     => 'not_required',
@@ -35,7 +35,7 @@ class ImageRatioTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testSquare()
+    function testSquare(): void
     {
         $fileName = 'square_image.gif';
         $file     = array(
@@ -48,7 +48,7 @@ class ImageRatioTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testAlmostSquare()
+    function testAlmostSquare(): void
     {
         $fileName = 'almost_square_image.gif';
         $file     = array(
@@ -65,7 +65,7 @@ class ImageRatioTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testRatioZero()
+    function testRatioZero(): void
     {
         $this->validator->setOption(ImageRatio::OPTION_RATIO, 0);
         $fileName = 'almost_square_image.gif';
@@ -79,7 +79,7 @@ class ImageRatioTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testInvalidRatio()
+    function testInvalidRatio(): void
     {
         $this->validator->setOption(ImageRatio::OPTION_RATIO, 'abc');
         $fileName = 'almost_square_image.gif';
@@ -93,7 +93,7 @@ class ImageRatioTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testRatioAsString()
+    function testRatioAsString(): void
     {
         $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
         $fileName = '4_by_3_image.jpg';
@@ -107,7 +107,7 @@ class ImageRatioTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testFileNotAnImage()
+    function testFileNotAnImage(): void
     {
         $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
         $fileName = 'corrupt_image.jpg';

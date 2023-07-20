@@ -17,7 +17,7 @@ class UrlTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testValidation()
+    function testValidation(): void
     {
         $this->assertFalse($this->rule->validate(''));
         $this->assertTrue($this->rule->validate('http://www.google.com'));

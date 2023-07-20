@@ -25,7 +25,7 @@ class RequiredWithTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    function testValidationWithItemPresent()
+    function testValidationWithItemPresent(): void
     {
         $this->rule->setOption(Rule::OPTION_ITEM, 'item_1');
         $this->assertTrue($this->rule->validate('abc'));
@@ -33,14 +33,14 @@ class RequiredWithTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->rule->validate(''));
     }
 
-    function testValidationWithoutItemPresent()
+    function testValidationWithoutItemPresent(): void
     {
         $this->rule->setOption(Rule::OPTION_ITEM, 'item_2');
         $this->assertTrue($this->rule->validate('abc'));
         $this->assertTrue($this->rule->validate(null));
     }
 
-    function testValidationWithDeepItems()
+    function testValidationWithDeepItems(): void
     {
         $this->rule->setOption(Rule::OPTION_ITEM, 'lines[*][quantity]');
         $this->rule->setContext(new ArrayWrapper(

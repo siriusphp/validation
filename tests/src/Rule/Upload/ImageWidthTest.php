@@ -10,7 +10,7 @@ class ImageWidthTest extends \PHPUnit\Framework\TestCase
         $this->validator = new ImageWidth(array( 'min' => 500 ));
     }
 
-    function testMissingFiles()
+    function testMissingFiles(): void
     {
         $fileName = 'file_that_does_not_exist.jpg';
         $file     = array(
@@ -23,7 +23,7 @@ class ImageWidthTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testNoUpload()
+    function testNoUpload(): void
     {
         $file     = array(
             'name'     => 'not_required',
@@ -35,7 +35,7 @@ class ImageWidthTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testFile()
+    function testFile(): void
     {
         $fileName = 'real_jpeg_file.jpg';
         $file     = array(

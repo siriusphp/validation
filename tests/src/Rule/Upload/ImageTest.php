@@ -10,7 +10,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->validator = new Image();
     }
 
-    function testMissingFiles()
+    function testMissingFiles(): void
     {
         $fileName = 'file_that_does_not_exist.jpg';
         $file     = array(
@@ -23,7 +23,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testNoUpload()
+    function testNoUpload(): void
     {
         $file     = array(
             'name'     => 'not_required',
@@ -35,7 +35,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testRealImage()
+    function testRealImage(): void
     {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
         $fileName = 'real_jpeg_file.jpg';
@@ -49,7 +49,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testFakeImage()
+    function testFakeImage(): void
     {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
         $fileName = 'fake_jpeg_file.jpg';
@@ -63,7 +63,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testExtensionsAsString()
+    function testExtensionsAsString(): void
     {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, 'GIF, jpg');
         $fileName = 'real_jpeg_file.jpg';
@@ -77,7 +77,7 @@ class ImageTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testPotentialMessage()
+    function testPotentialMessage(): void
     {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg', 'png' ));
         $this->assertEquals(

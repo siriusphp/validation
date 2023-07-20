@@ -21,7 +21,7 @@ class ErrorMessageTest extends \PHPUnit\Framework\TestCase
         $this->validator->setErrorMessagePrototype(new CustomErrorMessage());
     }
 
-    function testErrorMessage()
+    function testErrorMessage(): void
     {
         $this->validator->add('email', 'email');
         $this->validator->validate(array( 'email' => 'not_an_email' ));

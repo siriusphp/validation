@@ -21,7 +21,7 @@ class RuleFactoryTest extends \PHPUnit\Framework\TestCase
         $this->ruleFactory = new RuleFactory();
     }
 
-    function testRegistrationOfValidatorClasses()
+    function testRegistrationOfValidatorClasses(): void
     {
         $this->ruleFactory->register('even', '\Sirius\Validation\TestingCustomRule');
 
@@ -32,7 +32,7 @@ class RuleFactoryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Value is not valid', (string) $validator->getMessage());
     }
 
-    function testCustomErrorMessages()
+    function testCustomErrorMessages(): void
     {
         $this->ruleFactory->register('even', '\Sirius\Validation\TestingCustomRule', 'This should be even',
             '{label} should be even');

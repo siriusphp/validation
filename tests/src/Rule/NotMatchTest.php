@@ -20,14 +20,14 @@ class NotMatchTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    function testValidationWithItemPresent()
+    function testValidationWithItemPresent(): void
     {
         $this->rule->setOption(Rule::OPTION_ITEM, 'password');
         $this->assertFalse($this->rule->validate('secret'));
         $this->assertTrue($this->rule->validate('abc'));
     }
 
-    function testValidationWithoutItemPresent()
+    function testValidationWithoutItemPresent(): void
     {
         $this->assertFalse($this->rule->validate('abc'));
         $this->assertFalse($this->rule->validate(null));

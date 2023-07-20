@@ -12,14 +12,14 @@ class EqualTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testValidationWithOptionSet()
+    function testValidationWithOptionSet(): void
     {
         $this->rule->setOption(Rule::OPTION_VALUE, '123');
         $this->assertTrue($this->rule->validate('123'));
         $this->assertFalse($this->rule->validate('abc'));
     }
 
-    function testValidationWithoutOptionSet()
+    function testValidationWithoutOptionSet(): void
     {
         $this->assertTrue($this->rule->validate('abc'));
         $this->assertTrue($this->rule->validate(null));

@@ -13,7 +13,7 @@ class RequiredWhenTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testValidationWithItemValid()
+    function testValidationWithItemValid(): void
     {
         $this->rule->setOption(Rule::OPTION_ITEM, 'email');
         $this->rule->setOption(Rule::OPTION_RULE, 'Email');
@@ -29,7 +29,7 @@ class RequiredWhenTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->rule->validate(''));
     }
 
-    function testValidationWithItemNotValid()
+    function testValidationWithItemNotValid(): void
     {
         $this->rule->setOption(Rule::OPTION_ITEM, 'email');
         $this->rule->setOption(Rule::OPTION_RULE, 'Sirius\Validation\Rule\Email');
@@ -45,7 +45,7 @@ class RequiredWhenTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rule->validate(''));
     }
 
-    function testValidationWithoutItem()
+    function testValidationWithoutItem(): void
     {
         $this->rule->setOption(Rule::OPTION_RULE, 'Sirius\Validation\Rule\Email');
         $this->rule->setContext(
@@ -60,7 +60,7 @@ class RequiredWhenTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rule->validate(''));
     }
 
-    function testItemRuleSetAsRuleObject()
+    function testItemRuleSetAsRuleObject(): void
     {
         $this->rule->setOption(Rule::OPTION_ITEM, 'email');
         $this->rule->setOption(Rule::OPTION_RULE, new \Sirius\Validation\Rule\Email);
@@ -76,7 +76,7 @@ class RequiredWhenTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->rule->validate(''));
     }
 
-    function testExceptionThrownOnInvalidItemRule()
+    function testExceptionThrownOnInvalidItemRule(): void
     {
         $this->expectException('\InvalidArgumentException');
         $this->rule->setOption(Rule::OPTION_ITEM, 'email');

@@ -20,14 +20,14 @@ class MatchTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    function testValidationWithItemPresent()
+    function testValidationWithItemPresent(): void
     {
         $this->rule->setOption(Rule::OPTION_ITEM, 'password');
         $this->assertTrue($this->rule->validate('secret'));
         $this->assertFalse($this->rule->validate('abc'));
     }
 
-    function testValidationWithoutItemPresent()
+    function testValidationWithoutItemPresent(): void
     {
         $this->assertTrue($this->rule->validate('abc'));
         $this->assertTrue($this->rule->validate(null));

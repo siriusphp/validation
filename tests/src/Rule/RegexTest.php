@@ -12,7 +12,7 @@ class RegexTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testValidationWithoutARegexPattern()
+    function testValidationWithoutARegexPattern(): void
     {
         // pattern was not set, everything is valid
         $this->assertTrue($this->rule->validate('abc'));

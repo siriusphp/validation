@@ -12,7 +12,7 @@ class WebsiteTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testNonHttpAddresses()
+    function testNonHttpAddresses(): void
     {
         $this->assertTrue($this->rule->validate('//google.com'));
     }

@@ -12,19 +12,19 @@ class LessThanTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testExclusiveValidation()
+    function testExclusiveValidation(): void
     {
         $this->rule->setOption('inclusive', false);
         $this->rule->setOption('max', 100);
         $this->assertFalse($this->rule->validate(100));
     }
 
-    function testValidationWithoutALimit()
+    function testValidationWithoutALimit(): void
     {
         $this->assertTrue($this->rule->validate(0));
     }
 
-    function testOptionNormalizationForHttpQueryString()
+    function testOptionNormalizationForHttpQueryString(): void
     {
         $this->rule = new Rule('max=100&inclusive=false');
         $this->assertFalse($this->rule->validate(100));
@@ -33,13 +33,13 @@ class LessThanTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->rule->validate(100));
     }
 
-    function testOptionNormalizationForJsonString()
+    function testOptionNormalizationForJsonString(): void
     {
         $this->rule = new Rule('{"max": 100, "inclusive": false}');
         $this->assertFalse($this->rule->validate(100));
     }
 
-    function testOptionNormalizationForCsvString()
+    function testOptionNormalizationForCsvString(): void
     {
         $this->rule = new Rule('100,false');
         $this->assertFalse($this->rule->validate(100));

@@ -17,7 +17,7 @@ class RequiredTest extends \PHPUnit\Framework\TestCase
         $this->validator = new Required();
     }
 
-    function testMissingFiles()
+    function testMissingFiles(): void
     {
         $fileName = 'file_that_does_not_exist.jpg';
         $file     = array(
@@ -30,7 +30,7 @@ class RequiredTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testUploadOk()
+    function testUploadOk(): void
     {
         $fileName = 'real_jpeg_file.jpg';
         $file     = array(
@@ -43,7 +43,7 @@ class RequiredTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testUploadNotOk()
+    function testUploadNotOk(): void
     {
         $fileName = 'real_jpeg_file.jpg';
         $file     = array(
@@ -56,7 +56,7 @@ class RequiredTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testNoUpload()
+    function testNoUpload(): void
     {
         $file     = array(
             'name'     => 'not_required',
@@ -68,7 +68,7 @@ class RequiredTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testFile()
+    function testFile(): void
     {
         $fileName = 'real_jpeg_file.jpg';
         $file     = array(

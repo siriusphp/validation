@@ -12,7 +12,7 @@ class NumberTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testValidation()
+    function testValidation(): void
     {
         $this->assertTrue($this->rule->validate('0'));
         $this->assertTrue($this->rule->validate('0.3'));

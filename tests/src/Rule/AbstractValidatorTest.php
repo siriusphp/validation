@@ -23,7 +23,7 @@ class AbstractRuleTest extends \PHPUnit\Framework\TestCase
         $this->rule = new FakeRule();
     }
 
-    function testErrorMessagePrototype()
+    function testErrorMessagePrototype(): void
     {
         // we always have an error message prototype
         $this->assertTrue($this->rule->getErrorMessagePrototype() instanceof \Sirius\Validation\ErrorMessage);
@@ -32,7 +32,7 @@ class AbstractRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Not valid', (string) $this->rule->getErrorMessagePrototype());
     }
 
-    function testMessageIsGeneratedCorrectly()
+    function testMessageIsGeneratedCorrectly(): void
     {
         $this->rule->setOption('label', 'Accept');
         $this->rule->setMessageTemplate('Field "{label}" must be true, {value} was provided');
@@ -40,33 +40,33 @@ class AbstractRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('Field "Accept" must be true, false was provided', (string) $this->rule->getMessage());
     }
 
-    function testNoMessageWhenValidationPasses()
+    function testNoMessageWhenValidationPasses(): void
     {
         $this->rule->setContext(array( 'key' => true ));
         $this->assertTrue($this->rule->validate(true));
         $this->assertNull($this->rule->getMessage());
     }
 
-    function testContext()
+    function testContext(): void
     {
         $this->assertFalse($this->rule->validate(true));
         $this->rule->setContext(array( 'key' => true ));
         $this->assertTrue($this->rule->validate(true));
     }
 
-    function testErrorMessageTemplateIsUsed()
+    function testErrorMessageTemplateIsUsed(): void
     {
         $this->rule->setMessageTemplate('Custom message');
         $this->assertEquals('Custom message', (string) $this->rule->getPotentialMessage());
     }
 
-    function testErrorThrownOnInvalidContext()
+    function testErrorThrownOnInvalidContext(): void
     {
         $this->expectException('\InvalidArgumentException');
         $this->rule->setContext(new \stdClass());
     }
 
-    function testGetOption()
+    function testGetOption(): void
     {
         $this->rule->setOption('label', 'Accept');
         $this->assertEquals('Accept', $this->rule->getOption('label'));

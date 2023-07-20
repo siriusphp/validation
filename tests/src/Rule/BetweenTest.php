@@ -12,7 +12,7 @@ class BetweenTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testValidation()
+    function testValidation(): void
     {
         $this->rule->setOption('min', 50);
         $this->rule->setOption('max', 100);

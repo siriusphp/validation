@@ -9,7 +9,7 @@ class RuleCollectionTest extends \PHPUnit\Framework\TestCase
         $this->collection = new RuleCollection();
     }
 
-    function testAddAndRemove()
+    function testAddAndRemove(): void
     {
         $this->collection->attach(new Rule\Required);
         $this->assertEquals(1, count($this->collection));
@@ -18,7 +18,7 @@ class RuleCollectionTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, count($this->collection));
     }
 
-    function testIterator()
+    function testIterator(): void
     {
         $this->collection->attach(new Rule\Email);
         $this->collection->attach(new Rule\Required);

@@ -23,7 +23,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->validator = new Validator(new RuleFactory, new ErrorMessage);
     }
 
-    function testIfMessagesCanBeSetAndCleared()
+    function testIfMessagesCanBeSetAndCleared(): void
     {
         $this->assertEquals(0, count($this->validator->getMessages()));
 
@@ -41,14 +41,14 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(0, count($this->validator->getMessages()));
     }
 
-    function testExceptionThrownWhenTheDataIsNotAnArray()
+    function testExceptionThrownWhenTheDataIsNotAnArray(): void
     {
         $this->expectException('InvalidArgumentException');
         $this->validator->validate('string');
         $this->validator->validate(false);
     }
 
-    function testIfValidateExecutes()
+    function testIfValidateExecutes(): void
     {
         $this->validator
             ->add('field_1', 'Required', null)
@@ -76,7 +76,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
 
     }
 
-    function testIfMissingItemsValidateAgainstTheRequiredRule()
+    function testIfMissingItemsValidateAgainstTheRequiredRule(): void
     {
         $this->validator->add('item', 'required', null, 'This field is required');
         $this->validator->add('items[subitem]', 'required', null, 'This field is required');
@@ -86,7 +86,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($this->validator->getMessages('items[subitem]'), array( 'This field is required' ));
     }
 
-    function testDifferentDataFormats()
+    function testDifferentDataFormats(): void
     {
         $this->validator->add('email', 'email');
 
@@ -104,13 +104,13 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, count($this->validator->getMessages('email')));
     }
 
-    function testIfExceptionIsThrownOnInvalidRules()
+    function testIfExceptionIsThrownOnInvalidRules(): void
     {
         $this->expectException('\InvalidArgumentException');
         $this->validator->add('random_string');
     }
 
-    function testAddingMultipleRulesAtOnce()
+    function testAddingMultipleRulesAtOnce(): void
     {
         $this->validator->add(
             array(
@@ -136,7 +136,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array( 'This field is required' ), $this->validator->getMessages('itemb'));
     }
 
-    function testAddingValidationRulesViaStringsWithoutLabelArg()
+    function testAddingValidationRulesViaStringsWithoutLabelArg(): void
     {
         $this->validator
             // mixed rules in 1 string
@@ -156,7 +156,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
             $this->validator->getMessages('itemc'));
     }
 
-    function testAddingValidationRulesViaStrings()
+    function testAddingValidationRulesViaStrings(): void
     {
         $this->validator
             // mixed rules in 1 string
@@ -175,7 +175,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
             $this->validator->getMessages('itemc'));
     }
 
-    function testExceptionOnInvalidValidatorOptions()
+    function testExceptionOnInvalidValidatorOptions(): void
     {
         $this->expectException('\InvalidArgumentException');
         $this->validator->add('item', 'required', new \stdClass());
@@ -192,7 +192,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    function testCallbackValidators()
+    function testCallbackValidators(): void
     {
         $this->validator->add('function', __NAMESPACE__ . '\fakeValidationFunction');
         $this->validator->add('method', array( $this, 'fakeValidationMethod' ));
@@ -212,7 +212,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, count($this->validator->getMessages()));
     }
 
-    function testRemovingValidationRules()
+    function testRemovingValidationRules(): void
     {
         $this->validator->add('item', 'required');
         $this->assertFalse($this->validator->validate(array()));
@@ -221,7 +221,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate(array()));
     }
 
-    function testRemovingAllValidationRules()
+    function testRemovingAllValidationRules(): void
     {
         $this->validator->remove('item', true);
         $this->validator->add('item', 'required');
@@ -235,7 +235,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate(array()));
     }
 
-    function testMatchingRules()
+    function testMatchingRules(): void
     {
         $this->validator
             ->add('items[*][key]', 'email', null, 'Key must be an email');
@@ -251,7 +251,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(array( 'Key must be an email' ), $this->validator->getMessages('items[1][key]'));
     }
 
-    function testIfParametersAreSentToValidationMethods()
+    function testIfParametersAreSentToValidationMethods(): void
     {
         $this->validator
             ->add('a', 'email', array( 0, 1 ), 'This should be an email')
@@ -264,14 +264,14 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         }
     }
 
-    function testIfExceptionIsThrownForInvalidValidationMethods()
+    function testIfExceptionIsThrownForInvalidValidationMethods(): void
     {
         $this->expectException('\InvalidArgumentException');
         $this->validator->add('item', 'faker');
         $this->validator->validate(array( 'item' => true ));
     }
 
-    function testEmptyArrayValidation()
+    function testEmptyArrayValidation(): void
     {
         $this->validator->add(array(
             'a' => array( 'required' ),
@@ -281,7 +281,7 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, count($this->validator->getMessages()));
     }
 
-    function testValidationRequireConditional()
+    function testValidationRequireConditional(): void
     {
         $this->validator->add(array(
             'a' => array( 'number', 'requiredWith(b)' ),

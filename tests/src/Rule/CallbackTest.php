@@ -12,13 +12,13 @@ class CallbackTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testValidationWithoutAValidCallback()
+    function testValidationWithoutAValidCallback(): void
     {
         $this->rule->setOption(Rule::OPTION_CALLBACK, 'ssss');
         $this->assertTrue($this->rule->validate('abc'));
     }
 
-    function testGetUniqueIdForCallbacksAsStrings()
+    function testGetUniqueIdForCallbacksAsStrings(): void
     {
         $this->rule->setOption(Rule::OPTION_CALLBACK, 'is_int');
         $this->assertTrue(strpos($this->rule->getUniqueId(), '|is_int') !== false);
@@ -27,7 +27,7 @@ class CallbackTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(strpos($this->rule->getUniqueId(), '|Class::method') !== false);
     }
 
-    function testGetUniqueIdForCallbacksAsArrays()
+    function testGetUniqueIdForCallbacksAsArrays(): void
     {
         $this->rule->setOption(Rule::OPTION_CALLBACK, array( 'Class', 'method' ));
         $this->assertTrue(strpos($this->rule->getUniqueId(), '|Class::method') !== false);
@@ -36,7 +36,7 @@ class CallbackTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(strpos($this->rule->getUniqueId(), '->setUp') !== false);
     }
 
-    function testGetUniqueIdForCallbacksWithArguments()
+    function testGetUniqueIdForCallbacksWithArguments(): void
     {
         $this->rule->setOption(Rule::OPTION_CALLBACK, 'is_int');
         $this->rule->setOption(Rule::OPTION_ARGUMENTS, array( 'b' => 2, 'a' => 1 ));
@@ -45,7 +45,7 @@ class CallbackTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(strpos($this->rule->getUniqueId(), '|{"a":1,"b":2}') !== false);
     }
 
-    function testGetUniqueIdForClosures()
+    function testGetUniqueIdForClosures(): void
     {
         $this->rule->setOption(
             Rule::OPTION_CALLBACK,

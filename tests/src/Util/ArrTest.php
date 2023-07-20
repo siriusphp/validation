@@ -21,7 +21,7 @@ class ArrTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    function testOfArrayGetByPath()
+    function testOfArrayGetByPath(): void
     {
         $this->assertEquals(Arr::getByPath($this->data, 'name'), $this->data['name']);
         $this->assertEquals(
@@ -32,12 +32,12 @@ class ArrTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Arr::getByPath($this->data, 'address[shipping][street]'), null);
     }
 
-    function testOfArrayGetByPathRoot()
+    function testOfArrayGetByPathRoot(): void
     {
         $this->assertEquals($this->data, Arr::getByPath($this->data));
     }
 
-    function testOfArraySetByPath()
+    function testOfArraySetByPath(): void
     {
         $this->data = Arr::setBySelector($this->data, 'email', 'my@domain.com');
         $this->assertEquals(Arr::getByPath($this->data, 'email'), 'my@domain.com');
@@ -49,19 +49,19 @@ class ArrTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(Arr::getByPath($this->data, 'addresses[billing][state]'), 'California');
     }
 
-    function testOfArraySetBySelectorDoesNotOverwriteTheExistingValues()
+    function testOfArraySetBySelectorDoesNotOverwriteTheExistingValues(): void
     {
         $this->data = Arr::setBySelector($this->data, 'name', 'Jane Fonda');
         $this->assertEquals(Arr::getByPath($this->data, 'name'), 'John Doe');
     }
 
-    function testOfArraySetBySelectorEnsuresDataIsArray()
+    function testOfArraySetBySelectorEnsuresDataIsArray(): void
     {
         $this->data = Arr::setBySelector('string', 'name', 'Jane Fonda');
         $this->assertEquals(Arr::getByPath($this->data, 'name'), 'Jane Fonda');
     }
 
-    function testOfArrayGetBySelectorDeepSearch()
+    function testOfArrayGetBySelectorDeepSearch(): void
     {
         $arr = array(
             'people' => array(
@@ -88,7 +88,7 @@ class ArrTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    function testOfArrayGetBySelectorUsingPath()
+    function testOfArrayGetBySelectorUsingPath(): void
     {
         $arr = array(
             'recipients' => array(
@@ -110,7 +110,7 @@ class ArrTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    function testOfArrayGetBySelectorWithEndingSelector()
+    function testOfArrayGetBySelectorWithEndingSelector(): void
     {
         $arr = array(
             'lines' => array(
@@ -127,7 +127,7 @@ class ArrTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    function testOfArrayGetBySelectorWithWrongSelector()
+    function testOfArrayGetBySelectorWithWrongSelector(): void
     {
         $arr = array(
             'lines' => array(

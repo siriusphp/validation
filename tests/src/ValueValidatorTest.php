@@ -15,7 +15,7 @@ class ValueValidatorTest extends \PHPUnit\Framework\TestCase
         $this->validator = new ValueValidator();
     }
 
-    function testAddingValidationRulesRegularly()
+    function testAddingValidationRulesRegularly(): void
     {
         $this->validator->add('required')->add('minlength', '{"min":4}',
             '{label} should have at least {min} characters', 'Item');
@@ -25,7 +25,7 @@ class ValueValidatorTest extends \PHPUnit\Framework\TestCase
         ), $this->validator->getMessages());
     }
 
-    function testAddingValidationRulesViaStrings()
+    function testAddingValidationRulesViaStrings(): void
     {
         $this->validator->add('required | minlength({"min":4})({label} should have at least {min} characters)(Item)');
         $this->validator->validate('ab');
@@ -34,7 +34,7 @@ class ValueValidatorTest extends \PHPUnit\Framework\TestCase
         ), $this->validator->getMessages());
     }
 
-    function testRemovingValidationRules()
+    function testRemovingValidationRules(): void
     {
         $this->validator->add('required');
         $this->assertFalse($this->validator->validate(null));
@@ -42,7 +42,7 @@ class ValueValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate(null));
     }
 
-    function testRemovingAllRules()
+    function testRemovingAllRules(): void
     {
         $this->validator->add('required')->add('minlength', '{"min":4}',
             '{label} should have at least {min} characters', 'Item');
@@ -54,14 +54,14 @@ class ValueValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate(null));
     }
 
-    function testNonRequiredRules()
+    function testNonRequiredRules(): void
     {
         $this->validator->add('email');
         $this->assertTrue($this->validator->validate(null));
         $this->assertTrue($this->validator->validate(''));
     }
 
-    function testDefaultLabel()
+    function testDefaultLabel(): void
     {
         $this->validator->setLabel('Item');
         $this->validator->add('required')->add('minlength', '{"min":4}',
@@ -72,7 +72,7 @@ class ValueValidatorTest extends \PHPUnit\Framework\TestCase
         ), $this->validator->getMessages());
     }
 
-    function testParseRuleWithZeroValueInCsvFormat()
+    function testParseRuleWithZeroValueInCsvFormat(): void
     {
         $this->validator->add('GreaterThan(0)');
         /** @var GreaterThan $rule */

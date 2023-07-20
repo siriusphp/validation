@@ -10,7 +10,7 @@ class ExtensionTest extends \PHPUnit\Framework\TestCase
         $this->validator = new Extension();
     }
 
-    function testExistingFiles()
+    function testExistingFiles(): void
     {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
         $fileName = 'real_jpeg_file.jpg';
@@ -24,7 +24,7 @@ class ExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testNoUpload()
+    function testNoUpload(): void
     {
         $file     = array(
             'name'     => 'not_required',
@@ -36,7 +36,7 @@ class ExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testMissingFiles()
+    function testMissingFiles(): void
     {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
         $fileName = 'file_that_does_not_exist.jpg';
@@ -50,7 +50,7 @@ class ExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testSetOptionAsString()
+    function testSetOptionAsString(): void
     {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, 'jpg, GIF');
         $fileName = 'real_jpeg_file.jpg';
@@ -64,7 +64,7 @@ class ExtensionTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testPotentialMessage()
+    function testPotentialMessage(): void
     {
         $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg', 'png' ));
         $this->assertEquals(

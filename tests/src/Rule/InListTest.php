@@ -12,7 +12,7 @@ class InListTest extends \PHPUnit\Framework\TestCase
         $this->rule = new Rule();
     }
 
-    function testValidationWithoutALIstOfAcceptableValues()
+    function testValidationWithoutALIstOfAcceptableValues(): void
     {
         $this->assertTrue($this->rule->validate('abc'));
     }

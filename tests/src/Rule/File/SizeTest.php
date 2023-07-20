@@ -10,13 +10,13 @@ class SizeTest extends \PHPUnit\Framework\TestCase
         $this->validator = new Size(array( 'size' => '1M' ));
     }
 
-    function testMissingFiles()
+    function testMissingFiles(): void
     {
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'file_that_does_not_exist.jpg';
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testFile()
+    function testFile(): void
     {
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'real_jpeg_file.jpg';
         $this->assertTrue($this->validator->validate($file));
@@ -26,7 +26,7 @@ class SizeTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testSizeAsNumber()
+    function testSizeAsNumber(): void
     {
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'real_jpeg_file.jpg';
         $this->validator->setOption(Size::OPTION_SIZE, 1000000000000);

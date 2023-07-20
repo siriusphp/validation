@@ -10,19 +10,19 @@ class ImageRatioTest extends \PHPUnit\Framework\TestCase
         $this->validator = new ImageRatio(array( 'ratio' => 1 ));
     }
 
-    function testMissingFiles()
+    function testMissingFiles(): void
     {
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'file_that_does_not_exist.jpg';
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testSquare()
+    function testSquare(): void
     {
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'square_image.gif';
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testAlmostSquare()
+    function testAlmostSquare(): void
     {
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'almost_square_image.gif';
         $this->assertFalse($this->validator->validate($file));
@@ -32,28 +32,28 @@ class ImageRatioTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testRatioZero()
+    function testRatioZero(): void
     {
         $this->validator->setOption(ImageRatio::OPTION_RATIO, 0);
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'almost_square_image.gif';
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testInvalidRatio()
+    function testInvalidRatio(): void
     {
         $this->validator->setOption(ImageRatio::OPTION_RATIO, 'abc');
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'almost_square_image.gif';
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testRatioAsString()
+    function testRatioAsString(): void
     {
         $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . '4_by_3_image.jpg';
         $this->assertTrue($this->validator->validate($file));
     }
 
-    function testFileNotAnImage()
+    function testFileNotAnImage(): void
     {
         $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'corrupt_image.jpg';

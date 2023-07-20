@@ -38,7 +38,7 @@ class ComplexTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->validator->validate($data));
     }
 
-    function testWithInvalidData()
+    function testWithInvalidData(): void
     {
         $data = array(
             'email'                     => 'me@domain.com',

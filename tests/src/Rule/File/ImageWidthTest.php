@@ -10,13 +10,13 @@ class ImageWidthTest extends \PHPUnit\Framework\TestCase
         $this->validator = new ImageWidth(array( 'min' => 500 ));
     }
 
-    function testMissingFiles()
+    function testMissingFiles(): void
     {
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'file_that_does_not_exist.jpg';
         $this->assertFalse($this->validator->validate($file));
     }
 
-    function testFile()
+    function testFile(): void
     {
         $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'real_jpeg_file.jpg';
         $this->assertTrue($this->validator->validate($file));
