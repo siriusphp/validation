@@ -1,44 +1,44 @@
 {
-  "name": "siriusphp/validation",
-  "description": "Data validation library. Validate arrays, array objects, domain models etc using a simple API. Easily add your own validators on top of the already dozens built-in validation rules",
-  "type": "library",
-  "license": "MIT",
-  "keywords": [
-    "form",
-    "validation",
-    "sanitization",
-    "security",
-    "modeling"
-  ],
-  "authors": [
-    {
-      "name": "Adrian Miu",
-      "email": "adrian@adrianmiu.ro"
+    "name": "siriusphp/validation",
+    "description": "Data validation library. Validate arrays, array objects, domain models etc using a simple API. Easily add your own validators on top of the already dozens built-in validation rules",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "form",
+        "validation",
+        "sanitization",
+        "security",
+        "modeling"
+    ],
+    "authors": [
+        {
+            "name": "Adrian Miu",
+            "email": "adrian@adrianmiu.ro"
+        }
+    ],
+    "require": {
+        "php": "^7.2|^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sirius\\Validation\\": "src/"
+        }
+    },
+    "scripts": {
+        "cs": [
+            "php phpcs.phar --standard=PSR2 ./src"
+        ],
+        "md": [
+            "php phpmd.phar ./src xml phpmd.xml"
+        ],
+        "cbf": [
+            "php phpcbf.phar ./src --standard=PSR2 -w"
+        ],
+        "csfix": [
+            "php php-cs-fixer.phar fix ./src --rules=@PSR2"
+        ]
     }
-  ],
-  "require": {
-    "php": "^7.2|^8.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^8.5"
-  },
-  "autoload": {
-    "psr-4": {
-      "Sirius\\Validation\\": "src/"
-    }
-  },
-  "scripts": {
-    "cs": [
-      "php phpcs.phar --standard=PSR2 ./src"
-    ],
-    "md": [
-      "php phpmd.phar ./src xml phpmd.xml"
-    ],
-    "cbf": [
-      "php phpcbf.phar ./src --standard=PSR2 -w"
-    ],
-    "csfix": [
-      "php php-cs-fixer.phar fix ./src --rules=@PSR2"
-    ]
-  }
 }
