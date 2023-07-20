@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\Email as Rule;
 
-class EmailTest extends \PHPUnit\Framework\TestCase
+final class EmailTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

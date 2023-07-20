@@ -3,7 +3,7 @@ namespace Sirius\Validation;
 
 use Sirius\Validation\Rule\GreaterThan;
 
-class ValueValidatorTest extends \PHPUnit\Framework\TestCase
+final class ValueValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @var ValueValidator

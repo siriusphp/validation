@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation\Rule\File;
 
-class ImageWidthTest extends \PHPUnit\Framework\TestCase
+final class ImageWidthTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

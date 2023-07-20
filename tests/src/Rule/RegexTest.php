@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\Regex as Rule;
 
-class RegexTest extends \PHPUnit\Framework\TestCase
+final class RegexTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation\Rule\File;
 
-class ImageTest extends \PHPUnit\Framework\TestCase
+final class ImageTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\InList as Rule;
 
-class InListTest extends \PHPUnit\Framework\TestCase
+final class InListTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

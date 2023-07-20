@@ -15,7 +15,7 @@ class FakeObject
     }
 }
 
-class ValidatorTest extends \PHPUnit\Framework\TestCase
+final class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

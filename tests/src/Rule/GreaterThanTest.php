@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\GreaterThan as Rule;
 
-class GreaterThanTest extends \PHPUnit\Framework\TestCase
+final class GreaterThanTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

@@ -12,7 +12,7 @@ class CustomErrorMessage extends ErrorMessage
 
 }
 
-class ErrorMessageTest extends \PHPUnit\Framework\TestCase
+final class ErrorMessageTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

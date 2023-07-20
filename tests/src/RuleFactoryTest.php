@@ -13,7 +13,7 @@ class TestingCustomRule extends AbstractRule
     }
 }
 
-class RuleFactoryTest extends \PHPUnit\Framework\TestCase
+final class RuleFactoryTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

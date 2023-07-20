@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\Callback as Rule;
 
-class CallbackTest extends \PHPUnit\Framework\TestCase
+final class CallbackTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

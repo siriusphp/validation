@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation;
 
-class RuleCollectionTest extends \PHPUnit\Framework\TestCase
+final class RuleCollectionTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

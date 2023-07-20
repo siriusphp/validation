@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-class ExtensionTest extends \PHPUnit\Framework\TestCase
+final class ExtensionTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

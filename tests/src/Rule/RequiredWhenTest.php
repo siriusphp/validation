@@ -5,7 +5,7 @@ namespace Sirius\Validation\Rule;
 use Sirius\Validation\DataWrapper\ArrayWrapper;
 use Sirius\Validation\Rule\RequiredWhen as Rule;
 
-class RequiredWhenTest extends \PHPUnit\Framework\TestCase
+final class RequiredWhenTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

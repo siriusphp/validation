@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\ArrayMinLength as Rule;
 
-class ArrayMinLengthTest extends \PHPUnit\Framework\TestCase
+final class ArrayMinLengthTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

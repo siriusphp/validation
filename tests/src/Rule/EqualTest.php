@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\Equal as Rule;
 
-class EqualTest extends \PHPUnit\Framework\TestCase
+final class EqualTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

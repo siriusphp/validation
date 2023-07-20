@@ -5,7 +5,7 @@ namespace Sirius\Validation\Rule;
 use Sirius\Validation\DataWrapper\ArrayWrapper;
 use Sirius\Validation\Rule\NotMatch as Rule;
 
-class NotMatchTest extends \PHPUnit\Framework\TestCase
+final class NotMatchTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

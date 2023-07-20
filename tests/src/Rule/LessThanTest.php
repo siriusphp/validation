@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\LessThan as Rule;
 
-class LessThanTest extends \PHPUnit\Framework\TestCase
+final class LessThanTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

@@ -5,7 +5,7 @@ namespace Sirius\Validation\Rule;
 use Sirius\Validation\DataWrapper\ArrayWrapper;
 use Sirius\Validation\Rule\Required as Rule;
 
-class RequiredTest extends \PHPUnit\Framework\TestCase
+final class RequiredTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

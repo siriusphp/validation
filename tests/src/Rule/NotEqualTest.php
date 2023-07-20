@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\NotEqual as Rule;
 
-class NotEqualTest extends \PHPUnit\Framework\TestCase
+final class NotEqualTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

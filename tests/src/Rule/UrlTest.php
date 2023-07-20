@@ -10,7 +10,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\Url as Rule;
 
-class UrlTest extends \PHPUnit\Framework\TestCase
+final class UrlTest extends \PHPUnit\Framework\TestCase
 {
     protected function setUp(): void
     {

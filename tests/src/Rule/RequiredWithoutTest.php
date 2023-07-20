@@ -5,7 +5,7 @@ namespace Sirius\Validation\Rule;
 use Sirius\Validation\DataWrapper\ArrayWrapper;
 use Sirius\Validation\Rule\RequiredWithout as Rule;
 
-class RequiredWithoutTest extends \PHPUnit\Framework\TestCase
+final class RequiredWithoutTest extends \PHPUnit\Framework\TestCase
 {
 
     /**

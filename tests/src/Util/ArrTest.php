@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation\Util;
 
-class ArrTest extends \PHPUnit\Framework\TestCase
+final class ArrTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

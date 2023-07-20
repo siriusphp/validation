@@ -2,7 +2,7 @@
 
 namespace Sirius\Validation\Rule\Upload;
 
-class ImageRatioTest extends \PHPUnit\Framework\TestCase
+final class ImageRatioTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

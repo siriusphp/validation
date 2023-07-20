@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\Number as Rule;
 
-class NumberTest extends \PHPUnit\Framework\TestCase
+final class NumberTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

@@ -4,7 +4,7 @@ namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\Website as Rule;
 
-class WebsiteTest extends \PHPUnit\Framework\TestCase
+final class WebsiteTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

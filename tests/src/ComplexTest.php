@@ -3,7 +3,7 @@
 namespace Sirius\Validation;
 
 
-class ComplexTest extends \PHPUnit\Framework\TestCase
+final class ComplexTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

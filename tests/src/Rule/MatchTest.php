@@ -5,7 +5,7 @@ namespace Sirius\Validation\Rule;
 use Sirius\Validation\DataWrapper\ArrayWrapper;
 use Sirius\Validation\Rule\Matching as Rule;
 
-class MatchTest extends \PHPUnit\Framework\TestCase
+final class MatchTest extends \PHPUnit\Framework\TestCase
 {
 
     protected function setUp(): void

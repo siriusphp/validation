@@ -1,7 +1,7 @@
 <?php
 namespace Sirius\Validation;
 
-class HelperTest extends \PHPUnit\Framework\TestCase
+final class HelperTest extends \PHPUnit\Framework\TestCase
 {
 
     function testOfMethodExists(): void
