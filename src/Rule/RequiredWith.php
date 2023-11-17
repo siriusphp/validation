@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Sirius\Validation\Rule;
 
 class RequiredWith extends Required
@@ -9,16 +10,16 @@ class RequiredWith extends Required
     const MESSAGE = 'This field is required';
     const LABELED_MESSAGE = '{label} is required';
 
-    protected $optionsIndexMap = [
+    protected array $optionsIndexMap = [
         0 => self::OPTION_ITEM
     ];
 
-    public function validate($value, string $valueIdentifier = null):bool
+    public function validate(mixed $value, string $valueIdentifier = null): bool
     {
         $this->value = $value;
 
-        $relatedItemPath  = $this->getRelatedValueIdentifier($valueIdentifier, $this->options[self::OPTION_ITEM]);
-        $relatedItemValue = $relatedItemPath !== null ? $this->context->getItemValue($relatedItemPath) : null;
+        $relatedItemPath = $this->getRelatedValueIdentifier((string) $valueIdentifier, $this->options[self::OPTION_ITEM]);
+        $relatedItemValue = $this->context && $relatedItemPath !== null ? $this->context->getItemValue($relatedItemPath) : null;
 
         if (isset($this->options[self::OPTION_ITEM]) && $relatedItemValue !== null) {
             $this->success = ($value !== null && (!is_string($value) || trim($value) !== ''));

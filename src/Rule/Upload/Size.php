@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Sirius\Validation\Rule\Upload;
 
 use Sirius\Validation\Rule\AbstractRule;
@@ -13,20 +14,20 @@ class Size extends AbstractRule
 
     const LABELED_MESSAGE = '{label} should not exceed {size}';
 
-    protected $options = [
+    protected array $options = [
         self::OPTION_SIZE => '2M'
     ];
 
-    public function validate($value, string $valueIdentifier = null):bool
+    public function validate(mixed $value, string $valueIdentifier = null): bool
     {
         $this->value = $value;
-        if (! is_array($value) || ! isset($value['tmp_name'])) {
+        if (!is_array($value) || !isset($value['tmp_name'])) {
             $this->success = false;
-        } elseif (! file_exists($value['tmp_name'])) {
+        } elseif (!file_exists($value['tmp_name'])) {
             $this->success = $value['error'] === UPLOAD_ERR_NO_FILE;
         } else {
-            $fileSize      = @filesize($value['tmp_name']);
-            $limit         = RuleHelper::normalizeFileSize($this->options[self::OPTION_SIZE]);
+            $fileSize = @filesize($value['tmp_name']);
+            $limit = RuleHelper::normalizeFileSize($this->options[self::OPTION_SIZE]);
             $this->success = $fileSize && $fileSize <= $limit;
         }
 

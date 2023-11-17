@@ -1,19 +1,12 @@
 <?php
 
-namespace Sirius\Validation\Rule;
-
 use Sirius\Validation\Rule\ArrayMinLength as Rule;
 
-class ArrayMinLengthTest extends \PHPUnit\Framework\TestCase
-{
 
-    protected function setUp(): void
-    {
-        $this->rule = new Rule();
-    }
+beforeEach(function () {
+    $this->rule = new Rule();
+});
 
-    function testValidationWithoutALimit()
-    {
-        $this->assertTrue($this->rule->validate(array()));
-    }
-}
+test('validation without a limit', function () {
+    expect($this->rule->validate(array()))->toBeTrue();
+});

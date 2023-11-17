@@ -1,35 +1,31 @@
 <?php
-namespace Sirius\Validation;
 
-class RuleCollectionTest extends \PHPUnit\Framework\TestCase
-{
+use \Sirius\Validation\Rule\Email;
+use \Sirius\Validation\Rule\Required;
+use \Sirius\Validation\RuleCollection;
 
-    protected function setUp(): void
-    {
-        $this->collection = new RuleCollection();
+beforeEach(function () {
+    $this->collection = new RuleCollection();
+});
+
+test('add and remove', function () {
+    $this->collection->attach(new Required());
+    expect(count($this->collection))->toEqual(1);
+
+    $this->collection->detach(new Required());
+    expect(count($this->collection))->toEqual(0);
+});
+
+test('iterator', function () {
+    $this->collection->attach(new Email);
+    $this->collection->attach(new Required);
+
+    $rules = array();
+    foreach ($this->collection as $k => $rule) {
+        $rules[] = $rule;
     }
 
-    function testAddAndRemove()
-    {
-        $this->collection->attach(new Rule\Required);
-        $this->assertEquals(1, count($this->collection));
-
-        $this->collection->detach(new Rule\Required);
-        $this->assertEquals(0, count($this->collection));
-    }
-
-    function testIterator()
-    {
-        $this->collection->attach(new Rule\Email);
-        $this->collection->attach(new Rule\Required);
-
-        $rules = array();
-        foreach ($this->collection as $k => $rule) {
-            $rules[] = $rule;
-        }
-
-        // the required rule should be first
-        $this->assertTrue($rules[0] instanceof Rule\Required);
-        $this->assertTrue($rules[1] instanceof Rule\Email);
-    }
-}
+    // the required rule should be first
+    expect($rules[0] instanceof Required)->toBeTrue();
+    expect($rules[1] instanceof Email)->toBeTrue();
+});

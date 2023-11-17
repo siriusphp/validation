@@ -1,124 +1,110 @@
 <?php
 
-namespace Sirius\Validation\Rule\Upload;
+use \Sirius\Validation\Rule\Upload\ImageRatio;
 
-class ImageRatioTest extends \PHPUnit\Framework\TestCase
-{
+beforeEach(function () {
+    $this->validator = new ImageRatio(array( 'ratio' => 1 ));
+});
 
-    protected function setUp(): void
-    {
-        $this->validator = new ImageRatio(array( 'ratio' => 1 ));
-    }
+test('missing files', function () {
+    $fileName = 'file_that_does_not_exist.gif';
+    $file     = array(
+        'name'     => $fileName,
+        'type'     => 'not_required',
+        'size'     => 'not_required',
+        'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
+        'error'    => UPLOAD_ERR_OK
+    );
+    expect($this->validator->validate($file))->toBeFalse();
+});
 
-    function testMissingFiles()
-    {
-        $fileName = 'file_that_does_not_exist.gif';
-        $file     = array(
-            'name'     => $fileName,
-            'type'     => 'not_required',
-            'size'     => 'not_required',
-            'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error'    => UPLOAD_ERR_OK
-        );
-        $this->assertFalse($this->validator->validate($file));
-    }
+test('no upload', function () {
+    $file     = array(
+        'name'     => 'not_required',
+        'type'     => 'not_required',
+        'size'     => 'not_required',
+        'tmp_name' => 'not_required',
+        'error'    => UPLOAD_ERR_NO_FILE
+    );
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-    function testNoUpload()
-    {
-        $file     = array(
-            'name'     => 'not_required',
-            'type'     => 'not_required',
-            'size'     => 'not_required',
-            'tmp_name' => 'not_required',
-            'error'    => UPLOAD_ERR_NO_FILE
-        );
-        $this->assertTrue($this->validator->validate($file));
-    }
+test('square', function () {
+    $fileName = 'square_image.gif';
+    $file     = array(
+        'name'     => $fileName,
+        'type'     => 'not_required',
+        'size'     => 'not_required',
+        'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
+        'error'    => UPLOAD_ERR_OK
+    );
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-    function testSquare()
-    {
-        $fileName = 'square_image.gif';
-        $file     = array(
-            'name'     => $fileName,
-            'type'     => 'not_required',
-            'size'     => 'not_required',
-            'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error'    => UPLOAD_ERR_OK
-        );
-        $this->assertTrue($this->validator->validate($file));
-    }
+test('almost square', function () {
+    $fileName = 'almost_square_image.gif';
+    $file     = array(
+        'name'     => $fileName,
+        'type'     => 'not_required',
+        'size'     => 'not_required',
+        'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
+        'error'    => UPLOAD_ERR_OK
+    );
+    expect($this->validator->validate($file))->toBeFalse();
 
-    function testAlmostSquare()
-    {
-        $fileName = 'almost_square_image.gif';
-        $file     = array(
-            'name'     => $fileName,
-            'type'     => 'not_required',
-            'size'     => 'not_required',
-            'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error'    => UPLOAD_ERR_OK
-        );
-        $this->assertFalse($this->validator->validate($file));
+    // change the error margin
+    $this->validator->setOption(ImageRatio::OPTION_ERROR_MARGIN, 0.2);
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-        // change the error margin
-        $this->validator->setOption(ImageRatio::OPTION_ERROR_MARGIN, 0.2);
-        $this->assertTrue($this->validator->validate($file));
-    }
+test('ratio zero', function () {
+    $this->validator->setOption(ImageRatio::OPTION_RATIO, 0);
+    $fileName = 'almost_square_image.gif';
+    $file     = array(
+        'name'     => $fileName,
+        'type'     => 'not_required',
+        'size'     => 'not_required',
+        'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
+        'error'    => UPLOAD_ERR_OK
+    );
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-    function testRatioZero()
-    {
-        $this->validator->setOption(ImageRatio::OPTION_RATIO, 0);
-        $fileName = 'almost_square_image.gif';
-        $file     = array(
-            'name'     => $fileName,
-            'type'     => 'not_required',
-            'size'     => 'not_required',
-            'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error'    => UPLOAD_ERR_OK
-        );
-        $this->assertTrue($this->validator->validate($file));
-    }
+test('invalid ratio', function () {
+    $this->validator->setOption(ImageRatio::OPTION_RATIO, 'abc');
+    $fileName = 'almost_square_image.gif';
+    $file     = array(
+        'name'     => $fileName,
+        'type'     => 'not_required',
+        'size'     => 'not_required',
+        'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
+        'error'    => UPLOAD_ERR_OK
+    );
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-    function testInvalidRatio()
-    {
-        $this->validator->setOption(ImageRatio::OPTION_RATIO, 'abc');
-        $fileName = 'almost_square_image.gif';
-        $file     = array(
-            'name'     => $fileName,
-            'type'     => 'not_required',
-            'size'     => 'not_required',
-            'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error'    => UPLOAD_ERR_OK
-        );
-        $this->assertTrue($this->validator->validate($file));
-    }
+test('ratio as string', function () {
+    $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
+    $fileName = '4_by_3_image.jpg';
+    $file     = array(
+        'name'     => $fileName,
+        'type'     => 'not_required',
+        'size'     => 'not_required',
+        'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
+        'error'    => UPLOAD_ERR_OK
+    );
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-    function testRatioAsString()
-    {
-        $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
-        $fileName = '4_by_3_image.jpg';
-        $file     = array(
-            'name'     => $fileName,
-            'type'     => 'not_required',
-            'size'     => 'not_required',
-            'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error'    => UPLOAD_ERR_OK
-        );
-        $this->assertTrue($this->validator->validate($file));
-    }
-
-    function testFileNotAnImage()
-    {
-        $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
-        $fileName = 'corrupt_image.jpg';
-        $file     = array(
-            'name'     => $fileName,
-            'type'     => 'not_required',
-            'size'     => 'not_required',
-            'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
-            'error'    => UPLOAD_ERR_OK
-        );
-        $this->assertFalse($this->validator->validate($file));
-    }
-
-}
+test('file not an image', function () {
+    $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
+    $fileName = 'corrupt_image.jpg';
+    $file     = array(
+        'name'     => $fileName,
+        'type'     => 'not_required',
+        'size'     => 'not_required',
+        'tmp_name' => realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . $fileName,
+        'error'    => UPLOAD_ERR_OK
+    );
+    expect($this->validator->validate($file))->toBeFalse();
+});

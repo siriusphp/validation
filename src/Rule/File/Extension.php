@@ -14,11 +14,11 @@ class Extension extends AbstractRule
 
     const LABELED_MESSAGE = '{label} does not have an acceptable extension ({file_extensions})';
 
-    protected $options = [
+    protected array $options = [
         self::OPTION_ALLOWED_EXTENSIONS => []
     ];
 
-    public function setOption($name, $value)
+    public function setOption(string $name, mixed $value): static
     {
         if ($name == self::OPTION_ALLOWED_EXTENSIONS) {
             if (is_string($value)) {
@@ -31,25 +31,25 @@ class Extension extends AbstractRule
         return parent::setOption($name, $value);
     }
 
-    public function validate($value, string $valueIdentifier = null):bool
+    public function validate(mixed $value, string $valueIdentifier = null): bool
     {
         $this->value = $value;
-        if (! file_exists($value)) {
+        if (!file_exists($value)) {
             $this->success = false;
         } else {
-            $extension     = strtolower(substr($value, strrpos($value, '.') + 1, 10));
+            $extension = strtolower(substr($value, strrpos($value, '.') + 1, 10));
             $this->success = is_array($this->options[self::OPTION_ALLOWED_EXTENSIONS]) && in_array(
-                $extension,
-                $this->options[self::OPTION_ALLOWED_EXTENSIONS]
-            );
+                    $extension,
+                    $this->options[self::OPTION_ALLOWED_EXTENSIONS]
+                );
         }
 
         return $this->success;
     }
 
-    public function getPotentialMessage():ErrorMessage
+    public function getPotentialMessage(): ErrorMessage
     {
-        $message        = parent::getPotentialMessage();
+        $message = parent::getPotentialMessage();
         $fileExtensions = array_map('strtoupper', $this->options[self::OPTION_ALLOWED_EXTENSIONS]);
         $message->setVariables([
             'file_extensions' => implode(', ', $fileExtensions)

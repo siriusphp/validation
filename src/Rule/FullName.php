@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Sirius\Validation\Rule;
 
 class FullName extends AbstractRule
@@ -10,7 +11,7 @@ class FullName extends AbstractRule
     /**
      * This is not going to work with Asian names, http://en.wikipedia.org/wiki/Chinese_name.
      */
-    public function validate($value, string $valueIdentifier = null):bool
+    public function validate(mixed $value, string $valueIdentifier = null): bool
     {
         $this->value = $value;
 

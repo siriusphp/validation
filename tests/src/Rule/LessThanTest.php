@@ -1,50 +1,39 @@
 <?php
 
-namespace Sirius\Validation\Rule;
-
 use Sirius\Validation\Rule\LessThan as Rule;
 
-class LessThanTest extends \PHPUnit\Framework\TestCase
-{
 
-    protected function setUp(): void
-    {
-        $this->rule = new Rule();
-    }
+beforeEach(function () {
+    $this->rule = new Rule();
+});
 
-    function testExclusiveValidation()
-    {
-        $this->rule->setOption('inclusive', false);
-        $this->rule->setOption('max', 100);
-        $this->assertFalse($this->rule->validate(100));
-    }
+test('exclusive validation', function () {
+    $this->rule->setOption('inclusive', false);
+    $this->rule->setOption('max', 100);
+    expect($this->rule->validate(100))->toBeFalse();
+});
 
-    function testValidationWithoutALimit()
-    {
-        $this->assertTrue($this->rule->validate(0));
-    }
+test('validation without a limit', function () {
+    expect($this->rule->validate(0))->toBeTrue();
+});
 
-    function testOptionNormalizationForHttpQueryString()
-    {
-        $this->rule = new Rule('max=100&inclusive=false');
-        $this->assertFalse($this->rule->validate(100));
+test('option normalization for http query string', function () {
+    $this->rule = new Rule('max=100&inclusive=false');
+    expect($this->rule->validate(100))->toBeFalse();
 
-        $this->rule = new Rule('max=100&inclusive=true');
-        $this->assertTrue($this->rule->validate(100));
-    }
+    $this->rule = new Rule('max=100&inclusive=true');
+    expect($this->rule->validate(100))->toBeTrue();
+});
 
-    function testOptionNormalizationForJsonString()
-    {
-        $this->rule = new Rule('{"max": 100, "inclusive": false}');
-        $this->assertFalse($this->rule->validate(100));
-    }
+test('option normalization for json string', function () {
+    $this->rule = new Rule('{"max": 100, "inclusive": false}');
+    expect($this->rule->validate(100))->toBeFalse();
+});
 
-    function testOptionNormalizationForCsvString()
-    {
-        $this->rule = new Rule('100,false');
-        $this->assertFalse($this->rule->validate(100));
+test('option normalization for csv string', function () {
+    $this->rule = new Rule('100,false');
+    expect($this->rule->validate(100))->toBeFalse();
 
-        $this->rule = new Rule('100,true');
-        $this->assertTrue($this->rule->validate(100));
-    }
-}
+    $this->rule = new Rule('100,true');
+    expect($this->rule->validate(100))->toBeTrue();
+});

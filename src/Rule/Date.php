@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Sirius\Validation\Rule;
 
 class Date extends AbstractRule
@@ -10,36 +11,36 @@ class Date extends AbstractRule
 
     const LABELED_MESSAGE = '{label} must be a date having the format {format}';
 
-    protected $options = [
+    protected array $options = [
         'format' => 'Y-m-d'
     ];
 
-    protected $optionsIndexMap = [
+    protected array $optionsIndexMap = [
         0 => self::OPTION_FORMAT
     ];
 
-    public function validate($value, string $valueIdentifier = null):bool
+    public function validate(mixed $value, string $valueIdentifier = null): bool
     {
-        $this->value   = $value;
+        $this->value = $value;
         $this->success = $value == date(
-            $this->options['format'],
-            $this->getTimestampFromFormatedString($value, $this->options['format'])
-        );
+                (string) $this->options['format'],
+                $this->getTimestampFromFormatedString($value, $this->options['format'])
+            );
 
         return $this->success;
     }
 
-    protected function getTimestampFromFormatedString($string, $format)
+    protected function getTimestampFromFormatedString(mixed $string, mixed $format): ?int
     {
         $result = date_parse_from_format($format, $string);
 
         return mktime(
-            (int) $result['hour'],
-            (int) $result['minute'],
-            (int) $result['second'],
-            (int) $result['month'],
-            (int) $result['day'],
-            (int) $result['year']
-        );
+            (int)$result['hour'],
+            (int)$result['minute'],
+            (int)$result['second'],
+            (int)$result['month'],
+            (int)$result['day'],
+            (int)$result['year']
+        ) ?: null;
     }
 }

@@ -10,14 +10,14 @@ class InList extends AbstractRule
     const MESSAGE = 'This input is not one of the accepted values';
     const LABELED_MESSAGE = '{label} is not one of the accepted values';
 
-    protected $optionsIndexMap = [
+    protected array $optionsIndexMap = [
         0 => self::OPTION_LIST
     ];
 
-    public function validate($value, string $valueIdentifier = null):bool
+    public function validate(mixed $value, string $valueIdentifier = null): bool
     {
         $this->value = $value;
-        if (! isset($this->options['list'])) {
+        if (!isset($this->options['list'])) {
             $this->success = true;
         } else {
             if (is_array($this->options['list'])) {

@@ -14,19 +14,19 @@ class RuleFactory
      * You can use 'required' instead of 'required' for the name of the rule
      * or 'minLength'/'minlength' instead of 'MinLength'
      *
-     * @var array
+     * @var array<string,string>
      */
-    protected $validatorsMap = [];
+    protected array $validatorsMap = [];
 
     /**
-     * @var array
+     * @var array<string,string>
      */
-    protected $errorMessages = [];
+    protected array $errorMessages = [];
 
     /**
-     * @var array
+     * @var array<string,string>
      */
-    protected $labeledErrorMessages = [];
+    protected array $labeledErrorMessages = [];
 
     /**
      * Constructor
@@ -39,7 +39,7 @@ class RuleFactory
     /**
      * Set up the default rules that come with the library
      */
-    protected function registerDefaultRules()
+    protected function registerDefaultRules(): void
     {
         $rulesClasses = [
             'Alpha',
@@ -92,9 +92,9 @@ class RuleFactory
             'Upload\Size',
         ];
         foreach ($rulesClasses as $class) {
-            $fullClassName       = '\\' . __NAMESPACE__ . '\Rule\\' . $class;
-            $name                = strtolower(str_replace('\\', '', $class));
-            $errorMessage        = constant($fullClassName . '::MESSAGE');
+            $fullClassName = '\\' . __NAMESPACE__ . '\Rule\\' . $class;
+            $name = strtolower(str_replace('\\', '', $class));
+            $errorMessage = constant($fullClassName . '::MESSAGE');
             $labeledErrorMessage = constant($fullClassName . '::LABELED_MESSAGE');
             $this->register($name, $fullClassName, $errorMessage, $labeledErrorMessage);
         }
@@ -106,11 +106,11 @@ class RuleFactory
      * Register a class to be used when creating validation rules
      *
      * @param string $name
-     * @param string $class
+     * @param string|class-string $class
      *
      * @return $this
      */
-    public function register($name, $class, $errorMessage = '', $labeledErrorMessage = '')
+    public function register(string $name, string $class, string $errorMessage = '', string $labeledErrorMessage = ''): self
     {
         if (is_subclass_of($class, '\Sirius\Validation\Rule\AbstractRule')) {
             $this->validatorsMap[$name] = $class;
@@ -128,19 +128,15 @@ class RuleFactory
     /**
      * Factory method to construct a validator based on options that are used most of the times
      *
-     * @param string|callable $name
+     * @param string|callable|mixed $name
      *            name of a validator class or a callable object/function
-     * @param string|array $options
+     * @param string|array<int|string,mixed>|null $options
      *            validator options (an array, JSON string or QUERY string)
-     * @param string $messageTemplate
-     *            error message template
-     * @param string $label
-     *            label of the form input field or model attribute
      *
-     * @throws \InvalidArgumentException
      * @return AbstractRule
+     * @throws \InvalidArgumentException
      */
-    public function createRule($name, $options = null, $messageTemplate = null, $label = null):AbstractRule
+    public function createRule(mixed $name, mixed $options = null, string $messageTemplate = null, string $label = null): AbstractRule
     {
         $validator = $this->construcRuleByNameAndOptions($name, $options);
 
@@ -162,13 +158,9 @@ class RuleFactory
     /**
      * Set default error message for a rule
      *
-     * @param string $rule
-     * @param string|null $messageWithoutLabel
-     * @param string|null $messageWithLabel
-     *
      * @return $this
      */
-    public function setMessages($rule, $messageWithoutLabel = null, $messageWithLabel = null)
+    public function setMessages(string $rule, string $messageWithoutLabel = null, string $messageWithLabel = null)
     {
         if ($messageWithoutLabel) {
             $this->errorMessages[$rule] = $messageWithoutLabel;
@@ -183,13 +175,8 @@ class RuleFactory
     /**
      * Get the error message saved in the registry for a rule, where the message
      * is with or without a the label
-     *
-     * @param string $name name of the rule
-     * @param bool $withLabel
-     *
-     * @return string|NULL
      */
-    protected function getSuggestedMessageTemplate($name, $withLabel)
+    protected function getSuggestedMessageTemplate(string $name, bool $withLabel): ?string
     {
         $noLabelMessage = is_string($name) && isset($this->errorMessages[$name]) ? $this->errorMessages[$name] : null;
         if ($withLabel) {
@@ -202,16 +189,15 @@ class RuleFactory
     }
 
     /**
-     * @param $name
-     * @param $options
+     * @param string|array<int|string, mixed>|null $options
      *
-     * @return CallbackRule
+     * @return CallbackRule|AbstractRule
      */
-    protected function construcRuleByNameAndOptions($name, $options)
+    protected function construcRuleByNameAndOptions(string $name, mixed $options = null)
     {
         if (is_callable($name)) {
             $validator = new CallbackRule([
-                'callback'  => $name,
+                'callback' => $name,
                 'arguments' => $options
             ]);
         } elseif (is_string($name)) {
@@ -232,7 +218,7 @@ class RuleFactory
 
         if (!isset($validator)) {
             throw new \InvalidArgumentException(
-                sprintf('Impossible to determine the validator based on the name: %s', (string) $name)
+                sprintf('Impossible to determine the validator based on the name: %s', (string)$name)
             );
         }
 

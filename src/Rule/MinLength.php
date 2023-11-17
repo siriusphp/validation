@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Sirius\Validation\Rule;
 
 class MinLength extends AbstractStringRule
@@ -10,17 +11,15 @@ class MinLength extends AbstractStringRule
     const MESSAGE = 'This input should have at least {min} characters';
     const LABELED_MESSAGE = '{label} should have at least {min} characters';
 
-    protected $options = [];
-
-    protected $optionsIndexMap = [
+    protected array $optionsIndexMap = [
         0 => self::OPTION_MIN,
         1 => self::OPTION_ENCODING
     ];
 
-    public function validate($value, string $valueIdentifier = null):bool
+    public function validate(mixed $value, string $valueIdentifier = null): bool
     {
         $this->value = $value;
-        if (! isset($this->options['min'])) {
+        if (!isset($this->options['min'])) {
             $this->success = true;
         } else {
             $this->success = $this->getStringLength($value) >= $this->options['min'];

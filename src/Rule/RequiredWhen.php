@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Sirius\Validation\Rule;
 
 class RequiredWhen extends Required
@@ -11,12 +12,11 @@ class RequiredWhen extends Required
     const MESSAGE = 'This field is required';
     const LABELED_MESSAGE = '{label} is required';
 
-    public function getItemRule()
+    public function getItemRule(): ?AbstractRule
     {
-        /* @var $rule AbstractValidator */
-        $rule        = false;
+        $rule = false;
         $ruleOptions = (isset($this->options[self::OPTION_RULE_OPTIONS])) ?
-            (array) $this->options[self::OPTION_RULE_OPTIONS] :
+            (array)$this->options[self::OPTION_RULE_OPTIONS] :
             [];
 
         if (is_string($this->options[self::OPTION_RULE])) {
@@ -25,36 +25,36 @@ class RequiredWhen extends Required
                 $rule = new $ruleClass($ruleOptions);
             } elseif (class_exists('Sirius\\Validation\\Rule\\' . $ruleClass)) {
                 $ruleClass = 'Sirius\\Validation\\Rule\\' . $ruleClass;
-                $rule      = new $ruleClass($ruleOptions);
+                $rule = new $ruleClass($ruleOptions);
             }
         } elseif (is_object($this->options[self::OPTION_RULE])
-                  && $this->options[self::OPTION_RULE] instanceof AbstractRule
+            && $this->options[self::OPTION_RULE] instanceof AbstractRule
         ) {
             $rule = $this->options[self::OPTION_RULE];
         }
-        if (! $rule) {
+        if (!$rule) {
             throw new \InvalidArgumentException(
                 'Validator for the other item is not valid or cannot be constructed based on the data provided'
             );
         }
-        $context = $this->context ? $this->context : [];
-        $rule->setContext($context);
+        /* @var $rule AbstractRule */
+        $rule->setContext($this->context ?? []); // @phpstan-ignore-line
 
-        return $rule;
+        return $rule; // @phpstan-ignore-line
     }
 
-    public function validate($value, string $valueIdentifier = null):bool
+    public function validate(mixed $value, string $valueIdentifier = null): bool
     {
         $this->value = $value;
 
-        if (! isset($this->options[self::OPTION_ITEM])) {
+        if (!isset($this->options[self::OPTION_ITEM])) {
             $this->success = true;
         } else {
-            $relatedItemPath  = $this->getRelatedValueIdentifier($valueIdentifier, $this->options[self::OPTION_ITEM]);
-            $relatedItemValue = $relatedItemPath !== null ? $this->context->getItemValue($relatedItemPath) : null;
+            $relatedItemPath = $this->getRelatedValueIdentifier((string)$valueIdentifier, $this->options[self::OPTION_ITEM]);
+            $relatedItemValue = $this->context && $relatedItemPath !== null ? $this->context->getItemValue($relatedItemPath) : null;
 
             $itemRule = $this->getItemRule();
-            if ($itemRule->validate($relatedItemValue, $relatedItemPath)) {
+            if ($itemRule && $itemRule->validate($relatedItemValue, $relatedItemPath)) {
                 $this->success = ($value !== null && (!is_string($value) || trim($value) !== ''));
             } else {
                 $this->success = true;

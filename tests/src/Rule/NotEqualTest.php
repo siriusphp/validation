@@ -1,28 +1,19 @@
 <?php
 
-namespace Sirius\Validation\Rule;
-
 use Sirius\Validation\Rule\NotEqual as Rule;
 
-class NotEqualTest extends \PHPUnit\Framework\TestCase
-{
 
-    protected function setUp(): void
-    {
-        $this->rule = new Rule();
-    }
+beforeEach(function () {
+    $this->rule = new Rule();
+});
 
-    function testValidationWithOptionSet()
-    {
-        $this->rule->setOption(Rule::OPTION_VALUE, '123');
-        $this->assertFalse($this->rule->validate('123'));
-        $this->assertTrue($this->rule->validate('abc'));
-    }
+test('validation with option set', function () {
+    $this->rule->setOption(Rule::OPTION_VALUE, '123');
+    expect($this->rule->validate('123'))->toBeFalse();
+    expect($this->rule->validate('abc'))->toBeTrue();
+});
 
-    function testValidationWithoutOptionSet()
-    {
-        $this->assertFalse($this->rule->validate('abc'));
-        $this->assertFalse($this->rule->validate(null));
-    }
-
-}
+test('validation without option set', function () {
+    expect($this->rule->validate('abc'))->toBeFalse();
+    expect($this->rule->validate(null))->toBeFalse();
+});

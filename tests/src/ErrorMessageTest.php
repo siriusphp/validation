@@ -1,36 +1,25 @@
 <?php
 
-namespace Sirius\Validation;
+uses(\Sirius\Validation\ErrorMessage::class);
+use \Sirius\Validation\CustomErrorMessage;
+use \Sirius\Validation\Validator;
 
-class CustomErrorMessage extends ErrorMessage
+function __toString()
 {
-
-    function __toString()
-    {
-        return '!!!' . parent::__toString();
-    }
-
+    return '!!!' . __toString();
 }
 
-class ErrorMessageTest extends \PHPUnit\Framework\TestCase
-{
+beforeEach(function () {
+    $this->validator = new Validator();
+    $this->validator->setErrorMessagePrototype(new CustomErrorMessage());
+});
 
-    protected function setUp(): void
-    {
-        $this->validator = new Validator();
-        $this->validator->setErrorMessagePrototype(new CustomErrorMessage());
-    }
+test('error message', function () {
+    $this->validator->add('email', 'email');
+    $this->validator->validate(array( 'email' => 'not_an_email' ));
 
-    function testErrorMessage()
-    {
-        $this->validator->add('email', 'email');
-        $this->validator->validate(array( 'email' => 'not_an_email' ));
+    $messages = $this->validator->getMessages('email');
+    expect(count($messages))->toEqual(1);
 
-        $messages = $this->validator->getMessages('email');
-        $this->assertEquals(1, count($messages));
-
-        $this->assertEquals('!!!This input must be a valid email address', (string) $messages[0]);
-    }
-
-
-}
+    expect((string) $messages[0])->toEqual('!!!This input must be a valid email address');
+});

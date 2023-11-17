@@ -1,51 +1,39 @@
 <?php
 
-namespace Sirius\Validation\Rule;
-
 use Sirius\Validation\Rule\GreaterThan as Rule;
 
-class GreaterThanTest extends \PHPUnit\Framework\TestCase
-{
 
-    protected function setUp(): void
-    {
-        $this->rule = new Rule();
-    }
+beforeEach(function () {
+    $this->rule = new Rule();
+});
 
-    function testDefaultOptions()
-    {
-        $this->assertNull($this->rule->getOption('min'));
-        $this->assertTrue($this->rule->getOption('inclusive'));
-    }
+test('default options', function () {
+    expect($this->rule->getOption('min'))->toBeNull();
+    expect($this->rule->getOption('inclusive'))->toBeTrue();
+});
 
-    function testExclusiveValidation()
-    {
-        $this->rule->setOption('inclusive', false);
-        $this->rule->setOption('min', 100);
-        $this->assertFalse($this->rule->validate(100));
-    }
+test('exclusive validation', function () {
+    $this->rule->setOption('inclusive', false);
+    $this->rule->setOption('min', 100);
+    expect($this->rule->validate(100))->toBeFalse();
+});
 
-    function testValidationWithoutALimit()
-    {
-        $this->assertTrue($this->rule->validate(0));
-    }
+test('validation without a limit', function () {
+    expect($this->rule->validate(0))->toBeTrue();
+});
 
-    function testConstructCsvFormatMinZeroAndInclusiveFalse()
-    {
-        $this->rule = new Rule('0,false');
-        $this->assertSame('0', $this->rule->getOption('min'));
-        $this->assertSame(false, $this->rule->getOption('inclusive'));
-    }
+test('construct csv format min zero and inclusive false', function () {
+    $this->rule = new Rule('0,false');
+    expect($this->rule->getOption('min'))->toBe('0');
+    expect($this->rule->getOption('inclusive'))->toBe(false);
+});
 
-    function testConstructWithMinValueZeroQueryStringFormat()
-    {
-        $this->rule = new Rule('min=0');
-        $this->assertSame('0', $this->rule->getOption('min'));
-    }
+test('construct with min value zero query string format', function () {
+    $this->rule = new Rule('min=0');
+    expect($this->rule->getOption('min'))->toBe('0');
+});
 
-    function testConstructWithMinValueZeroCsvFormat()
-    {
-        $this->rule = new Rule('0');
-        $this->assertSame('0', $this->rule->getOption('min'));
-    }
-}
+test('construct with min value zero csv format', function () {
+    $this->rule = new Rule('0');
+    expect($this->rule->getOption('min'))->toBe('0');
+});

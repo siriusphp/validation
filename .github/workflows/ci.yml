@@ -10,9 +10,9 @@ jobs:
   build:
     strategy:
       matrix:
-        php: ['7.4', '8.0', '8.1', '8.2']
+        php: ['8.1', '8.2', '8.3']
         include:
-            - php: '8.0'
+            - php: '8.1'
               send-to-scrutinizer: 'yes'
 
     runs-on: ubuntu-latest
@@ -47,4 +47,5 @@ jobs:
     - name: Run test suite
       run: |
         mkdir -p build/logs
-        vendor/bin/phpunit -c tests/phpunit.xml
+        composer run stan
+        composer run test

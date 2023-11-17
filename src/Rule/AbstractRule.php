@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\DataWrapper\ArrayWrapper;
@@ -20,60 +21,55 @@ abstract class AbstractRule
      * This is the data set that the data being validated belongs to
      * @var WrapperInterface
      */
-    protected $context;
+    protected ?WrapperInterface $context = null;
 
     /**
      * Options for the validator.
      * Also passed to the error message for customization.
      *
-     * @var array
+     * @var array<string,mixed>
      */
-    protected $options = [];
+    protected array $options = [];
 
     /**
      * Custom error message template for the validator instance
      * If you don't agree with the default messages that were provided
-     *
-     * @var string
      */
-    protected $messageTemplate;
+    protected string $messageTemplate;
 
     /**
      * Result of the last validation
-     *
-     * @var boolean
      */
-    protected $success = false;
+    protected bool $success = false;
 
     /**
      * Last value validated with the validator.
      * Stored in order to be passed to the errorMessage so that you get error
      * messages like '"abc" is not a valid email'
-     *
-     * @var mixed
      */
-    protected $value;
+    protected mixed $value = null;
 
     /**
      * The error message prototype that will be used to generate the error message
-     *
-     * @var ErrorMessage
      */
-    protected $errorMessagePrototype;
+    protected ?ErrorMessage $errorMessagePrototype = null;
 
     /**
      * Options map in case the options are passed as list instead of associative array
      *
-     * @var array
+     * @var array<int, string>
      */
-    protected $optionsIndexMap = [];
+    protected array $optionsIndexMap = [];
 
-    public function __construct($options = [])
+    /**
+     * @param array<int|string, mixed>|string|null $options
+     */
+    public function __construct(mixed $options = null)
     {
         $options = RuleHelper::normalizeOptions($options, $this->optionsIndexMap);
-        if (is_array($options) && ! empty($options)) {
+        if (is_array($options) && !empty($options)) {
             foreach ($options as $k => $v) {
-                $this->setOption($k, $v);
+                $this->setOption((string) $k, $v);
             }
         }
     }
@@ -81,8 +77,6 @@ abstract class AbstractRule
     /**
      * Generates a unique string to identify the validator.
      * It is used to compare 2 validators so you don't add the same rule twice in a validator object
-     *
-     * @return string
      */
     public function getUniqueId(): string
     {
@@ -93,13 +87,8 @@ abstract class AbstractRule
      * Set an option for the validator.
      *
      * The options are also be passed to the error message.
-     *
-     * @param string $name
-     * @param mixed $value
-     *
-     * @return AbstractRule
      */
-    public function setOption($name, $value)
+    public function setOption(string $name, mixed $value): static
     {
         $this->options[$name] = $value;
 
@@ -109,11 +98,9 @@ abstract class AbstractRule
     /**
      * Get an option for the validator.
      *
-     * @param string $name
-     *
      * @return mixed
      */
-    public function getOption($name)
+    public function getOption(string $name)
     {
         if (isset($this->options[$name])) {
             return $this->options[$name];
@@ -128,12 +115,11 @@ abstract class AbstractRule
      * For example, when you need to validate an email field matches another email field,
      * to confirm the email address
      *
-     * @param array|object $context
+     * @param array<string, mixed>|WrapperInterface $context
      *
-     * @return AbstractRule
-     *@throws \InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
-    public function setContext($context = null)
+    public function setContext(mixed $context = null): self
     {
         if ($context === null) {
             return $this;
@@ -141,7 +127,7 @@ abstract class AbstractRule
         if (is_array($context)) {
             $context = new ArrayWrapper($context);
         }
-        if (! is_object($context) || ! $context instanceof WrapperInterface) {
+        if (!$context instanceof WrapperInterface) {
             throw new \InvalidArgumentException(
                 'Validator context must be either an array or an instance
                 of ' . WrapperInterface::class
@@ -173,7 +159,7 @@ abstract class AbstractRule
      */
     public function getMessageTemplate(): string
     {
-        if ($this->messageTemplate) {
+        if (isset($this->messageTemplate)) {
             return $this->messageTemplate;
         }
         if (isset($this->options['label'])) {
@@ -185,25 +171,15 @@ abstract class AbstractRule
 
     /**
      * Validates a value
-     *
-     * @param mixed $value
-     * @param null|mixed $valueIdentifier
-     *
-     * @return mixed
      */
-    abstract public function validate($value, string $valueIdentifier = null):bool;
+    abstract public function validate(mixed $value, string $valueIdentifier = null): bool;
 
     /**
-     * Sets the error message prototype that will be used when returning the error message
-     * when validation fails.
+     * Sets the error message prototype that will be used when
+     * returning the error message if validation fails.
      * This option can be used when you need translation
-     *
-     * @param ErrorMessage $errorMessagePrototype
-     *
-     * @return AbstractRule
-     * @throws \InvalidArgumentException
      */
-    public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype)
+    public function setErrorMessagePrototype(ErrorMessage $errorMessagePrototype): self
     {
         $this->errorMessagePrototype = $errorMessagePrototype;
 
@@ -216,9 +192,9 @@ abstract class AbstractRule
      *
      * @return ErrorMessage
      */
-    public function getErrorMessagePrototype():ErrorMessage
+    public function getErrorMessagePrototype(): ErrorMessage
     {
-        if (! $this->errorMessagePrototype) {
+        if (!$this->errorMessagePrototype) {
             $this->errorMessagePrototype = new ErrorMessage();
         }
 
@@ -227,10 +203,8 @@ abstract class AbstractRule
 
     /**
      * Retrieve the error message if validation failed
-     *
-     * @return NULL|ErrorMessage
      */
-    public function getMessage()
+    public function getMessage(): ?ErrorMessage
     {
         if ($this->success) {
             return null;
@@ -262,16 +236,11 @@ abstract class AbstractRule
      * Method for determining the path to a related item.
      * Eg: for `lines[5][price]` the related item `lines[*][quantity]`
      * has the value identifier as `lines[5][quantity]`
-     *
-     * @param $valueIdentifier
-     * @param $relatedItem
-     *
-     * @return string|null
      */
-    protected function getRelatedValueIdentifier($valueIdentifier, $relatedItem)
+    protected function getRelatedValueIdentifier(string $valueIdentifier, string $relatedItem): string|null
     {
         // in case we don't have a related path
-        if (strpos($relatedItem, '*') === false) {
+        if (!str_contains($relatedItem, '*')) {
             return $relatedItem;
         }
 
@@ -295,12 +264,10 @@ abstract class AbstractRule
         }
 
         $relatedValueIdentifier = implode('][', $relatedValueIdentifierParts) . ']';
-        $relatedValueIdentifier = str_replace(
+        return str_replace(
             $relatedValueIdentifierParts[0] . ']',
             $relatedValueIdentifierParts[0],
             $relatedValueIdentifier
         );
-
-        return $relatedValueIdentifier;
     }
 }

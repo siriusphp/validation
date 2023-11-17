@@ -1,75 +1,61 @@
 <?php
 
-namespace Sirius\Validation\Rule;
-
-class FakeRule extends \Sirius\Validation\Rule\AbstractRule
+use Sirius\Validation\ErrorMessage;
+use \Sirius\Validation\Rule\AbstractRule;
+class FakeRule extends AbstractRule
 {
-
-    function validate($value, string $valueIdentifier = null):bool
+    function validate($value, string $valueIdentifier = null): bool
     {
-        $this->value   = $value;
-        $this->success = (bool) $value && isset($this->context) && $this->context->getItemValue('key');
+        $this->value = $value;
+        $this->success = (bool)$value && isset($this->context) && $this->context->getItemValue('key');
 
         return $this->success;
     }
 }
 
+beforeEach(function () {
+    $this->rule = new FakeRule();
+});
 
-class AbstractRuleTest extends \PHPUnit\Framework\TestCase
-{
+test('error message prototype', function () {
+    // we always have an error message prototype
+    expect($this->rule->getErrorMessagePrototype())->toBeInstanceOf(ErrorMessage::class);
+    $proto = new ErrorMessage('Not valid');
+    $this->rule->setErrorMessagePrototype($proto);
+    expect((string) $this->rule->getErrorMessagePrototype())->toEqual('Not valid');
+});
 
-    protected function setUp(): void
-    {
-        $this->rule = new FakeRule();
-    }
+test('message is generated correctly', function () {
+    $this->rule->setOption('label', 'Accept');
+    $this->rule->setMessageTemplate('Field "{label}" must be true, {value} was provided');
+    $this->rule->validate('false');
+    expect((string) $this->rule->getMessage())->toEqual('Field "Accept" must be true, false was provided');
+});
 
-    function testErrorMessagePrototype()
-    {
-        // we always have an error message prototype
-        $this->assertTrue($this->rule->getErrorMessagePrototype() instanceof \Sirius\Validation\ErrorMessage);
-        $proto = new \Sirius\Validation\ErrorMessage('Not valid');
-        $this->rule->setErrorMessagePrototype($proto);
-        $this->assertEquals('Not valid', (string) $this->rule->getErrorMessagePrototype());
-    }
+test('no message when validation passes', function () {
+    $this->rule->setContext(array( 'key' => true ));
+    expect($this->rule->validate(true))->toBeTrue();
+    expect($this->rule->getMessage())->toBeNull();
+});
 
-    function testMessageIsGeneratedCorrectly()
-    {
-        $this->rule->setOption('label', 'Accept');
-        $this->rule->setMessageTemplate('Field "{label}" must be true, {value} was provided');
-        $this->rule->validate('false');
-        $this->assertEquals('Field "Accept" must be true, false was provided', (string) $this->rule->getMessage());
-    }
+test('context', function () {
+    expect($this->rule->validate(true))->toBeFalse();
+    $this->rule->setContext(array( 'key' => true ));
+    expect($this->rule->validate(true))->toBeTrue();
+});
 
-    function testNoMessageWhenValidationPasses()
-    {
-        $this->rule->setContext(array( 'key' => true ));
-        $this->assertTrue($this->rule->validate(true));
-        $this->assertNull($this->rule->getMessage());
-    }
+test('error message template is used', function () {
+    $this->rule->setMessageTemplate('Custom message');
+    expect((string) $this->rule->getPotentialMessage())->toEqual('Custom message');
+});
 
-    function testContext()
-    {
-        $this->assertFalse($this->rule->validate(true));
-        $this->rule->setContext(array( 'key' => true ));
-        $this->assertTrue($this->rule->validate(true));
-    }
+test('error thrown on invalid context', function () {
+    $this->expectException('\InvalidArgumentException');
+    $this->rule->setContext(new \stdClass());
+});
 
-    function testErrorMessageTemplateIsUsed()
-    {
-        $this->rule->setMessageTemplate('Custom message');
-        $this->assertEquals('Custom message', (string) $this->rule->getPotentialMessage());
-    }
-
-    function testErrorThrownOnInvalidContext()
-    {
-        $this->expectException('\InvalidArgumentException');
-        $this->rule->setContext(new \stdClass());
-    }
-
-    function testGetOption()
-    {
-        $this->rule->setOption('label', 'Accept');
-        $this->assertEquals('Accept', $this->rule->getOption('label'));
-        $this->assertNull($this->rule->getOption('notExist'));
-    }
-}
+test('get option', function () {
+    $this->rule->setOption('label', 'Accept');
+    expect($this->rule->getOption('label'))->toEqual('Accept');
+    expect($this->rule->getOption('notExist'))->toBeNull();
+});

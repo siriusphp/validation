@@ -9,8 +9,6 @@ interface WrapperInterface
     /**
      * Get value from the data container using the path
      *
-     * @param string $item
-     *
      * @return mixed
      */
     public function getItemValue(string $item);
@@ -18,9 +16,7 @@ interface WrapperInterface
     /**
      * Get items by selector
      *
-     * @param string $selector
-     *
-     * @return array
+     * @return array<string,mixed>
      */
-    public function getItemsBySelector(string $selector);
+    public function getItemsBySelector(string $selector): array;
 }

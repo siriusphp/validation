@@ -1,58 +1,47 @@
 <?php
 
-namespace Sirius\Validation\Rule;
-
 use Sirius\Validation\Rule\Callback as Rule;
 
-class CallbackTest extends \PHPUnit\Framework\TestCase
-{
 
-    protected function setUp(): void
-    {
-        $this->rule = new Rule();
-    }
+beforeEach(function () {
+    $this->rule = new Rule();
+});
 
-    function testValidationWithoutAValidCallback()
-    {
-        $this->rule->setOption(Rule::OPTION_CALLBACK, 'ssss');
-        $this->assertTrue($this->rule->validate('abc'));
-    }
+test('validation without a valid callback', function () {
+    $this->rule->setOption(Rule::OPTION_CALLBACK, 'ssss');
+    expect($this->rule->validate('abc'))->toBeTrue();
+});
 
-    function testGetUniqueIdForCallbacksAsStrings()
-    {
-        $this->rule->setOption(Rule::OPTION_CALLBACK, 'is_int');
-        $this->assertTrue(strpos($this->rule->getUniqueId(), '|is_int') !== false);
+test('get unique id for callbacks as strings', function () {
+    $this->rule->setOption(Rule::OPTION_CALLBACK, 'is_int');
+    expect(strpos($this->rule->getUniqueId(), '|is_int') !== false)->toBeTrue();
 
-        $this->rule->setOption(Rule::OPTION_CALLBACK, 'Class::method');
-        $this->assertTrue(strpos($this->rule->getUniqueId(), '|Class::method') !== false);
-    }
+    $this->rule->setOption(Rule::OPTION_CALLBACK, 'Class::method');
+    expect(strpos($this->rule->getUniqueId(), '|Class::method') !== false)->toBeTrue();
+});
 
-    function testGetUniqueIdForCallbacksAsArrays()
-    {
-        $this->rule->setOption(Rule::OPTION_CALLBACK, array( 'Class', 'method' ));
-        $this->assertTrue(strpos($this->rule->getUniqueId(), '|Class::method') !== false);
+test('get unique id for callbacks as arrays', function () {
+    $this->rule->setOption(Rule::OPTION_CALLBACK, array( 'Class', 'method' ));
+    expect(strpos($this->rule->getUniqueId(), '|Class::method') !== false)->toBeTrue();
 
-        $this->rule->setOption(Rule::OPTION_CALLBACK, array( $this, 'setUp' ));
-        $this->assertTrue(strpos($this->rule->getUniqueId(), '->setUp') !== false);
-    }
+    $this->rule->setOption(Rule::OPTION_CALLBACK, array( $this, 'setUp' ));
+    expect(strpos($this->rule->getUniqueId(), '->setUp') !== false)->toBeTrue();
+});
 
-    function testGetUniqueIdForCallbacksWithArguments()
-    {
-        $this->rule->setOption(Rule::OPTION_CALLBACK, 'is_int');
-        $this->rule->setOption(Rule::OPTION_ARGUMENTS, array( 'b' => 2, 'a' => 1 ));
+test('get unique id for callbacks with arguments', function () {
+    $this->rule->setOption(Rule::OPTION_CALLBACK, 'is_int');
+    $this->rule->setOption(Rule::OPTION_ARGUMENTS, array( 'b' => 2, 'a' => 1 ));
 
-        // arguments should be sorted by key so test for that too
-        $this->assertTrue(strpos($this->rule->getUniqueId(), '|{"a":1,"b":2}') !== false);
-    }
+    // arguments should be sorted by key so test for that too
+    expect(strpos($this->rule->getUniqueId(), '|{"a":1,"b":2}') !== false)->toBeTrue();
+});
 
-    function testGetUniqueIdForClosures()
-    {
-        $this->rule->setOption(
-            Rule::OPTION_CALLBACK,
-            function ($value, $valueIdentifier) {
-                return true;
-            }
-        );
-        $this->assertNotNull($this->rule->getUniqueId());
-    }
-}
+test('get unique id for closures', function () {
+    $this->rule->setOption(
+        Rule::OPTION_CALLBACK,
+        function ($value, $valueIdentifier) {
+            return true;
+        }
+    );
+    expect($this->rule->getUniqueId())->not->toBeNull();
+});

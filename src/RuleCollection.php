@@ -4,17 +4,14 @@ declare(strict_types=1);
 
 namespace Sirius\Validation;
 
-use SplObjectStorage;
 use ReturnTypeWillChange;
+use Sirius\Validation\Rule\AbstractRule;
+use SplObjectStorage;
 
 class RuleCollection extends SplObjectStorage
 {
-    /**
-     * @param null|object $rule
-     * @param null|mixed  $data
-     */
     #[ReturnTypeWillChange]
-    public function attach($rule, $data = null)
+    public function attach(mixed $rule, mixed $data = null): void
     {
         if ($this->contains($rule)) {
             return;
@@ -36,13 +33,10 @@ class RuleCollection extends SplObjectStorage
         parent::attach($rule);
     }
 
-    /**
-     * @param object $rule
-     */
     #[ReturnTypeWillChange]
-    public function getHash($rule)
+    public function getHash($rule): string
     {
-        /* @var $rule Sirius\Validation\Rule\AbstractRule */
+        /** @var AbstractRule $rule */
         return $rule->getUniqueId();
     }
 }

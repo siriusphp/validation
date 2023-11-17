@@ -13,16 +13,17 @@ class RuleHelper
      * - a CSV string: '5,true' (for this scenario the 'optionsIndexMap' property is required)
      *
      * @param mixed $options
+     * @param array<int,string> $optionsIndexMap
      *
-     * @return array
+     * @return array<string,mixed>
      * @throws \InvalidArgumentException
      */
-    public static function normalizeOptions($options, array $optionsIndexMap = [])
+    public static function normalizeOptions(mixed $options, array $optionsIndexMap = []): array
     {
         if ('0' === $options && count($optionsIndexMap) > 0) {
             $options = [$optionsIndexMap[0] => '0'];
         }
-        if (! $options) {
+        if (!$options) {
             return [];
         }
 
@@ -42,7 +43,7 @@ class RuleHelper
             }
         }
 
-        if (! is_array($result)) {
+        if (!is_array($result)) {
             throw new \InvalidArgumentException('Validator options should be an array, JSON string or query string');
         }
 
@@ -52,11 +53,9 @@ class RuleHelper
     /**
      * Converts a HTTP query string to an array
      *
-     * @param $str
-     *
-     * @return array
+     * @return array<string,mixed>|bool
      */
-    public static function parseHttpQueryString(string $str)
+    public static function parseHttpQueryString(string $str): array|bool
     {
         parse_str($str, $arr);
 
@@ -68,12 +67,12 @@ class RuleHelper
      *
      * @param $arr
      *
-     * @return bool|array
+     * @return bool|array<string, mixed>|mixed
      */
-    public static function convertBooleanStrings($arr)
+    public static function convertBooleanStrings(mixed $arr): mixed
     {
         if (is_array($arr)) {
-            return array_map([ __CLASS__, 'convertBooleanStrings'], $arr);
+            return array_map([__CLASS__, 'convertBooleanStrings'], $arr);
         }
         if ($arr === 'true') {
             return true;
@@ -90,24 +89,22 @@ class RuleHelper
      * Parses a CSV string and converts the result into an "options" array
      * (an associative array that contains the options for the validation rule)
      *
-     * @param $str
+     * @param array<int, string> $optionsIndexMap
      *
-     * @param array $optionsIndexMap
-     *
-     * @return array
+     * @return array<string, mixed>|bool
      */
-    public static function parseCsvString($str, array $optionsIndexMap = [])
+    public static function parseCsvString(string $str, array $optionsIndexMap = []): array|bool
     {
-        if (! isset($optionsIndexMap) || ! is_array($optionsIndexMap) || empty($optionsIndexMap)) {
+        if (empty($optionsIndexMap)) {
             throw new \InvalidArgumentException(
                 '`$optionsIndexMap` argument must be provided for CSV-type parameters'
             );
         }
 
         $options = explode(',', $str);
-        $result  = [];
+        $result = [];
         foreach ($options as $k => $v) {
-            if (! isset($optionsIndexMap[$k])) {
+            if (!isset($optionsIndexMap[$k])) {
                 throw new \InvalidArgumentException(sprintf(
                     '`$optionsIndexMap` for the validator is missing the %s index',
                     $k
@@ -122,33 +119,32 @@ class RuleHelper
     /**
      * Checks if an array is associative (ie: the keys are not numbers in sequence)
      *
-     * @param array $arr
+     * @param array<int|string, mixed> $arr
      *
      * @return bool
      */
-    public static function arrayIsAssoc($arr)
+    public static function arrayIsAssoc(array $arr): bool
     {
         return array_keys($arr) !== range(0, count($arr));
     }
 
-    public static function normalizeFileSize($size)
+    public static function normalizeFileSize(string|int|float $size): int
     {
-        $size = (string) $size;
-        $units = ['B' => 0, 'K' => 1, 'M' => 2, 'G' => 3 ];
-        $unit  = strtoupper(substr($size, strlen($size) - 1, 1));
-        if (! isset($units[$unit])) {
+        $size = (string)$size;
+        $units = ['B' => 0, 'K' => 1, 'M' => 2, 'G' => 3];
+        $unit = strtoupper(substr($size, strlen($size) - 1, 1));
+        if (!isset($units[$unit])) {
             $normalizedSize = filter_var($size, FILTER_SANITIZE_NUMBER_INT);
         } else {
-            $size           = filter_var(substr($size, 0, strlen($size) - 1), FILTER_SANITIZE_NUMBER_FLOAT);
+            $size = (float) filter_var(substr($size, 0, strlen($size) - 1), FILTER_SANITIZE_NUMBER_FLOAT);
             $normalizedSize = $size * pow(1024, $units[$unit]);
         }
 
-        return $normalizedSize;
+        return (int) $normalizedSize;
     }
 
 
-
-    public static function normalizeImageRatio($ratio)
+    public static function normalizeImageRatio(mixed $ratio): float
     {
         if (is_numeric($ratio) || $ratio == filter_var($ratio, FILTER_SANITIZE_NUMBER_FLOAT)) {
             return floatval($ratio);
@@ -156,7 +152,7 @@ class RuleHelper
         if (strpos($ratio, ':') !== false) {
             list($width, $height) = explode(':', $ratio);
 
-            return $width / $height;
+            return (float) $width / (float) $height;
         }
 
         return 0;

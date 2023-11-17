@@ -5,9 +5,31 @@ namespace Sirius\Validation;
 
 interface ValidatorInterface
 {
-    public function add($selector, $name = null, $options = null, $messageTemplate = null, $label = null);
+    /**
+     * @param string|array<string,mixed> $selector
+     * @param string|callable $name
+     * @param string|array<mixed,mixed> $options
+     * @param string $messageTemplate
+     * @param string $label
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function add($selector, $name = null, $options = null, $messageTemplate = null, $label = null): self;
 
-    public function remove($selector, $name = true, $options = null);
+    /**
+     * @param string $selector
+     *            data selector
+     * @param mixed $name
+     *            rule name or true if all rules should be deleted for that selector
+     * @param mixed $options
+     *            rule options, necessary for rules that depend on params for their ID
+     *
+     * @return self
+     */
+    public function remove($selector, $name = true, $options = null): self;
 
-    public function validate($data = []);
+    /**
+     * @param array<string,mixed> $data
+     */
+    public function validate(array $data = []): bool;
 }

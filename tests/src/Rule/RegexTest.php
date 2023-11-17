@@ -1,20 +1,13 @@
 <?php
 
-namespace Sirius\Validation\Rule;
-
 use Sirius\Validation\Rule\Regex as Rule;
 
-class RegexTest extends \PHPUnit\Framework\TestCase
-{
 
-    protected function setUp(): void
-    {
-        $this->rule = new Rule();
-    }
+beforeEach(function () {
+    $this->rule = new Rule();
+});
 
-    function testValidationWithoutARegexPattern()
-    {
-        // pattern was not set, everything is valid
-        $this->assertTrue($this->rule->validate('abc'));
-    }
-}
+test('validation without a regex pattern', function () {
+    // pattern was not set, everything is valid
+    expect($this->rule->validate('abc'))->toBeTrue();
+});

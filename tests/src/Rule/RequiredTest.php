@@ -1,35 +1,21 @@
 <?php
 
-namespace Sirius\Validation\Rule;
-
 use Sirius\Validation\DataWrapper\ArrayWrapper;
 use Sirius\Validation\Rule\Required as Rule;
 
-class RequiredTest extends \PHPUnit\Framework\TestCase
-{
 
-    /**
-     * @var Rule
-     */
-    protected $rule;
+beforeEach(function () {
+    $this->rule = new Rule();
+});
 
-    protected function setUp(): void
-    {
-        $this->rule = new Rule();
-    }
+test('validation with null', function () {
+    expect($this->rule->validate(null))->toBeFalse();
+});
 
-    function testValidationWithNull()
-    {
-        $this->assertFalse($this->rule->validate(null));
-    }
+test('validation with empty string', function () {
+    expect($this->rule->validate(''))->toBeFalse();
+});
 
-    function testValidationWithEmptyString()
-    {
-        $this->assertFalse($this->rule->validate(''));
-    }
-
-    function testValidationWithWhitespaceString()
-    {
-        $this->assertTrue($this->rule->validate('  '));
-    }
-}
+test('validation with whitespace string', function () {
+    expect($this->rule->validate('  '))->toBeTrue();
+});

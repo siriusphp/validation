@@ -1,63 +1,50 @@
 <?php
 
-namespace Sirius\Validation\Rule\File;
+use \Sirius\Validation\Rule\File\ImageRatio;
 
-class ImageRatioTest extends \PHPUnit\Framework\TestCase
-{
+beforeEach(function () {
+    $this->validator = new ImageRatio(array( 'ratio' => 1 ));
+});
 
-    protected function setUp(): void
-    {
-        $this->validator = new ImageRatio(array( 'ratio' => 1 ));
-    }
+test('missing files', function () {
+    $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'file_that_does_not_exist.jpg';
+    expect($this->validator->validate($file))->toBeFalse();
+});
 
-    function testMissingFiles()
-    {
-        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'file_that_does_not_exist.jpg';
-        $this->assertFalse($this->validator->validate($file));
-    }
+test('square', function () {
+    $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'square_image.gif';
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-    function testSquare()
-    {
-        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'square_image.gif';
-        $this->assertTrue($this->validator->validate($file));
-    }
+test('almost square', function () {
+    $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'almost_square_image.gif';
+    expect($this->validator->validate($file))->toBeFalse();
 
-    function testAlmostSquare()
-    {
-        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'almost_square_image.gif';
-        $this->assertFalse($this->validator->validate($file));
+    // change the error margin
+    $this->validator->setOption(ImageRatio::OPTION_ERROR_MARGIN, 0.2);
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-        // change the error margin
-        $this->validator->setOption(ImageRatio::OPTION_ERROR_MARGIN, 0.2);
-        $this->assertTrue($this->validator->validate($file));
-    }
+test('ratio zero', function () {
+    $this->validator->setOption(ImageRatio::OPTION_RATIO, 0);
+    $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'almost_square_image.gif';
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-    function testRatioZero()
-    {
-        $this->validator->setOption(ImageRatio::OPTION_RATIO, 0);
-        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'almost_square_image.gif';
-        $this->assertTrue($this->validator->validate($file));
-    }
+test('invalid ratio', function () {
+    $this->validator->setOption(ImageRatio::OPTION_RATIO, 'abc');
+    $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'almost_square_image.gif';
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-    function testInvalidRatio()
-    {
-        $this->validator->setOption(ImageRatio::OPTION_RATIO, 'abc');
-        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'almost_square_image.gif';
-        $this->assertTrue($this->validator->validate($file));
-    }
+test('ratio as string', function () {
+    $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
+    $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . '4_by_3_image.jpg';
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-    function testRatioAsString()
-    {
-        $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
-        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . '4_by_3_image.jpg';
-        $this->assertTrue($this->validator->validate($file));
-    }
-
-    function testFileNotAnImage()
-    {
-        $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
-        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'corrupt_image.jpg';
-        $this->assertFalse($this->validator->validate($file));
-    }
-
-}
+test('file not an image', function () {
+    $this->validator->setOption(ImageRatio::OPTION_RATIO, '4:3');
+    $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'corrupt_image.jpg';
+    expect($this->validator->validate($file))->toBeFalse();
+});

@@ -1,28 +1,19 @@
 <?php
 
-namespace Sirius\Validation\Rule;
-
 use Sirius\Validation\Rule\Equal as Rule;
 
-class EqualTest extends \PHPUnit\Framework\TestCase
-{
 
-    protected function setUp(): void
-    {
-        $this->rule = new Rule();
-    }
+beforeEach(function () {
+    $this->rule = new Rule();
+});
 
-    function testValidationWithOptionSet()
-    {
-        $this->rule->setOption(Rule::OPTION_VALUE, '123');
-        $this->assertTrue($this->rule->validate('123'));
-        $this->assertFalse($this->rule->validate('abc'));
-    }
+test('validation with option set', function () {
+    $this->rule->setOption(Rule::OPTION_VALUE, '123');
+    expect($this->rule->validate('123'))->toBeTrue();
+    expect($this->rule->validate('abc'))->toBeFalse();
+});
 
-    function testValidationWithoutOptionSet()
-    {
-        $this->assertTrue($this->rule->validate('abc'));
-        $this->assertTrue($this->rule->validate(null));
-    }
-
-}
+test('validation without option set', function () {
+    expect($this->rule->validate('abc'))->toBeTrue();
+    expect($this->rule->validate(null))->toBeTrue();
+});

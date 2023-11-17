@@ -12,22 +12,20 @@ class Arr
     const PATH_ROOT = '/';
 
     /**
-     * @param $selector
-     *
-     * @return array
+     * @return array<int,string>
      */
-    protected static function getSelectorParts($selector)
+    protected static function getSelectorParts(string $selector): array
     {
         $firstOpen = strpos($selector, '[');
         if ($firstOpen === false) {
             return [$selector, ''];
         }
-        $firstClose  = strpos($selector, ']');
-        $container   = substr($selector, 0, $firstOpen);
+        $firstClose = strpos($selector, ']');
+        $container = substr($selector, 0, $firstOpen);
         $subselector = substr($selector, $firstOpen + 1, $firstClose - $firstOpen - 1) . substr(
-            $selector,
-            $firstClose + 1
-        );
+                $selector,
+                $firstClose + 1
+            );
 
         return [$container, $subselector];
     }
@@ -39,57 +37,49 @@ class Arr
      *        key[subkey]
      *        key[0][subkey]
      *
-     * @param  array $array
-     * @param  string $path
+     * @param array<string,mixed> $array
      *
      * @return mixed
      */
-    public static function getByPath($array, $path = self::PATH_ROOT)
+    public static function getByPath(array $array, string $path = self::PATH_ROOT)
     {
         $path = trim($path);
-        if (! $path || $path == self::PATH_ROOT) {
+        if (!$path || $path === self::PATH_ROOT) {
             return $array;
         }
         // fix the path in case it was provided as `[item][subitem]`
-        if (strpos($path, '[') === 0) {
+        if (str_starts_with($path, '[')) {
             $path = preg_replace('/]/', '', ltrim($path, '['), 1);
         }
 
-        list($container, $subpath) = self::getSelectorParts($path);
+        list($container, $subpath) = self::getSelectorParts($path ?? '');
+        $subarray = $array[$container] ?? null;
         if ($subpath === '') {
-            return array_key_exists($container, $array) ? $array[$container] : null;
+            return $subarray;
         }
 
-        return array_key_exists($container, $array) ? self::getByPath($array[$container], $subpath) : null;
+        return is_array($subarray) ? self::getByPath($subarray, $subpath) : null;
     }
 
     /**
      * Set values in the array by selector
      *
+     * @param array<string,array|mixed> $array
+     * @param bool $overwrite true if the $value should overwrite the existing value
+     *
+     * @return array<string,array|mixed>
      * @example
      * Arr::setBySelector($data, 'email', 'my@domain.com');
      * Arr::setBySelector($data, 'addresses[0][line]', null);
      * Arr::setBySelector($data, 'addresses[*][line]', null);
      *
-     * @param  array $array
-     * @param  string $selector
-     * @param  mixed $value
-     * @param  bool $overwrite true if the $value should overwrite the existing value
-     *
-     * @return array
      */
-    public static function setBySelector($array, $selector, $value, $overwrite = false)
+    public static function setBySelector(array $array, string $selector, mixed $value, bool $overwrite = false): array
     {
-        // make sure the array is an array in case we got here through a subsequent call
-        // so arraySetElementBySelector(array(), 'item[subitem]', 'value');
-        // will call arraySetElementBySelector(null, 'subitem', 'value');
-        if (! is_array($array)) {
-            $array = [];
-        }
         list($container, $subselector) = self::getSelectorParts($selector);
-        if (! $subselector) {
+        if (!$subselector) {
             if ($container !== '*') {
-                if ($overwrite === true || ! array_key_exists($container, $array)) {
+                if ($overwrite === true || !array_key_exists($container, $array)) {
                     $array[$container] = $value;
                 }
             }
@@ -98,7 +88,7 @@ class Arr
         }
 
         // if we have a subselector the $array[$container] must be an array
-        if ($container !== '*' && ! array_key_exists($container, $array)) {
+        if ($container !== '*' && !array_key_exists($container, $array)) {
             $array[$container] = [];
         }
         // we got here through something like *[subitem]
@@ -116,30 +106,28 @@ class Arr
     /**
      * Get values in the array by selector
      *
+     * @param array<string,array|mixed> $array
+     * @return  array<string,array|mixed>
      * @example
      * Arr::getBySelector($data, 'email');
      * Arr::getBySelector($data, 'addresses[0][line]');
      * Arr::getBySelector($data, 'addresses[*][line]');
      *
-     * @param $array
-     * @param $selector
-     *
-     * @return array
      */
-    public static function getBySelector($array, $selector)
+    public static function getBySelector(array $array, string $selector): array
     {
-        if (strpos($selector, '[*]') === false) {
+        if (!str_contains($selector, '[*]')) {
             return [$selector => self::getByPath($array, $selector)];
         }
         $result = [];
         list($preffix, $suffix) = explode('[*]', $selector, 2);
 
         $base = self::getByPath($array, $preffix);
-        if (! is_array($base)) {
+        if (!is_array($base)) {
             $base = [];
         }
         // we don't have a suffix, the selector was something like path[subpath][*]
-        if (! $suffix) {
+        if (!$suffix) {
             foreach ($base as $k => $v) {
                 $result["{$preffix}[{$k}]"] = $v;
             }

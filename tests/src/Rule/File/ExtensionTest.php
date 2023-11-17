@@ -1,43 +1,31 @@
 <?php
 
-namespace Sirius\Validation\Rule\File;
+use \Sirius\Validation\Rule\File\Extension;
 
-class ExtensionTest extends \PHPUnit\Framework\TestCase
-{
+beforeEach(function () {
+    $this->validator = new Extension();
+});
 
-    protected function setUp(): void
-    {
-        $this->validator = new Extension();
-    }
+test('existing files', function () {
+    $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
+    $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'real_jpeg_file.jpg';
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-    function testExistingFiles()
-    {
-        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
-        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'real_jpeg_file.jpg';
-        $this->assertTrue($this->validator->validate($file));
-    }
+test('missing files', function () {
+    $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
+    $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'file_that_does_not_exist.jpg';
+    expect($this->validator->validate($file))->toBeFalse();
+});
 
-    function testMissingFiles()
-    {
-        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg' ));
-        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'file_that_does_not_exist.jpg';
-        $this->assertFalse($this->validator->validate($file));
-    }
+test('set option as string', function () {
+    $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, 'jpg, GIF');
+    $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'real_jpeg_file.jpg';
+    expect($this->validator->validate($file))->toBeTrue();
+});
 
-    function testSetOptionAsString()
-    {
-        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, 'jpg, GIF');
-        $file = realpath(__DIR__ . '/../../../fixitures/') . DIRECTORY_SEPARATOR . 'real_jpeg_file.jpg';
-        $this->assertTrue($this->validator->validate($file));
-    }
-
-    function testPotentialMessage()
-    {
-        $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg', 'png' ));
-        $this->validator->validate('no_file.jpg');
-        $this->assertEquals(
-            'The file does not have an acceptable extension (JPG, PNG)',
-            (string) $this->validator->getPotentialMessage()
-        );
-    }
-}
+test('potential message', function () {
+    $this->validator->setOption(Extension::OPTION_ALLOWED_EXTENSIONS, array( 'jpg', 'png' ));
+    $this->validator->validate('no_file.jpg');
+    expect((string) $this->validator->getPotentialMessage())->toEqual('The file does not have an acceptable extension (JPG, PNG)');
+});

@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Sirius\Validation\Rule\Upload;
 
 use Sirius\Validation\Rule\AbstractRule;
@@ -13,24 +14,24 @@ class ImageWidth extends AbstractRule
 
     const LABELED_MESSAGE = '{label} should be at least {min} pixels wide';
 
-    protected $options = [
+    protected array $options = [
         self::OPTION_MAX => 1000000,
         self::OPTION_MIN => 0,
     ];
 
-    public function validate($value, string $valueIdentifier = null):bool
+    public function validate(mixed $value, string $valueIdentifier = null): bool
     {
         $this->value = $value;
-        if (! is_array($value) || ! isset($value['tmp_name'])) {
+        if (!is_array($value) || !isset($value['tmp_name'])) {
             $this->success = false;
-        } elseif (! file_exists($value['tmp_name'])) {
+        } elseif (!file_exists($value['tmp_name'])) {
             $this->success = $value['error'] === UPLOAD_ERR_NO_FILE;
         } else {
-            $imageInfo     = getimagesize($value['tmp_name']);
-            $width         = isset($imageInfo[0]) ? $imageInfo[0] : 0;
+            $imageInfo = getimagesize($value['tmp_name']);
+            $width = isset($imageInfo[0]) ? $imageInfo[0] : 0;
             $this->success = $width &&
-                             $width <= $this->options[self::OPTION_MAX] &&
-                             $width >= $this->options[self::OPTION_MIN];
+                $width <= $this->options[self::OPTION_MAX] &&
+                $width >= $this->options[self::OPTION_MIN];
         }
 
         return $this->success;

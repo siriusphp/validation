@@ -1,19 +1,12 @@
 <?php
 
-namespace Sirius\Validation\Rule;
-
 use Sirius\Validation\Rule\InList as Rule;
 
-class InListTest extends \PHPUnit\Framework\TestCase
-{
 
-    protected function setUp(): void
-    {
-        $this->rule = new Rule();
-    }
+beforeEach(function () {
+    $this->rule = new Rule();
+});
 
-    function testValidationWithoutALIstOfAcceptableValues()
-    {
-        $this->assertTrue($this->rule->validate('abc'));
-    }
-}
+test('validation without a l ist of acceptable values', function () {
+    expect($this->rule->validate('abc'))->toBeTrue();
+});

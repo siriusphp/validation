@@ -1,25 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Rhilip
- * Date: 7/27/2019
- * Time: 11:57 AM
- */
-
-namespace Sirius\Validation\Rule;
 
 use Sirius\Validation\Rule\Url as Rule;
 
-class UrlTest extends \PHPUnit\Framework\TestCase
-{
-    protected function setUp(): void
-    {
-        $this->rule = new Rule();
-    }
 
-    function testValidation()
-    {
-        $this->assertFalse($this->rule->validate(''));
-        $this->assertTrue($this->rule->validate('http://www.google.com'));
-    }
-}
+beforeEach(function () {
+    $this->rule = new Rule();
+});
+
+test('validation', function () {
+    expect($this->rule->validate(''))->toBeFalse();
+    expect($this->rule->validate('http://www.google.com'))->toBeTrue();
+});

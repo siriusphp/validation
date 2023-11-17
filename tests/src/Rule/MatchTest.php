@@ -1,36 +1,27 @@
 <?php
 
-namespace Sirius\Validation\Rule;
-
 use Sirius\Validation\DataWrapper\ArrayWrapper;
 use Sirius\Validation\Rule\Matching as Rule;
 
-class MatchTest extends \PHPUnit\Framework\TestCase
-{
 
-    protected function setUp(): void
-    {
-        $this->rule = new Rule();
-        $this->rule->setContext(
-            new ArrayWrapper(
-                array(
-                    'password' => 'secret'
-                )
+beforeEach(function () {
+    $this->rule = new Rule();
+    $this->rule->setContext(
+        new ArrayWrapper(
+            array(
+                'password' => 'secret'
             )
-        );
-    }
+        )
+    );
+});
 
-    function testValidationWithItemPresent()
-    {
-        $this->rule->setOption(Rule::OPTION_ITEM, 'password');
-        $this->assertTrue($this->rule->validate('secret'));
-        $this->assertFalse($this->rule->validate('abc'));
-    }
+test('validation with item present', function () {
+    $this->rule->setOption(Rule::OPTION_ITEM, 'password');
+    expect($this->rule->validate('secret'))->toBeTrue();
+    expect($this->rule->validate('abc'))->toBeFalse();
+});
 
-    function testValidationWithoutItemPresent()
-    {
-        $this->assertTrue($this->rule->validate('abc'));
-        $this->assertTrue($this->rule->validate(null));
-    }
-
-}
+test('validation without item present', function () {
+    expect($this->rule->validate('abc'))->toBeTrue();
+    expect($this->rule->validate(null))->toBeTrue();
+});

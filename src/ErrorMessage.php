@@ -5,31 +5,41 @@ namespace Sirius\Validation;
 
 class ErrorMessage
 {
-    protected $template = 'Invalid';
-    protected $variables = [];
+    protected string $template = 'Invalid';
 
-    public function __construct($template = '', $variables = [])
+    /**
+     * @var array<string, mixed>
+     */
+    protected array $variables = [];
+
+    /**
+     * @param array<string, mixed> $variables
+     */
+    public function __construct(string $template = '', array $variables = [])
     {
         $this->setTemplate($template)
-             ->setVariables($variables);
+            ->setVariables($variables);
     }
 
-    public function setTemplate($template)
+    public function setTemplate(string $template): self
     {
-        $template = trim((string) $template);
+        $template = trim($template);
         if ($template) {
-            $this->template = (string) $template;
+            $this->template = $template;
         }
 
         return $this;
     }
 
-    public function getTemplate()
+    public function getTemplate(): string
     {
         return $this->template;
     }
 
-    public function setVariables($variables = [])
+    /**
+     * @param array<string, mixed> $variables
+     */
+    public function setVariables(array $variables = []): self
     {
         foreach ($variables as $k => $v) {
             $this->variables[$k] = $v;
@@ -38,7 +48,10 @@ class ErrorMessage
         return $this;
     }
 
-    public function getVariables()
+    /**
+     * @return array<string, mixed>
+     */
+    public function getVariables(): array
     {
         return $this->variables;
     }
@@ -48,7 +61,7 @@ class ErrorMessage
         $result = $this->template;
         foreach ($this->variables as $k => $v) {
             if (strpos($result, "{{$k}}") !== false) {
-                $result = str_replace("{{$k}}", (string) $v, (string) $result);
+                $result = str_replace("{{$k}}", (string)$v, (string)$result);
             }
         }
 

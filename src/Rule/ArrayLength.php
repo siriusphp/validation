@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Sirius\Validation\Rule;
 
 class ArrayLength extends AbstractRule
@@ -10,16 +11,14 @@ class ArrayLength extends AbstractRule
     const MESSAGE = 'This input should contain between {min} and {max} items';
     const LABELED_MESSAGE = '{label} should contain between {min} and {max} items';
 
-    protected $options = [];
-
-    protected $optionsIndexMap = [
+    protected array $optionsIndexMap = [
         0 => self::OPTION_MIN,
         1 => self::OPTION_MAX
     ];
 
-    public function validate($value, string $valueIdentifier = null):bool
+    public function validate(mixed $value, string $valueIdentifier = null): bool
     {
-        $this->value  = $value;
+        $this->value = $value;
         $maxValidator = new ArrayMaxLength();
         if (isset($this->options['max'])) {
             $maxValidator->setOption('max', $this->options['max']);
@@ -29,9 +28,9 @@ class ArrayLength extends AbstractRule
             $minValidator->setOption('min', $this->options['min']);
         }
         $this->success = $minValidator->validate($value, $valueIdentifier) && $maxValidator->validate(
-            $value,
-            $valueIdentifier
-        );
+                $value,
+                $valueIdentifier
+            );
 
         return $this->success;
     }
