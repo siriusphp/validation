@@ -24,20 +24,29 @@ $validation = new \Sirius\Validation\Validator;
 
 // let's validate an invoice form
 $validator->add(array(
-    'date:Date' => 'required | date',
-	'client_id:Client' => 'required | clientexists', // clientexists is an app-specific rule
-	'notify_recipients[*]:Send invoice to' => 'email', // same rule for an array of items
+    // :Date specifies the label for the field. It will be used in the error messages
+    'order_date:Date' => 'required | date',
+    // `clientexists` is an app-specific rule
+	'client_id:Client' => 'required | clientexists', 
+	// apply the same rule for an array of items
+	'notify_recipients[*]:Send invoice to' => 'email',
+	// apply a rule to a specific item in the array 
 	'shipping_address[line_1]:Address' => 'required'
 	'shipping_address[city]:City' => 'required'
 	'shipping_address[state]:State' => 'required'
 	'shipping_address[country]:Country' => 'required',
 	'lines[*]price:Price' => [
-	    'requiredWith(item=lines[*]product_id', // the price is required only if a product was selected
-	    'MyApp\Validator\Rule\InvoiceItemPrice' // another app-specific rule, specified as a class
+	    // the price is required only if a product was selected
+	    'requiredWith(item=lines[*]product_id)',
+	    // another app-specific rule applied to the price, specified as a class 
+	    'MyApp\Validator\Rule\InvoiceItemPrice' 
 	];,
 	'lines[*]quantity:Quantity' => [
-	    'requiredWith(item=lines[*]product_id',
-	    ('invoice_item_quantity', 'The quantity is not valid']; // here we have a custom error message
+	    // the price is required only if a product was selected
+	    'requiredWith(item=lines[*]product_id)',
+	    // here we have a custom validation rule with no parameters AND a custom error message
+	    'quantity_in_stock()(The quantity is not valid)'
+	    ; 
 	)
 ));
 ```
@@ -56,7 +65,7 @@ This may seem counter-productive but remember that your forms' input fields may 
 ```
 
 2. Because, If I am to do server side validation I can receive a JSON
-```javascript
+```json
 {
 	"errors": {
 		"recipients[0]": "Field must be a valid email",

@@ -56,5 +56,6 @@ $validator->add('key', 'MyApp\Validation\Rule\ThisOrThat', [
 ];);
 
 // or less verbose
+$validator->add('key', 'MyApp\Validation\Rule\ThisOrThat(this=c&that=d)');
 $validator->add('key', 'MyApp\Validation\Rule\ThisOrThat(c,d)');
 ```
